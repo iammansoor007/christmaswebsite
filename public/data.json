@@ -1,0 +1,244 @@
+{
+  "hero": {
+    "badge": {
+      "icon": "GiSparkles",
+      "text": "LIMITED TIME: 25% Off Early Bird"
+    },
+    "title": {
+      "part1": "Illuminate",
+      "part2": "Your Holidays"
+    },
+    "subtitle": "Premium Christmas Lighting installations that transform your property with professional winter magic",
+    "features": [
+      "Professional Installation",
+      "Energy-Efficient LED Lights",
+      "Custom Design & Planning",
+      "Free Estimates & Consultation"
+    ],
+    "cta": {
+      "subtext": "Call Now for Free Quote",
+      "phone": "(123) 456-7890",
+      "availability": "Available 7 Days a Week • Free Estimates"
+    },
+    "stats": [
+      {
+        "number": "500+",
+        "label": "Elite Clients",
+        "icon": "FaHome"
+      },
+      {
+        "number": "15+",
+        "label": "Years Excellence",
+        "icon": "FaStar"
+      },
+      {
+        "number": "24/7",
+        "label": "Premium Support",
+        "icon": "FaShieldAlt"
+      },
+      {
+        "number": "100%",
+        "label": "Satisfaction",
+        "icon": "FaHeart"
+      }
+    ],
+    "imageBadge": "Our Premium Work"
+  },
+  "services": {
+    "badge": "Premium Services",
+    "title": {
+      "text": "Holiday Lighting",
+      "prefix": "Professional"
+    },
+    "subtitle": "Transform your property with premium, energy-efficient lighting",
+    "items": [
+      {
+        "number": "01",
+        "title": "Residential Lighting",
+        "description": "Complete home transformation with custom-designed lighting displays that enhance your property's architectural features and create magical holiday memories.",
+        "icon": "FaHome",
+        "color": "#10B981",
+        "features": [
+          "Roofline & Gutter Lighting",
+          "Tree & Shrub Wrapping",
+          "Pathway Illumination",
+          "Custom Holiday Scenes"
+        ],
+        "image": "https://images.unsplash.com/photo-1513584684374-8bab748fbf90?auto=format&fit=crop&w=800&q=80",
+        "stat": "500+ Homes"
+      },
+      {
+        "number": "02",
+        "title": "Commercial & Corporate",
+        "description": "Professional holiday displays that attract customers, boost brand visibility, and showcase your business's festive spirit to the community.",
+        "icon": "FaBuilding",
+        "color": "#3B82F6",
+        "features": [
+          "Building Facade Lighting",
+          "Parking Lot Illumination",
+          "Branded Displays",
+          "High-Traffic Area Focus"
+        ],
+        "image": "https://images.unsplash.com/photo-1542672885-712dd1f0d3be?auto=format&fit=crop&w=800&q=80",
+        "stat": "100+ Businesses"
+      },
+      {
+        "number": "03",
+        "title": "Landscape & Architectural",
+        "description": "Strategic lighting that highlights your property's natural beauty and architectural details, creating stunning visual compositions day and night.",
+        "icon": "FaTree",
+        "color": "#F59E0B",
+        "features": [
+          "Tree Canopy Lighting",
+          "Garden Feature Highlights",
+          "Architectural Accent Lighting",
+          "Water Feature Illumination"
+        ],
+        "image": "https://images.unsplash.com/photo-1482517967863-00e15c9b44be?auto=format&fit=crop&w=800&q=80",
+        "stat": "Custom Designs"
+      },
+      {
+        "number": "04",
+        "title": "Premium Custom Displays",
+        "description": "One-of-a-kind lighting installations designed specifically for your property and vision, featuring advanced technology and creative design.",
+        "icon": "FaStar",
+        "color": "#8B5CF6",
+        "features": [
+          "Animated Light Shows",
+          "Musical Synchronization",
+          "Themed Installations",
+          "Interactive Elements"
+        ],
+        "image": "https://images.unsplash.com/photo-1577303935007-0d306ee638cf?auto=format&fit=crop&w=800&q=80",
+        "stat": "Award Winning"
+      }
+    ]
+  },
+  "workShowcase": {
+    "badge": "Featured Installations",
+    "title": {
+      "prefix": "Our Holiday",
+      "main": "Masterpieces"
+    },
+    "description": "Professional Christmas lighting installations that transform ordinary homes into magical holiday destinations",
+    "cta": "View Our Portfolio",
+    "images": [
+      "https://images.unsplash.com/photo-1513889961551-628c1e5c2f8b?auto=format&fit=crop&w=800&h=600&q=90&sharp=10",
+      "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&h=600&q=90&sharp=10",
+      "https://images.unsplash.com/photo-1603487742131-4160ec999306?auto=format&fit=crop&w=800&h=600&q=90&sharp=10",
+      "https://images.unsplash.com/photo-1572883454114-1cf0031ede2a?auto=format&fit=crop&w=800&h=600&q=90&sharp=10",
+      "https://images.unsplash.com/photo-1482517967863-00e15c9b44be?auto=format&fit=crop&w=800&h=600&q=90&sharp=10",
+      "https://images.unsplash.com/photo-1573883431205-98afd6eb6cea?auto=format&fit=crop&w=800&h=600&q=90&sharp=10"
+    ]
+  },
+  "howWeWork": {
+    "badge": "Simple Process",
+    "title": {
+      "text": "Couldn't Be Easier",
+      "prefix": "Working With Us"
+    },
+    "subtitle": "Get Professional Christmas Lighting In Just <strong>3 Easy Steps</strong>",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Get A Quote",
+        "description": "We've made getting professional lighting services as simple as possible. Reach out to us for a fast quote it only takes 5-10 seconds. We will receive your request, look at your property information, and get back to you right away with some pricing options.",
+        "icon": "FaQuoteRight",
+        "color": "#10B981",
+        "features": ["5-10 second quote request", "Instant property assessment", "Multiple pricing options"]
+      },
+      {
+        "number": "02",
+        "title": "Set A Schedule",
+        "description": "Once you've received our lighting package options, and have chosen the one that fits your needs the most, we can then get your project booked right away! We will provide you several different options of installation dates to ensure our service works perfectly around your schedule.",
+        "icon": "FaCalendarCheck",
+        "color": "#F59E0B",
+        "features": ["Flexible installation dates", "Quick booking process", "Work around your schedule"]
+      },
+      {
+        "number": "03",
+        "title": "Sit-back & Relax",
+        "description": "Once we've got you on the schedule, now you can sit back and relax. All of our lighting services are all-inclusive, which means you don't have to do a single thing. We will take care of everything for you and provide the highest quality lighting products available on the market.",
+        "icon": "FaChair",
+        "color": "#EF4444",
+        "features": ["All-inclusive service", "No work required from you", "Highest quality products"]
+      }
+    ],
+    "cta": {
+      "title": "Ready to Light Up Your Holidays?",
+      "description": "Start with a free, no-obligation quote today. It only takes 5-10 seconds!",
+      "buttons": {
+        "primary": "Get Your Free Quote",
+        "secondary": "Schedule Consultation"
+      }
+    }
+  },
+  "faq": {
+    "badge": "Frequently Asked Questions",
+    "title": "Questions & Answers",
+    "subtitle": "Everything you need to know about our premium holiday lighting services. Can't find your answer?",
+    "phone": "(123) 456-7890",
+    "items": [
+      {
+        "question": "What areas do you serve for Christmas light installation?",
+        "answer": "We serve residential and commercial clients throughout the metro area and surrounding suburbs. Contact us with your address for specific service availability.",
+        "icon": "FaHome",
+        "category": "Service Area",
+        "features": ["Residential", "Commercial", "Suburbs", "Metro Area"]
+      },
+      {
+        "question": "How much does professional installation cost?",
+        "answer": "Pricing varies based on property size and design complexity. Residential installations typically range from $300-$1,500. We provide free, no-obligation quotes after a brief property assessment.",
+        "icon": "FaDollarSign",
+        "category": "Pricing",
+        "features": ["Free Quotes", "Transparent Pricing", "Custom Estimates", "Early Bird Specials"]
+      },
+      {
+        "question": "When should I schedule my installation?",
+        "answer": "We recommend booking 4-6 weeks before your desired installation date. Our schedule fills quickly in November. Early bookings (before October 31) receive priority scheduling.",
+        "icon": "FaCalendarAlt",
+        "category": "Timing",
+        "features": ["4-6 Weeks Ahead", "Priority Booking", "Flexible Scheduling", "Seasonal Planning"]
+      },
+      {
+        "question": "What type of lighting do you use?",
+        "answer": "We use commercial-grade LED lights that are energy-efficient, durable, and weather-resistant. All products come with a 3-year warranty and are UL-certified for safety.",
+        "icon": "FaLightbulb",
+        "category": "Products",
+        "features": ["LED Lights", "Energy Efficient", "3-Year Warranty", "UL Certified"]
+      },
+      {
+        "question": "Do you handle maintenance and removal?",
+        "answer": "Yes. We offer maintenance packages and scheduled removal in early January. All services are included in our premium packages.",
+        "icon": "FaClock",
+        "category": "Service",
+        "features": ["Maintenance", "Scheduled Removal", "Premium Packages", "Full Service"]
+      },
+      {
+        "question": "Are your installations insured?",
+        "answer": "Absolutely. We carry $2 million in liability insurance and all technicians are trained and certified. Your property is fully protected.",
+        "icon": "FaShieldAlt",
+        "category": "Safety",
+        "features": ["$2M Insurance", "Trained Technicians", "Certified", "Property Protected"]
+      }
+    ]
+  },
+  "cta": {
+    "title": {
+      "line1": "Make This Christmas",
+      "line2": "Unforgettably Magical"
+    },
+    "description": "Professional Christmas light installation and decoration services",
+    "button": "Get Your Free Quote Now",
+    "socialProof": {
+      "clients": "500+ Happy Clients",
+      "rating": "4.9/5 Rating"
+    }
+  },
+  "contact": {
+    "phone": "(123) 456-7890",
+    "email": "info@christmaslights.com",
+    "address": "123 Christmas Lane, North Pole",
+    "hours": "Mon-Sun: 8am-8pm"
+  }
+}

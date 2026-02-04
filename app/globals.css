@@ -1,26 +1,76 @@
-@import "tailwindcss";
+﻿@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-holiday-red: #FF0000;
+    --color-holiday-gold: #FFD700;
+    --color-dark-navy: #0A1128;
+    --color-warm-white: #F5F5DC;
+    --color-holiday-green: #00FF00;
+    --color-holiday-red-light: #FF6B6B;
+    --color-holiday-gold-light: #FFE066;
+  }
+
+  body {
+    background: var(--color-dark-navy);
+    color: var(--color-warm-white);
+    font-family: Arial, Helvetica, sans-serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .animate-twinkle-delay-1 { animation-delay: 0.5s; }
+  .animate-twinkle-delay-2 { animation-delay: 1s; }
+  .animate-twinkle-delay-3 { animation-delay: 1.5s; }
+  
+  .text-glow {
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                 0 0 20px rgba(255, 255, 255, 0.6),
+                 0 0 30px rgba(255, 255, 255, 0.4);
+  }
+  
+  .border-glow {
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.5),
+                inset 0 0 15px rgba(255, 215, 0, 0.3);
+  }
+}
+
+/* Light string animation */
+.light-string {
+  position: relative;
+  overflow: hidden;
+}
+
+.light-string::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -100%;
+  width: 200%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 215, 0, 0.8),
+    rgba(255, 215, 0, 1),
+    rgba(255, 215, 0, 0.8),
+    transparent
+  );
+  animation: lightTravel 3s linear infinite;
+}
+
+@keyframes lightTravel {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(50%); }
+}
+
+@keyframes treeFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
 }
