@@ -43,7 +43,7 @@ const Footer = () => {
   ];
 
   useEffect(() => {
-    // Generate random positions only on client side
+    // Generate unique positions only on client side
     const positions = Array.from({ length: 15 }, (_, i) => ({
       id: i,
       left: `${Math.random() * 100}%`,
@@ -65,7 +65,7 @@ const Footer = () => {
         
         {/* Subtle Christmas Lights - Fixed animation property conflict */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {lightPositions.map((light) => (
+          {lightPositions.length > 0 && lightPositions.map((light) => (
             <div
               key={`light-${light.id}`}
               className="absolute rounded-full"
@@ -76,7 +76,6 @@ const Footer = () => {
                 height: '2px',
                 background: `radial-gradient(circle, ${light.color} 40%, transparent 70%)`,
                 filter: 'blur(0.5px)',
-                // Separate animation properties to avoid conflict
                 animationName: 'twinkle',
                 animationDuration: light.duration,
                 animationIterationCount: 'infinite',
