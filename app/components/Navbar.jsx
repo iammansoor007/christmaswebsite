@@ -56,7 +56,7 @@ const Navbar = () => {
             className="group"
             onClick={() => setIsOpen(false)}
           >
-            <div className="w-20 h-20 md:w-24 md:h-24 relative">
+            <div className="w-12 h-12 md:w-16 md:h-16 relative">
               <Image
                 src="/images/mainlogo.png"
                 alt="Luminous Holiday Logo"

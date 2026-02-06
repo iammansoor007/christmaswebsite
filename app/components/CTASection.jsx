@@ -338,6 +338,102 @@ const ChristmasCTA = () => {
           --bulb-base-color: #059669;
         }
         
+        /* FIXED: IMPROVED TEXT GLOW EFFECTS */
+        @keyframes textGlowEffect {
+          0%, 100% {
+            text-shadow: 
+              0 0 5px rgba(255, 255, 255, 0.9),
+              0 0 10px rgba(255, 255, 255, 0.7),
+              0 0 15px rgba(255, 0, 0, 0.5),
+              0 0 20px rgba(255, 0, 0, 0.3);
+          }
+          50% {
+            text-shadow: 
+              0 0 8px rgba(255, 255, 255, 0.9),
+              0 0 16px rgba(255, 255, 255, 0.7),
+              0 0 24px rgba(255, 0, 0, 0.7),
+              0 0 32px rgba(255, 0, 0, 0.5);
+          }
+        }
+        
+        @keyframes gradientGlowEffect {
+          0%, 100% {
+            text-shadow: 
+              0 0 8px rgba(255, 0, 0, 0.8),
+              0 0 16px rgba(255, 100, 100, 0.6),
+              0 0 24px rgba(0, 255, 0, 0.4);
+          }
+          50% {
+            text-shadow: 
+              0 0 12px rgba(255, 0, 0, 0.9),
+              0 0 24px rgba(255, 100, 100, 0.8),
+              0 0 36px rgba(0, 255, 0, 0.6);
+          }
+        }
+        
+        .text-glow-white {
+          animation: textGlowEffect 3s ease-in-out infinite;
+          color: #ffffff;
+          font-weight: 900;
+        }
+        
+        .text-glow-gradient {
+          background: linear-gradient(
+            90deg,
+            #ff0000 0%,
+            #ff3333 25%,
+            #ff6666 50%,
+            #33ff33 75%,
+            #00ff00 100%
+          );
+          background-size: 200% 200%;
+          -webkit-background-clip: text;
+          background-clip: text;
+          color: transparent;
+          animation: 
+            gradientGlowEffect 4s ease-in-out infinite,
+            gradientMove 6s linear infinite;
+          font-weight: 900;
+          letter-spacing: 0.5px;
+        }
+        
+        @keyframes gradientMove {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+        
+        .text-glow-subtle {
+          text-shadow: 
+            0 0 8px rgba(255, 255, 255, 0.4),
+            0 0 16px rgba(255, 255, 255, 0.2);
+          font-weight: 300;
+        }
+        
+        /* Button glow */
+        .button-glow {
+          box-shadow: 
+            0 0 15px rgba(255, 0, 0, 0.6),
+            0 0 30px rgba(255, 0, 0, 0.4),
+            0 0 45px rgba(255, 0, 0, 0.2);
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .button-glow:hover {
+          box-shadow: 
+            0 0 25px rgba(255, 0, 0, 0.8),
+            0 0 50px rgba(255, 0, 0, 0.6),
+            0 0 75px rgba(255, 0, 0, 0.4);
+        }
+        
         /* Mobile adjustments */
         @media (max-width: 768px) {
           .modern-bulb {
@@ -347,11 +443,15 @@ const ChristmasCTA = () => {
           .bulb-inverted {
             border-radius: 35% 35% 50% 50%;
           }
+          
+          .text-glow-gradient {
+            letter-spacing: 0.2px;
+          }
         }
       `}</style>
       
       <section className="relative min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh] w-full flex items-center justify-center overflow-hidden bg-black">
-        {/* Background Image */}
+        {/* Background Image - Using your original path */}
         <div 
           className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
           style={{
@@ -380,15 +480,17 @@ const ChristmasCTA = () => {
         <div className="container mx-auto px-4 z-20 relative max-w-6xl py-8 sm:py-12 md:py-0">
           <div className="text-center space-y-6 sm:space-y-8">
             
-            {/* Hero Headline */}
+            {/* Hero Headline - WITH FIXED GLOW EFFECTS */}
             <div className={`transition-all duration-1000 delay-300 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black mb-3 sm:mb-4 leading-tight">
-                <span className="block text-white mb-1 sm:mb-2">{title.line1}</span>
-                <span className="block bg-gradient-to-r from-red-500 via-red-300 to-green-500 bg-clip-text text-transparent">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black mb-3 sm:mb-4 leading-tight">
+                <span className="block text-glow-white mb-1 sm:mb-2">
+                  {title.line1}
+                </span>
+                <span className="block text-glow-gradient">
                   {title.line2}
                 </span>
               </h1>
-              <p className="text-base sm:text-lg md:text-xl text-white/95 font-light mb-4 sm:mb-6 max-w-lg sm:max-w-2xl mx-auto px-2">
+              <p className="text-lg sm:text-xl md:text-2xl text-white/95 font-light mb-4 sm:mb-6 max-w-lg sm:max-w-2xl mx-auto px-2 text-glow-subtle">
                 {description}
               </p>
             </div>
@@ -398,7 +500,7 @@ const ChristmasCTA = () => {
               <div className="space-y-3 sm:space-y-4">
                 <a 
                   href="/contact" 
-                  className="group relative inline-flex items-center justify-center px-6 sm:px-8 md:px-10 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-full shadow-lg sm:shadow-2xl transform hover:scale-105 transition-all duration-300 min-w-[200px] sm:min-w-[220px] overflow-hidden bg-gradient-to-r from-red-600 via-red-500 to-red-600 hover:from-red-700 hover:via-red-600 hover:to-red-700"
+                  className="button-glow group relative inline-flex items-center justify-center px-6 sm:px-8 md:px-10 py-3 sm:py-4 text-base sm:text-lg font-bold rounded-full shadow-lg sm:shadow-2xl transform hover:scale-105 transition-all duration-300 min-w-[200px] sm:min-w-[220px] overflow-hidden bg-gradient-to-r from-red-600 via-red-500 to-red-600 hover:from-red-700 hover:via-red-600 hover:to-red-700"
                 >
                   <span className="absolute inset-0 bg-gradient-to-r from-red-400 to-red-500 opacity-0 group-hover:opacity-20 transition-opacity duration-500" />
                   <span className="absolute inset-0 bg-red-500/20 blur-xl group-hover:bg-red-500/30 transition-all duration-500 rounded-full" />

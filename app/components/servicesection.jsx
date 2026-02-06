@@ -16,12 +16,11 @@ const ChristmasLightingSection = () => {
   // Get data from services
   const servicesData = getServicesData();
   
-  // Use images from services data or fallbacks
-  const images = servicesData.items?.map(item => item.image).slice(0, 4) || [
-    'https://images.unsplash.com/photo-1512389142860-9c449e58a543?q=80&w=400',
-    'https://images.unsplash.com/photo-1574158622682-e40e69881006?q=80&w=400',
-    'https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=400',
-    'https://images.unsplash.com/photo-1573992554016-3e3cae5f1c4a?q=80&w=400'
+  // Use local images from public/images directory
+  const images = [
+    '/images/demo1.jpeg',
+    '/images/demo2.jpeg', 
+    '/images/demo3.jpeg'
   ];
 
   // Modern color palette
@@ -36,25 +35,31 @@ const ChristmasLightingSection = () => {
     background: 'linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%)'
   };
 
-  // Features data with icons
+  // Features data with icons - IMPROVED
   const features = [
     {
       title: "Warrantied Product & Service",
-      description: "Full coverage on all materials and installation",
+      description: "Full coverage on all materials and installation work",
       icon: FaShieldAlt,
-      color: colors.primary.red
+      color: colors.primary.red,
+      bgColor: 'linear-gradient(135deg, rgba(230, 57, 70, 0.08) 0%, rgba(244, 162, 97, 0.04) 100%)',
+      borderColor: 'rgba(230, 57, 70, 0.2)'
     },
     {
       title: "48-Hour Maintenance",
       description: "Free maintenance within 48 hours of installation",
       icon: FaTools,
-      color: colors.primary.gold
+      color: colors.primary.gold,
+      bgColor: 'linear-gradient(135deg, rgba(244, 162, 97, 0.08) 0%, rgba(42, 157, 143, 0.04) 100%)',
+      borderColor: 'rgba(244, 162, 97, 0.2)'
     },
     {
       title: "Professional Installation",
       description: "Licensed, insured, certified technicians",
       icon: FaCheckCircle,
-      color: colors.primary.emerald
+      color: colors.primary.emerald,
+      bgColor: 'linear-gradient(135deg, rgba(42, 157, 143, 0.08) 0%, rgba(29, 53, 87, 0.04) 100%)',
+      borderColor: 'rgba(42, 157, 143, 0.2)'
     }
   ];
 
@@ -169,14 +174,14 @@ const ChristmasLightingSection = () => {
         </div>
 
         <div className="max-w-7xl mx-auto relative z-10">
-          {/* CONTENT REORDERING: Mobile first, text then image */}
-          <div className="flex flex-col-reverse lg:flex-row gap-4 xs-300:gap-6 xs:gap-8 sm:gap-10 md:gap-12 lg:gap-16 items-center lg:items-start">
+          {/* REVERSED LAYOUT: Text first on mobile/tablet, image left on desktop */}
+          <div className="flex flex-col lg:flex-row gap-4 xs-300:gap-6 xs:gap-8 sm:gap-10 md:gap-12 lg:gap-16 items-center lg:items-start">
             
-            {/* Right Column - Responsive Content (FIRST on mobile) */}
-            <div className="w-full lg:w-1/2 text-center lg:text-left">
-              <div className="pt-2 xs-300:pt-4 xs:pt-6 lg:pt-0 xl:pl-8">
+            {/* TEXT COLUMN - First on mobile/tablet, Right on desktop */}
+            <div className="w-full lg:w-1/2 text-center lg:text-left lg:order-2">
+              <div className="pt-2 xs-300:pt-4 xs:pt-6 lg:pt-0">
                 
-                {/* Badge - Centered on mobile */}
+                {/* Badge - Centered on mobile, left on desktop */}
                 <div className={`inline-flex items-center gap-1 xs-300:gap-1.5 xs:gap-2 px-2.5 xs-300:px-3 xs:px-4 py-1 xs-300:py-1.5 xs:py-2 rounded-full 
                   bg-gradient-to-r from-rose-500/10 via-amber-500/10 to-emerald-500/10 backdrop-blur-sm 
                   border border-amber-500/20 mb-4 xs-300:mb-6 xs:mb-6 sm:mb-8 max-w-full`}>
@@ -186,7 +191,7 @@ const ChristmasLightingSection = () => {
                   </span>
                 </div>
 
-                {/* Heading - Centered on mobile */}
+                {/* Heading */}
                 <div className="mb-6 xs-300:mb-8 xs:mb-8 sm:mb-10">
                   <h1 className={`font-bold text-slate-900 tracking-tight mb-3 xs-300:mb-4`}>
                     {/* Expert */}
@@ -215,46 +220,90 @@ const ChristmasLightingSection = () => {
                     </span>
                   </h1>
                   
-                  {/* Description - Centered on mobile */}
+                  {/* Description */}
                   <p className={`${headingSizes.body} text-slate-600 leading-relaxed font-light max-w-2xl mx-auto lg:mx-0`}>
                     Transform your home into a captivating holiday showcase with our expert lighting installation.
                     Professional service, premium quality, and unforgettable designs.
                   </p>
                 </div>
 
-                {/* Features Grid - Mobile Responsive */}
+                {/* Features Grid - IMPROVED STYLING */}
                 <div className="mb-8 xs-300:mb-10 xs:mb-10 sm:mb-12">
                   <h3 className={`${screenSize === 'xs-300' ? 'text-base' : 'text-lg'} font-semibold text-slate-900 mb-4 xs-300:mb-6 text-center lg:text-left`}>
                     Why Choose Us
                   </h3>
-                  <div className="space-y-2.5 xs-300:space-y-3 xs:space-y-4 max-w-lg mx-auto lg:mx-0">
+                  <div className="grid gap-3 xs-300:gap-4 xs:gap-5 max-w-lg mx-auto lg:mx-0">
                     {features.map((feature, idx) => {
                       const IconComponent = feature.icon;
                       return (
                         <motion.div
                           key={idx}
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
                           transition={{ 
                             delay: idx * 0.1,
                             duration: 0.4,
                             ease: "easeOut"
                           }}
-                          whileHover={{ scale: screenSize.includes('xs') ? 1.01 : 1.02 }}
-                          className="group"
+                          whileHover={{ 
+                            scale: screenSize.includes('xs') ? 1.01 : 1.02,
+                            translateY: -2
+                          }}
+                          className="group relative overflow-hidden rounded-xl xs:rounded-2xl transition-all duration-300"
                         >
-                          <div className={`flex items-center gap-2.5 xs-300:gap-3 xs:gap-4 p-2.5 xs-300:p-3 xs:p-4 rounded-lg xs:rounded-xl bg-white hover:shadow-md xs:hover:shadow-lg transition-all duration-300 border border-slate-200 hover:border-transparent`}>
-                            <div className={`flex-shrink-0 ${screenSize === 'xs-300' ? 'p-1.5' : 'p-2'} xs:rounded-lg bg-gradient-to-br from-white to-slate-50 border border-slate-200 group-hover:scale-105 transition-transform duration-300`}>
-                              <IconComponent className={`${screenSize === 'xs-300' ? 'w-3 h-3' : 'w-4 h-4'} xs:h-4`} style={{ color: feature.color }} />
+                          {/* Background with gradient */}
+                          <div 
+                            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl xs:rounded-2xl"
+                            style={{ background: feature.bgColor }}
+                          />
+                          
+                          {/* Card Content */}
+                          <div 
+                            className="relative p-4 xs-300:p-4 xs:p-5 rounded-xl xs:rounded-2xl transition-all duration-300 border group-hover:shadow-lg"
+                            style={{
+                              background: 'rgba(255, 255, 255, 0.9)',
+                              backdropFilter: 'blur(10px)',
+                              borderColor: feature.borderColor,
+                              boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.05)'
+                            }}
+                          >
+                            <div className="flex items-start gap-3 xs-300:gap-4 xs:gap-5">
+                              {/* Icon Container */}
+                              <div className="relative flex-shrink-0">
+                                <div className="relative z-10 p-2 xs-300:p-2.5 xs:p-3 rounded-lg xs:rounded-xl transition-all duration-300 group-hover:scale-110"
+                                  style={{
+                                    background: `linear-gradient(135deg, ${feature.color}15, ${feature.color}08)`,
+                                    border: `1px solid ${feature.color}30`,
+                                    boxShadow: `0 4px 12px ${feature.color}15`
+                                  }}>
+                                  <IconComponent 
+                                    className={`${screenSize === 'xs-300' ? 'w-4 h-4' : 'w-5 h-5'} xs:w-6 xs:h-6 transition-transform duration-300 group-hover:scale-110`} 
+                                    style={{ color: feature.color }} 
+                                  />
+                                </div>
+                                {/* Decorative element */}
+                                <div className="absolute -inset-1 bg-gradient-to-br from-transparent via-transparent to-transparent rounded-lg xs:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                                  style={{
+                                    background: `radial-gradient(circle at center, ${feature.color}10 0%, transparent 70%)`
+                                  }}
+                                />
+                              </div>
+                              
+                              {/* Text Content */}
+                              <div className="flex-1 min-w-0 text-left">
+                                <h4 className={`${screenSize === 'xs-300' ? 'text-sm' : 'text-base'} xs:text-lg font-bold mb-1 xs-300:mb-1.5 xs:mb-2 text-slate-900 line-clamp-1 xs:line-clamp-2 group-hover:text-slate-950 transition-colors duration-200`}>
+                                  {feature.title}
+                                </h4>
+                                <p className={`${screenSize === 'xs-300' ? 'text-xs' : 'text-sm'} xs:text-base text-slate-600 leading-relaxed line-clamp-2 xs:line-clamp-3 group-hover:text-slate-700 transition-colors duration-200`}>
+                                  {feature.description}
+                                </p>
+                              </div>
                             </div>
-                            <div className="flex-1 min-w-0 text-left">
-                              <h4 className={`${screenSize === 'xs-300' ? 'text-xs' : 'text-sm'} xs:text-base font-semibold text-slate-900 mb-0.5 xs-300:mb-1 line-clamp-1 xs:line-clamp-2`}>
-                                {feature.title}
-                              </h4>
-                              <p className={`${screenSize === 'xs-300' ? 'text-[10px]' : 'text-xs'} xs:text-sm text-slate-600 line-clamp-2`}>
-                                {feature.description}
-                              </p>
-                            </div>
+                            
+                            {/* Hover indicator line */}
+                            <div className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-500 ease-out"
+                              style={{ background: feature.color }} 
+                            />
                           </div>
                         </motion.div>
                       );
@@ -262,29 +311,51 @@ const ChristmasLightingSection = () => {
                   </div>
                 </div>
 
-                {/* CTA Section - Centered on mobile */}
+                {/* CTA Section - IMPROVED BUTTON STYLING */}
                 <div className="space-y-4 xs-300:space-y-6">
-                  <div className="flex flex-col xs-300:flex-row gap-2.5 xs-300:gap-3 xs:gap-4 justify-center lg:justify-start">
-                    <button className={`group relative ${screenSize === 'xs-300' ? 'px-4 py-2.5 text-xs' : 'px-6 xs:px-8 py-3 xs:py-4'} font-bold rounded-lg xs:rounded-xl transition-all duration-300 overflow-hidden shadow-md xs:shadow-lg hover:shadow-xl w-full xs-300:w-auto min-w-[140px] xs:min-w-[180px] xs:min-w-[200px]`}
-                            style={{ background: colors.gradient }}>
-                      <span className="relative z-10 flex items-center justify-center gap-1.5 xs-300:gap-2 xs:gap-3 text-white">
-                        <span>Get Instant Quote</span>
-                        <svg className={`${screenSize === 'xs-300' ? 'w-3 h-3' : 'w-4 h-4'} xs:w-5 xs:h-5 group-hover:translate-x-0.5 xs-300:group-hover:translate-x-1 xs:group-hover:translate-x-2 transition-transform`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="flex  xs-300:flex-row gap-2.5 xs-300:gap-3 xs:gap-4 justify-center lg:justify-start items-center">
+                    {/* Primary CTA Button - Fixed dimensions and improved styling */}
+                    <button className={`group relative font-bold rounded-lg xs:rounded-xl transition-all duration-300 overflow-hidden shadow-md xs:shadow-lg hover:shadow-xl 
+                      ${screenSize === 'xs-300' ? 'px-5 py-2.5 text-xs w-[140px] h-[36px]' : ''}
+                      ${screenSize === 'xs' ? 'px-6 py-3 text-sm w-[160px] h-[40px]' : ''}
+                      ${screenSize === 'sm' ? 'px-7 py-3 text-base w-[180px] h-[44px]' : ''}
+                      ${screenSize === 'md' ? 'px-8 py-3 text-base w-[200px] h-[48px]' : ''}
+                      ${screenSize === 'lg' || screenSize === 'xl' ? 'px-8 py-3.5 text-base w-[210px] h-[52px]' : ''}
+                      flex items-center justify-center`}
+                      style={{ 
+                        background: colors.gradient,
+                        boxShadow: '0 4px 20px rgba(230, 57, 70, 0.25), 0 2px 4px rgba(230, 57, 70, 0.1)'
+                      }}>
+                      <span className="relative z-10 flex items-center justify-center gap-1.5 xs-300:gap-2 xs:gap-3 text-white font-semibold">
+                        <span>Get Quote</span>
+                        <svg className={`${screenSize === 'xs-300' ? 'w-3 h-3' : 'w-4 h-4'} xs:w-5 xs:h-5 group-hover:translate-x-0.5 xs-300:group-hover:translate-x-1 xs:group-hover:translate-x-1.5 transition-transform duration-300`} 
+                          fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                         </svg>
                       </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                      {/* Shimmer effect */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/25 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                      {/* Hover overlay */}
+                      <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
                     </button>
                     
-                    <button className={`group ${screenSize === 'xs-300' ? 'px-4 py-2.5 text-xs' : 'px-6 xs:px-8 py-3 xs:py-4'} font-semibold rounded-lg xs:rounded-xl transition-all duration-300 hover:shadow-md flex items-center justify-center gap-1.5 xs-300:gap-2 xs:gap-3 bg-white border-2 border-amber-500/30 hover:border-amber-500/50 w-full xs-300:w-auto`}>
+                    {/* Secondary Button */}
+                    <button className={`group font-semibold rounded-lg xs:rounded-xl transition-all duration-300 hover:shadow-md flex items-center justify-center gap-1.5 xs-300:gap-2 xs:gap-3 bg-white border-2 border-amber-500/30 hover:border-amber-500/50
+                      ${screenSize === 'xs-300' ? 'px-5 py-2.5 text-xs w-[140px] h-[36px]' : ''}
+                      ${screenSize === 'xs' ? 'px-6 py-3 text-sm w-[160px] h-[40px]' : ''}
+                      ${screenSize === 'sm' ? 'px-7 py-3 text-base w-[180px] h-[44px]' : ''}
+                      ${screenSize === 'md' ? 'px-8 py-3 text-base w-[200px] h-[48px]' : ''}
+                      ${screenSize === 'lg' || screenSize === 'xl' ? 'px-8 py-3.5 text-base w-[210px] h-[52px]' : ''}
+                      hover:bg-gradient-to-r hover:from-amber-50/50 hover:via-white hover:to-amber-50/50`}>
                       <span className="text-slate-700">View Gallery</span>
-                      <svg className={`${screenSize === 'xs-300' ? 'w-3 h-3' : 'w-4 h-4'} xs:w-5 xs:h-5 text-amber-600 group-hover:rotate-90 transition-transform`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className={`${screenSize === 'xs-300' ? 'w-3 h-3' : 'w-4 h-4'} xs:w-5 xs:h-5 text-amber-600 group-hover:rotate-90 transition-transform duration-300`} 
+                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
                       </svg>
                     </button>
                   </div>
 
-                  {/* Trust Indicators - Centered on mobile */}
+                  {/* Trust Indicators */}
                   <div className="pt-4 xs-300:pt-6 border-t border-slate-200">
                     <div className="flex flex-col xs-300:flex-row items-center gap-3 xs-300:gap-4 xs:gap-6 justify-center lg:justify-start">
                       <div className="flex -space-x-2.5 xs-300:-space-x-3 xs:-space-x-4">
@@ -318,8 +389,8 @@ const ChristmasLightingSection = () => {
               </div>
             </div>
 
-            {/* Left Column - Responsive Image Gallery (SECOND on mobile) */}
-            <div className="w-full lg:w-1/2">
+            {/* IMAGE COLUMN - Second on mobile/tablet, Left on desktop */}
+            <div className="w-full lg:w-1/2 lg:order-1">
               <div className="relative">
                 {/* Modern image slider container */}
                 <div className="relative overflow-hidden rounded-lg xs-300:rounded-xl xs:rounded-2xl sm:rounded-3xl shadow-lg xs:shadow-xl sm:shadow-2xl border border-white/10 bg-gradient-to-br from-white to-slate-50">
@@ -352,7 +423,7 @@ const ChristmasLightingSection = () => {
                     ))}
                   </div>
 
-                  {/* Navigation Dots - Mobile Responsive */}
+                  {/* Navigation Dots */}
                   {images.length > 0 && (
                     <div className={`absolute bottom-2 xs-300:bottom-3 xs:bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-1.5 xs-300:gap-2 xs:gap-3 
                       ${screenSize.includes('xs') ? 'bg-white/95 px-2.5 xs-300:px-3 xs:px-4 py-1.5 xs-300:py-2 xs:py-2.5 rounded-full shadow-md' : 'bg-white/90 backdrop-blur-lg px-4 py-2.5 rounded-full shadow-lg'}`}>
@@ -385,7 +456,7 @@ const ChristmasLightingSection = () => {
                     </div>
                   )}
 
-                  {/* Navigation Buttons - Mobile Optimized */}
+                  {/* Navigation Buttons */}
                   <div className={`absolute top-1/2 -translate-y-1/2 left-1.5 xs-300:left-2 xs:left-3 sm:left-4 right-1.5 xs-300:right-2 xs:right-3 sm:right-4 flex justify-between pointer-events-none`}>
                     <button
                       onClick={goPrev}
@@ -403,7 +474,7 @@ const ChristmasLightingSection = () => {
                     </button>
                   </div>
 
-                  {/* Image Counter - Hidden on extra small */}
+                  {/* Image Counter */}
                   {!screenSize.includes('xs') && (
                     <div className="absolute top-3 xs:top-4 sm:top-6 right-3 xs:right-4 sm:right-6 bg-white/90 backdrop-blur-lg rounded-full px-2.5 xs:px-3 py-1 xs:py-1.5 shadow-lg border border-white/20">
                       <span className="text-xs xs:text-sm font-semibold bg-gradient-to-r from-rose-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
@@ -413,7 +484,7 @@ const ChristmasLightingSection = () => {
                   )}
                 </div>
 
-                {/* Info Card - Mobile Responsive */}
+                {/* Info Card */}
                 <motion.div
                   ref={boxRef}
                   initial={{ opacity: 0, y: 30, scale: 0.95 }}
@@ -445,7 +516,7 @@ const ChristmasLightingSection = () => {
         </div>
       </div>
 
-      {/* Decorative elements - Mobile optimized */}
+      {/* Decorative elements */}
       <div className="absolute top-0 left-0 w-20 h-20 xs-300:w-24 xs-300:h-24 xs:w-32 xs:h-32 bg-gradient-to-br from-rose-500/5 to-transparent rounded-full -translate-x-1/4 -translate-y-1/4" />
       <div className="absolute bottom-0 right-0 w-20 h-20 xs-300:w-24 xs-300:h-24 xs:w-32 xs:h-32 bg-gradient-to-tl from-emerald-500/5 to-transparent rounded-full translate-x-1/4 translate-y-1/4" />
     </section>

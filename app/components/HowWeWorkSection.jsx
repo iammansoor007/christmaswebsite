@@ -50,6 +50,7 @@ const HowWeWorkSection = () => {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: true, margin: "-50px" });
   const [isMobile, setIsMobile] = useState(false);
+  const [isTablet, setIsTablet] = useState(false);
   const [gradientPositions, setGradientPositions] = useState([]);
   const [isClient, setIsClient] = useState(false);
 
@@ -57,16 +58,18 @@ const HowWeWorkSection = () => {
   const workData = getHowWeWorkData();
   const { badge, title, subtitle, steps, cta } = workData;
 
-  // Detect mobile and generate positions only on client side
+  // Detect screen size and generate positions only on client side
   useEffect(() => {
     setIsClient(true);
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+    const checkScreenSize = () => {
+      const width = window.innerWidth;
+      setIsMobile(width < 768);
+      setIsTablet(width >= 768 && width < 1024);
     };
     
-    checkMobile();
+    checkScreenSize();
     
-    // Generate gradient positions
+    // Generate gradient positions based on screen size
     const count = window.innerWidth < 768 ? 3 : 6;
     const positions = Array(count).fill(null).map(() => ({
       left: Math.random() * 100,
@@ -77,8 +80,8 @@ const HowWeWorkSection = () => {
     
     setGradientPositions(positions);
     
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
   // Render gradient positions only on client
@@ -104,14 +107,13 @@ const HowWeWorkSection = () => {
   return (
     <section 
       ref={containerRef}
-      className="relative w-full overflow-hidden bg-gradient-to-b from-gray-50 to-white px-3 min-[320px]:px-4 xs:px-5 sm:px-6 md:px-8 lg:px-12 py-12 sm:py-16 md:py-20 lg:py-28"
-      style={{ minWidth: '300px' }}
+      className="relative w-full overflow-hidden bg-gradient-to-b from-gray-50 to-white px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8 py-8 xs:py-10 sm:py-12 md:py-16 lg:py-20 min-w-[280px]"
     >
       {/* Subtle Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
           backgroundImage: `radial-gradient(circle at 25px 25px, #e5e7eb 2px, transparent 2px)`,
-          backgroundSize: '50px 50px'
+          backgroundSize: '40px 40px'
         }} />
       </div>
 
@@ -123,96 +125,96 @@ const HowWeWorkSection = () => {
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Modern Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12 sm:mb-16 md:mb-20"
+          className="text-center mb-8 xs:mb-10 sm:mb-12 md:mb-16 px-1"
         >
           {/* Minimal Badge */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={isInView ? { opacity: 1, scale: 1 } : {}}
             transition={{ delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm mb-6"
+            className="inline-flex items-center gap-1.5 xs:gap-2 px-3 xs:px-4 py-1.5 xs:py-2 bg-white rounded-full shadow-sm mb-4 xs:mb-5 sm:mb-6 border border-gray-100"
           >
-            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-            <span className="text-sm font-medium text-gray-700 uppercase tracking-wide">
+            <div className="w-1.5 h-1.5 xs:w-2 xs:h-2 bg-emerald-500 rounded-full animate-pulse flex-shrink-0" />
+            <span className="text-xs xs:text-sm font-medium text-gray-700 uppercase tracking-wide whitespace-nowrap overflow-hidden text-ellipsis max-w-[180px] xs:max-w-none">
               {badge}
             </span>
           </motion.div>
 
           {/* Main Title */}
           <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2 }}
-            className="text-2xl min-[350px]:text-2.5xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 leading-tight tracking-tight"
+            className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-3 xs:mb-4 leading-tight"
           >
             {title.prefix}{' '}
-            <span className="relative">
-              <span className="relative z-10 bg-gradient-to-r from-emerald-600 via-amber-500 to-red-500 bg-clip-text text-transparent">
+            <span className="relative inline-block">
+              <span className="relative z-10 bg-gradient-to-r from-emerald-600 via-amber-500 to-red-500 bg-clip-text text-transparent break-words text-center">
                 {title.text}
               </span>
-              <svg className="absolute -bottom-2 left-0 w-full h-3 text-gray-200" viewBox="0 0 100 10">
-                <path d="M0,5 Q25,0 50,5 T100,5" stroke="currentColor" strokeWidth="2" fill="none" />
+              <svg className="absolute -bottom-1 xs:-bottom-1.5 sm:-bottom-2 left-0 w-full h-1.5 xs:h-2 sm:h-2.5 text-gray-200" viewBox="0 0 100 10">
+                <path d="M0,5 Q25,0 50,5 T100,5" stroke="currentColor" strokeWidth="1.5" fill="none" />
               </svg>
             </span>
           </motion.h2>
 
           {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.3 }}
-            className="text-lg xs:text-xl sm:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed"
+            className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto px-2 xs:px-3 leading-relaxed text-center"
             dangerouslySetInnerHTML={{ __html: subtitle }}
           />
         </motion.div>
 
-        {/* Modern Steps - Horizontal on Desktop, Vertical on Mobile */}
+        {/* Modern Steps - Responsive Layout */}
         <div className="relative">
           {/* Connection Line - Desktop Only */}
           {!isMobile && isClient && (
-            <div className="absolute top-1/2 left-0 right-0 h-1 -translate-y-1/2">
+            <div className="absolute top-1/2 left-0 right-0 h-0.5 md:h-1 -translate-y-1/2 hidden md:block">
               <div className="h-full bg-gradient-to-r from-emerald-500 via-amber-500 to-red-500 opacity-20" />
             </div>
           )}
 
-          {/* Steps Container */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
+          {/* Steps Container - Responsive grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 md:gap-6 lg:gap-8 xl:gap-10">
             {steps.map((step, index) => {
               const IconComponent = step.icon;
               return (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, y: 40 }}
+                  initial={{ opacity: 0, y: 30 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.4 + index * 0.15 }}
-                  whileHover={isClient ? { y: -8 } : {}}
+                  whileHover={isClient ? { y: -6 } : {}}
                   className="relative group"
                 >
                   {/* Step Number Badge - Floating */}
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
+                  <div className="absolute -top-3 xs:-top-4 left-1/2 -translate-x-1/2 z-20">
                     <div 
-                      className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-xl backdrop-blur-sm"
+                      className="w-9 h-9 xs:w-10 xs:h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-lg xs:rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg backdrop-blur-sm"
                       style={{ backgroundColor: step.color, color: 'white' }}
                     >
-                      <span className="text-lg font-bold">{step.number}</span>
+                      <span className="text-sm xs:text-base font-bold">{step.number}</span>
                     </div>
                   </div>
 
-                  {/* Modern White Card */}
-                  <div className="relative h-full bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 overflow-hidden">
+                  {/* Modern White Card - Responsive height */}
+                  <div className="relative h-full bg-white rounded-xl xs:rounded-2xl sm:rounded-3xl p-4 xs:p-5 sm:p-6 md:p-6 lg:p-8 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden min-h-[320px] xs:min-h-[340px] sm:min-h-[360px] md:min-h-[380px]">
                     {/* Accent Border Top */}
                     <div 
-                      className="absolute top-0 left-0 right-0 h-1.5"
+                      className="absolute top-0 left-0 right-0 h-1 xs:h-1.5"
                       style={{ backgroundColor: step.color }}
                     />
 
                     {/* Icon - Use SafeIconComponent */}
-                    <div className="flex justify-center mb-6">
+                    <div className="flex justify-center mb-4 xs:mb-5 sm:mb-6">
                       <div 
-                        className="w-16 h-16 rounded-2xl flex items-center justify-center shadow-lg"
+                        className="w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 rounded-xl xs:rounded-2xl flex items-center justify-center shadow-md"
                         style={{ 
                           backgroundColor: `${step.color}15`,
                           color: step.color
@@ -221,48 +223,50 @@ const HowWeWorkSection = () => {
                         <SafeIconComponent 
                           icon={IconComponent} 
                           color={step.color}
-                          className="text-2xl"
+                          className="text-lg xs:text-xl sm:text-2xl"
                         />
                       </div>
                     </div>
 
                     {/* Step Title */}
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4 text-center">
+                    <h3 className="text-lg xs:text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 xs:mb-4 text-center leading-tight">
                       {step.title}
                     </h3>
 
                     {/* Step Description */}
-                    <p className="text-gray-600 text-sm sm:text-base mb-6 leading-relaxed text-center">
+                    <p className="text-gray-600 text-xs xs:text-sm sm:text-base md:text-base mb-4 xs:mb-5 sm:mb-6 leading-relaxed text-center line-clamp-3 md:line-clamp-4">
                       {step.description}
                     </p>
 
                     {/* Features List */}
-                    <div className="space-y-3">
+                    <div className="space-y-2 xs:space-y-2.5 sm:space-y-3 flex-grow">
                       {step.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-center gap-3">
+                        <div key={idx} className="flex items-start xs:items-center gap-2 xs:gap-3">
                           <div 
-                            className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center"
+                            className="flex-shrink-0 w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center mt-0.5 xs:mt-0"
                             style={{ backgroundColor: `${step.color}15` }}
                           >
-                            <CheckCircleIcon color={step.color} />
+                            <CheckCircleIcon color={step.color} className="text-xs xs:text-sm" />
                           </div>
-                          <span className="text-gray-700 text-sm sm:text-base">{feature}</span>
+                          <span className="text-gray-700 text-xs xs:text-sm sm:text-base md:text-sm lg:text-base flex-1 leading-relaxed">
+                            {feature}
+                          </span>
                         </div>
                       ))}
                     </div>
 
                     {/* Decorative Corner */}
                     <div 
-                      className="absolute -bottom-6 -right-6 w-24 h-24 rounded-full opacity-10 group-hover:opacity-20 transition-opacity duration-500"
+                      className="absolute -bottom-4 -right-4 w-16 h-16 xs:w-20 xs:h-20 sm:w-24 sm:h-24 rounded-full opacity-10 group-hover:opacity-20 transition-opacity duration-500"
                       style={{ backgroundColor: step.color }}
                     />
                   </div>
 
-                  {/* Arrow Connector - Mobile Only */}
-                  {isMobile && index < steps.length - 1 && (
-                    <div className="flex justify-center my-6">
-                      <div className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm">
-                        <FaArrowRight className="text-gray-400" />
+                  {/* Arrow Connector - Mobile & Tablet Only */}
+                  {(isMobile || (isTablet && index % 2 === 0 && index < steps.length - 1)) && index < steps.length - 1 && (
+                    <div className={`flex justify-center my-4 xs:my-5 ${isTablet && (index === 0 || index === 2) ? 'md:hidden' : ''}`}>
+                      <div className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm">
+                        <FaArrowRight className="text-gray-400 text-xs xs:text-sm" />
                       </div>
                     </div>
                   )}
@@ -272,35 +276,41 @@ const HowWeWorkSection = () => {
           </div>
         </div>
 
-        {/* Modern CTA */}
+        {/* Modern CTA - Responsive */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 0.9 }}
-          className="mt-16 sm:mt-20"
+          className="mt-10 xs:mt-12 sm:mt-14 md:mt-16 lg:mt-20"
         >
-          <div className="bg-gradient-to-r from-emerald-50 via-amber-50 to-red-50 rounded-3xl p-8 sm:p-12 text-center border border-gray-100 shadow-xl">
-            <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          <div className="bg-gradient-to-r from-emerald-50 via-amber-50 to-red-50 rounded-2xl sm:rounded-3xl p-5 xs:p-6 sm:p-8 md:p-10 lg:p-12 text-center border border-gray-100 shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <h3 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 xs:mb-4">
               {cta.title}
             </h3>
-            <p className="text-gray-600 text-base sm:text-lg mb-8 max-w-2xl mx-auto">
+            <p className="text-gray-600 text-sm xs:text-base sm:text-lg md:text-xl mb-6 xs:mb-8 max-w-2xl mx-auto leading-relaxed">
               {cta.description}
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="group relative px-8 py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold rounded-xl hover:shadow-2xl transition-all duration-300 overflow-hidden">
-                <span className="relative z-10 flex items-center justify-center gap-3">
-                  <FaPhoneAlt className="text-lg" />
-                  <span className="text-base sm:text-lg">{cta.buttons.primary}</span>
-                  <FaArrowRight className="text-lg group-hover:translate-x-1 transition-transform" />
+            <div className="flex flex-col sm:flex-row gap-3 xs:gap-4 justify-center">
+              <button 
+                className="group relative px-5 xs:px-6 sm:px-8 md:px-10 py-3 xs:py-3.5 sm:py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold rounded-lg xs:rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden w-full sm:w-auto text-center"
+                aria-label={cta.buttons.primary}
+              >
+                <span className="relative z-10 flex items-center justify-center gap-2 xs:gap-3">
+                  <FaPhoneAlt className="text-sm xs:text-base" />
+                  <span className="text-sm xs:text-base sm:text-lg whitespace-nowrap">{cta.buttons.primary}</span>
+                  <FaArrowRight className="text-sm xs:text-base group-hover:translate-x-0.5 transition-transform" />
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
               </button>
               
-              <button className="px-8 py-4 font-semibold text-gray-700 hover:text-gray-900 border-2 border-gray-300 hover:border-gray-400 rounded-xl transition-all duration-300 bg-white">
-                <span className="flex items-center justify-center gap-3">
-                  <FaCalendarAlt className="text-lg" />
-                  <span className="text-base sm:text-lg">{cta.buttons.secondary}</span>
+              <button 
+                className="px-5 xs:px-6 sm:px-8 md:px-10 py-3 xs:py-3.5 sm:py-4 font-semibold text-gray-700 hover:text-gray-900 border-2 border-gray-300 hover:border-gray-400 rounded-lg xs:rounded-xl transition-all duration-300 bg-white w-full sm:w-auto text-center"
+                aria-label={cta.buttons.secondary}
+              >
+                <span className="flex items-center justify-center gap-2 xs:gap-3">
+                  <FaCalendarAlt className="text-sm xs:text-base" />
+                  <span className="text-sm xs:text-base sm:text-lg whitespace-nowrap">{cta.buttons.secondary}</span>
                 </span>
               </button>
             </div>
@@ -308,37 +318,184 @@ const HowWeWorkSection = () => {
         </motion.div>
       </div>
 
-      <style jsx>{`
+      {/* Responsive Styles */}
+      <style jsx global>{`
+        /* Base responsive text clamping */
+        .line-clamp-3 {
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        
+        .line-clamp-4 {
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+        
+        /* Extra small screens (below 320px) */
         @media (max-width: 319px) {
-          .container {
-            padding-left: 0.375rem !important;
-            padding-right: 0.375rem !important;
+          .min-w-\[280px\] {
+            min-width: 280px;
           }
           
-          .step-card {
-            padding: 0.75rem !important;
+          .min-h-\[320px\] {
+            min-height: 300px;
           }
-        }
-        
-        @media (min-width: 320px) and (max-width: 349px) {
-          .text-2\.5xl {
-            font-size: 1.625rem;
-            line-height: 2rem;
+          
+          /* Improve text sizes */
+          .text-xl {
+            font-size: 1.25rem;
+            line-height: 1.3;
           }
-        }
-        
-        @media (min-width: 350px) and (max-width: 399px) {
-          .text-2\.5xl {
-            font-size: 1.75rem;
-            line-height: 2.125rem;
+          
+          .text-sm {
+            font-size: 0.8125rem;
           }
-        }
-        
-        /* Touch-friendly tap targets */
-        @media (max-width: 767px) {
+          
+          .text-xs {
+            font-size: 0.75rem;
+          }
+          
+          /* Better spacing */
+          .space-y-2 > * + * {
+            margin-top: 0.375rem;
+          }
+          
+          /* Full width buttons */
           button {
+            width: 100%;
+          }
+        }
+        
+        /* Small screens (320px - 479px) */
+        @media (min-width: 320px) and (max-width: 479px) {
+          .min-h-\[340px\] {
+            min-height: 330px;
+          }
+        }
+        
+        /* Tablet portrait (768px - 1023px) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+          .md\:min-h-\[380px\] {
+            min-height: 370px;
+          }
+          
+          .md\:grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+          }
+          
+          /* Adjust padding for tablet */
+          .md\:p-6 {
+            padding: 1.25rem;
+          }
+          
+          /* Adjust text sizes for tablet */
+          .md\:text-2xl {
+            font-size: 1.5rem;
+          }
+          
+          .md\:text-base {
+            font-size: 1rem;
+          }
+          
+          .md\:text-sm {
+            font-size: 0.9375rem;
+          }
+          
+          /* Tablet-specific line clamping */
+          .md\:line-clamp-4 {
+            -webkit-line-clamp: 4;
+          }
+          
+          /* Hide every other arrow connector on tablet */
+          .md\:hidden {
+            display: none;
+          }
+        }
+        
+        /* Tablet landscape (1024px - 1279px) */
+        @media (min-width: 1024px) and (max-width: 1279px) {
+          .lg\:gap-8 {
+            gap: 1.5rem;
+          }
+          
+          /* Adjust padding */
+          .lg\:p-8 {
+            padding: 1.5rem;
+          }
+          
+          /* Adjust text sizes */
+          .lg\:text-3xl {
+            font-size: 1.75rem;
+          }
+          
+          .lg\:text-base {
+            font-size: 1rem;
+          }
+        }
+        
+        /* Large desktop (1280px and above) */
+        @media (min-width: 1280px) {
+          .xl\:gap-10 {
+            gap: 2.5rem;
+          }
+        }
+        
+        /* Improve touch targets on mobile */
+        @media (max-width: 767px) {
+          button, 
+          [role="button"] {
             min-height: 44px;
             min-width: 44px;
+          }
+        }
+        
+        /* Prevent image distortion */
+        img {
+          will-change: transform;
+          backface-visibility: hidden;
+          image-rendering: -webkit-optimize-contrast;
+          image-rendering: crisp-edges;
+        }
+        
+        /* Smooth scrolling */
+        html {
+          scroll-behavior: smooth;
+        }
+        
+        /* Better text rendering */
+        * {
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          text-rendering: optimizeLegibility;
+        }
+        
+        /* Fix for very wide screens */
+        @media (min-width: 1536px) {
+          .max-w-7xl {
+            max-width: 80rem;
+          }
+        }
+        
+        /* Fix for iOS Safari */
+        @supports (-webkit-touch-callout: none) {
+          .min-h-\[320px\] {
+            min-height: -webkit-fill-available;
+          }
+        }
+        
+        /* Print styles */
+        @media print {
+          .group-hover\:scale-105 {
+            transform: none !important;
+          }
+          
+          .shadow-md, 
+          .hover\:shadow-xl {
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
           }
         }
       `}</style>

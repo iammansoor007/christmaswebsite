@@ -92,3 +92,47 @@
                0 0 40px rgba(255, 215, 0, 0.3),
                0 0 60px rgba(255, 215, 0, 0.1);
 }
+
+
+
+
+
+
+
+
+
+
+
+/* ===============================
+   HERO ALIGNMENT FIX (>= 800px)
+   =============================== */
+
+@media (min-width: 800px) {
+  .hero-content {
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .hero-content .hero-badge {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .hero-content .hero-subtitle {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .hero-content .hero-features {
+    align-items: flex-start !important;
+  }
+
+  .hero-content .hero-features li {
+    justify-content: flex-start !important;
+    text-align: left !important;
+  }
+
+  .hero-content .cta-container {
+    justify-content: flex-start !important;
+  }
+}
