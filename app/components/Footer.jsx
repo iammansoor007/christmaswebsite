@@ -88,20 +88,21 @@ const Footer = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-3 xs:px-4 py-8 sm:py-12 relative z-10">
+      {/* UPDATED: Better padding for different screen sizes */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16 py-8 sm:py-12 lg:py-16 relative z-10">
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 mb-8 sm:mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 xl:gap-12 mb-8 sm:mb-12 lg:mb-16">
           
           {/* Brand & Contact Column */}
-          <div className="lg:col-span-4 space-y-4 sm:space-y-6">
+          <div className="lg:col-span-4 xl:col-span-4 space-y-6 lg:space-y-8">
             {/* Logo - Plain Image Only */}
-            <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-4">
-              <div className="relative w-24 h-24 sm:w-28 sm:h-28 flex items-center justify-center flex-shrink-0">
+            <div className="flex flex-col sm:flex-row sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
+              <div className="relative w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36 flex items-center justify-center flex-shrink-0">
                 <Image
                   src="/images/mainlogo.png"
                   alt="Luminous Holiday Logo"
-                  width={112}
-                  height={112}
+                  width={144}
+                  height={144}
                   className="object-contain w-full h-full"
                   priority={false}
                   onError={(e) => {
@@ -112,30 +113,56 @@ const Footer = () => {
                     target.parentElement.innerHTML = `
                       <div class="w-full h-full flex items-center justify-center bg-dark-navy rounded-xl border border-holiday-gold/20">
                         <div class="text-center">
-                          <div class="text-2xl font-bold text-white">LH</div>
-                          <div class="text-xs text-white/70">Logo</div>
+                          <div class="text-2xl lg:text-3xl font-bold text-white">LH</div>
+                          <div class="text-xs lg:text-sm text-white/70">Logo</div>
                         </div>
                       </div>
                     `;
                   }}
                 />
               </div>
-              
             </div>
 
-            
+            {/* Contact Info - Updated for larger screens */}
+            <div className="space-y-4">
+              <h3 className="text-white font-bold text-lg lg:text-xl mb-3 lg:mb-4">Get in Touch</h3>
+              
+              <div className="space-y-3 lg:space-y-4">
+                <div className="flex items-center space-x-3 lg:space-x-4 text-white/80 group hover:text-white transition-colors duration-200">
+                  <div className="relative flex-shrink-0">
+                    <BsFillTelephoneFill className="text-holiday-gold group-hover:text-holiday-gold-light text-base lg:text-lg" />
+                    <div className="absolute -inset-1 bg-holiday-gold/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                  <div>
+                    <span className="text-sm lg:text-base group-hover:translate-x-1 transition-transform duration-200 block">(555) 123-4567</span>
+                    <span className="text-xs lg:text-sm text-white/60">Mon-Fri: 8AM-6PM</span>
+                  </div>
+                </div>
+                
+                <div className="flex items-center space-x-3 lg:space-x-4 text-white/80 group hover:text-white transition-colors duration-200">
+                  <div className="relative flex-shrink-0">
+                    <FaEnvelope className="text-holiday-red group-hover:text-holiday-red-light text-base lg:text-lg" />
+                    <div className="absolute -inset-1 bg-holiday-red/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                  <div>
+                    <span className="text-sm lg:text-base group-hover:translate-x-1 transition-transform duration-200 block">info@luminousholiday.com</span>
+                    <span className="text-xs lg:text-sm text-white/60">24/7 Support</span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-            {/* Social Media */}
-            <div className="pt-2 sm:pt-4">
-              <h4 className="text-white font-semibold text-sm sm:text-base mb-2 sm:mb-3">Follow Us</h4>
-              <div className="flex flex-wrap gap-1.5 sm:gap-2">
+            {/* Social Media - Updated for larger screens */}
+            <div className="pt-2">
+              <h4 className="text-white font-semibold text-base lg:text-lg mb-3 lg:mb-4">Follow Our Journey</h4>
+              <div className="flex flex-wrap gap-2 lg:gap-3">
                 {socialIcons.map((social) => (
                   <a
                     key={social.key}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg border border-holiday-gold/30 bg-dark-navy/50 backdrop-blur-sm text-holiday-gold hover:bg-gradient-to-r hover:from-holiday-red hover:via-holiday-gold hover:to-holiday-red hover:text-dark-navy transition-all duration-300 flex items-center justify-center hover:scale-105 hover:shadow-lg hover:shadow-holiday-gold/20 text-sm sm:text-lg"
+                    className="w-10 h-10 lg:w-12 lg:h-12 rounded-lg border border-holiday-gold/30 bg-dark-navy/50 backdrop-blur-sm text-holiday-gold hover:bg-gradient-to-r hover:from-holiday-red hover:via-holiday-gold hover:to-holiday-red hover:text-dark-navy transition-all duration-300 flex items-center justify-center hover:scale-110 hover:shadow-lg hover:shadow-holiday-gold/20 text-lg lg:text-xl"
                     aria-label={social.label}
                   >
                     <span>{social.icon}</span>
@@ -143,42 +170,24 @@ const Footer = () => {
                 ))}
               </div>
             </div>
-
-            {/* Quick Contact */}
-            <div className="pt-2 sm:pt-4 space-y-2 sm:space-y-3">
-              <div className="flex items-center space-x-2 sm:space-x-3 text-white/80 group hover:text-white transition-colors duration-200">
-                <div className="relative">
-                  <BsFillTelephoneFill className="text-holiday-gold group-hover:text-holiday-gold-light text-sm sm:text-base" />
-                  <div className="absolute -inset-1 bg-holiday-gold/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                <span className="text-xs sm:text-sm group-hover:translate-x-1 transition-transform duration-200 truncate">(555) 123-4567</span>
-              </div>
-              <div className="flex items-center space-x-2 sm:space-x-3 text-white/80 group hover:text-white transition-colors duration-200">
-                <div className="relative">
-                  <FaEnvelope className="text-holiday-red group-hover:text-holiday-red-light text-sm sm:text-base" />
-                  <div className="absolute -inset-1 bg-holiday-red/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
-                <span className="text-xs sm:text-sm group-hover:translate-x-1 transition-transform duration-200 truncate">info@luminousholiday.com</span>
-              </div>
-            </div>
           </div>
 
-          {/* Links Columns - Responsive grid */}
-          <div className="lg:col-span-5 grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+          {/* Links Columns - Updated grid with better spacing */}
+          <div className="lg:col-span-5 xl:col-span-5 grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8 xl:gap-10">
             {Object.entries(footerLinks).map(([category, links]) => (
               <div key={`category-${category}`}>
-                <h4 className="text-white font-semibold text-base sm:text-lg mb-3 sm:mb-4 pb-2 border-b border-holiday-gold/20 relative">
+                <h4 className="text-white font-semibold text-lg lg:text-xl mb-4 lg:mb-6 pb-3 border-b border-holiday-gold/20 relative">
                   {category}
-                  <div className="absolute bottom-0 left-0 w-6 sm:w-8 h-0.5 bg-gradient-to-r from-holiday-red to-holiday-gold"></div>
+                  <div className="absolute bottom-0 left-0 w-10 lg:w-12 h-0.5 bg-gradient-to-r from-holiday-red to-holiday-gold"></div>
                 </h4>
-                <ul className="space-y-1.5 sm:space-y-2.5">
+                <ul className="space-y-2.5 lg:space-y-3.5">
                   {links.map((link) => (
                     <li key={`link-${link.label}`}>
                       <Link
                         href={link.href}  
-                        className="text-white/70 hover:text-holiday-gold transition-all duration-200 flex items-center group text-xs sm:text-sm hover:pl-0.5 sm:hover:pl-1"
+                        className="text-white/70 hover:text-holiday-gold transition-all duration-200 flex items-center group text-sm lg:text-base hover:pl-2"
                       >
-                        <span className="w-1.5 sm:w-2 h-0.5 bg-gradient-to-r from-holiday-red to-holiday-gold opacity-0 group-hover:opacity-100 mr-1.5 sm:mr-2 transition-all duration-200 transform group-hover:scale-125"></span>
+                        <span className="w-2 h-0.5 bg-gradient-to-r from-holiday-red to-holiday-gold opacity-0 group-hover:opacity-100 mr-2 lg:mr-3 transition-all duration-200 transform group-hover:scale-125"></span>
                         {link.label}
                       </Link>
                     </li>
@@ -188,14 +197,14 @@ const Footer = () => {
             ))}
           </div>
 
-          {/* Map Column */}
-          <div className="lg:col-span-3">
-            <h4 className="text-white font-semibold text-base sm:text-lg mb-3 sm:mb-4 pb-2 border-b border-holiday-gold/20 relative">
+          {/* Map Column - Updated for larger screens */}
+          <div className="lg:col-span-3 xl:col-span-3">
+            <h4 className="text-white font-semibold text-lg lg:text-xl mb-4 lg:mb-6 pb-3 border-b border-holiday-gold/20 relative">
               Our Location
-              <div className="absolute bottom-0 left-0 w-6 sm:w-8 h-0.5 bg-gradient-to-r from-holiday-gold to-holiday-red"></div>
+              <div className="absolute bottom-0 left-0 w-10 lg:w-12 h-0.5 bg-gradient-to-r from-holiday-gold to-holiday-red"></div>
             </h4>
-            <div className="bg-dark-navy/60 backdrop-blur-sm rounded-lg sm:rounded-xl overflow-hidden border border-holiday-gold/20 hover:border-holiday-red/40 transition-all duration-300 group shadow-lg">
-              <div className="relative h-40 sm:h-48 overflow-hidden">
+            <div className="bg-dark-navy/60 backdrop-blur-sm rounded-xl overflow-hidden border border-holiday-gold/20 hover:border-holiday-red/40 transition-all duration-300 group shadow-xl">
+              <div className="relative h-48 lg:h-56 xl:h-64 overflow-hidden">
                 <img 
                   src="/images/map.jpg" 
                   alt="Luminous Holiday Location Map"
@@ -203,57 +212,57 @@ const Footer = () => {
                   onError={(e) => {
                     const target = e.target;
                     target.onerror = null;
-                    target.src = "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80";
+                    target.src = "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80";
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/80 via-dark-navy/30 to-transparent"></div>
-                <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 right-2 sm:right-3">
-                  <div className="flex items-center space-x-2 text-white bg-dark-navy/80 backdrop-blur-sm rounded-lg p-2 sm:p-3 border border-holiday-gold/20">
+                <div className="absolute bottom-4 left-4 right-4">
+                  <div className="flex items-center space-x-3 text-white bg-dark-navy/80 backdrop-blur-sm rounded-lg p-3 lg:p-4 border border-holiday-gold/20">
                     <div className="relative flex-shrink-0">
-                      <FaMapMarkerAlt className="text-holiday-gold text-sm sm:text-base" />
+                      <FaMapMarkerAlt className="text-holiday-gold text-base lg:text-lg" />
                       <div className="absolute -inset-1 bg-holiday-gold/10 rounded-full animate-ping opacity-20"></div>
                     </div>
                     <div className="min-w-0">
-                      <p className="font-medium text-xs sm:text-sm truncate">123 Holiday Lane</p>
-                      <p className="text-white/70 text-xs truncate">North Pole, 12345</p>
+                      <p className="font-medium text-sm lg:text-base truncate">123 Holiday Lane</p>
+                      <p className="text-white/70 text-xs lg:text-sm truncate">North Pole, 12345</p>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="p-3 sm:p-4">
-                <p className="text-white/80 text-xs sm:text-sm">
-                  Serving the greater metropolitan area with professional holiday lighting services.
+              <div className="p-4 lg:p-6">
+                <p className="text-white/80 text-sm lg:text-base leading-relaxed">
+                  Serving the greater metropolitan area with professional holiday lighting installation & design.
                 </p>
                 <a 
                   href="https://maps.google.com/?q=123+Holiday+Lane+North+Pole"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center mt-2 sm:mt-3 text-holiday-gold hover:text-holiday-gold-light text-xs sm:text-sm font-medium group"
+                  className="inline-flex items-center mt-4 text-holiday-gold hover:text-holiday-gold-light text-sm lg:text-base font-medium group"
                 >
                   <span className="relative">
                     Get Directions
                     <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-gradient-to-r from-holiday-gold to-holiday-red group-hover:w-full transition-all duration-300"></span>
                   </span>
-                  <span className="ml-1.5 sm:ml-2 group-hover:translate-x-1 transition-transform duration-200 transform group-hover:scale-125 text-xs sm:text-sm">→</span>
+                  <span className="ml-2 group-hover:translate-x-2 transition-transform duration-200 transform group-hover:scale-125 text-base">→</span>
                 </a>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Bar - Enhanced for mobile */}
-        <div className="pt-6 sm:pt-8 border-t border-holiday-red/20">
-          <div className="flex flex-col xs:flex-row justify-between items-center space-y-3 xs:space-y-0">
-            <div className="text-center xs:text-left">
-              <p className="text-white/60 text-xs sm:text-sm">
+        {/* Bottom Bar - Enhanced for all screens */}
+        <div className="pt-8 lg:pt-12 border-t border-holiday-red/20">
+          <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
+            <div className="text-center lg:text-left">
+              <p className="text-white/60 text-sm lg:text-base">
                 © {currentYear} Luminous Holiday Lighting. All rights reserved.
               </p>
-              <p className="text-white/40 text-xs mt-0.5">
+              <p className="text-white/40 text-xs lg:text-sm mt-1 lg:mt-2">
                 Professional holiday lighting installation & design services
               </p>
             </div>
             
-            <div className="flex flex-wrap justify-center xs:justify-end items-center gap-3 sm:gap-6 text-xs sm:text-sm">
+            <div className="flex flex-wrap justify-center lg:justify-end items-center gap-4 lg:gap-6 text-sm lg:text-base">
               <Link 
                 href="/privacy"  
                 className="text-white/60 hover:text-holiday-gold transition-all duration-200 hover:scale-105 whitespace-nowrap"
@@ -274,6 +283,13 @@ const Footer = () => {
               </Link>
             </div>
           </div>
+          
+          {/* Additional Info for Larger Screens */}
+          <div className="mt-6 lg:mt-8 text-center">
+            <p className="text-white/40 text-xs lg:text-sm">
+              Licensed • Insured • Professional Installers • Free Estimates Available
+            </p>
+          </div>
         </div>
       </div>
 
@@ -283,48 +299,27 @@ const Footer = () => {
           50% { opacity: 1; transform: scale(1.2); }
         }
         
-        /* Responsive text sizes for ultra-small screens */
-        @media (max-width: 360px) {
-          .container {
-            padding-left: 0.75rem !important;
-            padding-right: 0.75rem !important;
-          }
-          
-          .text-xs {
-            font-size: 0.65rem !important;
-            line-height: 0.9rem !important;
-          }
-          
-          .text-sm {
-            font-size: 0.75rem !important;
-            line-height: 1rem !important;
+        /* Responsive improvements for ultra-large screens */
+        @media (min-width: 1536px) {
+          .max-w-7xl {
+            max-width: 80rem !important;
           }
         }
         
-        @media (max-width: 300px) {
-          .container {
-            padding-left: 0.5rem !important;
-            padding-right: 0.5rem !important;
+        @media (min-width: 1920px) {
+          .max-w-7xl {
+            max-width: 90rem !important;
           }
-          
-          .text-xs {
-            font-size: 0.6rem !important;
-            line-height: 0.8rem !important;
-          }
-          
-          .grid-cols-1 {
-            grid-template-columns: 1fr !important;
-          }
-        }
-        
-        /* Add subtle glow to interactive elements */
-        a:hover, button:hover {
-          filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.2));
         }
         
         /* Smooth transitions */
         * {
           transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Add subtle glow to interactive elements */
+        a:hover, button:hover {
+          filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.2));
         }
       `}</style>
     </footer>

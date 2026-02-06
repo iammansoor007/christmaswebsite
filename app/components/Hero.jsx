@@ -1,8 +1,5 @@
 'use client'
-import React, { useRef } from 'react';
-import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useState, useEffect } from 'react';
 import { 
   FaCheckCircle,
   FaPhoneAlt,
@@ -10,207 +7,19 @@ import {
   FaGem
 } from 'react-icons/fa';
 import { GiSparkles, GiStarFormation } from 'react-icons/gi';
-
 import AnimatedLights from './AnimatedLights';
 import staticData from '../../public/data.json';
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
-
 const Hero = () => {
-  const heroRef = useRef(null);
-  const treeImageRef = useRef(null);
-  const contentRef = useRef(null);
-  const ctaRef = useRef(null);
-  const [isMounted, setIsMounted] = React.useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const { hero } = staticData;
 
-  React.useEffect(() => {
+  useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  const { hero } = staticData;
-
-  // GSAP animations
-  useGSAP(() => {
-    if (!isMounted) return;
-    
-    const mm = gsap.matchMedia();
-    
-    mm.add({
-      "(min-width: 768px)": () => {
-        gsap.set([treeImageRef.current, contentRef.current, ctaRef.current], {
-          willChange: 'transform, opacity'
-        });
-
-        const tl = gsap.timeline({
-          defaults: { 
-            ease: 'power3.out',
-            duration: 1.2
-          }
-        });
-
-        tl.from(contentRef.current, {
-          x: -60,
-          opacity: 0,
-          duration: 1.4,
-        })
-        .from(treeImageRef.current, {
-          x: 60,
-          opacity: 0,
-          scale: 0.85,
-          rotationY: 5,
-          duration: 1.4,
-        }, '-=1')
-        .from('.hero-title span', {
-          y: 50,
-          opacity: 0,
-          stagger: 0.2,
-          duration: 1,
-        }, '-=0.8')
-        .from('.hero-subtitle', {
-          y: 30,
-          opacity: 0,
-          duration: 0.9,
-        }, '-=0.6')
-        .from('.hero-features li', {
-          x: -25,
-          opacity: 0,
-          stagger: 0.15,
-          duration: 0.7,
-        }, '-=0.5')
-        .from('.hero-badge', {
-          scale: 0,
-          opacity: 0,
-          rotation: -10,
-          duration: 0.8,
-        }, '-=0.4')
-        .from('.cta-container', {
-          y: 25,
-          opacity: 0,
-          duration: 0.9,
-        }, '-=0.3')
-        .from('.hero-stats > *', {
-          y: 20,
-          opacity: 0,
-          stagger: 0.12,
-          duration: 0.6,
-        }, '-=0.2');
-
-        if (treeImageRef.current) {
-          gsap.to(treeImageRef.current, {
-            y: -25,
-            duration: 3.5,
-            repeat: -1,
-            yoyo: true,
-            ease: 'sine.inOut',
-          });
-        }
-
-        ScrollTrigger.create({
-          trigger: heroRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.2,
-          onUpdate: (self) => {
-            const progress = self.progress;
-            
-            if (treeImageRef.current) {
-              gsap.to(treeImageRef.current, {
-                y: -progress * 25,
-                scale: 1 - progress * 0.04,
-                rotationY: progress * 2,
-                duration: 0.1,
-              });
-            }
-            
-            if (contentRef.current) {
-              gsap.to(contentRef.current, {
-                y: -progress * 15,
-                duration: 0.1,
-              });
-            }
-          },
-        });
-      }
-    });
-
-    // Mobile animations
-    mm.add("(max-width: 767px)", () => {
-      const tl = gsap.timeline({
-        defaults: { 
-          ease: 'power3.out',
-          duration: 0.9
-        }
-      });
-
-      tl.from('.hero-badge', {
-        y: 20,
-        opacity: 0,
-        duration: 0.8,
-      })
-      .from('.hero-title span', {
-        y: 30,
-        opacity: 0,
-        stagger: 0.15,
-        duration: 0.9,
-      }, '-=0.4')
-      .from('.hero-subtitle', {
-        y: 25,
-        opacity: 0,
-        duration: 0.8,
-      }, '-=0.3')
-      .from('.hero-features li', {
-        y: 20,
-        opacity: 0,
-        stagger: 0.1,
-        duration: 0.6,
-      }, '-=0.2')
-      .from('.cta-container', {
-        y: 25,
-        opacity: 0,
-        duration: 0.9,
-      }, '-=0.3')
-      .from('.hero-image', {
-        y: 40,
-        opacity: 0,
-        scale: 0.92,
-        duration: 1,
-      }, '-=0.4');
-    });
-
-    if (ctaRef.current) {
-      gsap.to(ctaRef.current, {
-        scale: 1.04,
-        duration: 2.2,
-        repeat: -1,
-        yoyo: true,
-        ease: 'power2.inOut',
-      });
-      
-      gsap.to('.cta-glow', {
-        opacity: 0.6,
-        scale: 1.1,
-        duration: 1.5,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-      });
-    }
-
-    gsap.to('.floating-sparkle', {
-      rotation: 360,
-      duration: 8,
-      repeat: -1,
-      ease: 'none',
-    });
-
-    return () => mm.revert();
-  }, { scope: heroRef, dependencies: [isMounted] });
-
   return (
-    <section
-      ref={heroRef}
-      className="relative min-h-[85vh] sm:min-h-screen flex items-center overflow-hidden px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-0"
-    >
+    <section className="relative min-h-[85vh] sm:min-h-screen flex items-center overflow-hidden px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-0">
       {/* Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <div 
@@ -236,9 +45,9 @@ const Hero = () => {
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 md:gap-12 lg:gap-16">
           
           {/* Left Content */}
-          <div ref={contentRef} className="hero-content w-full lg:w-1/2 text-center lg:text-left sm:flex sm:flex-col lg:flex-col sm:item-center sm:aligm-center flex flex-col items-center justify-center">
+          <div className="hero-content w-full lg:w-1/2 text-center lg:text-left sm:flex sm:flex-col lg:flex-col sm:item-center sm:aligm-center flex flex-col items-center justify-center animate-fade-in-left">
             {/* Badge */}
-            <div className="hero-badge inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-red-500/25 via-yellow-400/25 to-red-500/25 backdrop-blur-lg rounded-full border border-yellow-400/30 shadow-lg mb-4 sm:mb-6 mx-auto lg:mx-0 max-w-max overflow-hidden group">
+            <div className="hero-badge inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-red-500/25 via-yellow-400/25 to-red-500/25 backdrop-blur-lg rounded-full border border-yellow-400/30 shadow-lg mb-4 sm:mb-6 mx-auto lg:mx-0 max-w-max overflow-hidden group animate-slide-down">
               <GiSparkles className="text-sm sm:text-base text-yellow-300 animate-pulse" />
               <span className="text-white font-semibold text-xs sm:text-sm tracking-wider whitespace-nowrap">
                 {hero.badge.text}
@@ -247,10 +56,10 @@ const Hero = () => {
 
             {/* Title */}
             <h1 className="hero-title text-5xl xs:text-5xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 sm:mb-4 md:mb-5 leading-tight">
-              <span className="block bg-gradient-to-r from-white via-white to-white/90 bg-clip-text text-transparent">
+              <span className="block bg-gradient-to-r from-white via-white to-white/90 bg-clip-text text-transparent animate-fade-in-up">
                 {hero.title.part1}
               </span>
-              <span className="block mt-1 sm:mt-2">
+              <span className="block mt-1 sm:mt-2 animate-fade-in-up animation-delay-100">
                 <span className="relative inline-block">
                   <span className="relative z-10 bg-gradient-to-r from-yellow-400 via-yellow-300 to-red-400 bg-clip-text text-transparent animate-gradient">
                     {hero.title.part2}
@@ -261,16 +70,16 @@ const Hero = () => {
             </h1>
 
             {/* Subtitle */}
-            <p className="hero-subtitle text-sm xs:text-base sm:text-lg text-white/85 mb-5 sm:mb-7 leading-relaxed font-light max-w-full sm:max-w-md mx-auto lg:mx-0 px-1">
+            <p className="hero-subtitle text-sm xs:text-base sm:text-lg text-white/85 mb-5 sm:mb-7 leading-relaxed font-light max-w-full sm:max-w-md mx-auto lg:mx-0 px-1 animate-fade-in-up animation-delay-200">
               {hero.subtitle}
             </p>
 
-            {/* Features List - FIXED FOR MOBILE */}
+            {/* Features List */}
             <ul className="hero-features space-y-2.5 sm:space-y-3 mb-6 sm:mb-8">
               {hero.features.map((feature, index) => (
                 <li 
                   key={index} 
-                  className="flex items-start justify-center lg:justify-start gap-2.5 sm:gap-3 text-white/90 text-xs xs:text-sm sm:text-base group px-1"
+                  className={`flex items-start justify-center lg:justify-start gap-2.5 sm:gap-3 text-white/90 text-xs xs:text-sm sm:text-base group px-1 animate-fade-in-left animation-delay-${300 + (index * 100)}`}
                 >
                   <div className="flex-shrink-0 mt-0.5 sm:mt-0">
                     <FaCheckCircle className="text-green-400 text-sm sm:text-base group-hover:scale-110 transition-transform duration-300" />
@@ -280,16 +89,16 @@ const Hero = () => {
               ))}
             </ul>
 
-            {/* CTA Button - FIXED SIZE FOR ALL SCREENS */}
-            <div ref={ctaRef} className="cta-container w-72  flex justify-center lg:justify-start">
+            {/* CTA Button - FIXED ANIMATION */}
+            <div className="cta-container w-72 flex justify-center lg:justify-start animate-scale-in animation-delay-700">
               <div className="relative group w-full max-w-xs sm:max-w-sm md:max-w-md">
-                <div className="absolute -inset-2 sm:-inset-3 bg-gradient-to-r from-emerald-500/20 via-green-500/20 to-emerald-500/20 rounded-xl sm:rounded-2xl blur-lg sm:blur-xl opacity-70 cta-glow transition-all duration-500 group-hover:opacity-90" />
+                <div className="absolute -inset-2 sm:-inset-3 bg-gradient-to-r from-emerald-500/20 via-green-500/20 to-emerald-500/20 rounded-xl sm:rounded-2xl blur-lg sm:blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-500" />
                 
                 <a
                   href={`tel:${hero.cta.phone.replace(/[^0-9]/g, '')}`}
-                  className="relative flex items-center justify-between gap-2 sm:gap-3 bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-600 hover:from-emerald-500 hover:via-green-500 hover:to-emerald-500 text-white font-bold rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-emerald-400/50 backdrop-blur-sm px-3 sm:px-4 py-2.5 sm:py-3.5 w-full overflow-hidden"
+                  className="relative flex items-center justify-between gap-2 sm:gap-3 bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-600 hover:from-emerald-500 hover:via-green-500 hover:to-emerald-500 text-white font-bold rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-emerald-400/50 backdrop-blur-sm px-3 sm:px-4 py-2.5 sm:py-3.5 w-full overflow-hidden hover-lift"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                   
                   <FaPhoneAlt className="text-base sm:text-lg relative z-10 flex-shrink-0" />
                   <div className="text-center relative z-10 flex-1 min-w-0 px-1 sm:px-2">
@@ -308,13 +117,12 @@ const Hero = () => {
 
           {/* Right Image */}
           <div className="hero-image w-full lg:w-1/2 relative mt-6 sm:mt-8 lg:mt-0">
-            <div className="relative max-w-xs sm:max-w-sm md:max-w-md mx-auto lg:mx-0 lg:max-w-none">
+            <div className="relative max-w-xs sm:max-w-sm md:max-w-md mx-auto lg:mx-0 lg:max-w-none animate-fade-in-right">
               <div className="absolute -inset-3 sm:-inset-4 md:-inset-5 rounded-xl sm:rounded-2xl overflow-hidden pointer-events-none">
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 via-red-300/20 to-yellow-400/30 blur-lg sm:blur-xl opacity-50 animate-pulse"></div>
               </div>
               
               <div 
-                ref={treeImageRef}
                 className="relative rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-lg sm:shadow-2xl border border-white/20 backdrop-blur-sm group cursor-pointer"
                 style={{
                   background: 'linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.05) 100%)',
@@ -324,12 +132,12 @@ const Hero = () => {
                   <img 
                     src="/images/rightimage.jpg" 
                     alt="Beautiful Christmas Tree with professional holiday lighting"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="eager"
                   />
                 </div>
 
-                <div className="absolute bottom-3 sm:bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-yellow-400/90 via-yellow-400/80 to-red-500/90 text-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-lg backdrop-blur-md border border-white/30 whitespace-nowrap group-hover:scale-105 transition-transform duration-300">
+                <div className="absolute bottom-3 sm:bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-yellow-400/90 via-yellow-400/80 to-red-500/90 text-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-lg backdrop-blur-md border border-white/30 whitespace-nowrap group-hover:scale-105 transition-transform duration-300 animate-slide-up">
                   <span className="font-bold text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2">
                     <FaGem className="text-xs sm:text-sm" />
                     <span>{hero.imageBadge}</span>
@@ -343,10 +151,10 @@ const Hero = () => {
       </div>
 
       {/* Mobile Floating CTA */}
-      <div className="fixed bottom-4 right-4 z-50 lg:hidden">
+      <div className="fixed bottom-4 right-4 z-50 lg:hidden animate-bounce-slow">
         <a
           href={`tel:${hero.cta.phone.replace(/[^0-9]/g, '')}`}
-          className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-full shadow-lg animate-bounce border border-emerald-400/50 backdrop-blur-sm relative overflow-hidden group"
+          className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-full shadow-lg border border-emerald-400/50 backdrop-blur-sm relative overflow-hidden group pulse-button"
           aria-label="Call for quote"
         >
           <FaPhoneAlt className="text-lg" />
@@ -355,15 +163,204 @@ const Hero = () => {
       </div>
 
       <style jsx global>{`
-        /* Gradient animation for title */
+        /* Animation keyframes - Clean and professional */
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes fadeInLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        
+        @keyframes fadeInRight {
+          from {
+            opacity: 0;
+            transform: translateX(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+        
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-15px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes slideUp {
+          from {
+            opacity: 0;
+            transform: translateY(15px) translateX(-50%);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) translateX(-50%);
+          }
+        }
+        
+        @keyframes scaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.9);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        
+        @keyframes bounceSlow {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-5px);
+          }
+        }
+        
+        @keyframes pulseSoft {
+          0%, 100% {
+            box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4);
+          }
+          50% {
+            box-shadow: 0 0 0 10px rgba(52, 211, 153, 0);
+          }
+        }
+        
         @keyframes gradient {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
+          0%, 100% { 
+            background-position: 0% 50%; 
+          }
+          50% { 
+            background-position: 100% 50%; 
+          }
+        }
+        
+        /* Animation classes */
+        .animate-fade-in-up {
+          animation: fadeInUp 0.6s ease-out forwards;
+          opacity: 0;
+        }
+        
+        .animate-fade-in-left {
+          animation: fadeInLeft 0.6s ease-out forwards;
+          opacity: 0;
+        }
+        
+        .animate-fade-in-right {
+          animation: fadeInRight 0.6s ease-out forwards;
+          opacity: 0;
+        }
+        
+        .animate-slide-down {
+          animation: slideDown 0.5s ease-out forwards;
+          opacity: 0;
+        }
+        
+        .animate-slide-up {
+          animation: slideUp 0.5s ease-out 0.3s forwards;
+          opacity: 0;
+        }
+        
+        .animate-scale-in {
+          animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+          opacity: 0;
+        }
+        
+        .animate-bounce-slow {
+          animation: bounceSlow 2s ease-in-out infinite;
         }
         
         .animate-gradient {
           background-size: 200% 200%;
           animation: gradient 3s ease-in-out infinite;
+        }
+        
+        /* Animation delays */
+        .animation-delay-100 {
+          animation-delay: 100ms;
+        }
+        
+        .animation-delay-200 {
+          animation-delay: 200ms;
+        }
+        
+        .animation-delay-300 {
+          animation-delay: 300ms;
+        }
+        
+        .animation-delay-400 {
+          animation-delay: 400ms;
+        }
+        
+        .animation-delay-500 {
+          animation-delay: 500ms;
+        }
+        
+        .animation-delay-600 {
+          animation-delay: 600ms;
+        }
+        
+        .animation-delay-700 {
+          animation-delay: 700ms;
+        }
+        
+        /* CTA specific animations */
+        .hover-lift {
+          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .hover-lift:hover {
+          transform: translateY(-3px);
+        }
+        
+        .pulse-button {
+          animation: pulseSoft 2s infinite;
+        }
+        
+        /* Stagger animation for list items */
+        .hero-features li:nth-child(1) { animation-delay: 300ms; }
+        .hero-features li:nth-child(2) { animation-delay: 400ms; }
+        .hero-features li:nth-child(3) { animation-delay: 500ms; }
+        .hero-features li:nth-child(4) { animation-delay: 600ms; }
+
+        /* Mobile animations */
+        @media (max-width: 767px) {
+          .hero-content {
+            animation: fadeInUp 0.6s ease-out forwards;
+            opacity: 0;
+          }
+          
+          .hero-image {
+            animation: fadeInUp 0.6s ease-out 0.2s forwards;
+            opacity: 0;
+          }
+          
+          .cta-container {
+            animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s forwards;
+            opacity: 0;
+          }
         }
 
         /* Extra small screens (below 375px) */
@@ -529,6 +526,10 @@ const Hero = () => {
           .group-hover\\:scale-105,
           .group-hover\\:translate-x-1,
           .group-hover\\:translate-x-\\[100\\%\\] {
+            transform: none !important;
+          }
+          
+          .hover-lift:hover {
             transform: none !important;
           }
         }

@@ -51,6 +51,47 @@
       "prefix": "Professional"
     },
     "subtitle": "Transform your property with premium, energy-efficient lighting",
+    "features": [
+      {
+        "title": "Warrantied Product & Service",
+        "description": "Full coverage on all materials and installation work",
+        "icon": "FaShieldAlt",
+        "color": "#E63946"
+      },
+      {
+        "title": "48-Hour Maintenance",
+        "description": "Free maintenance within 48 hours of installation",
+        "icon": "FaTools",
+        "color": "#F4A261"
+      },
+      {
+        "title": "Professional Installation",
+        "description": "Licensed, insured, certified technicians",
+        "icon": "FaCheckCircle",
+        "color": "#2A9D8F"
+      }
+    ],
+    "trustIndicators": {
+      "homesCount": "500+",
+      "rating": "4.9/5",
+      "reviewsCount": "248 reviews"
+    },
+    "infoCard": {
+      "title": "Premium Maintenance Guarantee",
+      "description": "48-hour response for maintenance. Your display stays perfect all season."
+    },
+    "buttons": {
+      "primary": "Get Quote",
+      "secondary": "View Gallery"
+    },
+    "colors": {
+      "primaryRed": "#E63946",
+      "primaryGold": "#F4A261",
+      "primaryEmerald": "#2A9D8F",
+      "primaryNavy": "#1D3557",
+      "gradient": "linear-gradient(135deg, #E63946 0%, #F4A261 50%, #2A9D8F 100%)",
+      "background": "linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%)"
+    },
     "items": [
       {
         "number": "01",

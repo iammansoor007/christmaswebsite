@@ -455,7 +455,7 @@ export default function VanMapSection() {
             className="relative"
           >
             <img
-              src="/images/car.png"
+              src="/images/car2.png"
               alt="Service Vehicle"
               className="relative h-[250px] xs:h-[280px] sm:h-[300px] md:h-[340px] lg:h-[380px] xl:h-[420px] w-auto"
               style={{

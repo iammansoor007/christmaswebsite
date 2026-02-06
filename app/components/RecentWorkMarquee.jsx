@@ -10,7 +10,21 @@ const RefinedWorkShowcase = () => {
   
   // Get data
   const showcaseData = getWorkShowcaseData();
-  const { badge, title, description, cta, images } = showcaseData;
+  const { badge, title, description, cta } = showcaseData;
+  
+  // Real images from public/images directory
+  const images = [
+    '/images/demo1.jpeg',
+    '/images/demo2.jpeg',
+    '/images/demo3.jpeg',
+    '/images/demo4.jpeg',
+    '/images/demo5.jpeg',
+    '/images/demo6.jpeg',
+    '/images/demo7.jpeg',
+    '/images/demo8.jpeg',
+    '/images/demo9.jpeg',
+    '/images/demo10.jpeg'
+  ];
   
   // For infinite scroll, duplicate images multiple times
   const duplicatedImages = [...images, ...images, ...images, ...images];
@@ -90,6 +104,11 @@ const RefinedWorkShowcase = () => {
                     alt={`Christmas Installation ${index + 1}`}
                     className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 brightness-100 group-hover:brightness-125 saturate-125 group-hover:saturate-200 contrast-105 group-hover:contrast-125"
                     loading="lazy"
+                    onError={(e) => {
+                      // Fallback image in case the demo image doesn't exist
+                      e.target.onerror = null;
+                      e.target.src = `https://images.unsplash.com/photo-1575425187336-d5ec5d0a1451?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&h=600`;
+                    }}
                   />
                   
                   {/* GLOWING OVERLAY on Hover */}
@@ -132,6 +151,11 @@ const RefinedWorkShowcase = () => {
                     alt={`Christmas Installation ${index + 7}`}
                     className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 brightness-100 group-hover:brightness-125 saturate-125 group-hover:saturate-200 contrast-105 group-hover:contrast-125"
                     loading="lazy"
+                    onError={(e) => {
+                      // Fallback image in case the demo image doesn't exist
+                      e.target.onerror = null;
+                      e.target.src = `https://images.unsplash.com/photo-1575425187336-d5ec5d0a1451?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&h=600`;
+                    }}
                   />
                   
                   {/* GLOWING OVERLAY on Hover */}
