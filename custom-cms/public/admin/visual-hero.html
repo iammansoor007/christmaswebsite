@@ -1,0 +1,1589 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visual Hero Editor - Drag & Drop + Image Upload</title>
+
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+    />
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Dragula CSS -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --primary: #4361ee;
+        --secondary: #3a0ca3;
+        --success: #4cc9f0;
+        --danger: #f72585;
+        --warning: #f8961e;
+        --light: #f8f9fa;
+        --dark: #212529;
+      }
+
+      body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      }
+
+      .editor-container {
+        min-height: 80vh;
+        margin: 20px 0;
+      }
+
+      .editor-header {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        padding: 25px;
+        border-radius: 15px 15px 0 0;
+        margin-bottom: 0;
+      }
+
+      .editor-header h1 {
+        margin: 0;
+        font-weight: 700;
+        font-size: 2.2rem;
+      }
+
+      .editor-header .lead {
+        opacity: 0.9;
+        margin: 10px 0 0 0;
+      }
+
+      .editor-main {
+        padding: 25px;
+      }
+
+      /* Preview Canvas */
+      .preview-canvas {
+        position: relative;
+        background: #1a1a2e;
+        border-radius: 15px;
+        overflow: hidden;
+        min-height: 600px;
+        border: 3px solid var(--primary);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .canvas-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        opacity: 0.7;
+      }
+
+      .canvas-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          rgba(26, 26, 46, 0.8),
+          rgba(26, 26, 46, 0.9)
+        );
+      }
+
+      /* Draggable Elements */
+      .draggable-element {
+        position: absolute;
+        cursor: move;
+        padding: 15px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(5px);
+        border: 2px dashed rgba(255, 255, 255, 0.3);
+        transition: all 0.3s ease;
+        z-index: 10;
+        min-width: 150px;
+        min-height: 60px;
+      }
+
+      .draggable-element:hover {
+        border-color: var(--success);
+        background: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .draggable-element.selected {
+        border: 2px solid var(--warning) !important;
+        background: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 0 0 3px rgba(248, 150, 30, 0.2);
+      }
+
+      .element-badge {
+        background: linear-gradient(135deg, #f72585, #b5179e);
+        padding: 8px 15px;
+        border-radius: 50px;
+        display: inline-block;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .element-title {
+        font-size: 3rem;
+        font-weight: 800;
+        color: white;
+        margin: 10px 0;
+        line-height: 1.1;
+      }
+
+      .element-subtitle {
+        font-size: 1.3rem;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 10px 0;
+      }
+
+      .element-features {
+        list-style: none;
+        padding: 0;
+        margin: 15px 0;
+      }
+
+      .element-features li {
+        color: rgba(255, 255, 255, 0.9);
+        margin: 8px 0;
+        padding-left: 25px;
+        position: relative;
+      }
+
+      .element-features li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #4cc9f0;
+        font-weight: bold;
+      }
+
+      .element-cta {
+        background: linear-gradient(135deg, #4cc9f0, #4361ee);
+        padding: 15px 25px;
+        border-radius: 10px;
+        color: white;
+        font-weight: 600;
+        display: inline-block;
+      }
+
+      .element-image {
+        border-radius: 10px;
+        overflow: hidden;
+        border: 3px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .element-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Control Panel */
+      .control-panel {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        height: 100%;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .control-section {
+        margin-bottom: 25px;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .control-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .control-section h5 {
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .control-section h5 i {
+        font-size: 1.2rem;
+      }
+
+      /* Resize Handles */
+      .resize-handle {
+        position: absolute;
+        width: 15px;
+        height: 15px;
+        background: var(--warning);
+        border-radius: 50%;
+        cursor: nwse-resize;
+        z-index: 100;
+      }
+
+      .resize-n {
+        top: -7px;
+        left: 50%;
+        transform: translateX(-50%);
+        cursor: n-resize;
+      }
+      .resize-s {
+        bottom: -7px;
+        left: 50%;
+        transform: translateX(-50%);
+        cursor: s-resize;
+      }
+      .resize-e {
+        right: -7px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: e-resize;
+      }
+      .resize-w {
+        left: -7px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: w-resize;
+      }
+      .resize-ne {
+        top: -7px;
+        right: -7px;
+        cursor: ne-resize;
+      }
+      .resize-nw {
+        top: -7px;
+        left: -7px;
+        cursor: nw-resize;
+      }
+      .resize-se {
+        bottom: -7px;
+        right: -7px;
+        cursor: se-resize;
+      }
+      .resize-sw {
+        bottom: -7px;
+        left: -7px;
+        cursor: sw-resize;
+      }
+
+      /* Image Upload Zone */
+      .upload-zone {
+        border: 3px dashed #ddd;
+        border-radius: 10px;
+        padding: 40px 20px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+      }
+
+      .upload-zone:hover {
+        border-color: var(--primary);
+        background: rgba(67, 97, 238, 0.05);
+      }
+
+      .upload-zone.dragover {
+        border-color: var(--success);
+        background: rgba(76, 201, 240, 0.1);
+      }
+
+      .upload-zone i {
+        font-size: 3rem;
+        color: #6c757d;
+        margin-bottom: 15px;
+      }
+
+      .upload-zone:hover i {
+        color: var(--primary);
+      }
+
+      /* Preview Images */
+      .image-preview {
+        position: relative;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-bottom: 15px;
+        border: 2px solid #eee;
+      }
+
+      .image-preview img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+      }
+
+      .image-preview .btn-delete {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        opacity: 0.8;
+      }
+
+      .image-preview .btn-delete:hover {
+        opacity: 1;
+      }
+
+      /* Action Buttons */
+      .btn-action {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 20px;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .btn-save {
+        background: linear-gradient(135deg, var(--primary), var(--secondary));
+        color: white;
+        border: none;
+      }
+
+      .btn-save:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
+        color: white;
+      }
+
+      .btn-reset {
+        background: #f8f9fa;
+        color: var(--dark);
+        border: 2px solid #dee2e6;
+      }
+
+      .btn-reset:hover {
+        background: #e9ecef;
+        color: var(--dark);
+      }
+
+      /* Element Controls */
+      .element-controls {
+        background: white;
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 15px;
+        border: 1px solid #eee;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .element-controls h6 {
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 10px;
+      }
+
+      /* Grid Lines */
+      .grid-line {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.05);
+        pointer-events: none;
+      }
+
+      .grid-line.vertical {
+        width: 1px;
+        height: 100%;
+      }
+
+      .grid-line.horizontal {
+        width: 100%;
+        height: 1px;
+      }
+
+      /* Toast Notifications */
+      .toast-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+      }
+
+      .toast {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        border: none;
+        border-left: 4px solid var(--success);
+      }
+
+      .toast.error {
+        border-left-color: var(--danger);
+      }
+
+      .toast.warning {
+        border-left-color: var(--warning);
+      }
+
+      /* Loading Overlay */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 99999;
+        backdrop-filter: blur(5px);
+      }
+
+      .spinner {
+        width: 60px;
+        height: 60px;
+        border: 5px solid rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        border-top-color: var(--primary);
+        animation: spin 1s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 992px) {
+        .preview-canvas {
+          min-height: 400px;
+        }
+
+        .element-title {
+          font-size: 2rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .editor-main {
+          padding: 15px;
+        }
+
+        .preview-canvas {
+          min-height: 300px;
+        }
+
+        .element-title {
+          font-size: 1.5rem;
+        }
+
+        .element-subtitle {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container"></div>
+
+    <!-- Main Container -->
+    <div class="container-fluid editor-container">
+      <div class="glass-card">
+        <!-- Header -->
+        <div class="editor-header">
+          <div class="d-flex justify-content-between align-items-center">
+            <div>
+              <h1><i class="fas fa-magic me-3"></i>Visual Hero Editor</h1>
+              <p class="lead">
+                Drag, drop, and customize your hero section visually
+              </p>
+            </div>
+            <div>
+              <a href="/admin/hero.html" class="btn btn-light btn-action">
+                <i class="fas fa-arrow-left me-2"></i>Back to Classic Editor
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="editor-main">
+          <div class="row g-4">
+            <!-- Left Panel: Preview Canvas -->
+            <div class="col-lg-8">
+              <div class="preview-canvas" id="previewCanvas">
+                <!-- Background Image -->
+                <div class="canvas-background" id="canvasBackground"></div>
+                <div class="canvas-overlay"></div>
+
+                <!-- Grid Lines -->
+                <div id="gridLines"></div>
+
+                <!-- Draggable Elements will be inserted here -->
+              </div>
+
+              <!-- Quick Actions -->
+              <div class="d-flex gap-2 mt-3">
+                <button
+                  class="btn btn-outline-primary btn-action"
+                  onclick="toggleGrid()"
+                >
+                  <i class="fas fa-th-large"></i> Toggle Grid
+                </button>
+                <button
+                  class="btn btn-outline-primary btn-action"
+                  onclick="resetPositions()"
+                >
+                  <i class="fas fa-redo"></i> Reset Positions
+                </button>
+                <button
+                  class="btn btn-outline-primary btn-action"
+                  onclick="snapToGrid()"
+                >
+                  <i class="fas fa-magnet"></i> Snap to Grid
+                </button>
+                <button
+                  class="btn btn-outline-primary btn-action"
+                  onclick="showAllElements()"
+                >
+                  <i class="fas fa-eye"></i> Show All
+                </button>
+              </div>
+            </div>
+
+            <!-- Right Panel: Controls -->
+            <div class="col-lg-4">
+              <div class="control-panel">
+                <!-- Element Controls -->
+                <div class="control-section">
+                  <h5><i class="fas fa-sliders-h"></i> Selected Element</h5>
+                  <div class="element-controls" id="elementControls">
+                    <p class="text-muted text-center mb-0">
+                      Select an element to edit
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Content Editing -->
+                <div class="control-section">
+                  <h5><i class="fas fa-edit"></i> Content</h5>
+                  <div class="mb-3">
+                    <label class="form-label">Badge Text</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="badgeText"
+                      placeholder="Limited Time Offer"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Title Part 1</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="titlePart1"
+                      placeholder="Illuminate"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Title Part 2</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="titlePart2"
+                      placeholder="Your Holidays"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Subtitle</label>
+                    <textarea
+                      class="form-control"
+                      id="subtitle"
+                      rows="2"
+                      placeholder="Premium Christmas Lighting..."
+                    ></textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Features (one per line)</label>
+                    <textarea
+                      class="form-control"
+                      id="features"
+                      rows="3"
+                      placeholder="Professional Installation\nEnergy Efficient\nCustom Design\nFree Estimates"
+                    ></textarea>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">CTA Text</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="ctaText"
+                        placeholder="Call Now for Free Quote"
+                      />
+                    </div>
+                    <div class="col-md-6 mb-3">
+                      <label class="form-label">Phone Number</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="phoneNumber"
+                        placeholder="(123) 456-7890"
+                      />
+                    </div>
+                  </div>
+                  <button
+                    class="btn btn-primary w-100 btn-action"
+                    onclick="updateContent()"
+                  >
+                    <i class="fas fa-sync-alt"></i> Update Content
+                  </button>
+                </div>
+
+                <!-- Image Upload -->
+                <div class="control-section">
+                  <h5><i class="fas fa-images"></i> Images</h5>
+
+                  <!-- Background Image -->
+                  <div class="mb-4">
+                    <label class="form-label">Background Image</label>
+                    <div
+                      class="upload-zone"
+                      onclick="document.getElementById('bgUpload').click()"
+                      ondragover="handleDragOver(event, 'bg')"
+                      ondrop="handleDrop(event, 'bg')"
+                    >
+                      <i class="fas fa-cloud-upload-alt"></i>
+                      <p class="mb-2">Click or drag to upload</p>
+                      <small class="text-muted">Recommended: 1920x1080px</small>
+                    </div>
+                    <input
+                      type="file"
+                      id="bgUpload"
+                      class="d-none"
+                      accept="image/*"
+                      onchange="handleImageUpload(this, 'background')"
+                    />
+                    <div class="image-preview" id="bgPreview"></div>
+                    <div class="mb-3">
+                      <label class="form-label">Alt Text</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="bgAltText"
+                        placeholder="Christmas Lights Background"
+                      />
+                    </div>
+                  </div>
+
+                  <!-- Side Image -->
+                  <div class="mb-4">
+                    <label class="form-label">Side Image</label>
+                    <div
+                      class="upload-zone"
+                      onclick="document.getElementById('sideUpload').click()"
+                      ondragover="handleDragOver(event, 'side')"
+                      ondrop="handleDrop(event, 'side')"
+                    >
+                      <i class="fas fa-cloud-upload-alt"></i>
+                      <p class="mb-2">Click or drag to upload</p>
+                      <small class="text-muted">Recommended: 600x800px</small>
+                    </div>
+                    <input
+                      type="file"
+                      id="sideUpload"
+                      class="d-none"
+                      accept="image/*"
+                      onchange="handleImageUpload(this, 'side')"
+                    />
+                    <div class="image-preview" id="sidePreview"></div>
+                    <div class="mb-3">
+                      <label class="form-label">Alt Text</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="sideAltText"
+                        placeholder="Beautiful Christmas Tree"
+                      />
+                    </div>
+                    <div class="mb-3">
+                      <label class="form-label">Image Badge</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="imageBadge"
+                        placeholder="Our Premium Work"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Layout Options -->
+                <div class="control-section">
+                  <h5><i class="fas fa-layer-group"></i> Layout</h5>
+                  <div class="btn-group w-100 mb-3" role="group">
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary"
+                      onclick="changeLayout('right-image')"
+                    >
+                      <i class="fas fa-image"></i> Right Image
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary"
+                      onclick="changeLayout('left-image')"
+                    >
+                      <i class="fas fa-image"></i> Left Image
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary"
+                      onclick="changeLayout('centered')"
+                    >
+                      <i class="fas fa-align-center"></i> Centered
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Save Actions -->
+                <div class="control-section">
+                  <h5><i class="fas fa-save"></i> Save & Publish</h5>
+                  <div class="d-grid gap-2">
+                    <button
+                      class="btn btn-save btn-action"
+                      onclick="saveHero()"
+                    >
+                      <i class="fas fa-save"></i> Save Changes
+                    </button>
+                    <button
+                      class="btn btn-success btn-action"
+                      onclick="saveAndPublish()"
+                    >
+                      <i class="fas fa-rocket"></i> Save & Publish
+                    </button>
+                    <button
+                      class="btn btn-reset btn-action"
+                      onclick="loadHeroData()"
+                    >
+                      <i class="fas fa-redo"></i> Reload Data
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.3/dragula.min.js"></script>
+
+    <script>
+      // Global variables
+      let heroData = null;
+      let selectedElement = null;
+      let isGridVisible = true;
+      let gridSize = 20;
+      let elements = {};
+
+      // Initialize when page loads
+      document.addEventListener("DOMContentLoaded", function () {
+        showLoading(true);
+        loadHeroData();
+        createGridLines();
+        setupDragAndDrop();
+      });
+
+      // Show/hide loading overlay
+      function showLoading(show) {
+        document.getElementById("loadingOverlay").style.display = show
+          ? "flex"
+          : "none";
+      }
+
+      // Show toast notification
+      function showToast(message, type = "success") {
+        const container = document.querySelector(".toast-container");
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `
+                <div class="toast-body d-flex justify-content-between align-items-center">
+                    <span>${message}</span>
+                    <button type="button" class="btn-close" onclick="this.parentElement.parentElement.remove()"></button>
+                </div>
+            `;
+        container.appendChild(toast);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+          if (toast.parentNode) toast.remove();
+        }, 5000);
+      }
+
+      // Create grid lines
+      function createGridLines() {
+        const canvas = document.getElementById("previewCanvas");
+        const gridLines = document.getElementById("gridLines");
+        gridLines.innerHTML = "";
+
+        const width = canvas.offsetWidth;
+        const height = canvas.offsetHeight;
+
+        // Vertical lines
+        for (let x = gridSize; x < width; x += gridSize) {
+          const line = document.createElement("div");
+          line.className = "grid-line vertical";
+          line.style.left = `${x}px`;
+          gridLines.appendChild(line);
+        }
+
+        // Horizontal lines
+        for (let y = gridSize; y < height; y += gridSize) {
+          const line = document.createElement("div");
+          line.className = "grid-line horizontal";
+          line.style.top = `${y}px`;
+          gridLines.appendChild(line);
+        }
+
+        // Toggle visibility
+        gridLines.style.display = isGridVisible ? "block" : "none";
+      }
+
+      // Toggle grid visibility
+      function toggleGrid() {
+        isGridVisible = !isGridVisible;
+        document.getElementById("gridLines").style.display = isGridVisible
+          ? "block"
+          : "none";
+        showToast(isGridVisible ? "Grid visible" : "Grid hidden", "info");
+      }
+
+      // Setup drag and drop functionality
+      function setupDragAndDrop() {
+        const container = document.getElementById("previewCanvas");
+
+        // Make elements draggable
+        dragula([container], {
+          moves: function (el, source, handle, sibling) {
+            return handle.classList.contains("draggable-element");
+          },
+        });
+      }
+
+      // Load hero data from API
+      async function loadHeroData() {
+        try {
+          showLoading(true);
+          const response = await fetch("/api/hero");
+          if (!response.ok) throw new Error("Failed to load hero data");
+
+          heroData = await response.json();
+          console.log("Hero data loaded:", heroData);
+
+          // Update form fields
+          updateFormFields();
+
+          // Render elements on canvas
+          renderElements();
+
+          // Show success message
+          showToast("Hero data loaded successfully!");
+        } catch (error) {
+          console.error("Error loading hero data:", error);
+          showToast("Error loading hero data: " + error.message, "error");
+        } finally {
+          showLoading(false);
+        }
+      }
+
+      // Update form fields with loaded data
+      function updateFormFields() {
+        if (!heroData) return;
+
+        document.getElementById("badgeText").value = heroData.badge?.text || "";
+        document.getElementById("titlePart1").value =
+          heroData.title?.part1 || "";
+        document.getElementById("titlePart2").value =
+          heroData.title?.part2 || "";
+        document.getElementById("subtitle").value = heroData.subtitle || "";
+        document.getElementById("features").value =
+          heroData.features?.join("\n") || "";
+        document.getElementById("ctaText").value = heroData.cta?.subtext || "";
+        document.getElementById("phoneNumber").value =
+          heroData.cta?.phone || "";
+        document.getElementById("bgAltText").value =
+          heroData.backgroundImage?.alt || "";
+        document.getElementById("sideAltText").value =
+          heroData.sideImage?.alt || "";
+        document.getElementById("imageBadge").value = heroData.imageBadge || "";
+
+        // Update image previews
+        updateImagePreview("bg", heroData.backgroundImage?.url);
+        updateImagePreview("side", heroData.sideImage?.url);
+      }
+
+      // Update image preview
+      function updateImagePreview(type, url) {
+        const preview = document.getElementById(`${type}Preview`);
+        if (!url) {
+          preview.innerHTML =
+            '<p class="text-muted text-center p-3">No image set</p>';
+          return;
+        }
+
+        preview.innerHTML = `
+                <img src="${url}" alt="Preview" class="img-fluid">
+                <button class="btn btn-danger btn-sm btn-delete" onclick="removeImage('${type}')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            `;
+
+        // Update canvas background
+        if (type === "bg") {
+          document.getElementById("canvasBackground").style.backgroundImage =
+            `url('${url}')`;
+        }
+      }
+
+      // Handle drag over for file upload
+      function handleDragOver(e, type) {
+        e.preventDefault();
+        e.stopPropagation();
+        const zone = e.target.closest(".upload-zone");
+        if (zone) zone.classList.add("dragover");
+      }
+
+      // Handle file drop
+      async function handleDrop(e, type) {
+        e.preventDefault();
+        e.stopPropagation();
+        const zone = e.target.closest(".upload-zone");
+        if (zone) zone.classList.remove("dragover");
+
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+          await uploadImage(files[0], type);
+        }
+      }
+
+      // Handle image upload from file input
+      async function handleImageUpload(input, type) {
+        if (input.files && input.files[0]) {
+          await uploadImage(input.files[0], type);
+        }
+      }
+
+      // Upload image to server
+      async function uploadImage(file, type) {
+        try {
+          showLoading(true);
+
+          const formData = new FormData();
+          formData.append("image", file);
+          formData.append(
+            "field",
+            type === "background" ? "backgroundImage" : "sideImage",
+          );
+          formData.append(
+            "altText",
+            document.getElementById(`${type}AltText`).value || "",
+          );
+
+          const response = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (!response.ok) throw new Error("Upload failed");
+
+          const result = await response.json();
+
+          // Update hero data
+          if (type === "background") {
+            heroData.backgroundImage = {
+              url: result.url,
+              alt:
+                document.getElementById("bgAltText").value ||
+                "Background Image",
+            };
+            updateImagePreview("bg", result.url);
+          } else {
+            heroData.sideImage = {
+              url: result.url,
+              alt: document.getElementById("sideAltText").value || "Side Image",
+            };
+            updateImagePreview("side", result.url);
+          }
+
+          showToast("Image uploaded successfully!");
+        } catch (error) {
+          console.error("Upload error:", error);
+          showToast("Error uploading image: " + error.message, "error");
+        } finally {
+          showLoading(false);
+        }
+      }
+
+      // Remove image
+      async function removeImage(type) {
+        if (!confirm("Are you sure you want to remove this image?")) return;
+
+        try {
+          const imageUrl =
+            type === "bg"
+              ? heroData.backgroundImage?.url
+              : heroData.sideImage?.url;
+
+          if (imageUrl && imageUrl.startsWith("/uploads/")) {
+            const filename = imageUrl.split("/").pop();
+            await fetch(`/api/upload/${filename}`, { method: "DELETE" });
+          }
+
+          // Update hero data
+          if (type === "bg") {
+            heroData.backgroundImage = { url: "", alt: "" };
+            updateImagePreview("bg", "");
+          } else {
+            heroData.sideImage = { url: "", alt: "" };
+            updateImagePreview("side", "");
+          }
+
+          showToast("Image removed successfully");
+        } catch (error) {
+          console.error("Remove error:", error);
+          showToast("Error removing image", "error");
+        }
+      }
+
+      // Render elements on canvas
+      function renderElements() {
+        const canvas = document.getElementById("previewCanvas");
+        canvas.innerHTML = `
+                <div class="canvas-background" id="canvasBackground" style="background-image: url('${heroData.backgroundImage?.url || ""}')"></div>
+                <div class="canvas-overlay"></div>
+                <div id="gridLines"></div>
+            `;
+
+        createGridLines();
+
+        // Get layout positions or use defaults
+        const layout = heroData.layout || { type: "right-image" };
+        const positions = layout.positions || {
+          badge: { x: 10, y: 5, width: 200, height: 40 },
+          title: { x: 10, y: 15, width: 500, height: 120 },
+          subtitle: { x: 10, y: 40, width: 400, height: 60 },
+          features: { x: 10, y: 55, width: 400, height: 120 },
+          cta: { x: 10, y: 75, width: 300, height: 80 },
+          sideImage: { x: 55, y: 20, width: 300, height: 350 },
+        };
+
+        // Create draggable elements
+        elements = {
+          badge: createElement(
+            "badge",
+            positions.badge,
+            `<div class="element-badge">${heroData.badge?.text || "Badge"}</div>`,
+          ),
+
+          title: createElement(
+            "title",
+            positions.title,
+            `<div class="element-title">${heroData.title?.part1 || "Title"} <span class="text-warning">${heroData.title?.part2 || ""}</span></div>`,
+          ),
+
+          subtitle: createElement(
+            "subtitle",
+            positions.subtitle,
+            `<div class="element-subtitle">${heroData.subtitle || "Subtitle"}</div>`,
+          ),
+
+          features: createElement(
+            "features",
+            positions.features,
+            `<ul class="element-features">
+                        ${(heroData.features || []).map((f) => `<li>${f}</li>`).join("")}
+                    </ul>`,
+          ),
+
+          cta: createElement(
+            "cta",
+            positions.cta,
+            `<div class="element-cta">
+                        <div class="small">${heroData.cta?.subtext || "Call Now"}</div>
+                        <div class="h4 mb-0">${heroData.cta?.phone || "(123) 456-7890"}</div>
+                    </div>`,
+          ),
+
+          sideImage: createElement(
+            "sideImage",
+            positions.sideImage,
+            `<div class="element-image">
+                        ${
+                          heroData.sideImage?.url
+                            ? `<img src="${heroData.sideImage.url}" alt="${heroData.sideImage.alt || "Image"}">`
+                            : '<div class="text-center p-4 text-muted">No image</div>'
+                        }
+                        ${
+                          heroData.imageBadge
+                            ? `<div class="badge bg-warning position-absolute top-0 start-0 m-3">${heroData.imageBadge}</div>`
+                            : ""
+                        }
+                    </div>`,
+          ),
+        };
+
+        // Add elements to canvas
+        Object.values(elements).forEach((element) => {
+          canvas.appendChild(element);
+        });
+
+        setupDragAndDrop();
+      }
+
+      // Create a draggable element
+      function createElement(type, position, content) {
+        const element = document.createElement("div");
+        element.className = "draggable-element";
+        element.id = `element-${type}`;
+        element.innerHTML = content;
+        element.dataset.type = type;
+
+        // Set position and size
+        element.style.left = `${position.x}%`;
+        element.style.top = `${position.y}%`;
+        element.style.width = position.width ? `${position.width}px` : "auto";
+        element.style.height = position.height
+          ? `${position.height}px`
+          : "auto";
+
+        // Add click handler for selection
+        element.addEventListener("click", (e) => {
+          e.stopPropagation();
+          selectElement(element);
+        });
+
+        // Add resize handles
+        addResizeHandles(element);
+
+        return element;
+      }
+
+      // Add resize handles to element
+      function addResizeHandles(element) {
+        const directions = ["n", "s", "e", "w", "ne", "nw", "se", "sw"];
+
+        directions.forEach((dir) => {
+          const handle = document.createElement("div");
+          handle.className = `resize-handle resize-${dir}`;
+          handle.addEventListener("mousedown", (e) => {
+            e.stopPropagation();
+            startResize(element, dir, e);
+          });
+          element.appendChild(handle);
+        });
+      }
+
+      // Start resizing element
+      function startResize(element, direction, e) {
+        e.preventDefault();
+        const startX = e.clientX;
+        const startY = e.clientY;
+        const startWidth = element.offsetWidth;
+        const startHeight = element.offsetHeight;
+        const startLeft = element.offsetLeft;
+        const startTop = element.offsetTop;
+
+        function doResize(moveE) {
+          const dx = moveE.clientX - startX;
+          const dy = moveE.clientY - startY;
+
+          let newWidth = startWidth;
+          let newHeight = startHeight;
+          let newLeft = startLeft;
+          let newTop = startTop;
+
+          switch (direction) {
+            case "e":
+              newWidth = Math.max(100, startWidth + dx);
+              break;
+            case "w":
+              newWidth = Math.max(100, startWidth - dx);
+              newLeft = startLeft + dx;
+              break;
+            case "s":
+              newHeight = Math.max(50, startHeight + dy);
+              break;
+            case "n":
+              newHeight = Math.max(50, startHeight - dy);
+              newTop = startTop + dy;
+              break;
+            case "se":
+              newWidth = Math.max(100, startWidth + dx);
+              newHeight = Math.max(50, startHeight + dy);
+              break;
+            case "sw":
+              newWidth = Math.max(100, startWidth - dx);
+              newHeight = Math.max(50, startHeight + dy);
+              newLeft = startLeft + dx;
+              break;
+            case "ne":
+              newWidth = Math.max(100, startWidth + dx);
+              newHeight = Math.max(50, startHeight - dy);
+              newTop = startTop + dy;
+              break;
+            case "nw":
+              newWidth = Math.max(100, startWidth - dx);
+              newHeight = Math.max(50, startHeight - dy);
+              newLeft = startLeft + dx;
+              newTop = startTop + dy;
+              break;
+          }
+
+          element.style.width = `${newWidth}px`;
+          element.style.height = `${newHeight}px`;
+          element.style.left = `${newLeft}px`;
+          element.style.top = `${newTop}px`;
+        }
+
+        function stopResize() {
+          document.removeEventListener("mousemove", doResize);
+          document.removeEventListener("mouseup", stopResize);
+          updateElementPosition(element);
+        }
+
+        document.addEventListener("mousemove", doResize);
+        document.addEventListener("mouseup", stopResize);
+      }
+
+      // Select element
+      function selectElement(element) {
+        // Deselect previous element
+        if (selectedElement) {
+          selectedElement.classList.remove("selected");
+        }
+
+        // Select new element
+        selectedElement = element;
+        element.classList.add("selected");
+
+        // Update element controls
+        updateElementControls(element);
+      }
+
+      // Update element controls panel
+      function updateElementControls(element) {
+        const type = element.dataset.type;
+        const controls = document.getElementById("elementControls");
+
+        controls.innerHTML = `
+                <h6>${type.charAt(0).toUpperCase() + type.slice(1)} Element</h6>
+                <div class="mb-2">
+                    <label class="form-label small">Position</label>
+                    <div class="row g-2">
+                        <div class="col">
+                            <input type="number" class="form-control form-control-sm" id="posX" placeholder="X" value="${parseInt(element.style.left)}">
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control form-control-sm" id="posY" placeholder="Y" value="${parseInt(element.style.top)}">
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label small">Size</label>
+                    <div class="row g-2">
+                        <div class="col">
+                            <input type="number" class="form-control form-control-sm" id="sizeW" placeholder="Width" value="${element.offsetWidth}">
+                        </div>
+                        <div class="col">
+                            <input type="number" class="form-control form-control-sm" id="sizeH" placeholder="Height" value="${element.offsetHeight}">
+                        </div>
+                    </div>
+                </div>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-primary btn-sm" onclick="updateElementPositionFromControls()">
+                        <i class="fas fa-sync-alt"></i> Apply
+                    </button>
+                    <button class="btn btn-danger btn-sm" onclick="hideElement()">
+                        <i class="fas fa-eye-slash"></i> Hide
+                    </button>
+                </div>
+            `;
+      }
+
+      // Update element position from controls
+      function updateElementPositionFromControls() {
+        if (!selectedElement) return;
+
+        const x = document.getElementById("posX").value;
+        const y = document.getElementById("posY").value;
+        const w = document.getElementById("sizeW").value;
+        const h = document.getElementById("sizeH").value;
+
+        selectedElement.style.left = `${x}px`;
+        selectedElement.style.top = `${y}px`;
+        selectedElement.style.width = `${w}px`;
+        selectedElement.style.height = `${h}px`;
+
+        updateElementPosition(selectedElement);
+        showToast("Element updated");
+      }
+
+      // Update element position in data
+      function updateElementPosition(element) {
+        const type = element.dataset.type;
+        if (!heroData.layout)
+          heroData.layout = { type: "right-image", positions: {} };
+        if (!heroData.layout.positions) heroData.layout.positions = {};
+
+        heroData.layout.positions[type] = {
+          x: element.offsetLeft,
+          y: element.offsetTop,
+          width: element.offsetWidth,
+          height: element.offsetHeight,
+        };
+      }
+
+      // Hide selected element
+      function hideElement() {
+        if (!selectedElement) return;
+        selectedElement.style.display = "none";
+        showToast("Element hidden");
+      }
+
+      // Show all elements
+      function showAllElements() {
+        document.querySelectorAll(".draggable-element").forEach((el) => {
+          el.style.display = "block";
+        });
+        showToast("All elements shown");
+      }
+
+      // Update content from form
+      function updateContent() {
+        if (!heroData) return;
+
+        heroData.badge = { text: document.getElementById("badgeText").value };
+        heroData.title = {
+          part1: document.getElementById("titlePart1").value,
+          part2: document.getElementById("titlePart2").value,
+        };
+        heroData.subtitle = document.getElementById("subtitle").value;
+        heroData.features = document
+          .getElementById("features")
+          .value.split("\n")
+          .filter((f) => f.trim());
+        heroData.cta = {
+          subtext: document.getElementById("ctaText").value,
+          phone: document.getElementById("phoneNumber").value,
+        };
+        heroData.backgroundImage = {
+          ...heroData.backgroundImage,
+          alt: document.getElementById("bgAltText").value,
+        };
+        heroData.sideImage = {
+          ...heroData.sideImage,
+          alt: document.getElementById("sideAltText").value,
+        };
+        heroData.imageBadge = document.getElementById("imageBadge").value;
+
+        // Re-render elements with new content
+        renderElements();
+        showToast("Content updated");
+      }
+
+      // Change layout type
+      function changeLayout(type) {
+        if (!heroData.layout) heroData.layout = {};
+        heroData.layout.type = type;
+
+        // Apply layout-specific positions
+        switch (type) {
+          case "right-image":
+            heroData.layout.positions = {
+              badge: { x: 10, y: 5, width: 200, height: 40 },
+              title: { x: 10, y: 15, width: 500, height: 120 },
+              subtitle: { x: 10, y: 40, width: 400, height: 60 },
+              features: { x: 10, y: 55, width: 400, height: 120 },
+              cta: { x: 10, y: 75, width: 300, height: 80 },
+              sideImage: { x: 55, y: 20, width: 300, height: 350 },
+            };
+            break;
+
+          case "left-image":
+            heroData.layout.positions = {
+              badge: { x: 45, y: 5, width: 200, height: 40 },
+              title: { x: 45, y: 15, width: 500, height: 120 },
+              subtitle: { x: 45, y: 40, width: 400, height: 60 },
+              features: { x: 45, y: 55, width: 400, height: 120 },
+              cta: { x: 45, y: 75, width: 300, height: 80 },
+              sideImage: { x: 5, y: 20, width: 300, height: 350 },
+            };
+            break;
+
+          case "centered":
+            heroData.layout.positions = {
+              badge: { x: 40, y: 10, width: 200, height: 40 },
+              title: { x: 25, y: 15, width: 600, height: 120 },
+              subtitle: { x: 30, y: 40, width: 500, height: 60 },
+              features: { x: 30, y: 55, width: 500, height: 120 },
+              cta: { x: 35, y: 75, width: 300, height: 80 },
+              sideImage: { x: 35, y: 20, width: 300, height: 350 },
+            };
+            break;
+        }
+
+        renderElements();
+        showToast(`Layout changed to ${type}`);
+      }
+
+      // Reset all positions to default
+      function resetPositions() {
+        if (confirm("Reset all element positions to default?")) {
+          heroData.layout = {
+            type: "right-image",
+            positions: {
+              badge: { x: 10, y: 5, width: 200, height: 40 },
+              title: { x: 10, y: 15, width: 500, height: 120 },
+              subtitle: { x: 10, y: 40, width: 400, height: 60 },
+              features: { x: 10, y: 55, width: 400, height: 120 },
+              cta: { x: 10, y: 75, width: 300, height: 80 },
+              sideImage: { x: 55, y: 20, width: 300, height: 350 },
+            },
+          };
+          renderElements();
+          showToast("Positions reset to default");
+        }
+      }
+
+      // Snap elements to grid
+      function snapToGrid() {
+        document.querySelectorAll(".draggable-element").forEach((element) => {
+          const x = Math.round(element.offsetLeft / gridSize) * gridSize;
+          const y = Math.round(element.offsetTop / gridSize) * gridSize;
+          element.style.left = `${x}px`;
+          element.style.top = `${y}px`;
+          updateElementPosition(element);
+        });
+        showToast("Elements snapped to grid");
+      }
+
+      // Save hero data
+      async function saveHero() {
+        try {
+          showLoading(true);
+
+          // Collect all element positions
+          document.querySelectorAll(".draggable-element").forEach((element) => {
+            updateElementPosition(element);
+          });
+
+          const response = await fetch("/api/hero", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(heroData),
+          });
+
+          if (!response.ok) throw new Error("Save failed");
+
+          const result = await response.json();
+          showToast("Hero saved successfully!");
+          console.log("Save result:", result);
+        } catch (error) {
+          console.error("Save error:", error);
+          showToast("Error saving hero: " + error.message, "error");
+        } finally {
+          showLoading(false);
+        }
+      }
+
+      // Save and publish
+      async function saveAndPublish() {
+        await saveHero();
+        // Additional publish logic can be added here
+        showToast("Hero published successfully!", "success");
+      }
+
+      // Update canvas size on window resize
+      window.addEventListener("resize", () => {
+        createGridLines();
+      });
+
+      // Prevent default drag behaviors
+      window.addEventListener(
+        "dragover",
+        (e) => {
+          e.preventDefault();
+        },
+        false,
+      );
+
+      window.addEventListener(
+        "drop",
+        (e) => {
+          e.preventDefault();
+        },
+        false,
+      );
+
+      // Keyboard shortcuts
+      document.addEventListener("keydown", (e) => {
+        // Ctrl/Cmd + S to save
+        if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+          e.preventDefault();
+          saveHero();
+        }
+
+        // Delete key to hide selected element
+        if (e.key === "Delete" && selectedElement) {
+          hideElement();
+        }
+
+        // Escape to deselect
+        if (e.key === "Escape" && selectedElement) {
+          selectedElement.classList.remove("selected");
+          selectedElement = null;
+          document.getElementById("elementControls").innerHTML =
+            '<p class="text-muted text-center mb-0">Select an element to edit</p>';
+        }
+      });
+    </script>
+  </body>
+</html>

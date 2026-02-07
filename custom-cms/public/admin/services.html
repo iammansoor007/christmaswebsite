@@ -1,0 +1,662 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Manage Services Section</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+    />
+    <style>
+      body {
+        background: #f8f9fa;
+        padding: 20px;
+      }
+      .preview-section {
+        background: #1a1a2e;
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        min-height: 300px;
+      }
+      .form-container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+      .alert-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        max-width: 400px;
+      }
+      .feature-item {
+        background: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        border-left: 4px solid #0d6efd;
+      }
+      .gallery-item {
+        border: 2px dashed #dee2e6;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+      .color-preview {
+        width: 30px;
+        height: 30px;
+        border-radius: 4px;
+        display: inline-block;
+        margin-right: 10px;
+        border: 1px solid #dee2e6;
+      }
+      .icon-option {
+        display: inline-block;
+        padding: 5px 10px;
+        margin: 2px;
+        border-radius: 4px;
+        border: 1px solid #dee2e6;
+        cursor: pointer;
+      }
+      .icon-option.selected {
+        background: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+      }
+      .upload-area {
+        border: 2px dashed #6c757d;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        background: #f8f9fa;
+        margin-bottom: 10px;
+      }
+      .upload-area:hover {
+        border-color: #0d6efd;
+        background: #e7f1ff;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Alert Container -->
+    <div class="alert-container" id="alert-container"></div>
+
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Manage Services Section</h1>
+        <a href="/admin" class="btn btn-outline-secondary">
+          <i class="bi bi-arrow-left"></i> Back to Admin
+        </a>
+      </div>
+
+      <!-- Preview -->
+      <div class="preview-section">
+        <h4>Preview</h4>
+        <div id="preview-content">
+          <p class="text-muted">Loading preview...</p>
+        </div>
+      </div>
+
+      <!-- Edit Form -->
+      <div class="form-container">
+        <form id="service-form">
+          <h3 class="mb-4 border-bottom pb-2">Edit Services Content</h3>
+
+          <!-- Badge -->
+          <div class="mb-4">
+            <h5>Badge</h5>
+            <div class="mb-3">
+              <input
+                type="text"
+                class="form-control"
+                id="badge"
+                placeholder="LIMITED TIME: 25% OFF"
+              />
+            </div>
+          </div>
+
+          <!-- Title -->
+          <div class="mb-4">
+            <h5>Title</h5>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Prefix</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title-prefix"
+                  placeholder="Expert"
+                />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Main Text</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title-text"
+                  placeholder="Holiday Lighting"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Subtitle -->
+          <div class="mb-4">
+            <h5>Subtitle</h5>
+            <div class="mb-3">
+              <textarea
+                class="form-control"
+                id="subtitle"
+                rows="3"
+                placeholder="Transform your home with professional holiday lighting installations..."
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Features -->
+          <div class="mb-4">
+            <h5>Features</h5>
+            <div id="features-container">
+              <!-- Features will be added here dynamically -->
+            </div>
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary"
+              onclick="addFeature()"
+            >
+              <i class="bi bi-plus"></i> Add Feature
+            </button>
+          </div>
+
+          <!-- Buttons -->
+          <div class="mb-4">
+            <h5>Buttons</h5>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Primary Button Text</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="btn-primary"
+                  placeholder="Get Free Quote"
+                />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Secondary Button Text</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="btn-secondary"
+                  placeholder="View Gallery"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Trust Indicators -->
+          <div class="mb-4">
+            <h5>Trust Indicators</h5>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Homes Count</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="trust-homes"
+                  placeholder="500+"
+                />
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Rating</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="trust-rating"
+                  placeholder="4.9"
+                />
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Reviews Count</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="trust-reviews"
+                  placeholder="250+"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Gallery Images -->
+          <div class="mb-4">
+            <h5>Gallery Images</h5>
+            <div id="gallery-container">
+              <!-- Gallery items will be added here -->
+            </div>
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary"
+              onclick="addGalleryItem()"
+            >
+              <i class="bi bi-plus"></i> Add Image
+            </button>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+            <button
+              type="button"
+              class="btn btn-secondary me-md-2"
+              onclick="loadServiceData()"
+            >
+              <i class="bi bi-arrow-clockwise"></i> Reload
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-save"></i> Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // Available icons
+      // In public/admin/services-section.html
+      const availableIcons = [
+        "FaHome",
+        "FaBuilding",
+        "FaTree",
+        "FaSnowflake",
+        "FaStar",
+        "FaHandSparkles",
+        "FaLightbulb",
+        "FaMagic",
+        "FaCheckCircle",
+        "FaPhoneAlt",
+        "FaQuoteRight",
+        "FaCalendarCheck",
+      ];
+
+      // Available colors
+      const availableColors = [
+        "#E63946",
+        "#F4A261",
+        "#2A9D8F",
+        "#1D3557",
+        "#FF6B6B",
+        "#4ECDC4",
+        "#45B7D1",
+        "#96CEB4",
+      ];
+
+      // Load service data
+      async function loadServiceData() {
+        try {
+          showAlert("Loading service data...", "info");
+
+          const response = await fetch("/api/services");
+          if (!response.ok)
+            throw new Error(`HTTP error! status: ${response.status}`);
+
+          const service = await response.json();
+
+          // Fill form fields
+          document.getElementById("badge").value = service.badge || "";
+          document.getElementById("title-prefix").value =
+            service.title?.prefix || "";
+          document.getElementById("title-text").value =
+            service.title?.text || "";
+          document.getElementById("subtitle").value = service.subtitle || "";
+          document.getElementById("btn-primary").value =
+            service.buttons?.primary || "";
+          document.getElementById("btn-secondary").value =
+            service.buttons?.secondary || "";
+          document.getElementById("trust-homes").value =
+            service.trustIndicators?.homesCount || "";
+          document.getElementById("trust-rating").value =
+            service.trustIndicators?.rating || "";
+          document.getElementById("trust-reviews").value =
+            service.trustIndicators?.reviewsCount || "";
+
+          // Load features
+          const featuresContainer =
+            document.getElementById("features-container");
+          featuresContainer.innerHTML = "";
+          if (service.features && service.features.length > 0) {
+            service.features.forEach((feature, index) => {
+              addFeature(feature, index);
+            });
+          }
+
+          // Load gallery
+          const galleryContainer = document.getElementById("gallery-container");
+          galleryContainer.innerHTML = "";
+          if (service.gallery && service.gallery.length > 0) {
+            service.gallery.forEach((item, index) => {
+              addGalleryItem(item, index);
+            });
+          }
+
+          // Update preview
+          updatePreview(service);
+
+          showAlert("Service data loaded successfully!", "success");
+        } catch (error) {
+          console.error("Error loading service data:", error);
+          showAlert("Error loading service data: " + error.message, "danger");
+        }
+      }
+
+      // Add feature item
+      function addFeature(feature = {}, index = null) {
+        const container = document.getElementById("features-container");
+        const featureIndex = index !== null ? index : container.children.length;
+
+        const div = document.createElement("div");
+        div.className = "feature-item";
+        div.innerHTML = `
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="mb-0">Feature ${featureIndex + 1}</h6>
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.parentElement.parentElement.remove()">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-2">
+              <input type="text" class="form-control feature-title" placeholder="Feature Title" 
+                     value="${feature.title || ""}" data-index="${featureIndex}">
+            </div>
+            <div class="col-md-6 mb-2">
+              <textarea class="form-control feature-desc" rows="2" placeholder="Feature Description"
+                        data-index="${featureIndex}">${feature.description || ""}</textarea>
+            </div>
+            <div class="col-md-6 mb-2">
+              <label class="form-label">Icon</label>
+              <select class="form-select feature-icon" data-index="${featureIndex}">
+                ${availableIcons
+                  .map(
+                    (icon) =>
+                      `<option value="${icon}" ${feature.icon === icon ? "selected" : ""}>${icon}</option>`,
+                  )
+                  .join("")}
+              </select>
+            </div>
+            <div class="col-md-6 mb-2">
+              <label class="form-label">Color</label>
+              <div class="input-group">
+                <input type="color" class="form-control form-control-color feature-color" 
+                       value="${feature.color || "#E63946"}" data-index="${featureIndex}">
+                <span class="input-group-text">${feature.color || "#E63946"}</span>
+              </div>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(div);
+
+        // Add color change listener
+        const colorInput = div.querySelector(".feature-color");
+        const colorText = div.querySelector(".input-group-text");
+        colorInput.addEventListener("input", (e) => {
+          colorText.textContent = e.target.value;
+        });
+      }
+
+      // Add gallery item
+      function addGalleryItem(item = {}, index = null) {
+        const container = document.getElementById("gallery-container");
+        const galleryIndex = index !== null ? index : container.children.length;
+
+        const div = document.createElement("div");
+        div.className = "gallery-item";
+        div.innerHTML = `
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="mb-0">Image ${galleryIndex + 1}</h6>
+            <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.parentElement.parentElement.remove()">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+          <div class="row">
+            <div class="col-md-8 mb-2">
+              <input type="text" class="form-control gallery-url" placeholder="Image URL or path" 
+                     value="${item.url || ""}" data-index="${galleryIndex}">
+            </div>
+            <div class="col-md-4 mb-2">
+              <input type="number" class="form-control gallery-order" placeholder="Order" 
+                     value="${item.order || galleryIndex}" data-index="${galleryIndex}">
+            </div>
+            <div class="col-12 mb-2">
+              <input type="text" class="form-control gallery-alt" placeholder="Alt Text" 
+                     value="${item.alt || ""}" data-index="${galleryIndex}">
+            </div>
+            <div class="col-12">
+              <div class="upload-area" onclick="triggerFileUpload(${galleryIndex})">
+                <i class="bi bi-cloud-arrow-up fs-4"></i>
+                <p class="mb-1">Drag & drop or click to upload</p>
+                <small class="text-muted">JPG, PNG, WebP up to 10MB</small>
+              </div>
+              <input type="file" class="d-none" id="gallery-upload-${galleryIndex}" 
+                     accept="image/*" onchange="handleGalleryUpload(this, ${galleryIndex})">
+            </div>
+          </div>
+        `;
+
+        container.appendChild(div);
+      }
+
+      // Handle gallery upload
+      async function handleGalleryUpload(input, index) {
+        const file = input.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("image", file);
+
+        try {
+          const response = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          if (response.ok) {
+            const result = await response.json();
+            const urlInput = document.querySelector(
+              `.gallery-url[data-index="${index}"]`,
+            );
+            urlInput.value = result.url;
+            showAlert("Image uploaded successfully!", "success");
+          } else {
+            throw new Error("Upload failed");
+          }
+        } catch (error) {
+          showAlert("Error uploading image: " + error.message, "danger");
+        }
+      }
+
+      function triggerFileUpload(index) {
+        document.getElementById(`gallery-upload-${index}`).click();
+      }
+
+      // Update preview
+      function updatePreview(service) {
+        const preview = document.getElementById("preview-content");
+
+        let html = `
+          <div class="mb-3">
+            <span class="badge bg-warning">${service.badge || ""}</span>
+          </div>
+          <h2 class="mb-3">
+            <small class="text-muted d-block">${service.title?.prefix || ""}</small>
+            ${service.title?.text || ""}
+          </h2>
+          <p class="lead">${service.subtitle || ""}</p>
+          
+          <h5 class="mt-4">Features:</h5>
+          <div class="row">
+        `;
+
+        if (service.features && service.features.length > 0) {
+          service.features.forEach((feature) => {
+            html += `
+              <div class="col-md-6 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <h6><i class="bi bi-check-circle"></i> ${feature.title}</h6>
+                    <p class="small mb-0">${feature.description}</p>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+        }
+
+        html += `
+          </div>
+          <div class="mt-4">
+            <button class="btn btn-primary me-2">${service.buttons?.primary || ""}</button>
+            <button class="btn btn-outline-primary">${service.buttons?.secondary || ""}</button>
+          </div>
+          <div class="mt-3 text-muted">
+            <small>Trusted by ${service.trustIndicators?.homesCount || ""} homes • 
+            Rating: ${service.trustIndicators?.rating || ""} (${service.trustIndicators?.reviewsCount || ""} reviews)</small>
+          </div>
+        `;
+
+        preview.innerHTML = html;
+      }
+
+      // Save service data
+      async function saveService(e) {
+        e.preventDefault();
+
+        try {
+          showAlert("Saving service data...", "info");
+
+          // Collect features
+          const features = [];
+          const featureTitles = document.querySelectorAll(".feature-title");
+          const featureDescs = document.querySelectorAll(".feature-desc");
+          const featureIcons = document.querySelectorAll(".feature-icon");
+          const featureColors = document.querySelectorAll(".feature-color");
+
+          for (let i = 0; i < featureTitles.length; i++) {
+            features.push({
+              title: featureTitles[i].value,
+              description: featureDescs[i].value,
+              icon: featureIcons[i].value,
+              color: featureColors[i].value,
+            });
+          }
+
+          // Collect gallery
+          const gallery = [];
+          const galleryUrls = document.querySelectorAll(".gallery-url");
+          const galleryAlts = document.querySelectorAll(".gallery-alt");
+          const galleryOrders = document.querySelectorAll(".gallery-order");
+
+          for (let i = 0; i < galleryUrls.length; i++) {
+            gallery.push({
+              url: galleryUrls[i].value,
+              alt: galleryAlts[i].value,
+              order: parseInt(galleryOrders[i].value) || i,
+            });
+          }
+
+          const serviceData = {
+            badge: document.getElementById("badge").value,
+            title: {
+              prefix: document.getElementById("title-prefix").value,
+              text: document.getElementById("title-text").value,
+            },
+            subtitle: document.getElementById("subtitle").value,
+            features: features.filter((f) => f.title && f.description),
+            buttons: {
+              primary: document.getElementById("btn-primary").value,
+              secondary: document.getElementById("btn-secondary").value,
+            },
+            trustIndicators: {
+              homesCount: document.getElementById("trust-homes").value,
+              rating: document.getElementById("trust-rating").value,
+              reviewsCount: document.getElementById("trust-reviews").value,
+            },
+            gallery: gallery.filter((g) => g.url),
+          };
+
+          const response = await fetch("/api/services", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(serviceData),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(
+              errorData.error || `HTTP error! status: ${response.status}`,
+            );
+          }
+
+          const result = await response.json();
+          showAlert("Service section saved successfully!", "success");
+
+          // Update preview with saved data
+          updatePreview(result.service || serviceData);
+        } catch (error) {
+          console.error("Error saving service:", error);
+          showAlert("Error saving service: " + error.message, "danger");
+        }
+      }
+
+      // Show alert
+      function showAlert(message, type) {
+        const alertContainer = document.getElementById("alert-container");
+
+        const alertDiv = document.createElement("div");
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+          ${message}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        `;
+
+        alertContainer.appendChild(alertDiv);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+          if (alertDiv.parentNode === alertContainer) {
+            alertDiv.remove();
+          }
+        }, 5000);
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        loadServiceData();
+        document
+          .getElementById("service-form")
+          .addEventListener("submit", saveService);
+
+        // Add initial feature if none
+        setTimeout(() => {
+          const featuresContainer =
+            document.getElementById("features-container");
+          if (featuresContainer.children.length === 0) {
+            addFeature();
+          }
+        }, 100);
+      });
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

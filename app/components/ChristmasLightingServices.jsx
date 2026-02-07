@@ -1,4 +1,3 @@
-// components/ModernServicesSection.jsx
 "use client";
 import { useRef, useEffect, useState } from "react";
 import {
@@ -8,15 +7,73 @@ import {
   FaQuoteRight,
   FaCalendarCheck,
   FaSnowflake,
+  FaHome,
+  FaBuilding,
+  FaTree,
+  FaStar,
+  FaHandSparkles,
+  FaLightbulb,
+  FaMagic,
 } from "react-icons/fa";
 import { GiSparkles } from "react-icons/gi";
-import { getServicesData } from "../services/dataService";
 
 const ModernServicesSection = () => {
   const containerRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Simple intersection observer
+  // Icon mapping
+  const iconMap = {
+    FaHome: FaHome,
+    FaBuilding: FaBuilding,
+    FaTree: FaTree,
+    FaSnowflake: FaSnowflake,
+    FaStar: FaStar,
+    FaSparkles: GiSparkles,
+    FaHandSparkles: FaHandSparkles,
+    FaLightbulb: FaLightbulb,
+    FaMagic: FaMagic,
+    FaCheckCircle: FaCheckCircle,
+    FaPhoneAlt: FaPhoneAlt,
+    FaQuoteRight: FaQuoteRight,
+    FaCalendarCheck: FaCalendarCheck,
+  };
+
+  // Load data from CMS - ONLY from /api/cms/services-section
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        console.log(
+          "Fetching services section data from /api/cms/services-section...",
+        );
+
+        const response = await fetch("/api/cms/services-section");
+
+        if (!response.ok) {
+          throw new Error(
+            `API error: ${response.status} ${response.statusText}`,
+          );
+        }
+
+        const jsonData = await response.json();
+        console.log("Data received successfully:", jsonData);
+        setData(jsonData);
+      } catch (err) {
+        console.error("Error loading services data:", err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  // Intersection observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -35,8 +92,46 @@ const ModernServicesSection = () => {
     return () => observer.disconnect();
   }, []);
 
-  const servicesData = getServicesData();
-  const { badge, title, subtitle, items: services } = servicesData;
+  if (loading) {
+    return (
+      <section className="relative w-full overflow-hidden bg-gradient-to-b from-gray-50 to-white px-4 py-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center">Loading services...</div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="relative w-full overflow-hidden bg-gradient-to-b from-gray-50 to-white px-4 py-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center text-red-600">
+            Error loading services: {error}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!data) {
+    return (
+      <section className="relative w-full overflow-hidden bg-gradient-to-b from-gray-50 to-white px-4 py-20">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center text-gray-600">
+            No services data available from /api/cms/services-section
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const { badge, title, subtitle, services = [], ctaButton } = data;
+
+  // Filter active services and sort by order
+  const activeServices = services
+    .filter((service) => service.isActive !== false)
+    .sort((a, b) => (a.order || 0) - (b.order || 0));
 
   return (
     <section
@@ -107,8 +202,8 @@ const ModernServicesSection = () => {
 
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 md:gap-6 lg:gap-8 xl:gap-10">
-          {services.map((service, index) => {
-            const IconComponent = service.icon;
+          {activeServices.map((service, index) => {
+            const IconComponent = iconMap[service.icon] || FaHome;
             const delay = 400 + index * 150;
             return (
               <div
@@ -125,8 +220,8 @@ const ModernServicesSection = () => {
                   <div className="lg:w-2/5 relative h-[180px] xs:h-[200px] sm:h-[220px] md:h-[200px] lg:h-full lg:min-h-[400px]">
                     <div className="relative h-full w-full overflow-hidden">
                       <img
-                        src={`/images/demo${index + 1}.jpeg`}
-                        alt={service.title}
+                        src={service.imageUrl}
+                        alt={service.imageAlt || service.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"
                       />
@@ -134,12 +229,14 @@ const ModernServicesSection = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent lg:bg-gradient-to-r lg:from-black/20" />
 
                       {/* Image Badge */}
-                      <div
-                        className="absolute bottom-3 xs:bottom-4 left-3 xs:left-4 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full text-white text-xs xs:text-sm font-medium shadow-md backdrop-blur-sm z-10 transition-all duration-300 group-hover:scale-105"
-                        style={{ backgroundColor: `${service.color}CC` }}
-                      >
-                        {service.stat}
-                      </div>
+                      {service.stat && (
+                        <div
+                          className="absolute bottom-3 xs:bottom-4 left-3 xs:left-4 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full text-white text-xs xs:text-sm font-medium shadow-md backdrop-blur-sm z-10 transition-all duration-300 group-hover:scale-105"
+                          style={{ backgroundColor: `${service.color}CC` }}
+                        >
+                          {service.stat}
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -155,7 +252,8 @@ const ModernServicesSection = () => {
                         }}
                       >
                         <span className="text-xs xs:text-sm font-bold">
-                          {service.number}
+                          {service.number ||
+                            (index + 1).toString().padStart(2, "0")}
                         </span>
                       </div>
                     </div>
@@ -188,27 +286,29 @@ const ModernServicesSection = () => {
                     </p>
 
                     {/* Features List */}
-                    <div className="space-y-1.5 xs:space-y-2 sm:space-y-2.5 mb-4 xs:mb-5 sm:mb-6 flex-grow">
-                      {service.features.map((feature, idx) => (
-                        <div
-                          key={idx}
-                          className="flex items-start xs:items-center gap-2 xs:gap-3 transition-all duration-300 hover:translate-x-1"
-                        >
+                    {service.features && service.features.length > 0 && (
+                      <div className="space-y-1.5 xs:space-y-2 sm:space-y-2.5 mb-4 xs:mb-5 sm:mb-6 flex-grow">
+                        {service.features.slice(0, 4).map((feature, idx) => (
                           <div
-                            className="flex-shrink-0 w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center mt-0.5 xs:mt-0 transition-all duration-300 group-hover:scale-110"
-                            style={{ backgroundColor: `${service.color}15` }}
+                            key={idx}
+                            className="flex items-start xs:items-center gap-2 xs:gap-3 transition-all duration-300 hover:translate-x-1"
                           >
-                            <FaCheckCircle
-                              style={{ color: service.color }}
-                              className="text-xs xs:text-sm transition-all duration-300 group-hover:rotate-12"
-                            />
+                            <div
+                              className="flex-shrink-0 w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center mt-0.5 xs:mt-0 transition-all duration-300 group-hover:scale-110"
+                              style={{ backgroundColor: `${service.color}15` }}
+                            >
+                              <FaCheckCircle
+                                style={{ color: service.color }}
+                                className="text-xs xs:text-sm transition-all duration-300 group-hover:rotate-12"
+                              />
+                            </div>
+                            <span className="text-gray-700 text-xs xs:text-sm sm:text-base flex-1 leading-relaxed">
+                              {feature}
+                            </span>
                           </div>
-                          <span className="text-gray-700 text-xs xs:text-sm sm:text-base flex-1 leading-relaxed">
-                            {feature}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    )}
 
                     {/* CTA Button */}
                     <button
@@ -240,13 +340,15 @@ const ModernServicesSection = () => {
         </div>
 
         {/* Bottom CTA */}
-        <div
-          className={`hidden lg:block mt-12 md:mt-16 lg:mt-20 text-center transition-all duration-700 delay-1000 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
-        >
-          <button className="px-8 py-4 bg-gradient-to-r from-red-600 to-amber-500 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 active:scale-95">
-            View All Services
-          </button>
-        </div>
+        {activeServices.length > 0 && (
+          <div
+            className={`mt-12 md:mt-16 lg:mt-20 text-center transition-all duration-700 delay-1000 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
+          >
+            <button className="px-8 py-4 bg-gradient-to-r from-red-600 to-amber-500 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 active:scale-95">
+              {ctaButton?.text || "View All Services"}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* CSS Animations */}
@@ -279,134 +381,6 @@ const ModernServicesSection = () => {
 
         .animate-fadeInScale {
           animation: fadeInScale 0.5s ease-out forwards;
-        }
-
-        /* Base responsive text clamping */
-        .line-clamp-3 {
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        .line-clamp-4 {
-          display: -webkit-box;
-          -webkit-line-clamp: 4;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        /* Extra small screens (below 320px) */
-        @media (max-width: 319px) {
-          .min-w-\[280px\] {
-            min-width: 280px;
-          }
-
-          .min-h-\[300px\] {
-            min-height: 280px;
-          }
-
-          .text-2xl {
-            font-size: 1.375rem;
-            line-height: 1.2;
-          }
-
-          .text-base {
-            font-size: 0.9375rem;
-          }
-
-          .text-xs {
-            font-size: 0.75rem;
-          }
-
-          .h-\[180px\] {
-            height: 160px;
-          }
-        }
-
-        /* Small screens (320px - 479px) */
-        @media (min-width: 320px) and (max-width: 479px) {
-          .min-h-\[340px\] {
-            min-height: 320px;
-          }
-        }
-
-        /* Tablet portrait (768px - 1023px) */
-        @media (min-width: 768px) and (max-width: 1023px) {
-          .md\:min-h-\[380px\] {
-            min-height: 360px;
-          }
-
-          .md\:h-\[200px\] {
-            height: 180px;
-          }
-
-          .md\:text-2xl {
-            font-size: 1.5rem;
-          }
-
-          .md\:text-lg {
-            font-size: 1rem;
-          }
-        }
-
-        /* Tablet landscape (1024px - 1279px) */
-        @media (min-width: 1024px) and (max-width: 1279px) {
-          .lg\:min-h-\[400px\] {
-            min-height: 380px;
-          }
-
-          .lg\:text-3xl {
-            font-size: 1.75rem;
-          }
-
-          .lg\:text-base {
-            font-size: 1rem;
-          }
-        }
-
-        /* Improve touch targets on mobile */
-        @media (max-width: 767px) {
-          button,
-          [role="button"] {
-            min-height: 44px;
-            min-width: 44px;
-          }
-        }
-
-        /* Prevent image distortion */
-        img {
-          backface-visibility: hidden;
-          image-rendering: -webkit-optimize-contrast;
-        }
-
-        /* Smooth scrolling */
-        html {
-          scroll-behavior: smooth;
-        }
-
-        /* Better text rendering */
-        * {
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* Fix for iOS Safari */
-        @supports (-webkit-touch-callout: none) {
-          .min-h-\[300px\] {
-            min-height: -webkit-fill-available;
-          }
-        }
-
-        /* Reduce motion preferences */
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-          }
         }
       `}</style>
     </section>

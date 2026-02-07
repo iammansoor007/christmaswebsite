@@ -1,4 +1,3 @@
-// components/ChristmasLightingSection.jsx
 "use client";
 import { useState, useEffect, useRef } from "react";
 import {
@@ -11,6 +10,7 @@ import {
   FaHome,
   FaBuilding,
   FaTree,
+  FaHeart,
 } from "react-icons/fa";
 
 const ChristmasLightingSection = () => {
@@ -21,13 +21,7 @@ const ChristmasLightingSection = () => {
   const [isClient, setIsClient] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [data, setData] = useState(null);
-
-  // Use local images from public/images directory
-  const images = [
-    "/images/demo1.jpeg",
-    "/images/demo2.jpeg",
-    "/images/demo3.jpeg",
-  ];
+  const [loading, setLoading] = useState(true);
 
   // Modern color palette
   const colors = {
@@ -41,7 +35,7 @@ const ChristmasLightingSection = () => {
     background: "linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%)",
   };
 
-  // Icon mapping for features - MUST be defined before any hooks or conditionally
+  // Icon mapping for features
   const iconMap = {
     FaShieldAlt: FaShieldAlt,
     FaTools: FaTools,
@@ -49,24 +43,101 @@ const ChristmasLightingSection = () => {
     FaHome: FaHome,
     FaBuilding: FaBuilding,
     FaTree: FaTree,
+    FaStar: FaStar,
+    FaHeart: FaHeart,
   };
 
-  // Load data from JSON file
+  // Load data from CMS API
   useEffect(() => {
     const loadData = async () => {
       try {
-        const response = await fetch("/data.json");
+        setLoading(true);
+        console.log("Fetching data from /api/cms/services...");
+
+        const response = await fetch("/api/cms/services");
+
+        if (!response.ok) {
+          console.error(`API error: ${response.status}`);
+          // Use fallback data
+          useFallbackData();
+          return;
+        }
+
         const jsonData = await response.json();
+        console.log("Data received from API:", jsonData);
         setData(jsonData);
-      } catch (error) {
-        console.error("Error loading data:", error);
+      } catch (err) {
+        console.error("Error loading services data:", err);
+        // Use fallback data
+        useFallbackData();
+      } finally {
+        setLoading(false);
       }
+    };
+
+    // Fallback data function
+    const useFallbackData = () => {
+      console.log("Using fallback data");
+      setData({
+        badge: "LIMITED TIME: 25% OFF",
+        title: {
+          prefix: "Expert",
+          text: "Holiday Lighting",
+        },
+        subtitle:
+          "Transform your home with professional holiday lighting installations.",
+        features: [
+          {
+            title: "Professional Installation",
+            description:
+              "Our certified technicians ensure perfect installation",
+            icon: "FaTools",
+            color: "#E63946",
+          },
+          {
+            title: "Energy Efficient",
+            description: "LED technology saves energy costs",
+            icon: "FaShieldAlt",
+            color: "#2A9D8F",
+          },
+        ],
+        buttons: {
+          primary: "Get Free Quote",
+          secondary: "View Gallery",
+        },
+        trustIndicators: {
+          homesCount: "500+",
+          rating: "4.9",
+          reviewsCount: "250+",
+        },
+        gallery: [
+          {
+            url: "/images/demo1.jpeg",
+            alt: "Christmas lighting",
+            order: 0,
+            absoluteUrl: "/images/demo1.jpeg",
+          },
+          {
+            url: "/images/demo2.jpeg",
+            alt: "Holiday lighting",
+            order: 1,
+            absoluteUrl: "/images/demo2.jpeg",
+          },
+          {
+            url: "/images/demo3.jpeg",
+            alt: "Professional installation",
+            order: 2,
+            absoluteUrl: "/images/demo3.jpeg",
+          },
+        ],
+      });
     };
 
     loadData();
   }, []);
 
-  // Intersection Observer for scroll animations - FIXED: All hooks must be called unconditionally
+  // Rest of your hooks remain the same...
+  // Intersection Observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -103,10 +174,12 @@ const ChristmasLightingSection = () => {
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
-  // Auto-slide - optimized for mobile
+  // Auto-slide
   useEffect(() => {
-    if (images.length === 0 || !isClient) return;
+    if (!data || !data.gallery || data.gallery.length === 0 || !isClient)
+      return;
 
+    const images = data.gallery;
     const interval = setInterval(
       () => {
         setCurrentIndex((prev) => (prev + 1) % images.length);
@@ -115,19 +188,17 @@ const ChristmasLightingSection = () => {
     );
 
     return () => clearInterval(interval);
-  }, [images.length, isClient, screenSize]);
+  }, [data, isClient, screenSize]);
 
-  // Touch handlers for mobile swipe
+  // Touch handlers
   const handleTouchStart = (e) => {
     setTouchStart(e.touches[0].clientX);
   };
 
   const handleTouchEnd = (e) => {
     if (!touchStart) return;
-
     const touchEnd = e.changedTouches[0].clientX;
     const diff = touchStart - touchEnd;
-
     if (Math.abs(diff) > 15) {
       if (diff > 0) {
         goNext();
@@ -138,11 +209,19 @@ const ChristmasLightingSection = () => {
     setTouchStart(null);
   };
 
-  const goPrev = () =>
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  const goNext = () => setCurrentIndex((prev) => (prev + 1) % images.length);
+  const goPrev = () => {
+    if (!data || !data.gallery) return;
+    setCurrentIndex(
+      (prev) => (prev - 1 + data.gallery.length) % data.gallery.length,
+    );
+  };
 
-  // Responsive typography classes
+  const goNext = () => {
+    if (!data || !data.gallery) return;
+    setCurrentIndex((prev) => (prev + 1) % data.gallery.length);
+  };
+
+  // Responsive typography
   const getHeadingSize = () => {
     if (screenSize === "xs-300")
       return {
@@ -182,21 +261,29 @@ const ChristmasLightingSection = () => {
 
   const headingSizes = getHeadingSize();
 
-  // Show loading state while data is being fetched
-  if (!data) {
+  // Show loading state
+  if (loading) {
     return (
       <section className="relative w-full min-w-[280px] overflow-hidden bg-gradient-to-b from-slate-50 to-white">
         <div className="flex items-center justify-center min-h-[400px]">
-          <div className="text-slate-700">Loading...</div>
+          <div className="text-slate-700">Loading services...</div>
         </div>
       </section>
     );
   }
 
-  const { services } = data;
+  if (!data) {
+    return (
+      <section className="relative w-full min-w-[280px] overflow-hidden bg-gradient-to-b from-slate-50 to-white">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-slate-700">No data available</div>
+        </div>
+      </section>
+    );
+  }
 
-  // Map features data - MUST be after all hooks are called
-  const features = services.features.map((feature) => ({
+  // Map features data
+  const features = data.features.map((feature) => ({
     title: feature.title,
     description: feature.description,
     icon: iconMap[feature.icon] || FaCheckCircle,
@@ -206,38 +293,25 @@ const ChristmasLightingSection = () => {
     borderColor: "rgba(230, 57, 70, 0.2)",
   }));
 
+  // Get gallery images - use absoluteUrl if available
+  const images = data.gallery || [];
+
   return (
-    <section className="relative w-full min-w-[280px] overflow-hidden bg-gradient-to-b from-slate-50 to-white">
+    <section
+      ref={boxRef}
+      className="relative w-full min-w-[280px] overflow-hidden bg-gradient-to-b from-slate-50 to-white"
+    >
       {/* Container with responsive padding */}
       <div
-        className={` xs-300:px-3 xs:px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16  xs-300:py-8 xs:py-8 sm:py-8 md:py-10 lg:py-14 xl:py-18`}
+        className={`xs-300:px-3 xs:px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 xs-300:py-8 xs:py-8 sm:py-8 md:py-10 lg:py-14 xl:py-18`}
       >
-        {/* Modern background elements - scaled for mobile */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Geometric pattern - lighter on mobile */}
-          <div className="absolute inset-0 opacity-[0.005] xs-300:opacity-[0.01] xs:opacity-[0.02] sm:opacity-[0.03]">
-            <div
-              className="absolute inset-0"
-              style={{
-                backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231D3557' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-                backgroundSize:
-                  screenSize === "xs-300" ? "100px 100px" : "80px 80px",
-              }}
-            />
-          </div>
-
-          {/* Gradient orbs - scaled for mobile */}
-          <div className="absolute top-0 left-0 w-24 h-24 xs-300:w-32 xs-300:h-32 xs:w-48 xs:h-48 sm:w-64 sm:h-64 bg-gradient-to-br from-red-500/5 via-transparent to-transparent rounded-full blur-xl xs-300:blur-xl xs:blur-2xl sm:blur-3xl -translate-x-1/3 -translate-y-1/3 animate-pulse-slow" />
-          <div className="absolute bottom-0 right-0 w-24 h-24 xs-300:w-32 xs-300:h-32 xs:w-48 xs:h-48 sm:w-64 sm:h-64 bg-gradient-to-tl from-emerald-500/5 via-transparent to-transparent rounded-full blur-xl xs-300:blur-xl xs:blur-2xl sm:blur-3xl translate-x-1/3 translate-y-1/3 animate-pulse-slow" />
-        </div>
-
         <div className="max-w-7xl mx-auto relative z-10">
-          {/* REVERSED LAYOUT: Text first on mobile/tablet, image left on desktop */}
+          {/* Layout */}
           <div className="flex flex-col lg:flex-row gap-4 xs-300:gap-6 xs:gap-8 sm:gap-10 md:gap-12 lg:gap-16 items-center lg:items-start">
-            {/* TEXT COLUMN - First on mobile/tablet, Right on desktop */}
+            {/* TEXT COLUMN */}
             <div className="w-full lg:w-1/2 text-center lg:text-left lg:order-2">
               <div className="pt-2 xs-300:pt-4 xs:pt-6 lg:pt-0">
-                {/* Badge - Centered on mobile, left on desktop */}
+                {/* Badge */}
                 <div
                   className={`inline-flex items-center gap-1 xs-300:gap-1.5 xs:gap-2 px-2.5 xs-300:px-3 xs:px-4 py-1 xs-300:py-1.5 xs:py-2 rounded-full 
                   bg-gradient-to-r from-rose-500/10 via-amber-500/10 to-emerald-500/10 backdrop-blur-sm 
@@ -250,7 +324,7 @@ const ChristmasLightingSection = () => {
                   <span
                     className={`${screenSize === "xs-300" ? "text-[10px]" : headingSizes.body} font-semibold text-slate-700 uppercase tracking-wider whitespace-nowrap overflow-hidden text-ellipsis`}
                   >
-                    {services.badge}
+                    {data.badge || "LIMITED TIME: 25% OFF"}
                   </span>
                 </div>
 
@@ -260,35 +334,31 @@ const ChristmasLightingSection = () => {
                     className={`font-bold text-slate-900 tracking-tight mb-3 xs-300:mb-4 animate-fade-in-up`}
                     style={{ animationDelay: "0.2s" }}
                   >
-                    {/* Expert */}
                     <span
                       className={`block ${headingSizes.expert} font-semibold text-slate-700 mb-1 xs-300:mb-2`}
                     >
-                      {services.title.prefix}
+                      {data.title?.prefix || "Expert"}
                     </span>
-
-                    {/* Holiday Lighting - Main gradient text */}
                     <span className="block leading-tight">
                       <span className="relative">
                         <span
                           className={`relative z-10 bg-gradient-to-r from-rose-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent ${headingSizes.main} animate-gradient-shift`}
                         >
-                          {services.title.text}
+                          {data.title?.text || "Holiday Lighting"}
                         </span>
                       </span>
                     </span>
                   </h1>
-
-                  {/* Description */}
                   <p
                     className={`${headingSizes.body} text-slate-600 leading-relaxed font-light max-w-2xl mx-auto lg:mx-0 animate-fade-in-up`}
                     style={{ animationDelay: "0.3s" }}
                   >
-                    {services.subtitle}
+                    {data.subtitle ||
+                      "Transform your home with professional holiday lighting installations."}
                   </p>
                 </div>
 
-                {/* Features Grid - IMPROVED STYLING */}
+                {/* Features Grid */}
                 <div className="mb-8 xs:mt-2 xs:mb-3 sm:mt-2 xs-300:mb-10 xs:mb-10 sm:mb-12">
                   <h3
                     className={`${screenSize === "xs-300" ? "text-base" : "text-lg"} font-semibold text-slate-900 mb-4 xs-300:mb-6 text-center lg:text-left animate-fade-in-up`}
@@ -308,13 +378,6 @@ const ChristmasLightingSection = () => {
                             animationFillMode: "both",
                           }}
                         >
-                          {/* Background with gradient */}
-                          <div
-                            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl xs:rounded-2xl"
-                            style={{ background: feature.bgColor }}
-                          />
-
-                          {/* Card Content */}
                           <div
                             className="relative p-4 xs-300:p-4 xs:p-5 rounded-xl xs:rounded-2xl transition-all duration-300 border group-hover:shadow-lg"
                             style={{
@@ -325,7 +388,6 @@ const ChristmasLightingSection = () => {
                             }}
                           >
                             <div className="flex items-start gap-3 xs-300:gap-4 xs:gap-5">
-                              {/* Icon Container */}
                               <div className="relative flex-shrink-0">
                                 <div
                                   className="relative z-10 p-2 xs-300:p-2.5 xs:p-3 rounded-lg xs:rounded-xl transition-all duration-300 group-hover:scale-110"
@@ -340,16 +402,7 @@ const ChristmasLightingSection = () => {
                                     style={{ color: feature.color }}
                                   />
                                 </div>
-                                {/* Decorative element */}
-                                <div
-                                  className="absolute -inset-1 bg-gradient-to-br from-transparent via-transparent to-transparent rounded-lg xs:rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                  style={{
-                                    background: `radial-gradient(circle at center, ${feature.color}10 0%, transparent 70%)`,
-                                  }}
-                                />
                               </div>
-
-                              {/* Text Content */}
                               <div className="flex-1 min-w-0 text-left">
                                 <h4
                                   className={`${screenSize === "xs-300" ? "text-sm" : "text-base"} xs:text-lg font-bold mb-1 xs-300:mb-1.5 xs:mb-2 text-slate-900 line-clamp-1 xs:line-clamp-2 group-hover:text-slate-950 transition-colors duration-200`}
@@ -363,12 +416,6 @@ const ChristmasLightingSection = () => {
                                 </p>
                               </div>
                             </div>
-
-                            {/* Hover indicator line */}
-                            <div
-                              className="absolute bottom-0 left-0 w-0 h-0.5 group-hover:w-full transition-all duration-500 ease-out"
-                              style={{ background: feature.color }}
-                            />
                           </div>
                         </div>
                       );
@@ -378,10 +425,10 @@ const ChristmasLightingSection = () => {
               </div>
             </div>
 
-            {/* IMAGE COLUMN - Second on mobile/tablet, Left on desktop */}
+            {/* IMAGE COLUMN */}
             <div className="w-full lg:w-1/2 lg:order-1">
               <div className="relative">
-                {/* Modern image slider container */}
+                {/* Image slider */}
                 <div className="relative overflow-hidden rounded-lg xs-300:rounded-xl xs:rounded-2xl sm:rounded-3xl shadow-lg xs:shadow-xl sm:shadow-2xl border border-white/10 bg-gradient-to-br from-white to-slate-50 animate-fade-in-up">
                   <div
                     className="flex transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
@@ -389,27 +436,26 @@ const ChristmasLightingSection = () => {
                     onTouchStart={handleTouchStart}
                     onTouchEnd={handleTouchEnd}
                   >
-                    {images.map((src, idx) => (
+                    {images.map((image, idx) => (
                       <div
                         key={idx}
                         className="w-full flex-shrink-0 relative group"
                       >
                         <div className="relative pb-[66.666%] xs-300:pb-[66.666%]">
                           <img
-                            src={src}
-                            alt={`Professional holiday lighting ${idx + 1}`}
+                            src={
+                              image.absoluteUrl ||
+                              image.url ||
+                              "/images/placeholder.jpg"
+                            }
+                            alt={image.alt || `Gallery image ${idx + 1}`}
                             className="absolute inset-0 w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
                             loading="lazy"
-                            sizes="(max-width: 300px) 280px, (max-width: 400px) 100vw, (max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            srcSet={`
-                              ${src}?auto=format&fit=crop&w=280&q=80 280w,
-                              ${src}?auto=format&fit=crop&w=400&q=80 400w,
-                              ${src}?auto=format&fit=crop&w=600&q=80 600w,
-                              ${src}?auto=format&fit=crop&w=800&q=80 800w
-                            `}
+                            onError={(e) => {
+                              e.target.onerror = null;
+                              e.target.src = "/images/placeholder.jpg";
+                            }}
                           />
-                          {/* Modern overlay */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                         </div>
                       </div>
                     ))}
@@ -429,11 +475,7 @@ const ChristmasLightingSection = () => {
                           aria-label={`View image ${idx + 1}`}
                         >
                           <div
-                            className={`${screenSize === "xs-300" ? "w-1.5 h-1.5" : "w-2 h-2"} xs:w-2.5 xs:h-2.5 rounded-full transition-all duration-300 ${
-                              idx === currentIndex
-                                ? "scale-125"
-                                : "bg-slate-300 group-hover:bg-slate-400"
-                            }`}
+                            className={`${screenSize === "xs-300" ? "w-1.5 h-1.5" : "w-2 h-2"} xs:w-2.5 xs:h-2.5 rounded-full transition-all duration-300 ${idx === currentIndex ? "scale-125" : "bg-slate-300 group-hover:bg-slate-400"}`}
                             style={{
                               background:
                                 idx === currentIndex
@@ -478,28 +520,18 @@ const ChristmasLightingSection = () => {
                       />
                     </button>
                   </div>
-
-                  {/* Image Counter */}
-                  {!screenSize.includes("xs") && (
-                    <div className="absolute top-3 xs:top-4 sm:top-6 right-3 xs:right-4 sm:right-6 bg-white/90 backdrop-blur-lg rounded-full px-2.5 xs:px-3 py-1 xs:py-1.5 shadow-lg border border-white/20 animate-fade-in">
-                      <span className="text-xs xs:text-sm font-semibold bg-gradient-to-r from-rose-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
-                        {currentIndex + 1} / {images.length}
-                      </span>
-                    </div>
-                  )}
                 </div>
 
                 {/* Buttons */}
                 <div className="flex buttons xs-300:flex-row gap-2.5 xs-300:gap-3 xs:gap-4 mt-6 xs-300:mt-8 xs:mt-10 justify-center lg:justify-start items-center">
-                  {/* Primary CTA Button */}
                   <button
                     className={`group relative font-bold rounded-lg xs:rounded-xl transition-all duration-300 overflow-hidden shadow-md xs:shadow-lg hover:shadow-xl animate-fade-in-up
-                      ${screenSize === "xs-300" ? "px-5 py-2.5 text-xs w-[140px] h-[36px]" : ""}
-                      ${screenSize === "xs" ? "px-6 py-3 text-sm w-[160px] h-[40px]" : ""}
-                      ${screenSize === "sm" ? "px-7 py-3 text-base w-[180px] h-[44px]" : ""}
-                      ${screenSize === "md" ? "px-8 py-3 text-base w-[200px] h-[48px]" : ""}
-                      ${screenSize === "lg" || screenSize === "xl" ? "px-8 py-3.5 text-base w-[210px] h-[52px]" : ""}
-                      flex items-center justify-center`}
+                    ${screenSize === "xs-300" ? "px-5 py-2.5 text-xs w-[140px] h-[36px]" : ""}
+                    ${screenSize === "xs" ? "px-6 py-3 text-sm w-[160px] h-[40px]" : ""}
+                    ${screenSize === "sm" ? "px-7 py-3 text-base w-[180px] h-[44px]" : ""}
+                    ${screenSize === "md" ? "px-8 py-3 text-base w-[200px] h-[48px]" : ""}
+                    ${screenSize === "lg" || screenSize === "xl" ? "px-8 py-3.5 text-base w-[210px] h-[52px]" : ""}
+                    flex items-center justify-center`}
                     style={{
                       background: colors.gradient,
                       boxShadow:
@@ -508,7 +540,7 @@ const ChristmasLightingSection = () => {
                     }}
                   >
                     <span className="relative z-10 flex items-center justify-center gap-1.5 xs-300:gap-2 xs:gap-3 text-white font-semibold">
-                      <span>{services.buttons.primary}</span>
+                      <span>{data.buttons?.primary || "Get Free Quote"}</span>
                       <svg
                         className={`${screenSize === "xs-300" ? "w-3 h-3" : "w-4 h-4"} xs:w-5 xs:h-5 group-hover:translate-x-0.5 xs-300:group-hover:translate-x-1 xs:group-hover:translate-x-1.5 transition-transform duration-300`}
                         fill="none"
@@ -523,25 +555,20 @@ const ChristmasLightingSection = () => {
                         />
                       </svg>
                     </span>
-                    {/* Shimmer effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/25 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-colors duration-300" />
                   </button>
 
-                  {/* Secondary Button */}
                   <button
                     className={`group font-semibold rounded-lg xs:rounded-xl transition-all duration-300 hover:shadow-md flex items-center justify-center gap-1.5 xs-300:gap-2 xs:gap-3 bg-white border-2 border-amber-500/30 hover:border-amber-500/50 animate-fade-in-up
-                      ${screenSize === "xs-300" ? "px-5 py-2.5 text-xs w-[140px] h-[36px]" : ""}
-                      ${screenSize === "xs" ? "px-6 py-3 text-sm w-[160px] h-[40px]" : ""}
-                      ${screenSize === "sm" ? "px-7 py-3 text-base w-[180px] h-[44px]" : ""}
-                      ${screenSize === "md" ? "px-8 py-3 text-base w-[200px] h-[48px]" : ""}
-                      ${screenSize === "lg" || screenSize === "xl" ? "px-8 py-3.5 text-base w-[210px] h-[52px]" : ""}
-                      hover:bg-gradient-to-r hover:from-amber-50/50 hover:via-white hover:to-amber-50/50`}
+                    ${screenSize === "xs-300" ? "px-5 py-2.5 text-xs w-[140px] h-[36px]" : ""}
+                    ${screenSize === "xs" ? "px-6 py-3 text-sm w-[160px] h-[40px]" : ""}
+                    ${screenSize === "sm" ? "px-7 py-3 text-base w-[180px] h-[44px]" : ""}
+                    ${screenSize === "md" ? "px-8 py-3 text-base w-[200px] h-[48px]" : ""}
+                    ${screenSize === "lg" || screenSize === "xl" ? "px-8 py-3.5 text-base w-[210px] h-[52px]" : ""}
+                    hover:bg-gradient-to-r hover:from-amber-50/50 hover:via-white hover:to-amber-50/50`}
                     style={{ animationDelay: "0.7s" }}
                   >
                     <span className="text-slate-700">
-                      {services.buttons.secondary}
+                      {data.buttons?.secondary || "View Gallery"}
                     </span>
                     <svg
                       className={`${screenSize === "xs-300" ? "w-3 h-3" : "w-4 h-4"} xs:w-5 xs:h-5 text-amber-600 group-hover:rotate-90 transition-transform duration-300`}
@@ -601,7 +628,7 @@ const ChristmasLightingSection = () => {
                       >
                         Trusted by{" "}
                         <span className="text-amber-600">
-                          {services.trustIndicators.homesCount}
+                          {data.trustIndicators?.homesCount || "500+"}
                         </span>{" "}
                         Homes
                       </p>
@@ -616,8 +643,8 @@ const ChristmasLightingSection = () => {
                         <span
                           className={`${screenSize === "xs-300" ? "text-[10px]" : "text-xs"} xs:text-sm text-slate-600 ml-1 xs-300:ml-1.5 xs:ml-2`}
                         >
-                          {services.trustIndicators.rating} (
-                          {services.trustIndicators.reviewsCount})
+                          {data.trustIndicators?.rating || "4.9"} (
+                          {data.trustIndicators?.reviewsCount || "250+"})
                         </span>
                       </div>
                     </div>
@@ -628,10 +655,6 @@ const ChristmasLightingSection = () => {
           </div>
         </div>
       </div>
-
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-20 h-20 xs-300:w-24 xs-300:h-24 xs:w-32 xs:h-32 bg-gradient-to-br from-rose-500/5 to-transparent rounded-full -translate-x-1/4 -translate-y-1/4 animate-pulse-slow" />
-      <div className="absolute bottom-0 right-0 w-20 h-20 xs-300:w-24 xs-300:h-24 xs:w-32 xs:h-32 bg-gradient-to-tl from-emerald-500/5 to-transparent rounded-full translate-x-1/4 translate-y-1/4 animate-pulse-slow" />
     </section>
   );
 };

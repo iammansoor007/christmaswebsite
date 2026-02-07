@@ -1,0 +1,586 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Manage Services Section</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+    />
+    <style>
+      body {
+        background: #f8f9fa;
+        padding: 20px;
+      }
+      .preview-section {
+        background: #1a1a2e;
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+      }
+      .form-container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+      .alert-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        max-width: 400px;
+      }
+      .service-card {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        border-left: 4px solid #0d6efd;
+      }
+      .color-preview {
+        width: 30px;
+        height: 30px;
+        border-radius: 4px;
+        display: inline-block;
+        margin-right: 10px;
+        border: 1px solid #dee2e6;
+      }
+      .feature-item {
+        background: #fff;
+        padding: 8px;
+        border-radius: 4px;
+        margin: 2px 0;
+        border: 1px solid #dee2e6;
+      }
+      .upload-area {
+        border: 2px dashed #6c757d;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        cursor: pointer;
+        background: #f8f9fa;
+        margin-bottom: 10px;
+      }
+      .upload-area:hover {
+        border-color: #0d6efd;
+        background: #e7f1ff;
+      }
+      .sortable-list {
+        min-height: 100px;
+      }
+      .sortable-item {
+        cursor: move;
+        padding: 10px;
+        background: white;
+        border: 1px solid #dee2e6;
+        margin: 5px 0;
+        border-radius: 4px;
+      }
+      .sortable-item:hover {
+        background: #f8f9fa;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="alert-container" id="alert-container"></div>
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Manage Services Section</h1>
+        <a href="/admin" class="btn btn-outline-secondary"
+          ><i class="bi bi-arrow-left"></i> Back to Admin</a
+        >
+      </div>
+
+      <!-- Preview -->
+      <div class="preview-section">
+        <h4>Preview</h4>
+        <div id="preview-content">
+          <p class="text-muted">Loading preview...</p>
+        </div>
+      </div>
+
+      <!-- Edit Form -->
+      <div class="form-container">
+        <form id="services-form">
+          <h3 class="mb-4 border-bottom pb-2">Edit Services Section</h3>
+
+          <!-- Section Header -->
+          <div class="mb-4">
+            <h5>Section Header</h5>
+            <div class="row mb-3">
+              <div class="col-md-4">
+                <label class="form-label">Badge</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="badge"
+                  placeholder="Premium Services"
+                />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Title Prefix</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title-prefix"
+                  placeholder="Premium"
+                />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Title Text</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title-text"
+                  placeholder="Christmas Lighting Solutions"
+                />
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Subtitle</label>
+              <textarea
+                class="form-control"
+                id="subtitle"
+                rows="2"
+                placeholder="Transform your property with premium installations"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Services Cards -->
+          <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h5>Service Cards</h5>
+              <button
+                type="button"
+                class="btn btn-sm btn-primary"
+                onclick="addServiceCard()"
+              >
+                <i class="bi bi-plus"></i> Add Service Card
+              </button>
+            </div>
+            <div id="services-container" class="sortable-list">
+              <!-- Service cards will be added here -->
+            </div>
+          </div>
+
+          <!-- CTA Button -->
+          <div class="mb-4">
+            <h5>Call to Action Button</h5>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Button Text</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="cta-text"
+                  placeholder="View All Services"
+                />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Button URL</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="cta-url"
+                  placeholder="/services"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Buttons -->
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+            <button
+              type="button"
+              class="btn btn-secondary me-md-2"
+              onclick="loadServicesData()"
+            >
+              <i class="bi bi-arrow-clockwise"></i> Reload
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-save"></i> Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
+    <script>
+      // Available icons
+      const availableIcons = [
+        "FaHome",
+        "FaBuilding",
+        "FaTree",
+        "FaSnowflake",
+        "FaStar",
+        "FaSparkles",
+        "FaLightbulb",
+        "FaMagic",
+        "FaCheckCircle",
+        "FaPhoneAlt",
+        "FaQuoteRight",
+        "FaCalendarCheck",
+      ];
+
+      // Available colors
+      const availableColors = [
+        "#E63946",
+        "#2A9D8F",
+        "#F4A261",
+        "#1D3557",
+        "#FF6B6B",
+        "#4ECDC4",
+        "#45B7D1",
+        "#96CEB4",
+        "#9B5DE5",
+        "#F15BB5",
+        "#00BBF9",
+        "#00F5D4",
+      ];
+
+      // Load services data
+      async function loadServicesData() {
+        try {
+          showAlert("Loading services data...", "info");
+          const response = await fetch("/api/services-section");
+          if (!response.ok)
+            throw new Error(`HTTP error! status: ${response.status}`);
+          const servicesData = await response.json();
+
+          // Fill header fields
+          document.getElementById("badge").value = servicesData.badge || "";
+          document.getElementById("title-prefix").value =
+            servicesData.title?.prefix || "";
+          document.getElementById("title-text").value =
+            servicesData.title?.text || "";
+          document.getElementById("subtitle").value =
+            servicesData.subtitle || "";
+          document.getElementById("cta-text").value =
+            servicesData.ctaButton?.text || "";
+          document.getElementById("cta-url").value =
+            servicesData.ctaButton?.url || "";
+
+          // Load services
+          const container = document.getElementById("services-container");
+          container.innerHTML = "";
+          if (servicesData.services && servicesData.services.length > 0) {
+            // Sort by order
+            const sortedServices = [...servicesData.services].sort(
+              (a, b) => a.order - b.order,
+            );
+            sortedServices.forEach((service, index) => {
+              addServiceCard(service, index);
+            });
+          } else {
+            addServiceCard(); // Add one empty card
+          }
+
+          // Initialize sortable
+          initSortable();
+
+          // Update preview
+          updatePreview(servicesData);
+
+          showAlert("Services data loaded successfully!", "success");
+        } catch (error) {
+          console.error("Error loading services data:", error);
+          showAlert("Error loading services data: " + error.message, "danger");
+        }
+      }
+
+      // Add service card
+      function addServiceCard(service = {}, index = null) {
+        const container = document.getElementById("services-container");
+        const cardIndex = index !== null ? index : container.children.length;
+
+        const card = document.createElement("div");
+        card.className = "service-card";
+        card.setAttribute("data-index", cardIndex);
+        card.innerHTML = `
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="mb-0">
+              <i class="bi bi-grip-vertical text-muted me-2" style="cursor: move"></i>
+              Service Card ${cardIndex + 1}
+            </h6>
+            <div>
+              <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeServiceCard(this)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="row">
+            <!-- Basic Info -->
+            <div class="col-md-3 mb-2">
+              <label class="form-label">Number</label>
+              <input type="text" class="form-control service-number" placeholder="01" value="${service.number || ""}">
+            </div>
+            <div class="col-md-9 mb-2">
+              <label class="form-label">Title</label>
+              <input type="text" class="form-control service-title" placeholder="Service Title" value="${service.title || ""}">
+            </div>
+            
+            <div class="col-md-6 mb-2">
+              <label class="form-label">Stat Badge</label>
+              <input type="text" class="form-control service-stat" placeholder="500+ Homes" value="${service.stat || ""}">
+            </div>
+            <div class="col-md-6 mb-2">
+              <label class="form-label">Order</label>
+              <input type="number" class="form-control service-order" value="${service.order || cardIndex}">
+            </div>
+            
+            <!-- Description -->
+            <div class="col-12 mb-2">
+              <label class="form-label">Description</label>
+              <textarea class="form-control service-description" rows="3" placeholder="Service description...">${service.description || ""}</textarea>
+            </div>
+            
+            <!-- Color & Icon -->
+            <div class="col-md-6 mb-2">
+              <label class="form-label">Color</label>
+              <div class="input-group">
+                <input type="color" class="form-control form-control-color service-color" value="${service.color || "#E63946"}">
+                <span class="input-group-text">${service.color || "#E63946"}</span>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <label class="form-label">Icon</label>
+              <select class="form-select service-icon">
+                ${availableIcons.map((icon) => `<option value="${icon}" ${service.icon === icon ? "selected" : ""}>${icon}</option>`).join("")}
+              </select>
+            </div>
+            
+            <!-- Image Upload -->
+            <div class="col-md-8 mb-2">
+              <label class="form-label">Image URL</label>
+              <input type="text" class="form-control service-image" placeholder="/images/demo1.jpeg" value="${service.imageUrl || ""}">
+            </div>
+            <div class="col-md-4 mb-2">
+              <label class="form-label">Alt Text</label>
+              <input type="text" class="form-control service-alt" placeholder="Image description" value="${service.imageAlt || ""}">
+            </div>
+            
+            <!-- Features -->
+            <div class="col-12 mb-2">
+              <label class="form-label">Features (one per line)</label>
+              <textarea class="form-control service-features" rows="3" placeholder="Feature 1&#10;Feature 2&#10;Feature 3">${service.features ? service.features.join("\n") : ""}</textarea>
+            </div>
+            
+            <!-- Status -->
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input service-active" type="checkbox" id="active-${cardIndex}" ${service.isActive !== false ? "checked" : ""}>
+                <label class="form-check-label" for="active-${cardIndex}">
+                  Active (Show this service)
+                </label>
+              </div>
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
+
+        // Add color change listener
+        const colorInput = card.querySelector(".service-color");
+        const colorText = card.querySelector(".input-group-text");
+        colorInput.addEventListener("input", (e) => {
+          colorText.textContent = e.target.value;
+        });
+      }
+
+      // Remove service card
+      function removeServiceCard(button) {
+        const card = button.closest(".service-card");
+        if (card) {
+          card.remove();
+          updateCardNumbers();
+        }
+      }
+
+      // Update card numbers after removal
+      function updateCardNumbers() {
+        const cards = document.querySelectorAll(".service-card");
+        cards.forEach((card, index) => {
+          card.setAttribute("data-index", index);
+          const header = card.querySelector("h6");
+          if (header) {
+            header.innerHTML = `<i class="bi bi-grip-vertical text-muted me-2" style="cursor: move"></i>Service Card ${index + 1}`;
+          }
+        });
+      }
+
+      // Initialize sortable
+      function initSortable() {
+        const container = document.getElementById("services-container");
+        if (container) {
+          new Sortable(container, {
+            animation: 150,
+            handle: ".bi-grip-vertical",
+            onEnd: function () {
+              updateCardNumbers();
+            },
+          });
+        }
+      }
+
+      // Update preview
+      function updatePreview(servicesData) {
+        const preview = document.getElementById("preview-content");
+
+        let html = `
+          <div class="mb-3">
+            <span class="badge bg-warning">${servicesData.badge || ""}</span>
+          </div>
+          <h2 class="mb-3">
+            ${servicesData.title?.prefix || ""} <span style="color: #E63946">${servicesData.title?.text || ""}</span>
+          </h2>
+          <p class="lead">${servicesData.subtitle || ""}</p>
+          
+          <h5 class="mt-4">Service Cards Preview:</h5>
+          <div class="row">
+        `;
+
+        if (servicesData.services && servicesData.services.length > 0) {
+          servicesData.services.slice(0, 4).forEach((service) => {
+            html += `
+              <div class="col-md-6 mb-3">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                      <div class="badge bg-primary me-2">${service.number || ""}</div>
+                      <h6 class="mb-0">${service.title || ""}</h6>
+                    </div>
+                    <p class="small mb-2">${service.description?.substring(0, 100) || ""}...</p>
+                    <div class="small text-muted">
+                      <strong>Features:</strong> ${service.features?.slice(0, 2).join(", ") || "None"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+        } else {
+          html +=
+            '<div class="col-12"><p class="text-muted">No services added</p></div>';
+        }
+
+        html += `
+          </div>
+          <div class="mt-4">
+            <button class="btn btn-primary">${servicesData.ctaButton?.text || ""}</button>
+          </div>
+        `;
+
+        preview.innerHTML = html;
+      }
+
+      // Save services data
+      async function saveServices(e) {
+        e.preventDefault();
+
+        try {
+          showAlert("Saving services data...", "info");
+
+          // Collect services
+          const services = [];
+          const serviceCards = document.querySelectorAll(".service-card");
+
+          serviceCards.forEach((card, index) => {
+            const service = {
+              number: card.querySelector(".service-number").value,
+              title: card.querySelector(".service-title").value,
+              stat: card.querySelector(".service-stat").value,
+              description: card.querySelector(".service-description").value,
+              color: card.querySelector(".service-color").value,
+              icon: card.querySelector(".service-icon").value,
+              imageUrl: card.querySelector(".service-image").value,
+              imageAlt: card.querySelector(".service-alt").value,
+              order:
+                parseInt(card.querySelector(".service-order").value) || index,
+              isActive: card.querySelector(".service-active").checked,
+              features: card
+                .querySelector(".service-features")
+                .value.split("\n")
+                .filter((f) => f.trim()),
+            };
+
+            // Only add if title and description are provided
+            if (service.title && service.description) {
+              services.push(service);
+            }
+          });
+
+          const servicesData = {
+            badge: document.getElementById("badge").value,
+            title: {
+              prefix: document.getElementById("title-prefix").value,
+              text: document.getElementById("title-text").value,
+            },
+            subtitle: document.getElementById("subtitle").value,
+            services: services,
+            ctaButton: {
+              text: document.getElementById("cta-text").value,
+              url: document.getElementById("cta-url").value,
+            },
+          };
+
+          const response = await fetch("/api/services-section", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(servicesData),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(
+              errorData.error || `HTTP error! status: ${response.status}`,
+            );
+          }
+
+          const result = await response.json();
+          showAlert("Services section saved successfully!", "success");
+
+          // Update preview with saved data
+          updatePreview(result.services || servicesData);
+        } catch (error) {
+          console.error("Error saving services:", error);
+          showAlert("Error saving services: " + error.message, "danger");
+        }
+      }
+
+      // Show alert
+      function showAlert(message, type) {
+        const alertContainer = document.getElementById("alert-container");
+        const alertDiv = document.createElement("div");
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.innerHTML = `${message}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
+        alertContainer.appendChild(alertDiv);
+        setTimeout(() => {
+          if (alertDiv.parentNode === alertContainer) {
+            alertDiv.remove();
+          }
+        }, 5000);
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        loadServicesData();
+        document
+          .getElementById("services-form")
+          .addEventListener("submit", saveServices);
+      });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

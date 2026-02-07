@@ -1,82 +1,94 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const contentSchema = new mongoose.Schema({
-  title: { 
-    type: String, 
-    required: true 
+  title: {
+    type: String,
+    required: true,
+    trim: true,
   },
-  slug: { 
-    type: String, 
+  slug: {
+    type: String,
     unique: true,
-    sparse: true
+    sparse: true,
   },
-  content: { 
-    type: String, 
-    required: true 
+  type: {
+    type: String,
+    enum: ["post", "page", "service", "testimonial"],
+    default: "post",
+  },
+  status: {
+    type: String,
+    enum: ["draft", "published", "archived"],
+    default: "draft",
+  },
+  content: {
+    type: String,
+    required: true,
   },
   excerpt: {
     type: String,
-    maxlength: 200
+    maxlength: 200,
   },
-  type: { 
-    type: String, 
-    default: 'post' 
-  },
-  status: { 
-    type: String, 
-    default: 'draft' 
-  },
-  categories: [{ 
-    type: String 
-  }],
-  tags: [{ 
-    type: String 
-  }],
   featuredImage: {
-    type: String
+    url: String,
+    alt: String,
   },
-  metaTitle: {
-    type: String
-  },
-  metaDescription: {
-    type: String
-  },
-  lastEditedBy: {
+  gallery: [
+    {
+      url: String,
+      alt: String,
+      caption: String,
+    },
+  ],
+  categories: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+    },
+  ],
+  tags: [
+    {
+      type: String,
+      trim: true,
+    },
+  ],
+  metaTitle: String,
+  metaDescription: String,
+  metaKeywords: [String],
+  author: {
     type: String,
-    default: 'admin'
+    default: "Admin",
   },
-  lastEditedAt: {
+  views: {
+    type: Number,
+    default: 0,
+  },
+  publishedAt: Date,
+  scheduledFor: Date,
+  createdBy: {
+    type: String,
+    default: "admin",
+  },
+  editedBy: String,
+  createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now,
   },
-  createdAt: { 
-    type: Date, 
-    default: Date.now 
+  updatedAt: {
+    type: Date,
+    default: Date.now,
   },
-  updatedAt: { 
-    type: Date, 
-    default: Date.now 
-  }
 });
 
-// Generate slug from title if not provided
-contentSchema.pre('save', async function() {
-  this.updatedAt = Date.now();
-  this.lastEditedAt = Date.now();
-  
-  // Generate slug if not provided
-  if (!this.slug && this.title) {
+// Generate slug from title before saving
+contentSchema.pre("save", function (next) {
+  if (this.isModified("title") && !this.slug) {
     this.slug = this.title
       .toLowerCase()
-      .replace(/[^\w\s]/gi, '')
-      .replace(/\s+/g, '-')
-      .substring(0, 100);
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
   }
-  
-  // Generate excerpt from content if not provided
-  if (!this.excerpt && this.content) {
-    this.excerpt = this.content.substring(0, 197) + '...';
-  }
+  next();
 });
 
-module.exports = mongoose.model('Content', contentSchema);
+module.exports = mongoose.model("Content", contentSchema);

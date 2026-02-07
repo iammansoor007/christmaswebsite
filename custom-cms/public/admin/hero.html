@@ -1,257 +1,930 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
+  <head>
     <title>Manage Hero Section</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+    />
     <style>
-        body { background: #f8f9fa; padding: 20px; }
-        .hero-preview { background: #1a1a2e; color: white; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
-        .form-container { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+      body {
+        background: #f8f9fa;
+        padding: 20px;
+      }
+      .hero-preview {
+        background: #1a1a2e;
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        min-height: 300px;
+      }
+      .form-container {
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+      }
+      .alert-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 9999;
+        max-width: 400px;
+      }
+      .image-preview {
+        max-height: 200px;
+        object-fit: contain;
+        margin-bottom: 10px;
+      }
+      .preview-section {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+      }
+
+      /* Upload styles */
+      .upload-area {
+        border: 2px dashed #6c757d;
+        border-radius: 8px;
+        padding: 30px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.3s;
+        background: #f8f9fa;
+        margin-bottom: 15px;
+      }
+      .upload-area:hover {
+        border-color: #0d6efd;
+        background: #e7f1ff;
+      }
+      .upload-area.dragover {
+        border-color: #0d6efd;
+        background: #e7f1ff;
+      }
+      .upload-icon {
+        font-size: 48px;
+        color: #6c757d;
+        margin-bottom: 10px;
+      }
+      .upload-text {
+        color: #6c757d;
+        margin-bottom: 5px;
+      }
+      .upload-hint {
+        font-size: 12px;
+        color: #adb5bd;
+      }
+      .upload-preview {
+        max-width: 200px;
+        max-height: 150px;
+        object-fit: contain;
+        margin-top: 10px;
+        border-radius: 4px;
+      }
+      .upload-progress {
+        height: 5px;
+        margin-top: 10px;
+      }
+      .upload-filename {
+        font-size: 12px;
+        color: #6c757d;
+        margin-top: 5px;
+        word-break: break-all;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <!-- Alert Container -->
+    <div class="alert-container" id="alert-container"></div>
+
     <div class="container">
-        <h1 class="mb-4">Manage Hero Section</h1>
-        
-        <!-- Hero Preview -->
-        <div class="hero-preview mb-4">
-            <h2 id="preview-title">Loading...</h2>
-            <p id="preview-subtitle"></p>
-            <div id="preview-features"></div>
-            <div id="preview-cta"></div>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Manage Hero Section</h1>
+        <a href="/admin" class="btn btn-outline-secondary">
+          <i class="bi bi-arrow-left"></i> Back to Admin
+        </a>
+      </div>
+
+      <!-- Hero Preview -->
+      <div class="hero-preview">
+        <h2 id="preview-title">Loading...</h2>
+        <p id="preview-subtitle" class="lead"></p>
+
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <div id="preview-features" class="preview-section"></div>
+          </div>
+          <div class="col-md-6">
+            <div id="preview-cta" class="preview-section"></div>
+          </div>
         </div>
-        
-        <!-- Edit Form -->
-        <div class="form-container">
-            <form id="hero-form">
-                <h3>Edit Hero Content</h3>
-                
-                <div class="mb-3">
-                    <label>Badge Text</label>
-                    <input type="text" class="form-control" id="badge-text" placeholder="Limited Time Offer">
-                </div>
-                
-                <div class="row mb-3">
-                    <div class="col">
-                        <label>Title Part 1</label>
-                        <input type="text" class="form-control" id="title-part1" placeholder="Illuminate">
-                    </div>
-                    <div class="col">
-                        <label>Title Part 2</label>
-                        <input type="text" class="form-control" id="title-part2" placeholder="Your Holidays">
-                    </div>
-                </div>
-                
-                <div class="mb-3">
-                    <label>Subtitle</label>
-                    <textarea class="form-control" id="subtitle" rows="2" placeholder="Premium Christmas Lighting..."></textarea>
-                </div>
-                
-                <div class="mb-3">
-                    <label>Features (one per line)</label>
-                    <textarea class="form-control" id="features" rows="4" placeholder="Professional Installation
-Energy Efficient
-Custom Design
-Free Estimates"></textarea>
-                </div>
-                
-                <div class="row mb-3">
-                    <div class="col">
-                        <label>CTA Subtext</label>
-                        <input type="text" class="form-control" id="cta-subtext" placeholder="Call Now for Free Quote">
-                    </div>
-                    <div class="col">
-                        <label>Phone Number</label>
-                        <input type="text" class="form-control" id="cta-phone" placeholder="(123) 456-7890">
-                    </div>
-                </div>
-                <!-- Add this after the phone number fields -->
-<hr class="my-4">
 
-<!-- Background Image Upload -->
-<div class="mb-4">
-    <h4>Background Image</h4>
-    
-    <!-- Current Image Preview -->
-    <div class="mb-3">
-        <label class="form-label">Current Background Image:</label>
-        <div id="current-bg-preview" class="border p-2 rounded text-center">
-            <img id="bg-preview-img" src="" alt="Background preview" class="img-fluid mb-2" style="max-height: 150px;">
-            <div id="bg-preview-url" class="text-muted small"></div>
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <div class="preview-section">
+              <h5>Background Image:</h5>
+              <img
+                id="preview-bg-img"
+                src=""
+                alt=""
+                class="img-fluid rounded"
+              />
+              <div id="preview-bg-alt" class="small mt-2"></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="preview-section">
+              <h5>Side Image:</h5>
+              <img
+                id="preview-side-img"
+                src=""
+                alt=""
+                class="img-fluid rounded"
+              />
+              <div id="preview-side-alt" class="small mt-2"></div>
+              <div id="preview-image-badge" class="badge bg-warning mt-2"></div>
+            </div>
+          </div>
         </div>
-    </div>
-    
-    <!-- Image URL Input -->
-    <div class="mb-3">
-        <label for="background-url" class="form-label">Image URL</label>
-        <input type="text" class="form-control" id="background-url" 
-               placeholder="/images/hero-background.jpg">
-        <div class="form-text">Enter full URL or path to image</div>
-    </div>
-    
-    <!-- Alt Text -->
-    <div class="mb-3">
-        <label for="background-alt" class="form-label">Alt Text</label>
-        <input type="text" class="form-control" id="background-alt" 
-               placeholder="Christmas Lights Background">
-    </div>
-</div>
+      </div>
 
-<hr class="my-4">
+      <!-- Edit Form -->
+      <div class="form-container">
+        <form id="hero-form">
+          <h3 class="mb-4 border-bottom pb-2">Edit Hero Content</h3>
 
-<!-- Side Image Upload -->
-<div class="mb-4">
-    <h4>Side Image (Right Image)</h4>
-    
-    <!-- Current Image Preview -->
-    <div class="mb-3">
-        <label class="form-label">Current Side Image:</label>
-        <div id="current-side-preview" class="border p-2 rounded text-center">
-            <img id="side-preview-img" src="" alt="Side image preview" class="img-fluid mb-2" style="max-height: 150px;">
-            <div id="side-preview-url" class="text-muted small"></div>
-        </div>
-    </div>
-    
-    <!-- Image URL Input -->
-    <div class="mb-3">
-        <label for="sideimage-url" class="form-label">Image URL</label>
-        <input type="text" class="form-control" id="sideimage-url" 
-               placeholder="/images/rightimage.jpg">
-        <div class="form-text">Enter full URL or path to image</div>
-    </div>
-    
-    <!-- Alt Text -->
-    <div class="mb-3">
-        <label for="sideimage-alt" class="form-label">Alt Text</label>
-        <input type="text" class="form-control" id="sideimage-alt" 
-               placeholder="Beautiful Christmas Tree with professional holiday lighting">
-    </div>
-</div>
+          <!-- Badge -->
+          <div class="mb-4">
+            <h5>Badge</h5>
+            <div class="mb-3">
+              <label class="form-label">Badge Text</label>
+              <input
+                type="text"
+                class="form-control"
+                id="badge-text"
+                placeholder="LIMITED TIME: 25% Off Early Bird"
+              />
+            </div>
+          </div>
 
-<hr class="my-4">
+          <!-- Title -->
+          <div class="mb-4">
+            <h5>Title</h5>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Title Part 1</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title-part1"
+                  placeholder="Illuminate"
+                />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Title Part 2</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="title-part2"
+                  placeholder="Your Holidays"
+                />
+              </div>
+            </div>
+          </div>
 
-<!-- Image Badge -->
-<div class="mb-3">
-    <label for="image-badge" class="form-label">Image Badge Text</label>
-    <input type="text" class="form-control" id="image-badge" 
-           placeholder="Our Premium Work">
-</div>
-                
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-            </form>
-        </div>
+          <!-- Subtitle -->
+          <div class="mb-4">
+            <h5>Subtitle</h5>
+            <div class="mb-3">
+              <textarea
+                class="form-control"
+                id="subtitle"
+                rows="2"
+                placeholder="Premium Christmas Lighting installations"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Features -->
+          <div class="mb-4">
+            <h5>Features</h5>
+            <div class="mb-3">
+              <label class="form-label">Features (one per line)</label>
+              <textarea
+                class="form-control"
+                id="features"
+                rows="4"
+                placeholder="Professional Installation&#10;Energy Efficient&#10;Custom Design&#10;Free Estimates"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- Call to Action -->
+          <div class="mb-4">
+            <h5>Call to Action</h5>
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">CTA Subtext</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="cta-subtext"
+                  placeholder="Call Now for Free Quote"
+                />
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Phone Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="cta-phone"
+                  placeholder="(123) 456-7890"
+                />
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4" />
+
+          <!-- Images Section -->
+          <h4 class="mb-4">Images</h4>
+
+          <!-- Background Image Upload -->
+          <div class="mb-4">
+            <h5>Background Image</h5>
+
+            <!-- Upload Area -->
+            <div class="upload-area" id="bg-upload-area">
+              <div class="upload-icon">
+                <i class="bi bi-cloud-arrow-up"></i>
+              </div>
+              <div class="upload-text">
+                Drag & drop background image or click to browse
+              </div>
+              <div class="upload-hint">JPG, PNG, GIF, WebP up to 10MB</div>
+              <input
+                type="file"
+                id="bg-file-input"
+                accept="image/*"
+                style="display: none"
+              />
+            </div>
+
+            <!-- Image Preview -->
+            <div id="bg-preview-container" style="display: none">
+              <img
+                id="bg-preview"
+                class="upload-preview"
+                src=""
+                alt="Preview"
+              />
+              <div class="upload-filename" id="bg-filename"></div>
+              <div
+                class="progress upload-progress"
+                id="bg-progress"
+                style="display: none"
+              >
+                <div
+                  class="progress-bar progress-bar-striped progress-bar-animated"
+                  role="progressbar"
+                ></div>
+              </div>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-danger mt-2"
+                onclick="cancelUpload('bg')"
+              >
+                <i class="bi bi-x-circle"></i> Cancel
+              </button>
+            </div>
+
+            <!-- URL Input (fallback) -->
+            <div class="row mt-3">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Or enter Image URL</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="background-url"
+                  placeholder="/images/hero-background.jpg"
+                />
+                <div class="form-text">Enter full URL or path to image</div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Alt Text</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="background-alt"
+                  placeholder="Christmas Lights Background"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Side Image Upload -->
+          <div class="mb-4">
+            <h5>Side Image</h5>
+
+            <!-- Upload Area -->
+            <div class="upload-area" id="side-upload-area">
+              <div class="upload-icon">
+                <i class="bi bi-cloud-arrow-up"></i>
+              </div>
+              <div class="upload-text">
+                Drag & drop side image or click to browse
+              </div>
+              <div class="upload-hint">JPG, PNG, GIF, WebP up to 10MB</div>
+              <input
+                type="file"
+                id="side-file-input"
+                accept="image/*"
+                style="display: none"
+              />
+            </div>
+
+            <!-- Image Preview -->
+            <div id="side-preview-container" style="display: none">
+              <img
+                id="side-preview"
+                class="upload-preview"
+                src=""
+                alt="Preview"
+              />
+              <div class="upload-filename" id="side-filename"></div>
+              <div
+                class="progress upload-progress"
+                id="side-progress"
+                style="display: none"
+              >
+                <div
+                  class="progress-bar progress-bar-striped progress-bar-animated"
+                  role="progressbar"
+                ></div>
+              </div>
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-danger mt-2"
+                onclick="cancelUpload('side')"
+              >
+                <i class="bi bi-x-circle"></i> Cancel
+              </button>
+            </div>
+
+            <!-- URL Input (fallback) -->
+            <div class="row mt-3">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Or enter Image URL</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="sideimage-url"
+                  placeholder="/images/rightimage.jpg"
+                />
+                <div class="form-text">Enter full URL or path to image</div>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Alt Text</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="sideimage-alt"
+                  placeholder="Beautiful Christmas Tree with professional holiday lighting"
+                />
+              </div>
+            </div>
+
+            <!-- Image Badge -->
+            <div class="mb-3">
+              <label class="form-label">Image Badge Text</label>
+              <input
+                type="text"
+                class="form-control"
+                id="image-badge"
+                placeholder="Our Premium Work"
+              />
+            </div>
+          </div>
+
+          <!-- Stats Section -->
+          <div class="mb-4">
+            <h5>Statistics (Optional)</h5>
+            <p class="text-muted">
+              These are predefined stats. To change them, you'll need to modify
+              the code.
+            </p>
+            <div id="stats-preview" class="alert alert-info">
+              <p>Current Stats:</p>
+              <ul id="stats-list"></ul>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button
+              type="button"
+              class="btn btn-secondary me-md-2"
+              onclick="loadHero()"
+            >
+              <i class="bi bi-arrow-clockwise"></i> Reload
+            </button>
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-save"></i> Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
-    
+
     <script>
-       // Load current hero data
-async function loadHero() {
-    try {
-        const response = await fetch('/api/hero');
-        const hero = await response.json();
-        
-        // Fill form
-        document.getElementById('badge-text').value = hero.badge?.text || '';
-        document.getElementById('title-part1').value = hero.title?.part1 || '';
-        document.getElementById('title-part2').value = hero.title?.part2 || '';
-        document.getElementById('subtitle').value = hero.subtitle || '';
-        document.getElementById('features').value = hero.features?.join('\n') || '';
-        document.getElementById('cta-subtext').value = hero.cta?.subtext || '';
-        document.getElementById('cta-phone').value = hero.cta?.phone || '';
-        
-        // Fill image fields
-        document.getElementById('background-url').value = hero.backgroundImage?.url || '';
-        document.getElementById('background-alt').value = hero.backgroundImage?.alt || '';
-        document.getElementById('sideimage-url').value = hero.sideImage?.url || '';
-        document.getElementById('sideimage-alt').value = hero.sideImage?.alt || '';
-        document.getElementById('image-badge').value = hero.imageBadge || '';
-        
-        // Update image previews
-        updateImagePreview('bg', hero.backgroundImage?.url);
-        updateImagePreview('side', hero.sideImage?.url);
-        
-        // Update preview
-        updatePreview(hero);
-    } catch (error) {
-        alert('Error loading hero data: ' + error.message);
-    }
-}
+      // Upload state
+      const uploadState = {
+        bg: { file: null, previewUrl: null },
+        side: { file: null, previewUrl: null },
+      };
 
-// Update image preview
-function updateImagePreview(type, url) {
-    const imgElement = document.getElementById(`${type}-preview-img`);
-    const urlElement = document.getElementById(`${type}-preview-url`);
-    const container = document.getElementById(`current-${type}-preview`);
-    
-    if (url) {
-        imgElement.src = url;
-        imgElement.style.display = 'block';
-        urlElement.textContent = url;
-        container.style.display = 'block';
-    } else {
-        imgElement.style.display = 'none';
-        urlElement.textContent = 'No image set';
-    }
-}
-        // Update preview
-        function updatePreview(hero) {
-            document.getElementById('preview-title').textContent = 
-                (hero.title?.part1 || '') + ' ' + (hero.title?.part2 || '');
-            document.getElementById('preview-subtitle').textContent = hero.subtitle || '';
-            
-            // Features
-            const featuresDiv = document.getElementById('preview-features');
-            featuresDiv.innerHTML = '<h5>Features:</h5>';
-            if (hero.features && hero.features.length > 0) {
-                featuresDiv.innerHTML += '<ul>' + 
-                    hero.features.map(f => `<li>${f}</li>`).join('') + 
-                    '</ul>';
-            }
-            
-            // CTA
-            document.getElementById('preview-cta').innerHTML = 
-                `<h5>Call to Action:</h5>
-                 <p>${hero.cta?.subtext || ''}</p>
-                 <strong>${hero.cta?.phone || ''}</strong>`;
+      // Load current hero data
+      async function loadHero() {
+        try {
+          showAlert("Loading hero data...", "info");
+
+          const response = await fetch("/api/hero");
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+
+          const hero = await response.json();
+
+          // Fill form fields
+          document.getElementById("badge-text").value = hero.badge?.text || "";
+          document.getElementById("title-part1").value =
+            hero.title?.part1 || "";
+          document.getElementById("title-part2").value =
+            hero.title?.part2 || "";
+          document.getElementById("subtitle").value = hero.subtitle || "";
+          document.getElementById("features").value =
+            hero.features?.join("\n") || "";
+          document.getElementById("cta-subtext").value =
+            hero.cta?.subtext || "";
+          document.getElementById("cta-phone").value = hero.cta?.phone || "";
+
+          // Fill image fields
+          document.getElementById("background-url").value =
+            hero.backgroundImage?.url || "";
+          document.getElementById("background-alt").value =
+            hero.backgroundImage?.alt || "";
+          document.getElementById("sideimage-url").value =
+            hero.sideImage?.url || "";
+          document.getElementById("sideimage-alt").value =
+            hero.sideImage?.alt || "";
+          document.getElementById("image-badge").value = hero.imageBadge || "";
+
+          // Update preview
+          updatePreview(hero);
+
+          // Clear upload previews
+          cancelUpload("bg");
+          cancelUpload("side");
+
+          showAlert("Hero data loaded successfully!", "success");
+        } catch (error) {
+          console.error("Error loading hero data:", error);
+          showAlert("Error loading hero data: " + error.message, "danger");
         }
-        
-        // Save hero
-       // Save hero
-async function saveHero(e) {
-    e.preventDefault();
-    
-    const heroData = {
-        badge: {
-            text: document.getElementById('badge-text').value
-        },
-        title: {
-            part1: document.getElementById('title-part1').value,
-            part2: document.getElementById('title-part2').value
-        },
-        subtitle: document.getElementById('subtitle').value,
-        features: document.getElementById('features').value.split('\n').filter(f => f.trim()),
-        cta: {
-            subtext: document.getElementById('cta-subtext').value,
-            phone: document.getElementById('cta-phone').value
-        },
-        // Add image data
-        backgroundImage: {
-            url: document.getElementById('background-url').value,
-            alt: document.getElementById('background-alt').value
-        },
-        sideImage: {
-            url: document.getElementById('sideimage-url').value,
-            alt: document.getElementById('sideimage-alt').value
-        },
-        imageBadge: document.getElementById('image-badge').value
-    };
-    
-    // ... rest of your saveHero function ...
-}
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            loadHero();
-            document.getElementById('hero-form').addEventListener('submit', saveHero);
+      }
+
+      // Update preview
+      function updatePreview(hero) {
+        // Title
+        document.getElementById("preview-title").textContent =
+          (hero.title?.part1 || "") + " " + (hero.title?.part2 || "");
+
+        // Subtitle
+        document.getElementById("preview-subtitle").textContent =
+          hero.subtitle || "";
+
+        // Features
+        const featuresDiv = document.getElementById("preview-features");
+        if (hero.features && hero.features.length > 0) {
+          featuresDiv.innerHTML =
+            "<h5>Features:</h5><ul>" +
+            hero.features.map((f) => `<li>${f}</li>`).join("") +
+            "</ul>";
+        } else {
+          featuresDiv.innerHTML = '<p class="text-muted">No features set</p>';
+        }
+
+        // CTA
+        const ctaDiv = document.getElementById("preview-cta");
+        ctaDiv.innerHTML = `
+                <h5>Call to Action:</h5>
+                <p>${hero.cta?.subtext || "No CTA text set"}</p>
+                <h3>${hero.cta?.phone || "No phone number set"}</h3>
+            `;
+
+        // Images
+        const bgImg = document.getElementById("preview-bg-img");
+        bgImg.src = hero.backgroundImage?.url || "";
+        bgImg.alt = hero.backgroundImage?.alt || "";
+        document.getElementById("preview-bg-alt").textContent =
+          hero.backgroundImage?.alt || "No alt text";
+
+        const sideImg = document.getElementById("preview-side-img");
+        sideImg.src = hero.sideImage?.url || "";
+        sideImg.alt = hero.sideImage?.alt || "";
+        document.getElementById("preview-side-alt").textContent =
+          hero.sideImage?.alt || "No alt text";
+        document.getElementById("preview-image-badge").textContent =
+          hero.imageBadge || "";
+
+        // Stats
+        const statsList = document.getElementById("stats-list");
+        if (hero.stats && hero.stats.length > 0) {
+          statsList.innerHTML = hero.stats
+            .map(
+              (stat) =>
+                `<li>${stat.number} - ${stat.label} (${stat.icon})</li>`,
+            )
+            .join("");
+        } else {
+          statsList.innerHTML = "<li>No stats configured</li>";
+        }
+      }
+
+      // Save hero
+      async function saveHero(e) {
+        e.preventDefault();
+
+        try {
+          showAlert("Saving hero data...", "info");
+
+          // First upload any pending images
+          if (uploadState.bg.file) {
+            await uploadImage("bg");
+          }
+          if (uploadState.side.file) {
+            await uploadImage("side");
+          }
+
+          const heroData = {
+            badge: {
+              text: document.getElementById("badge-text").value,
+            },
+            title: {
+              part1: document.getElementById("title-part1").value,
+              part2: document.getElementById("title-part2").value,
+            },
+            subtitle: document.getElementById("subtitle").value,
+            features: document
+              .getElementById("features")
+              .value.split("\n")
+              .filter((f) => f.trim()),
+            cta: {
+              subtext: document.getElementById("cta-subtext").value,
+              phone: document.getElementById("cta-phone").value,
+            },
+            backgroundImage: {
+              url: document.getElementById("background-url").value,
+              alt: document.getElementById("background-alt").value,
+            },
+            sideImage: {
+              url: document.getElementById("sideimage-url").value,
+              alt: document.getElementById("sideimage-alt").value,
+            },
+            imageBadge: document.getElementById("image-badge").value,
+          };
+
+          const response = await fetch("/api/hero", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(heroData),
+          });
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(
+              errorData.error || `HTTP error! status: ${response.status}`,
+            );
+          }
+
+          const result = await response.json();
+
+          showAlert("Hero section saved successfully!", "success");
+          console.log("Save result:", result);
+
+          // Update preview with saved data
+          updatePreview(result.hero || heroData);
+
+          // Clear upload previews after save
+          cancelUpload("bg");
+          cancelUpload("side");
+        } catch (error) {
+          console.error("Error saving hero:", error);
+          showAlert("Error saving hero: " + error.message, "danger");
+        }
+      }
+
+      // In the hero.html file, update the uploadImage function:
+
+      // Upload image function
+      async function uploadImage(type) {
+        const file = uploadState[type].file;
+        if (!file) return;
+
+        const altText = document.getElementById(
+          `${type === "bg" ? "background" : "sideimage"}-alt`,
+        ).value;
+        const progressBar = document.getElementById(`${type}-progress`);
+        const progressElement = progressBar.querySelector(".progress-bar");
+
+        try {
+          // Show progress
+          progressBar.style.display = "block";
+          progressElement.style.width = "0%";
+
+          const formData = new FormData();
+          formData.append("image", file);
+          formData.append(
+            "field",
+            type === "bg" ? "backgroundImage" : "sideImage",
+          );
+          formData.append("altText", altText);
+
+          // Test file type before upload
+          if (!file.type.startsWith("image/")) {
+            throw new Error(
+              "Please select an image file (JPG, PNG, GIF, WebP, SVG)",
+            );
+          }
+
+          // Check file size (10MB limit)
+          if (file.size > 10 * 1024 * 1024) {
+            throw new Error("File size must be less than 10MB");
+          }
+
+          const xhr = new XMLHttpRequest();
+
+          // Track upload progress
+          xhr.upload.addEventListener("progress", (e) => {
+            if (e.lengthComputable) {
+              const percent = Math.round((e.loaded / e.total) * 100);
+              progressElement.style.width = `${percent}%`;
+              progressElement.textContent = `${percent}%`;
+            }
+          });
+
+          const uploadPromise = new Promise((resolve, reject) => {
+            xhr.onload = () => {
+              progressBar.style.display = "none";
+              if (xhr.status === 200) {
+                try {
+                  const response = JSON.parse(xhr.responseText);
+                  if (response.success) {
+                    resolve(response);
+                  } else {
+                    reject(new Error(response.error || "Upload failed"));
+                  }
+                } catch (e) {
+                  reject(new Error("Invalid server response"));
+                }
+              } else {
+                let errorMsg = `Upload failed with status ${xhr.status}`;
+                try {
+                  const errorResponse = JSON.parse(xhr.responseText);
+                  errorMsg = errorResponse.error || errorMsg;
+                } catch (e) {}
+                reject(new Error(errorMsg));
+              }
+            };
+
+            xhr.onerror = () => {
+              progressBar.style.display = "none";
+              reject(new Error("Network error. Please check your connection."));
+            };
+
+            xhr.ontimeout = () => {
+              progressBar.style.display = "none";
+              reject(new Error("Upload timeout. Please try again."));
+            };
+          });
+
+          xhr.open("POST", "/api/upload/hero");
+          xhr.timeout = 60000; // 60 second timeout
+          xhr.send(formData);
+
+          const result = await uploadPromise;
+
+          // Update URL field with uploaded image URL
+          const urlField = document.getElementById(
+            `${type === "bg" ? "background" : "sideimage"}-url`,
+          );
+          urlField.value = result.url;
+
+          // Update alt text if provided
+          if (result.altText && result.altText.trim()) {
+            document.getElementById(
+              `${type === "bg" ? "background" : "sideimage"}-alt`,
+            ).value = result.altText;
+          }
+
+          showAlert(
+            `${type === "bg" ? "Background" : "Side"} image uploaded successfully!`,
+            "success",
+          );
+          return result.url;
+        } catch (error) {
+          console.error(`Error uploading ${type} image:`, error);
+          showAlert(`Error uploading image: ${error.message}`, "danger");
+          progressBar.style.display = "none";
+          progressElement.style.width = "0%";
+          progressElement.textContent = "";
+          throw error;
+        }
+      }
+
+      // Update the handleFileSelect function to validate files:
+      function handleFileSelect(type, file) {
+        // Reset any previous errors
+        const uploadArea = document.getElementById(`${type}-upload-area`);
+        uploadArea.style.borderColor = "#6c757d";
+
+        // Validate file type
+        if (!file.type.startsWith("image/")) {
+          showAlert(
+            "Please select an image file (JPG, PNG, GIF, WebP, SVG)",
+            "danger",
+          );
+          uploadArea.style.borderColor = "#dc3545";
+          return;
+        }
+
+        // Validate file size (10MB)
+        if (file.size > 10 * 1024 * 1024) {
+          showAlert("File size must be less than 10MB", "danger");
+          uploadArea.style.borderColor = "#dc3545";
+          return;
+        }
+
+        uploadState[type].file = file;
+
+        // Create preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          uploadState[type].previewUrl = e.target.result;
+
+          // Show preview
+          const previewContainer = document.getElementById(
+            `${type}-preview-container`,
+          );
+          const previewImg = document.getElementById(`${type}-preview`);
+          const filenameSpan = document.getElementById(`${type}-filename`);
+
+          previewImg.src = e.target.result;
+          filenameSpan.textContent = `${file.name} (${(file.size / 1024).toFixed(1)}KB)`;
+          previewContainer.style.display = "block";
+          uploadArea.style.display = "none";
+
+          // Show success border
+          uploadArea.style.borderColor = "#198754";
+        };
+
+        reader.onerror = () => {
+          showAlert("Error reading file", "danger");
+          uploadArea.style.borderColor = "#dc3545";
+        };
+
+        reader.readAsDataURL(file);
+      }
+      // Handle file selection
+      function handleFileSelect(type, file) {
+        if (!file.type.match("image.*")) {
+          showAlert("Please select an image file", "danger");
+          return;
+        }
+
+        if (file.size > 10 * 1024 * 1024) {
+          showAlert("File size must be less than 10MB", "danger");
+          return;
+        }
+
+        uploadState[type].file = file;
+
+        // Create preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          uploadState[type].previewUrl = e.target.result;
+
+          // Show preview
+          const previewContainer = document.getElementById(
+            `${type}-preview-container`,
+          );
+          const previewImg = document.getElementById(`${type}-preview`);
+          const filenameSpan = document.getElementById(`${type}-filename`);
+          const uploadArea = document.getElementById(`${type}-upload-area`);
+
+          previewImg.src = e.target.result;
+          filenameSpan.textContent = file.name;
+          previewContainer.style.display = "block";
+          uploadArea.style.display = "none";
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // Cancel upload
+      function cancelUpload(type) {
+        uploadState[type].file = null;
+        uploadState[type].previewUrl = null;
+
+        const previewContainer = document.getElementById(
+          `${type}-preview-container`,
+        );
+        const uploadArea = document.getElementById(`${type}-upload-area`);
+        const progressBar = document.getElementById(`${type}-progress`);
+
+        previewContainer.style.display = "none";
+        uploadArea.style.display = "block";
+        progressBar.style.display = "none";
+      }
+
+      // Show alert
+      function showAlert(message, type) {
+        const alertContainer = document.getElementById("alert-container");
+
+        const alertDiv = document.createElement("div");
+        alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+        alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+
+        alertContainer.appendChild(alertDiv);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+          if (alertDiv.parentNode === alertContainer) {
+            alertDiv.remove();
+          }
+        }, 5000);
+      }
+
+      // Setup drag and drop
+      function setupDragAndDrop(type) {
+        const uploadArea = document.getElementById(`${type}-upload-area`);
+        const fileInput = document.getElementById(`${type}-file-input`);
+
+        // Click to browse
+        uploadArea.addEventListener("click", () => fileInput.click());
+
+        // File input change
+        fileInput.addEventListener("change", (e) => {
+          if (e.target.files.length > 0) {
+            handleFileSelect(type, e.target.files[0]);
+          }
         });
+
+        // Drag and drop events
+        uploadArea.addEventListener("dragover", (e) => {
+          e.preventDefault();
+          uploadArea.classList.add("dragover");
+        });
+
+        uploadArea.addEventListener("dragleave", () => {
+          uploadArea.classList.remove("dragover");
+        });
+
+        uploadArea.addEventListener("drop", (e) => {
+          e.preventDefault();
+          uploadArea.classList.remove("dragover");
+
+          if (e.dataTransfer.files.length > 0) {
+            handleFileSelect(type, e.dataTransfer.files[0]);
+          }
+        });
+      }
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", () => {
+        loadHero();
+        document
+          .getElementById("hero-form")
+          .addEventListener("submit", saveHero);
+
+        // Setup drag and drop for both image types
+        setupDragAndDrop("bg");
+        setupDragAndDrop("side");
+      });
     </script>
-</body>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
