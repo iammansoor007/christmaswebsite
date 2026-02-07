@@ -1,7 +1,6 @@
 // components/ChristmasLightingSection.jsx
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { getServicesData } from "../services/dataService";
 import {
   FaCheckCircle,
   FaStar,
@@ -9,7 +8,9 @@ import {
   FaTools,
   FaChevronLeft,
   FaChevronRight,
-  FaCommentsDollar,
+  FaHome,
+  FaBuilding,
+  FaTree,
 } from "react-icons/fa";
 
 const ChristmasLightingSection = () => {
@@ -19,9 +20,7 @@ const ChristmasLightingSection = () => {
   const [screenSize, setScreenSize] = useState("desktop");
   const [isClient, setIsClient] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-
-  // Get data from services
-  const servicesData = getServicesData();
+  const [data, setData] = useState(null);
 
   // Use local images from public/images directory
   const images = [
@@ -42,37 +41,32 @@ const ChristmasLightingSection = () => {
     background: "linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%)",
   };
 
-  const features = [
-    {
-      title: "Warrantied Product & Service",
-      description: "Full coverage on all materials and installation work",
-      icon: FaShieldAlt,
-      color: colors.primary.red,
-      bgColor:
-        "linear-gradient(135deg, rgba(230, 57, 70, 0.08) 0%, rgba(244, 162, 97, 0.04) 100%)",
-      borderColor: "rgba(230, 57, 70, 0.2)",
-    },
-    {
-      title: "48-Hour Maintenance",
-      description: "Free maintenance within 48 hours of installation",
-      icon: FaTools,
-      color: colors.primary.gold,
-      bgColor:
-        "linear-gradient(135deg, rgba(244, 162, 97, 0.08) 0%, rgba(42, 157, 143, 0.04) 100%)",
-      borderColor: "rgba(244, 162, 97, 0.2)",
-    },
-    {
-      title: "Professional Installation",
-      description: "Licensed, insured, certified technicians",
-      icon: FaCheckCircle,
-      color: colors.primary.emerald,
-      bgColor:
-        "linear-gradient(135deg, rgba(42, 157, 143, 0.08) 0%, rgba(29, 53, 87, 0.04) 100%)",
-      borderColor: "rgba(42, 157, 143, 0.2)",
-    },
-  ];
+  // Icon mapping for features - MUST be defined before any hooks or conditionally
+  const iconMap = {
+    FaShieldAlt: FaShieldAlt,
+    FaTools: FaTools,
+    FaCheckCircle: FaCheckCircle,
+    FaHome: FaHome,
+    FaBuilding: FaBuilding,
+    FaTree: FaTree,
+  };
 
-  // Intersection Observer for scroll animations
+  // Load data from JSON file
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const response = await fetch("/data.json");
+        const jsonData = await response.json();
+        setData(jsonData);
+      } catch (error) {
+        console.error("Error loading data:", error);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  // Intersection Observer for scroll animations - FIXED: All hooks must be called unconditionally
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -188,6 +182,30 @@ const ChristmasLightingSection = () => {
 
   const headingSizes = getHeadingSize();
 
+  // Show loading state while data is being fetched
+  if (!data) {
+    return (
+      <section className="relative w-full min-w-[280px] overflow-hidden bg-gradient-to-b from-slate-50 to-white">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-slate-700">Loading...</div>
+        </div>
+      </section>
+    );
+  }
+
+  const { services } = data;
+
+  // Map features data - MUST be after all hooks are called
+  const features = services.features.map((feature) => ({
+    title: feature.title,
+    description: feature.description,
+    icon: iconMap[feature.icon] || FaCheckCircle,
+    color: feature.color || colors.primary.red,
+    bgColor:
+      "linear-gradient(135deg, rgba(230, 57, 70, 0.08) 0%, rgba(244, 162, 97, 0.04) 100%)",
+    borderColor: "rgba(230, 57, 70, 0.2)",
+  }));
+
   return (
     <section className="relative w-full min-w-[280px] overflow-hidden bg-gradient-to-b from-slate-50 to-white">
       {/* Container with responsive padding */}
@@ -232,7 +250,7 @@ const ChristmasLightingSection = () => {
                   <span
                     className={`${screenSize === "xs-300" ? "text-[10px]" : headingSizes.body} font-semibold text-slate-700 uppercase tracking-wider whitespace-nowrap overflow-hidden text-ellipsis`}
                   >
-                    {servicesData.badge || "Premium Service"}
+                    {services.badge}
                   </span>
                 </div>
 
@@ -246,7 +264,7 @@ const ChristmasLightingSection = () => {
                     <span
                       className={`block ${headingSizes.expert} font-semibold text-slate-700 mb-1 xs-300:mb-2`}
                     >
-                      Expert
+                      {services.title.prefix}
                     </span>
 
                     {/* Holiday Lighting - Main gradient text */}
@@ -255,7 +273,7 @@ const ChristmasLightingSection = () => {
                         <span
                           className={`relative z-10 bg-gradient-to-r from-rose-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent ${headingSizes.main} animate-gradient-shift`}
                         >
-                          Holiday Lighting
+                          {services.title.text}
                         </span>
                       </span>
                     </span>
@@ -266,9 +284,7 @@ const ChristmasLightingSection = () => {
                     className={`${headingSizes.body} text-slate-600 leading-relaxed font-light max-w-2xl mx-auto lg:mx-0 animate-fade-in-up`}
                     style={{ animationDelay: "0.3s" }}
                   >
-                    Transform your home into a captivating holiday showcase with
-                    our expert lighting installation. Professional service,
-                    premium quality, and unforgettable designs.
+                    {services.subtitle}
                   </p>
                 </div>
 
@@ -492,7 +508,7 @@ const ChristmasLightingSection = () => {
                     }}
                   >
                     <span className="relative z-10 flex items-center justify-center gap-1.5 xs-300:gap-2 xs:gap-3 text-white font-semibold">
-                      <span>Get Quote</span>
+                      <span>{services.buttons.primary}</span>
                       <svg
                         className={`${screenSize === "xs-300" ? "w-3 h-3" : "w-4 h-4"} xs:w-5 xs:h-5 group-hover:translate-x-0.5 xs-300:group-hover:translate-x-1 xs:group-hover:translate-x-1.5 transition-transform duration-300`}
                         fill="none"
@@ -524,7 +540,9 @@ const ChristmasLightingSection = () => {
                       hover:bg-gradient-to-r hover:from-amber-50/50 hover:via-white hover:to-amber-50/50`}
                     style={{ animationDelay: "0.7s" }}
                   >
-                    <span className="text-slate-700">View Gallery</span>
+                    <span className="text-slate-700">
+                      {services.buttons.secondary}
+                    </span>
                     <svg
                       className={`${screenSize === "xs-300" ? "w-3 h-3" : "w-4 h-4"} xs:w-5 xs:h-5 text-amber-600 group-hover:rotate-90 transition-transform duration-300`}
                       fill="none"
@@ -581,7 +599,10 @@ const ChristmasLightingSection = () => {
                       <p
                         className={`${screenSize === "xs-300" ? "text-xs" : "text-sm"} xs:text-base font-semibold text-slate-900 mb-0.5 xs-300:mb-1`}
                       >
-                        Trusted by <span className="text-amber-600">500+</span>{" "}
+                        Trusted by{" "}
+                        <span className="text-amber-600">
+                          {services.trustIndicators.homesCount}
+                        </span>{" "}
                         Homes
                       </p>
                       <div className="flex items-center justify-center xs-300:justify-start gap-0.5 xs-300:gap-1 xs:gap-1">
@@ -595,7 +616,8 @@ const ChristmasLightingSection = () => {
                         <span
                           className={`${screenSize === "xs-300" ? "text-[10px]" : "text-xs"} xs:text-sm text-slate-600 ml-1 xs-300:ml-1.5 xs:ml-2`}
                         >
-                          4.9/5 (248 reviews)
+                          {services.trustIndicators.rating} (
+                          {services.trustIndicators.reviewsCount})
                         </span>
                       </div>
                     </div>

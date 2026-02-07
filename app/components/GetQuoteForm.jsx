@@ -1,5 +1,6 @@
+// components/ModernQuoteForm.jsx
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   FaUser,
   FaEnvelope,
@@ -27,15 +28,36 @@ const ModernQuoteForm = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [data, setData] = useState(null);
 
-  const services = [
-    { id: "design", name: "Lighting Design", color: "#DC2626" },
-    { id: "installation", name: "Full Installation", color: "#F59E0B" },
-    { id: "removal", name: "Post-Holiday Removal", color: "#10B981" },
-    { id: "maintenance", name: "Maintenance", color: "#3B82F6" },
-    { id: "custom", name: "Custom Themes", color: "#8B5CF6" },
-    { id: "emergency", name: "Emergency Repair", color: "#EF4444" },
-  ];
+  // Load data
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const response = await fetch("/data.json");
+        const jsonData = await response.json();
+        setData(jsonData);
+      } catch (error) {
+        console.error("Error loading data:", error);
+      }
+    };
+
+    loadData();
+  }, []);
+
+  if (!data) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white py-4 px-3 xs:px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-gray-600">Loading quote form...</div>
+        </div>
+      </div>
+    );
+  }
+
+  const { quoteForm } = data;
+  const { badge, title, subtitle, services, contactInfo, benefits, stats } =
+    quoteForm;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -78,7 +100,7 @@ const ModernQuoteForm = () => {
           <div className="inline-flex items-center justify-center gap-1.5 xs:gap-2 px-3 xs:px-4 py-1.5 xs:py-2 bg-gradient-to-r from-red-600/10 via-amber-500/10 to-red-600/10 rounded-full border border-amber-500/30 shadow-sm mb-4 xs:mb-5">
             <GiSparkles className="text-xs xs:text-sm text-amber-500" />
             <span className="text-xs xs:text-sm font-medium text-gray-800 uppercase tracking-wide">
-              INSTANT QUOTE • NO COMMITMENT
+              {badge}
             </span>
           </div>
 
@@ -90,8 +112,7 @@ const ModernQuoteForm = () => {
             Quote
           </h1>
           <p className="text-sm xs:text-base text-gray-600 max-w-2xl mx-auto px-2">
-            Complete this form for a personalized quote. Our experts will
-            contact you within 24 hours.
+            {subtitle}
           </p>
         </div>
 
@@ -354,38 +375,18 @@ const ModernQuoteForm = () => {
                 Why Choose Us
               </h3>
               <div className="grid grid-cols-2 gap-4">
-                <div className="text-center">
-                  <div className="text-2xl xs:text-3xl font-bold text-amber-600">
-                    24h
+                {stats.map((stat, index) => (
+                  <div key={index} className="text-center">
+                    <div
+                      className={`text-2xl xs:text-3xl font-bold ${stat.color}`}
+                    >
+                      {stat.value}
+                    </div>
+                    <div className="text-gray-700 text-xs xs:text-sm font-medium">
+                      {stat.label}
+                    </div>
                   </div>
-                  <div className="text-gray-700 text-xs xs:text-sm font-medium">
-                    Response Time
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl xs:text-3xl font-bold text-emerald-600">
-                    500+
-                  </div>
-                  <div className="text-gray-700 text-xs xs:text-sm font-medium">
-                    Happy Clients
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl xs:text-3xl font-bold text-red-600">
-                    4.9★
-                  </div>
-                  <div className="text-gray-700 text-xs xs:text-sm font-medium">
-                    Rating
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl xs:text-3xl font-bold text-blue-600">
-                    100%
-                  </div>
-                  <div className="text-gray-700 text-xs xs:text-sm font-medium">
-                    Satisfaction
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
@@ -395,19 +396,7 @@ const ModernQuoteForm = () => {
                 What You Get
               </h3>
               <div className="space-y-3">
-                {[
-                  {
-                    text: "Free on-site consultation",
-                    color: "text-emerald-600",
-                  },
-                  {
-                    text: "Professional design service",
-                    color: "text-amber-600",
-                  },
-                  { text: "Quality LED lighting", color: "text-blue-600" },
-                  { text: "Season-long warranty", color: "text-red-600" },
-                  { text: "Flexible scheduling", color: "text-purple-600" },
-                ].map((item, index) => (
+                {benefits.map((item, index) => (
                   <div key={index} className="flex items-center gap-3">
                     <div className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center flex-shrink-0">
                       <FaCheckCircle className="text-white text-xs" />
@@ -429,7 +418,7 @@ const ModernQuoteForm = () => {
               </h3>
               <div className="space-y-3">
                 <a
-                  href="tel:15551234567"
+                  href={`tel:${contactInfo.phone.replace(/[^\d]/g, "")}`}
                   className="flex items-center gap-3 hover:opacity-90 transition-opacity"
                 >
                   <div className="w-8 h-8 xs:w-10 xs:h-10 bg-white/20 rounded-lg flex items-center justify-center">
@@ -438,12 +427,12 @@ const ModernQuoteForm = () => {
                   <div>
                     <div className="text-xs text-white/80">Call us 24/7</div>
                     <div className="text-base xs:text-lg font-bold">
-                      (555) 123-4567
+                      {contactInfo.phone}
                     </div>
                   </div>
                 </a>
                 <a
-                  href="mailto:quote@example.com"
+                  href={`mailto:${contactInfo.email}`}
                   className="flex items-center gap-3 hover:opacity-90 transition-opacity"
                 >
                   <div className="w-8 h-8 xs:w-10 xs:h-10 bg-white/20 rounded-lg flex items-center justify-center">
@@ -452,7 +441,7 @@ const ModernQuoteForm = () => {
                   <div>
                     <div className="text-xs text-white/80">Email us</div>
                     <div className="text-base xs:text-lg font-bold">
-                      quote@example.com
+                      {contactInfo.email}
                     </div>
                   </div>
                 </a>

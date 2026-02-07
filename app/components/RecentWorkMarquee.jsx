@@ -1,55 +1,81 @@
 // components/RefinedWorkShowcase.jsx
-'use client'
-import { useRef, useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { getWorkShowcaseData } from '../services/dataService';
+"use client";
+import { useRef, useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 const RefinedWorkShowcase = () => {
   const containerRef = useRef(null);
   const [starPositions, setStarPositions] = useState([]);
-  
-  // Get data
-  const showcaseData = getWorkShowcaseData();
-  const { badge, title, description, cta } = showcaseData;
-  
+  const [data, setData] = useState(null);
+
+  // Load data
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const response = await fetch("/data.json");
+        const jsonData = await response.json();
+        setData(jsonData);
+      } catch (error) {
+        console.error("Error loading data:", error);
+      }
+    };
+
+    loadData();
+  }, []);
+
   // Real images from public/images directory
   const images = [
-    '/images/demo1.jpeg',
-    '/images/demo2.jpeg',
-    '/images/demo3.jpeg',
-    '/images/demo4.jpeg',
-    '/images/demo5.jpeg',
-    '/images/demo6.jpeg',
-    '/images/demo7.jpeg',
-    '/images/demo8.jpeg',
-    '/images/demo9.jpeg',
-    '/images/demo10.jpeg'
+    "/images/demo1.jpeg",
+    "/images/demo2.jpeg",
+    "/images/demo3.jpeg",
+    "/images/demo4.jpeg",
+    "/images/demo5.jpeg",
+    "/images/demo6.jpeg",
+    "/images/demo7.jpeg",
+    "/images/demo8.jpeg",
+    "/images/demo9.jpeg",
+    "/images/demo10.jpeg",
   ];
-  
+
   // For infinite scroll, duplicate images multiple times
   const duplicatedImages = [...images, ...images, ...images, ...images];
 
   // Generate star positions on client side only
   useEffect(() => {
-    const positions = Array(25).fill(null).map(() => ({
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      color: Math.random() > 0.5 ? '#FFD700' : '#FF0000',
-      duration: 1 + Math.random() * 2,
-    }));
+    const positions = Array(25)
+      .fill(null)
+      .map(() => ({
+        left: Math.random() * 100,
+        top: Math.random() * 100,
+        color: Math.random() > 0.5 ? "#FFD700" : "#FF0000",
+        duration: 1 + Math.random() * 2,
+      }));
     setStarPositions(positions);
   }, []);
+
+  if (!data) {
+    return (
+      <section className="relative w-full min-h-[600px] sm:min-h-screen bg-gradient-to-b from-dark-navy via-dark-navy/95 to-dark-navy overflow-hidden">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-white">Loading showcase...</div>
+        </div>
+      </section>
+    );
+  }
+
+  const { workShowcase } = data;
+  const { badge, title, description, cta } = workShowcase;
 
   return (
     <section className="relative w-full min-h-[600px] sm:min-h-screen bg-gradient-to-b from-dark-navy via-dark-navy/95 to-dark-navy overflow-hidden">
       {/* Modern Background Patterns */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-br from-dark-navy via-dark-navy/95 to-dark-navy"></div>
-        
+
         {/* Enhanced Background Gradients for Better Brightness */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-holiday-gold/20 via-transparent to-transparent"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-holiday-red/20 via-transparent to-transparent"></div>
-        
+
         {/* BRIGHTER Animated Christmas Lights */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {starPositions.map((star, i) => (
@@ -59,10 +85,10 @@ const RefinedWorkShowcase = () => {
               style={{
                 left: `${star.left}%`,
                 top: `${star.top}%`,
-                width: '3px',
-                height: '3px',
+                width: "3px",
+                height: "3px",
                 background: `radial-gradient(circle, ${star.color} 40%, transparent 60%)`,
-                filter: 'blur(1px)',
+                filter: "blur(1px)",
                 animation: `twinkle ${star.duration}s infinite alternate`,
               }}
             />
@@ -71,7 +97,7 @@ const RefinedWorkShowcase = () => {
       </div>
 
       {/* Main Container */}
-      <div 
+      <div
         ref={containerRef}
         className="relative w-full h-auto min-h-[600px] sm:min-h-screen flex items-center justify-center overflow-hidden px-2 sm:px-4 py-8 sm:py-0"
       >
@@ -81,15 +107,15 @@ const RefinedWorkShowcase = () => {
           <motion.div
             className="absolute top-0 left-0 w-full h-[25vh] sm:h-[35%] md:h-[40%] flex"
             animate={{
-              x: ["0%", "-50%"]
+              x: ["0%", "-50%"],
             }}
             transition={{
               x: {
                 duration: 80,
                 repeat: Infinity,
                 ease: "linear",
-                repeatType: "loop"
-              }
+                repeatType: "loop",
+              },
             }}
           >
             {duplicatedImages.map((src, index) => (
@@ -110,10 +136,10 @@ const RefinedWorkShowcase = () => {
                       e.target.src = `https://images.unsplash.com/photo-1575425187336-d5ec5d0a1451?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&h=600`;
                     }}
                   />
-                  
+
                   {/* GLOWING OVERLAY on Hover */}
                   <div className="absolute inset-0 bg-gradient-to-tr from-holiday-gold/0 via-transparent to-holiday-red/0 group-hover:from-holiday-gold/10 group-hover:to-holiday-red/10 transition-all duration-500" />
-                  
+
                   {/* LIGHT GLOW Effect */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                     <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-gradient-to-br from-holiday-gold/20 via-transparent to-transparent blur-md" />
@@ -128,15 +154,15 @@ const RefinedWorkShowcase = () => {
           <motion.div
             className="absolute bottom-0 left-0 w-full h-[25vh] sm:h-[35%] md:h-[40%] flex"
             animate={{
-              x: ["-50%", "0%"]
+              x: ["-50%", "0%"],
             }}
             transition={{
               x: {
                 duration: 80,
                 repeat: Infinity,
                 ease: "linear",
-                repeatType: "loop"
-              }
+                repeatType: "loop",
+              },
             }}
           >
             {duplicatedImages.map((src, index) => (
@@ -157,10 +183,10 @@ const RefinedWorkShowcase = () => {
                       e.target.src = `https://images.unsplash.com/photo-1575425187336-d5ec5d0a1451?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&h=600`;
                     }}
                   />
-                  
+
                   {/* GLOWING OVERLAY on Hover */}
                   <div className="absolute inset-0 bg-gradient-to-tr from-holiday-red/0 via-transparent to-holiday-gold/0 group-hover:from-holiday-red/10 group-hover:to-holiday-gold/10 transition-all duration-500" />
-                  
+
                   {/* LIGHT GLOW Effect */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                     <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-holiday-red/20 via-transparent to-transparent blur-md" />
@@ -206,8 +232,16 @@ const RefinedWorkShowcase = () => {
                 <span className="relative z-10 bg-gradient-to-r from-holiday-gold via-holiday-gold to-holiday-red bg-clip-text text-transparent">
                   {title.main}
                 </span>
-                <svg className="absolute -bottom-2 sm:-bottom-3 left-0 w-full h-3 sm:h-4 text-holiday-gold/30" viewBox="0 0 100 10">
-                  <path d="M0,5 Q25,0 50,5 T100,5" stroke="currentColor" strokeWidth="1.5" fill="none" />
+                <svg
+                  className="absolute -bottom-2 sm:-bottom-3 left-0 w-full h-3 sm:h-4 text-holiday-gold/30"
+                  viewBox="0 0 100 10"
+                >
+                  <path
+                    d="M0,5 Q25,0 50,5 T100,5"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    fill="none"
+                  />
                 </svg>
               </span>
             </span>
@@ -234,38 +268,58 @@ const RefinedWorkShowcase = () => {
               <button className="relative px-6 sm:px-8 md:px-12 py-3 sm:py-4 md:py-5 bg-gradient-to-r from-holiday-red via-holiday-red to-holiday-gold text-white font-bold rounded-xl hover:rounded-2xl transition-all duration-300 hover:shadow-xl sm:hover:shadow-2xl hover:shadow-holiday-red/30 transform hover:-translate-y-0.5 sm:hover:-translate-y-1 text-base sm:text-base md:text-xl w-full sm:w-auto min-w-[280px] sm:min-w-0">
                 <span className="flex items-center justify-center gap-2 sm:gap-3">
                   <span>{cta}</span>
-                  <svg className="w-5 h-5 sm:w-6 sm:h-6 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  <svg
+                    className="w-5 h-5 sm:w-6 sm:h-6 transform group-hover:translate-x-2 transition-transform duration-300"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17 8l4 4m0 0l-4 4m4-4H3"
+                    />
                   </svg>
                 </span>
               </button>
-              
+
               {/* Floating Sparkles */}
               <div className="absolute -top-2 -right-2 w-4 h-4 sm:w-4 sm:h-4 bg-holiday-gold rounded-full animate-ping opacity-50"></div>
               <div className="absolute -bottom-2 -left-2 w-3 h-3 sm:w-3 sm:h-3 bg-holiday-red rounded-full animate-ping opacity-50 delay-300"></div>
-            </div>           
-          </motion.div>        
-        </div>      
+            </div>
+          </motion.div>
+        </div>
       </div>
 
       {/* Custom Styles */}
       <style jsx>{`
         @keyframes twinkle {
-          0%, 100% { opacity: 0.5; transform: scale(1); filter: brightness(1); }
-          50% { opacity: 1; transform: scale(1.3); filter: brightness(1.5); }
+          0%,
+          100% {
+            opacity: 0.5;
+            transform: scale(1);
+            filter: brightness(1);
+          }
+          50% {
+            opacity: 1;
+            transform: scale(1.3);
+            filter: brightness(1.5);
+          }
         }
-        
+
         /* Enhanced glow animation for images */
         .group:hover img {
           filter: brightness(1.25) saturate(2) contrast(1.25);
         }
-        
+
         /* Smooth image scaling */
         img {
-          transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), 
-                     filter 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+          transition:
+            transform 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+            filter 0.7s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
+
         /* Responsive design for very small screens */
         @media (max-width: 400px) {
           .text-4xl {
@@ -274,7 +328,7 @@ const RefinedWorkShowcase = () => {
           .text-lg {
             font-size: 1.125rem;
           }
-          
+
           /* Adjust button for very small screens */
           .min-w-[280px] {
             min-width: 260px;
@@ -291,7 +345,7 @@ const RefinedWorkShowcase = () => {
             font-size: 0.9375rem;
           }
         }
-        
+
         @media (max-width: 320px) {
           .text-4xl {
             font-size: 2.25rem;
@@ -302,7 +356,7 @@ const RefinedWorkShowcase = () => {
           .min-h-[600px] {
             min-height: 550px;
           }
-          
+
           /* Further adjust button for 320px screens */
           .min-w-[280px] {
             min-width: 240px;
@@ -312,12 +366,12 @@ const RefinedWorkShowcase = () => {
             padding-right: 1rem;
           }
         }
-        
+
         /* Touch-friendly tap targets */
         button {
           min-height: 48px;
         }
-        
+
         /* Optimize image quality */
         img {
           image-rendering: -webkit-optimize-contrast;
@@ -325,7 +379,7 @@ const RefinedWorkShowcase = () => {
           -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
         }
-        
+
         /* Prevent image distortion */
         @media (max-width: 768px) {
           img {

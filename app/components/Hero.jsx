@@ -8,15 +8,38 @@ import {
 } from 'react-icons/fa';
 import { GiSparkles, GiStarFormation } from 'react-icons/gi';
 import AnimatedLights from './AnimatedLights';
-import staticData from '../../public/data.json';
 
 const Hero = () => {
   const [isMounted, setIsMounted] = useState(false);
-  const { hero } = staticData;
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     setIsMounted(true);
+    
+    // Load data from JSON file
+    const loadData = async () => {
+      try {
+        const response = await fetch('/data.json');
+        const jsonData = await response.json();
+        setData(jsonData);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+    };
+    
+    loadData();
   }, []);
+
+  // Show loading state while data is being fetched
+  if (!data) {
+    return (
+      <section className="relative min-h-[85vh] sm:min-h-screen flex items-center justify-center">
+        <div className="text-white">Loading...</div>
+      </section>
+    );
+  }
+
+  const { hero } = data;
 
   return (
     <section className="relative min-h-[85vh] sm:min-h-screen flex items-center overflow-hidden px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-0">
