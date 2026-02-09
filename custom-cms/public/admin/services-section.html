@@ -246,14 +246,41 @@
         "#00F5D4",
       ];
 
-      // Load services data
+      // Load services data - UPDATED VERSION
       async function loadServicesData() {
         try {
           showAlert("Loading services data...", "info");
           const response = await fetch("/api/services-section");
           if (!response.ok)
             throw new Error(`HTTP error! status: ${response.status}`);
-          const servicesData = await response.json();
+          let servicesData = await response.json();
+
+          console.log("Loaded data from API:", servicesData);
+
+          // FIX: Check if data is in "features" field and move to "services"
+          if (
+            servicesData.features &&
+            servicesData.features.length > 0 &&
+            (!servicesData.services || servicesData.services.length === 0)
+          ) {
+            console.log("Found data in 'features', transforming to 'services'");
+            servicesData.services = servicesData.features.map(
+              (feature, index) => ({
+                number: `0${index + 1}`,
+                title: feature.title || "",
+                stat: `${(index + 1) * 100}+ Homes`,
+                description: feature.description || "",
+                color: feature.color || availableColors[index] || "#E63946",
+                icon: feature.icon || "FaHome",
+                imageUrl: `/images/demo${index + 1}.jpeg`,
+                imageAlt: feature.title || "Service image",
+                order: index,
+                isActive: true,
+                features: [],
+              }),
+            );
+            console.log("Transformed data:", servicesData);
+          }
 
           // Fill header fields
           document.getElementById("badge").value = servicesData.badge || "";
@@ -263,23 +290,30 @@
             servicesData.title?.text || "";
           document.getElementById("subtitle").value =
             servicesData.subtitle || "";
-          document.getElementById("cta-text").value =
-            servicesData.ctaButton?.text || "";
-          document.getElementById("cta-url").value =
-            servicesData.ctaButton?.url || "";
+
+          // FIX: Check both "ctaButton" and "buttons"
+          const ctaText =
+            servicesData.ctaButton?.text || servicesData.buttons?.primary || "";
+          const ctaUrl = servicesData.ctaButton?.url || "/services";
+
+          document.getElementById("cta-text").value = ctaText;
+          document.getElementById("cta-url").value = ctaUrl;
 
           // Load services
           const container = document.getElementById("services-container");
           container.innerHTML = "";
+
           if (servicesData.services && servicesData.services.length > 0) {
             // Sort by order
             const sortedServices = [...servicesData.services].sort(
-              (a, b) => a.order - b.order,
+              (a, b) => (a.order || 0) - (b.order || 0),
             );
+            console.log("Loading services:", sortedServices);
             sortedServices.forEach((service, index) => {
               addServiceCard(service, index);
             });
           } else {
+            console.log("No services found, adding empty card");
             addServiceCard(); // Add one empty card
           }
 
@@ -295,7 +329,6 @@
           showAlert("Error loading services data: " + error.message, "danger");
         }
       }
-
       // Add service card
       function addServiceCard(service = {}, index = null) {
         const container = document.getElementById("services-container");
@@ -482,7 +515,8 @@
         preview.innerHTML = html;
       }
 
-      // Save services data
+      // Save services data - FIXED FOR CORRECT DATA STRUCTURE
+      // Save services data - COMPLETELY FIXED
       async function saveServices(e) {
         e.preventDefault();
 
@@ -495,21 +529,29 @@
 
           serviceCards.forEach((card, index) => {
             const service = {
-              number: card.querySelector(".service-number").value,
-              title: card.querySelector(".service-title").value,
-              stat: card.querySelector(".service-stat").value,
-              description: card.querySelector(".service-description").value,
-              color: card.querySelector(".service-color").value,
-              icon: card.querySelector(".service-icon").value,
-              imageUrl: card.querySelector(".service-image").value,
-              imageAlt: card.querySelector(".service-alt").value,
+              number:
+                card.querySelector(".service-number").value || `0${index + 1}`,
+              title: card.querySelector(".service-title").value.trim(),
+              stat:
+                card.querySelector(".service-stat").value.trim() ||
+                `${(index + 1) * 100}+ Homes`,
+              description: card
+                .querySelector(".service-description")
+                .value.trim(),
+              color: card.querySelector(".service-color").value || "#E63946",
+              icon: card.querySelector(".service-icon").value || "FaHome",
+              imageUrl: card.querySelector(".service-image").value.trim(),
+              imageAlt:
+                card.querySelector(".service-alt").value.trim() ||
+                card.querySelector(".service-title").value.trim(),
               order:
                 parseInt(card.querySelector(".service-order").value) || index,
               isActive: card.querySelector(".service-active").checked,
               features: card
                 .querySelector(".service-features")
                 .value.split("\n")
-                .filter((f) => f.trim()),
+                .map((f) => f.trim())
+                .filter((f) => f),
             };
 
             // Only add if title and description are provided
@@ -519,19 +561,40 @@
           });
 
           const servicesData = {
-            badge: document.getElementById("badge").value,
+            badge:
+              document.getElementById("badge").value.trim() ||
+              "Premium Services",
             title: {
-              prefix: document.getElementById("title-prefix").value,
-              text: document.getElementById("title-text").value,
+              prefix:
+                document.getElementById("title-prefix").value.trim() ||
+                "Premium",
+              text:
+                document.getElementById("title-text").value.trim() ||
+                "Christmas Lighting Solutions",
             },
-            subtitle: document.getElementById("subtitle").value,
+            subtitle:
+              document.getElementById("subtitle").value.trim() ||
+              "Transform your property with premium installations",
             services: services,
             ctaButton: {
-              text: document.getElementById("cta-text").value,
-              url: document.getElementById("cta-url").value,
+              text:
+                document.getElementById("cta-text").value.trim() ||
+                "View All Services",
+              url:
+                document.getElementById("cta-url").value.trim() || "/services",
             },
           };
 
+          // Validate that we have services
+          if (servicesData.services.length === 0) {
+            showAlert(
+              "Please add at least one service with title and description",
+              "warning",
+            );
+            return;
+          }
+
+          console.log("Sending to API:", servicesData);
           const response = await fetch("/api/services-section", {
             method: "PUT",
             headers: {
@@ -550,11 +613,46 @@
           const result = await response.json();
           showAlert("Services section saved successfully!", "success");
 
-          // Update preview with saved data
+          // Update preview and reload
           updatePreview(result.services || servicesData);
+          setTimeout(() => {
+            loadServicesData();
+          }, 1000);
         } catch (error) {
           console.error("Error saving services:", error);
           showAlert("Error saving services: " + error.message, "danger");
+        }
+      }
+
+      async function saveToLegacyServices(servicesData) {
+        try {
+          const legacyData = {
+            badge: servicesData.badge,
+            title: {
+              prefix: servicesData.title.prefix,
+              text: servicesData.title.text,
+            },
+            subtitle: servicesData.subtitle,
+            services: servicesData.services,
+            ctaButton: {
+              text: servicesData.ctaButton.text,
+              url: servicesData.ctaButton.url,
+            },
+          };
+
+          const response = await fetch("/api/services", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(legacyData),
+          });
+
+          if (response.ok) {
+            console.log("✅ Also saved to legacy /api/services endpoint");
+          }
+        } catch (error) {
+          console.warn("⚠️ Could not save to legacy endpoint:", error.message);
         }
       }
 

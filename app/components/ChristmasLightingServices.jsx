@@ -3,10 +3,6 @@ import { useRef, useEffect, useState } from "react";
 import {
   FaArrowRight,
   FaCheckCircle,
-  FaPhoneAlt,
-  FaQuoteRight,
-  FaCalendarCheck,
-  FaSnowflake,
   FaHome,
   FaBuilding,
   FaTree,
@@ -19,38 +15,28 @@ import { GiSparkles } from "react-icons/gi";
 
 const ModernServicesSection = () => {
   const containerRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [hoveredCard, setHoveredCard] = useState(null);
 
   // Icon mapping
   const iconMap = {
     FaHome: FaHome,
     FaBuilding: FaBuilding,
     FaTree: FaTree,
-    FaSnowflake: FaSnowflake,
     FaStar: FaStar,
     FaSparkles: GiSparkles,
     FaHandSparkles: FaHandSparkles,
     FaLightbulb: FaLightbulb,
     FaMagic: FaMagic,
-    FaCheckCircle: FaCheckCircle,
-    FaPhoneAlt: FaPhoneAlt,
-    FaQuoteRight: FaQuoteRight,
-    FaCalendarCheck: FaCalendarCheck,
   };
 
-  // Load data from CMS - ONLY from /api/cms/services-section
+  // Load data from CMS
   useEffect(() => {
     const loadData = async () => {
       try {
         setLoading(true);
-        setError(null);
-        console.log(
-          "Fetching services section data from /api/cms/services-section...",
-        );
-
         const response = await fetch("/api/cms/services-section");
 
         if (!response.ok) {
@@ -60,7 +46,6 @@ const ModernServicesSection = () => {
         }
 
         const jsonData = await response.json();
-        console.log("Data received successfully:", jsonData);
         setData(jsonData);
       } catch (err) {
         console.error("Error loading services data:", err);
@@ -73,266 +58,370 @@ const ModernServicesSection = () => {
     loadData();
   }, []);
 
-  // Intersection observer
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
+  // Color palette
+  const colorPalette = {
+    primary: {
+      red: "#EF4444",
+      blue: "#3B82F6",
+      emerald: "#10B981",
+      amber: "#F59E0B",
+      purple: "#8B5CF6",
+    },
+    gradient: {
+      redToAmber: "linear-gradient(135deg, #EF4444 0%, #F59E0B 100%)",
+      blueToPurple: "linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%)",
+      emeraldToBlue: "linear-gradient(135deg, #10B981 0%, #3B82F6 100%)",
+      amberToRed: "linear-gradient(135deg, #F59E0B 0%, #EF4444 100%)",
+    },
+  };
+
+  // Use data or fallback
+  const displayData = data || {
+    badge: "Premium Services",
+    title: { prefix: "Premium", text: "Christmas Lighting" },
+    subtitle:
+      "Professional holiday lighting installations that transform your property into a winter wonderland",
+    services: [
+      {
+        title: "Residential Lighting",
+        description:
+          "Transform your home with beautiful Christmas lighting installations that create magical holiday memories for your family.",
+        icon: "FaHome",
+        color: colorPalette.primary.red,
+        gradient: colorPalette.gradient.redToAmber,
+        number: 1,
+        stat: "50+ Homes",
+        features: [
+          "Custom Design",
+          "LED Technology",
+          "Professional Installation",
+          "Maintenance",
+        ],
+        isActive: true,
       },
-      { threshold: 0.1, rootMargin: "-50px" },
-    );
+      {
+        title: "Commercial Lighting",
+        description:
+          "Enhance your business with stunning commercial Christmas displays that attract customers and boost seasonal revenue.",
+        icon: "FaBuilding",
+        color: colorPalette.primary.blue,
+        gradient: colorPalette.gradient.blueToPurple,
+        number: 2,
+        stat: "30+ Businesses",
+        features: [
+          "Large Scale Installations",
+          "Energy Efficient",
+          "Brand-Themed Designs",
+          "ROI Analysis",
+        ],
+        isActive: true,
+      },
+      {
+        title: "Tree Lighting",
+        description:
+          "Professional tree wrapping and lighting services for trees of all sizes, creating focal points in your landscape.",
+        icon: "FaTree",
+        color: colorPalette.primary.emerald,
+        gradient: colorPalette.gradient.emeraldToBlue,
+        number: 3,
+        stat: "100+ Trees",
+        features: [
+          "Safe Installation",
+          "Various Colors",
+          "Weather Resistant",
+          "Custom Patterns",
+        ],
+        isActive: true,
+      },
+      {
+        title: "Premium Designs",
+        description:
+          "Custom Christmas lighting designs tailored to your property architecture and personal style preferences.",
+        icon: "FaStar",
+        color: colorPalette.primary.amber,
+        gradient: colorPalette.gradient.amberToRed,
+        number: 4,
+        stat: "Custom",
+        features: [
+          "3D Visualization",
+          "Personal Consultation",
+          "Unique Patterns",
+          "Seasonal Themes",
+        ],
+        isActive: true,
+      },
+    ],
+    ctaButton: { text: "Explore All Services" },
+  };
 
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
+  const { badge, title, subtitle, services = [], ctaButton } = displayData;
 
-    return () => observer.disconnect();
-  }, []);
+  // Filter active services
+  const activeServices = services
+    .filter((service) => service.isActive !== false)
+    .sort((a, b) => (a.order || 0) - (b.order || 0));
 
   if (loading) {
     return (
       <section className="relative w-full overflow-hidden bg-gradient-to-b from-gray-50 to-white px-4 py-20">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center">Loading services...</div>
-        </div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section className="relative w-full overflow-hidden bg-gradient-to-b from-gray-50 to-white px-4 py-20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center text-red-600">
-            Error loading services: {error}
+          <div className="flex items-center justify-center h-64">
+            <div className="animate-pulse flex flex-col items-center">
+              <div className="h-4 w-32 bg-gray-200 rounded mb-4"></div>
+              <div className="h-8 w-64 bg-gray-200 rounded mb-6"></div>
+              <div className="h-4 w-48 bg-gray-200 rounded"></div>
+            </div>
           </div>
         </div>
       </section>
     );
   }
-
-  if (!data) {
-    return (
-      <section className="relative w-full overflow-hidden bg-gradient-to-b from-gray-50 to-white px-4 py-20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center text-gray-600">
-            No services data available from /api/cms/services-section
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  const { badge, title, subtitle, services = [], ctaButton } = data;
-
-  // Filter active services and sort by order
-  const activeServices = services
-    .filter((service) => service.isActive !== false)
-    .sort((a, b) => (a.order || 0) - (b.order || 0));
 
   return (
     <section
       ref={containerRef}
-      className="relative w-full overflow-hidden bg-gradient-to-b from-gray-50 to-white px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8 py-8 xs:py-10 sm:py-12 md:py-16 lg:py-20 min-w-[280px]"
+      className="relative w-full overflow-hidden bg-gradient-to-b from-gray-50 via-white to-gray-50 px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `radial-gradient(circle at 25px 25px, #e5e7eb 2px, transparent 2px)`,
-            backgroundSize: "40px 40px",
-          }}
-        />
+      {/* Background Elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-red-500/5 to-amber-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-blue-500/5 to-purple-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-1/2 bg-gradient-to-b from-transparent via-gray-100/10 to-transparent"></div>
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Header */}
-        <div
-          className={`text-center mb-6 xs:mb-8 sm:mb-10 md:mb-12 lg:mb-16 px-1 transition-all duration-700 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
-        >
+        {/* Header Section */}
+        <div className="text-center mb-12 sm:mb-16 lg:mb-20">
           {/* Badge */}
-          <div
-            className={`inline-flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 px-3 py-1.5 bg-gradient-to-r from-red-600/10 via-amber-500/10 to-red-600/10 rounded-full shadow-sm mb-4 xs:mb-5 sm:mb-6 border border-amber-500/30 w-fit mx-auto transition-all duration-700 delay-100 ${isVisible ? "animate-fadeInScale" : "opacity-0 scale-95"}`}
-          >
-            <GiSparkles className="text-xs xs:text-sm sm:text-base text-amber-500 flex-shrink-0" />
-            <span className="text-xs xs:text-sm sm:text-sm font-medium text-gray-800 uppercase tracking-wide whitespace-nowrap overflow-hidden text-ellipsis max-w-[180px] xs:max-w-[250px] sm:max-w-none">
-              {badge}
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-500/10 via-amber-500/10 to-red-500/10 rounded-full border border-amber-500/20 mb-6 animate-fade-in">
+            <GiSparkles className="text-amber-500 animate-pulse" />
+            <span className="text-sm font-semibold text-gray-700 uppercase tracking-wider">
+              {badge || "Premium Services"}
             </span>
           </div>
 
           {/* Title */}
-          <h2
-            className={`text-2xl xs:text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-3 xs:mb-4 leading-tight transition-all duration-700 delay-200 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
-          >
-            <span className="block text-center">
-              {title.prefix}{" "}
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6">
+            <span className="block">
+              {title?.prefix || "Premium"}{" "}
               <span className="relative inline-block">
-                <span className="relative z-10 bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent break-words text-center">
-                  {title.text}
+                <span className="relative z-10 bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent animate-gradient">
+                  {title?.text || "Christmas Lighting"}
                 </span>
                 <svg
-                  className="absolute -bottom-1.5 xs:-bottom-2 left-0 w-full h-2 xs:h-2.5 text-gray-200"
+                  className="absolute -bottom-2 left-0 w-full h-3"
                   viewBox="0 0 100 10"
                 >
                   <path
-                    d="M0,5 Q25,0 50,5 T100,5"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
+                    d="M0,5 Q25,10 50,5 T100,5"
+                    stroke="url(#underline-gradient)"
+                    strokeWidth="2"
                     fill="none"
                   />
+                  <defs>
+                    <linearGradient
+                      id="underline-gradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="0%"
+                    >
+                      <stop offset="0%" stopColor="#EF4444" />
+                      <stop offset="50%" stopColor="#F59E0B" />
+                      <stop offset="100%" stopColor="#10B981" />
+                    </linearGradient>
+                  </defs>
                 </svg>
               </span>
             </span>
           </h2>
 
           {/* Subtitle */}
-          <p
-            className={`text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto px-2 xs:px-3 sm:px-4 leading-relaxed text-center transition-all duration-700 delay-300 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
-          >
-            {subtitle}
+          <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            {subtitle || "Transform your property with premium installations"}
           </p>
-
-          {/* Decorative divider */}
-          <div className="mt-4 xs:mt-5 sm:mt-6 h-0.5 xs:h-1 w-20 xs:w-28 sm:w-36 md:w-40 mx-auto bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 md:gap-6 lg:gap-8 xl:gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {activeServices.map((service, index) => {
             const IconComponent = iconMap[service.icon] || FaHome;
-            const delay = 400 + index * 150;
+            const isHovered = hoveredCard === index;
+
             return (
               <div
                 key={index}
-                className={`relative group w-full transition-all duration-700 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-8"}`}
-                style={{
-                  animationDelay: `${delay}ms`,
-                  animationFillMode: "both",
-                }}
+                className="group relative"
+                onMouseEnter={() => setHoveredCard(index)}
+                onMouseLeave={() => setHoveredCard(null)}
               >
                 {/* Card Container */}
-                <div className="flex flex-col lg:flex-row h-full bg-white rounded-lg xs:rounded-xl sm:rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden min-h-[300px] xs:min-h-[340px] sm:min-h-[360px] md:min-h-[380px] lg:min-h-[400px] group-hover:-translate-y-1">
-                  {/* Image Section */}
-                  <div className="lg:w-2/5 relative h-[180px] xs:h-[200px] sm:h-[220px] md:h-[200px] lg:h-full lg:min-h-[400px]">
-                    <div className="relative h-full w-full overflow-hidden">
-                      <img
-                        src={service.imageUrl}
-                        alt={service.imageAlt || service.title}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                      {/* Overlay Gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent lg:bg-gradient-to-r lg:from-black/20" />
+                <div className="relative h-full bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100">
+                  {/* Gradient Border Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white via-gray-50 to-white opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                      {/* Image Badge */}
-                      {service.stat && (
+                  {/* Animated Background Glow */}
+                  <div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500"
+                    style={{
+                      background:
+                        service.gradient ||
+                        `linear-gradient(135deg, ${service.color}20, ${service.color}40)`,
+                    }}
+                  />
+
+                  {/* Card Content - Horizontal Layout */}
+                  <div className="relative flex flex-col lg:flex-row h-full">
+                    {/* Image/Icon Section */}
+                    <div className="lg:w-2/5 relative overflow-hidden">
+                      <div className="relative h-48 lg:h-full min-h-[200px] overflow-hidden">
+                        {service.imageUrl ? (
+                          <img
+                            src={service.imageUrl}
+                            alt={service.imageAlt || service.title}
+                            className={`w-full h-full object-cover transform transition-transform duration-700 ${
+                              isHovered ? "scale-110" : "scale-100"
+                            }`}
+                            loading="lazy"
+                          />
+                        ) : (
+                          <div
+                            className="w-full h-full flex items-center justify-center p-8"
+                            style={{
+                              background: `linear-gradient(135deg, ${service.color}10, ${service.color}20)`,
+                            }}
+                          >
+                            <div className="relative">
+                              <div
+                                className="absolute inset-0 blur-2xl opacity-20"
+                                style={{ backgroundColor: service.color }}
+                              />
+                              <div
+                                className="relative w-24 h-24 rounded-2xl flex items-center justify-center shadow-lg"
+                                style={{
+                                  background: service.gradient || service.color,
+                                }}
+                              >
+                                <IconComponent className="text-4xl text-white" />
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Overlay Gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent lg:bg-gradient-to-r lg:from-black/30" />
+
+                        {/* Service Number */}
+                        <div className="absolute top-4 left-4">
+                          <div
+                            className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg font-bold text-white"
+                            style={{
+                              background: service.gradient || service.color,
+                            }}
+                          >
+                            {service.number || index + 1}
+                          </div>
+                        </div>
+
+                        {/* Stat Badge */}
+                        {service.stat && (
+                          <div className="absolute bottom-4 left-4">
+                            <div
+                              className="px-3 py-1.5 rounded-full text-white text-sm font-semibold shadow-lg backdrop-blur-sm"
+                              style={{
+                                background: `linear-gradient(135deg, ${service.color}CC, ${service.color}99)`,
+                              }}
+                            >
+                              {service.stat}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Content Section */}
+                    <div className="lg:w-3/5 p-6 sm:p-8 flex flex-col flex-1">
+                      {/* Header */}
+                      <div className="flex items-start gap-4 mb-4">
                         <div
-                          className="absolute bottom-3 xs:bottom-4 left-3 xs:left-4 px-2.5 xs:px-3 py-1 xs:py-1.5 rounded-full text-white text-xs xs:text-sm font-medium shadow-md backdrop-blur-sm z-10 transition-all duration-300 group-hover:scale-105"
-                          style={{ backgroundColor: `${service.color}CC` }}
+                          className="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center shadow-md transform transition-transform duration-300 group-hover:scale-110"
+                          style={{
+                            background: `linear-gradient(135deg, ${service.color}15, ${service.color}5)`,
+                            color: service.color,
+                          }}
                         >
-                          {service.stat}
+                          <IconComponent className="text-2xl" />
+                        </div>
+                        <div>
+                          <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
+                            {service.title}
+                          </h3>
+                          <div
+                            className="h-1 w-12 rounded-full mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                            style={{ backgroundColor: service.color }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-gray-600 mb-6 leading-relaxed flex-grow">
+                        {service.description}
+                      </p>
+
+                      {/* Features */}
+                      {service.features && service.features.length > 0 && (
+                        <div className="space-y-3 mb-8">
+                          {service.features.slice(0, 4).map((feature, idx) => (
+                            <div key={idx} className="flex items-center gap-3">
+                              <div
+                                className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center transform transition-transform duration-300 group-hover:scale-110"
+                                style={{
+                                  backgroundColor: `${service.color}15`,
+                                  color: service.color,
+                                }}
+                              >
+                                <FaCheckCircle className="text-xs" />
+                              </div>
+                              <span className="text-gray-700 text-sm sm:text-base">
+                                {feature}
+                              </span>
+                            </div>
+                          ))}
                         </div>
                       )}
+
+                      {/* CTA Button */}
+                      <div className="mt-auto">
+                        <button
+                          className="group relative px-6 py-3 text-white font-semibold rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg w-full lg:w-auto"
+                          style={{
+                            background: service.gradient || service.color,
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.transform =
+                              "translateY(-2px)";
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.transform = "translateY(0)";
+                          }}
+                        >
+                          <div className="absolute inset-0 bg-white/0 group-hover:bg-white/10 transition-all duration-300" />
+                          <span className="relative flex items-center justify-center gap-2">
+                            <span>View Details</span>
+                            <FaArrowRight className="transform transition-transform duration-300 group-hover:translate-x-1" />
+                          </span>
+                        </button>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Content Section */}
-                  <div className="lg:w-3/5 p-3 xs:p-4 sm:p-5 md:p-5 lg:p-6 xl:p-7 flex flex-col flex-1">
-                    {/* Step Number Badge */}
-                    <div className="absolute -top-3 xs:-top-4 -left-3 xs:-left-4 z-20">
-                      <div
-                        className="w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-lg xs:rounded-xl flex items-center justify-center shadow-lg transition-all duration-300 group-hover:rotate-12"
-                        style={{
-                          backgroundColor: service.color,
-                          color: "white",
-                        }}
-                      >
-                        <span className="text-xs xs:text-sm font-bold">
-                          {service.number ||
-                            (index + 1).toString().padStart(2, "0")}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Accent Border Top */}
-                    <div
-                      className="absolute top-0 left-0 right-0 h-1 xs:h-1.5 transition-all duration-300 group-hover:h-2"
-                      style={{ backgroundColor: service.color }}
-                    />
-
-                    {/* Header with Icon */}
-                    <div className="flex items-center gap-2 xs:gap-3 sm:gap-4 mb-3 xs:mb-4 sm:mb-5 mt-1 sm:mt-2">
-                      <div
-                        className="w-10 h-10 xs:w-11 xs:h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 rounded-lg xs:rounded-xl flex items-center justify-center shadow-md flex-shrink-0 transition-all duration-300 group-hover:scale-110"
-                        style={{
-                          backgroundColor: `${service.color}15`,
-                          color: service.color,
-                        }}
-                      >
-                        <IconComponent className="text-lg xs:text-xl sm:text-2xl" />
-                      </div>
-                      <h3 className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 leading-tight flex-1 transition-all duration-300 group-hover:translate-x-1">
-                        {service.title}
-                      </h3>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-gray-600 text-xs xs:text-sm sm:text-base md:text-lg mb-3 xs:mb-4 sm:mb-5 leading-relaxed flex-grow line-clamp-3 md:line-clamp-4 lg:line-clamp-3">
-                      {service.description}
-                    </p>
-
-                    {/* Features List */}
-                    {service.features && service.features.length > 0 && (
-                      <div className="space-y-1.5 xs:space-y-2 sm:space-y-2.5 mb-4 xs:mb-5 sm:mb-6 flex-grow">
-                        {service.features.slice(0, 4).map((feature, idx) => (
-                          <div
-                            key={idx}
-                            className="flex items-start xs:items-center gap-2 xs:gap-3 transition-all duration-300 hover:translate-x-1"
-                          >
-                            <div
-                              className="flex-shrink-0 w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center mt-0.5 xs:mt-0 transition-all duration-300 group-hover:scale-110"
-                              style={{ backgroundColor: `${service.color}15` }}
-                            >
-                              <FaCheckCircle
-                                style={{ color: service.color }}
-                                className="text-xs xs:text-sm transition-all duration-300 group-hover:rotate-12"
-                              />
-                            </div>
-                            <span className="text-gray-700 text-xs xs:text-sm sm:text-base flex-1 leading-relaxed">
-                              {feature}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* CTA Button */}
-                    <button
-                      className="group relative px-3 xs:px-4 sm:px-5 md:px-6 py-2.5 xs:py-3 sm:py-3.5 text-white font-semibold rounded-lg xs:rounded-xl hover:shadow-md transition-all duration-300 overflow-hidden self-stretch lg:self-start mt-auto w-full text-center active:scale-95"
-                      style={{
-                        background: `linear-gradient(135deg, ${service.color}, ${service.color}CC)`,
-                      }}
-                      aria-label={`View details for ${service.title}`}
-                    >
-                      <span className="relative z-10 flex items-center justify-center gap-1.5 xs:gap-2 sm:gap-2.5">
-                        <span className="text-xs xs:text-sm sm:text-base whitespace-nowrap">
-                          View Details
-                        </span>
-                        <FaArrowRight className="text-xs xs:text-sm sm:text-base transition-all duration-300 group-hover:translate-x-2" />
-                      </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                    </button>
-
-                    {/* Decorative Corner */}
-                    <div
-                      className="absolute -bottom-4 -right-4 w-14 h-14 xs:w-16 xs:h-16 sm:w-20 sm:h-20 rounded-full opacity-10 group-hover:opacity-15 transition-all duration-500 group-hover:scale-125"
-                      style={{ backgroundColor: service.color }}
-                    />
-                  </div>
+                  {/* Hover Glow Effect */}
+                  <div
+                    className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                    style={{
+                      boxShadow: `0 0 60px 20px ${service.color}20`,
+                    }}
+                  />
                 </div>
               </div>
             );
@@ -340,47 +429,77 @@ const ModernServicesSection = () => {
         </div>
 
         {/* Bottom CTA */}
-        {activeServices.length > 0 && (
-          <div
-            className={`mt-12 md:mt-16 lg:mt-20 text-center transition-all duration-700 delay-1000 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
+        <div className="mt-12 sm:mt-16 lg:mt-20 text-center">
+          <button
+            className="group relative px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-red-600 to-amber-500 text-white font-bold rounded-2xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = "translateY(-3px)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = "translateY(0)";
+            }}
           >
-            <button className="px-8 py-4 bg-gradient-to-r from-red-600 to-amber-500 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 active:scale-95">
-              {ctaButton?.text || "View All Services"}
-            </button>
+            <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <span className="relative flex items-center justify-center gap-3">
+              <span className="text-lg">
+                {ctaButton?.text || "Explore All Services"}
+              </span>
+              <GiSparkles className="transform transition-all duration-300 group-hover:rotate-180 group-hover:scale-125" />
+            </span>
+          </button>
+
+          {/* Trust Indicators */}
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-6 text-gray-500 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+              <span>Trusted by 100+ Clients</span>
+            </div>
+            <div className="hidden sm:block w-px h-4 bg-gray-300"></div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+              <span>Professional Installation</span>
+            </div>
+            <div className="hidden sm:block w-px h-4 bg-gray-300"></div>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+              <span>Premium Quality Materials</span>
+            </div>
           </div>
-        )}
+        </div>
       </div>
 
-      {/* CSS Animations */}
+      {/* Add CSS for animations */}
       <style jsx global>{`
-        @keyframes fadeInUp {
+        @keyframes gradient {
+          0% {
+            background-position: 0% 50%;
+          }
+          50% {
+            background-position: 100% 50%;
+          }
+          100% {
+            background-position: 0% 50%;
+          }
+        }
+
+        .animate-gradient {
+          background-size: 200% 200%;
+          animation: gradient 3s ease infinite;
+        }
+
+        .animate-fade-in {
+          animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
           from {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(-10px);
           }
           to {
             opacity: 1;
             transform: translateY(0);
           }
-        }
-
-        @keyframes fadeInScale {
-          from {
-            opacity: 0;
-            transform: scale(0.9);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-
-        .animate-fadeInUp {
-          animation: fadeInUp 0.6s ease-out forwards;
-        }
-
-        .animate-fadeInScale {
-          animation: fadeInScale 0.5s ease-out forwards;
         }
       `}</style>
     </section>

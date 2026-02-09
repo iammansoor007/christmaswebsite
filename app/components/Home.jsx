@@ -99,6 +99,7 @@ const Home = () => {
 
       <Hero />
       <ChristmasLightingSection />
+      
       <ChristmasLightingServices />
       <HowWeWorkSection />
       <RecentWorkMarquee />

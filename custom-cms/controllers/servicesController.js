@@ -1,15 +1,15 @@
-const Services = require("../models/Services");
+const ServiceSection = require("../models/ServiceSection");
 
 // Get services section
 exports.getServices = async (req, res) => {
   try {
-    console.log("Getting services data...");
+    console.log("Getting services section data...");
 
-    let services = await Services.findOne().sort({ updatedAt: -1 });
+    let services = await ServiceSection.findOne().sort({ updatedAt: -1 });
 
     if (!services) {
       console.log("No services found, creating default...");
-      services = new Services({
+      services = new ServiceSection({
         badge: "Premium Services",
         title: {
           prefix: "Premium",
@@ -23,7 +23,7 @@ exports.getServices = async (req, res) => {
             title: "Residential Lighting",
             stat: "500+ Homes",
             description:
-              "Complete home transformation with custom-designed lighting displays that enhance your property's architectural features and create magical holiday memories.",
+              "Complete home transformation with custom-designed lighting displays.",
             color: "#E63946",
             icon: "FaHome",
             features: [
@@ -32,7 +32,7 @@ exports.getServices = async (req, res) => {
               "Pathway Illumination",
               "Custom Holiday Scenes",
             ],
-            imageUrl: "/images/demo1.jpeg",
+            imageUrl: "",
             imageAlt: "Residential Christmas lighting",
             order: 1,
             isActive: true,
@@ -42,56 +42,17 @@ exports.getServices = async (req, res) => {
             title: "Commercial & Corporate",
             stat: "100+ Businesses",
             description:
-              "Professional holiday displays that attract customers, boost brand visibility, and showcase your business's festive spirit to the community.",
+              "Professional holiday displays that attract customers.",
             color: "#2A9D8F",
             icon: "FaBuilding",
             features: [
               "Building Facade Lighting",
               "Parking Lot Illumination",
               "Branded Displays",
-              "High-Traffic Area Focus",
             ],
-            imageUrl: "/images/demo2.jpeg",
+            imageUrl: "",
             imageAlt: "Commercial Christmas lighting",
             order: 2,
-            isActive: true,
-          },
-          {
-            number: "03",
-            title: "Landscape & Architectural",
-            stat: "Custom Designs",
-            description:
-              "Strategic lighting that highlights your property's natural beauty and architectural details, creating stunning visual compositions day and night.",
-            color: "#F4A261",
-            icon: "FaTree",
-            features: [
-              "Tree Canopy Lighting",
-              "Garden Feature Highlights",
-              "Architectural Accent Lighting",
-              "Water Feature Illumination",
-            ],
-            imageUrl: "/images/demo3.jpeg",
-            imageAlt: "Landscape lighting",
-            order: 3,
-            isActive: true,
-          },
-          {
-            number: "04",
-            title: "Premium Custom Displays",
-            stat: "Award Winning",
-            description:
-              "One-of-a-kind lighting installations designed specifically for your property and vision, featuring advanced technology and creative design.",
-            color: "#1D3557",
-            icon: "FaSparkles",
-            features: [
-              "Animated Light Shows",
-              "Musical Synchronization",
-              "Themed Installations",
-              "Interactive Elements",
-            ],
-            imageUrl: "/images/demo4.jpeg",
-            imageAlt: "Custom lighting display",
-            order: 4,
             isActive: true,
           },
         ],
@@ -101,15 +62,10 @@ exports.getServices = async (req, res) => {
         },
       });
       await services.save();
-      console.log("Default services created");
+      console.log("Default services section created");
     }
 
-    // Sort services by order
-    if (services.services && services.services.length > 0) {
-      services.services.sort((a, b) => a.order - b.order);
-    }
-
-    console.log("Services data retrieved successfully");
+    console.log("Services section data retrieved successfully");
     res.json(services);
   } catch (error) {
     console.error("❌ Error in getServices:", error);
@@ -125,7 +81,7 @@ exports.updateServices = async (req, res) => {
   try {
     console.log("📝 Updating services section with data:", req.body);
 
-    const services = await Services.findOneAndUpdate(
+    const services = await ServiceSection.findOneAndUpdate(
       {},
       { ...req.body, updatedAt: new Date() },
       {
@@ -142,7 +98,7 @@ exports.updateServices = async (req, res) => {
       services: services,
     });
   } catch (error) {
-    console.error("❌ Error updating services:", error);
+    console.error("❌ Error updating services section:", error);
     res.status(400).json({
       success: false,
       error: error.message,
