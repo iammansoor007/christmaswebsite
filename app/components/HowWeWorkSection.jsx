@@ -1,8 +1,14 @@
-// components/HowWeWorkSection.jsx
 "use client";
 import { useRef, useEffect, useState } from "react";
-import { FaPhoneAlt, FaCalendarAlt, FaArrowRight } from "react-icons/fa";
+import { FaPhoneAlt, FaCalendarAlt, FaArrowRight, FaQuoteRight, FaCalendarCheck, FaChair } from "react-icons/fa";
 import { getHowWeWorkData } from "../services/dataService";
+
+// Icon mapping
+const iconMap = {
+  FaQuoteRight,
+  FaCalendarCheck,
+  FaChair
+};
 
 // Custom CheckCircle component
 const CheckCircleIcon = ({ color, size = "text-sm", className = "" }) => (
@@ -21,9 +27,10 @@ const CheckCircleIcon = ({ color, size = "text-sm", className = "" }) => (
   </svg>
 );
 
-// Custom icon wrapper
-const SafeIconComponent = ({ icon: Icon, color, className }) => {
+// Safe icon component
+const SafeIconComponent = ({ iconName, color, className }) => {
   const [isClient, setIsClient] = useState(false);
+  const Icon = iconMap[iconName];
 
   useEffect(() => {
     setIsClient(true);
@@ -37,8 +44,12 @@ const SafeIconComponent = ({ icon: Icon, color, className }) => {
     );
   }
 
-  if (Icon.name === "FaCheckCircle" || Icon.displayName === "FaCheckCircle") {
-    return <CheckCircleIcon color={color} className={className} />;
+  if (!Icon) {
+    return (
+      <div
+        className={`w-6 h-6 ${className} bg-gray-300 rounded`}
+      />
+    );
   }
 
   return <Icon className={className} style={{ color: color || undefined }} />;
@@ -201,7 +212,6 @@ const HowWeWorkSection = () => {
           {/* Steps Container - Responsive grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 md:gap-6 lg:gap-8 xl:gap-10">
             {steps.map((step, index) => {
-              const IconComponent = step.icon;
               const delay = 400 + index * 150;
               return (
                 <div
@@ -232,7 +242,7 @@ const HowWeWorkSection = () => {
                       style={{ backgroundColor: step.color }}
                     />
 
-                    {/* Icon - Use SafeIconComponent */}
+                    {/* Icon */}
                     <div className="flex justify-center mb-4 xs:mb-5 sm:mb-6">
                       <div
                         className="w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 rounded-xl xs:rounded-2xl flex items-center justify-center shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-6"
@@ -242,7 +252,7 @@ const HowWeWorkSection = () => {
                         }}
                       >
                         <SafeIconComponent
-                          icon={IconComponent}
+                          iconName={step.icon}
                           color={step.color}
                           className="text-lg xs:text-xl sm:text-2xl"
                         />
@@ -325,6 +335,7 @@ const HowWeWorkSection = () => {
               <button
                 className="group/btn relative px-5 xs:px-6 sm:px-8 md:px-10 py-3 xs:py-3.5 sm:py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold rounded-lg xs:rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden w-full sm:w-auto text-center active:scale-95"
                 aria-label={cta.buttons.primary}
+                onClick={() => window.location.href = 'tel:+16143017100'}
               >
                 <span className="relative z-10 flex items-center justify-center gap-2 xs:gap-3">
                   <FaPhoneAlt className="text-sm xs:text-base" />
@@ -339,6 +350,7 @@ const HowWeWorkSection = () => {
               <button
                 className="px-5 xs:px-6 sm:px-8 md:px-10 py-3 xs:py-3.5 sm:py-4 font-semibold text-gray-700 hover:text-gray-900 border-2 border-gray-300 hover:border-gray-400 rounded-lg xs:rounded-xl transition-all duration-300 bg-white hover:bg-gray-50 w-full sm:w-auto text-center active:scale-95"
                 aria-label={cta.buttons.secondary}
+                onClick={() => window.location.href = '/contact'}
               >
                 <span className="flex items-center justify-center gap-2 xs:gap-3">
                   <FaCalendarAlt className="text-sm xs:text-base" />
@@ -348,11 +360,16 @@ const HowWeWorkSection = () => {
                 </span>
               </button>
             </div>
+
+            {/* Phone number display */}
+            <div className="mt-4 text-sm text-gray-500">
+              Or call us directly: <a href="tel:+16143017100" className="text-emerald-600 font-semibold hover:underline">(614) 301-7100</a>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* CSS Animations */}
+      {/* CSS Animations - Same as your original */}
       <style jsx global>{`
         @keyframes fadeInUp {
           from {
@@ -401,11 +418,11 @@ const HowWeWorkSection = () => {
 
         /* Extra small screens (below 320px) */
         @media (max-width: 319px) {
-          .min-w-\[280px\] {
+          .min-w-\\[280px\\] {
             min-width: 280px;
           }
 
-          .min-h-\[320px\] {
+          .min-h-\\[320px\\] {
             min-height: 300px;
           }
 
@@ -429,68 +446,68 @@ const HowWeWorkSection = () => {
 
         /* Small screens (320px - 479px) */
         @media (min-width: 320px) and (max-width: 479px) {
-          .min-h-\[340px\] {
+          .min-h-\\[340px\\] {
             min-height: 330px;
           }
         }
 
         /* Tablet portrait (768px - 1023px) */
         @media (min-width: 768px) and (max-width: 1023px) {
-          .md\:min-h-\[380px\] {
+          .md\\:min-h-\\[380px\\] {
             min-height: 370px;
           }
 
-          .md\:grid-cols-2 {
+          .md\\:grid-cols-2 {
             grid-template-columns: repeat(2, minmax(0, 1fr));
           }
 
-          .md\:p-6 {
+          .md\\:p-6 {
             padding: 1.25rem;
           }
 
-          .md\:text-2xl {
+          .md\\:text-2xl {
             font-size: 1.5rem;
           }
 
-          .md\:text-base {
+          .md\\:text-base {
             font-size: 1rem;
           }
 
-          .md\:text-sm {
+          .md\\:text-sm {
             font-size: 0.9375rem;
           }
 
-          .md\:line-clamp-4 {
+          .md\\:line-clamp-4 {
             -webkit-line-clamp: 4;
           }
 
-          .md\:hidden {
+          .md\\:hidden {
             display: none;
           }
         }
 
         /* Tablet landscape (1024px - 1279px) */
         @media (min-width: 1024px) and (max-width: 1279px) {
-          .lg\:gap-8 {
+          .lg\\:gap-8 {
             gap: 1.5rem;
           }
 
-          .lg\:p-8 {
+          .lg\\:p-8 {
             padding: 1.5rem;
           }
 
-          .lg\:text-3xl {
+          .lg\\:text-3xl {
             font-size: 1.75rem;
           }
 
-          .lg\:text-base {
+          .lg\\:text-base {
             font-size: 1rem;
           }
         }
 
         /* Large desktop (1280px and above) */
         @media (min-width: 1280px) {
-          .xl\:gap-10 {
+          .xl\\:gap-10 {
             gap: 2.5rem;
           }
         }
@@ -523,7 +540,7 @@ const HowWeWorkSection = () => {
 
         /* Fix for iOS Safari */
         @supports (-webkit-touch-callout: none) {
-          .min-h-\[320px\] {
+          .min-h-\\[320px\\] {
             min-height: -webkit-fill-available;
           }
         }

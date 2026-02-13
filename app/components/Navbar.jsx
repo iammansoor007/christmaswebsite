@@ -63,11 +63,10 @@ const Navbar = () => {
   return (
     <nav
       ref={navbarRef}
-      className={`sticky top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
-        scrolled
+      className={`sticky top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${scrolled
           ? 'bg-dark-navy/95 backdrop-blur-lg shadow-lg shadow-holiday-gold/10 py-2'
           : 'bg-dark-navy/90 backdrop-blur-md py-3'
-      }`}
+        }`}
     >
       <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
         <div className="flex items-center justify-between">
@@ -88,7 +87,7 @@ const Navbar = () => {
                   priority
                 />
               </div>
-           
+
             </Link>
           </div>
 
@@ -99,11 +98,10 @@ const Navbar = () => {
                 <Link
                   key={item.path}
                   href={item.path}
-                  className={`relative px-4 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 group ${
-                    isActive(item.path)
+                  className={`relative px-4 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 group ${isActive(item.path)
                       ? 'text-holiday-gold'
                       : 'text-warm-white hover:text-holiday-gold'
-                  }`}
+                    }`}
                 >
                   <span className="relative z-10 whitespace-nowrap">{item.label}</span>
                   {isActive(item.path) && (
@@ -118,26 +116,39 @@ const Navbar = () => {
           {/* Desktop CTA Button */}
           <div className="hidden lg:flex items-center flex-shrink-0">
             <div className="w-px h-6 bg-gradient-to-b from-transparent via-holiday-gold/50 to-transparent mx-4"></div>
-            <Button 
-              href="/contact"
+
+            <Button
+              href="tel:+16143017100"
               variant="primary"
               className="relative overflow-hidden group min-w-[140px]"
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
-                <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                <svg
+                  className="w-4 h-4 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                  />
                 </svg>
-                <span className="truncate">Free Quote</span>
+                <span className="truncate">Get My Quote</span>
               </span>
+
               <div className="absolute inset-0 bg-gradient-to-r from-holiday-red via-holiday-gold to-holiday-green opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
             </Button>
           </div>
+
 
           {/* Mobile menu button */}
           <div className="lg:hidden flex items-center">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="relative w-10 h-10 flex flex-col items-center justify-center group"       
+              className="relative w-10 h-10 flex flex-col items-center justify-center group"
               aria-label={isOpen ? "Close menu" : "Open menu"}
               aria-expanded={isOpen}
             >
@@ -152,9 +163,8 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Navigation */}
-        <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          isOpen ? 'max-h-[600px] opacity-100 mt-3' : 'max-h-0 opacity-0'
-        }`}>
+        <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[600px] opacity-100 mt-3' : 'max-h-0 opacity-0'
+          }`}>
           <div className="pt-4 pb-6 border-t border-holiday-gold/20">
             <div className="flex flex-col space-y-2">
               {navItems.map((item) => (
@@ -162,11 +172,10 @@ const Navbar = () => {
                   key={item.path}
                   href={item.path}
                   onClick={() => setIsOpen(false)}
-                  className={`relative px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 group ${
-                    isActive(item.path)
+                  className={`relative px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 group ${isActive(item.path)
                       ? 'text-holiday-gold bg-gradient-to-r from-holiday-red/5 to-holiday-gold/5 border border-holiday-gold/20'
                       : 'text-warm-white hover:text-holiday-gold hover:bg-dark-navy/50'
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="truncate">{item.label}</span>
@@ -185,7 +194,7 @@ const Navbar = () => {
                   onClick={() => setIsOpen(false)}
                 >
                   <span className="flex items-center justify-center gap-2">
-                    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">        
+                    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                     Get Free Quote
@@ -195,13 +204,13 @@ const Navbar = () => {
                 <div className="mt-4 pt-4 border-t border-holiday-gold/10">
                   <div className="flex flex-col space-y-3 text-sm">
                     <a href="tel:+15551234567" className="flex items-center gap-2 text-warm-white/80 hover:text-holiday-gold transition-colors px-1 py-2 rounded-lg hover:bg-dark-navy/30">
-                      <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">      
+                      <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
                       <span className="truncate">(555) 123-4567</span>
                     </a>
                     <a href="mailto:info@luminousholiday.com" className="flex items-center gap-2 text-warm-white/80 hover:text-holiday-gold transition-colors px-1 py-2 rounded-lg hover:bg-dark-navy/30">
-                      <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">      
+                      <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                       </svg>
                       <span className="truncate">info@luminousholiday.com</span>

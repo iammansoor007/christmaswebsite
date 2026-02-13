@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import { 
+import {
   FaCheckCircle,
   FaPhoneAlt,
   FaArrowRight,
@@ -15,7 +15,7 @@ const Hero = () => {
 
   useEffect(() => {
     setIsMounted(true);
-    
+
     // Load data from JSON file
     const loadData = async () => {
       try {
@@ -26,7 +26,7 @@ const Hero = () => {
         console.error('Error loading data:', error);
       }
     };
-    
+
     loadData();
   }, []);
 
@@ -45,7 +45,7 @@ const Hero = () => {
     <section className="relative min-h-[85vh] sm:min-h-screen flex items-center overflow-hidden px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-0">
       {/* Background */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <div 
+        <div
           className="absolute inset-0"
           style={{
             backgroundImage: `url('/images/hero-background2.jpg')`,
@@ -54,28 +54,28 @@ const Hero = () => {
             backgroundAttachment: 'fixed',
           }}
         />
-        
+
         <div className="absolute inset-0 bg-gradient-to-br from-dark-navy/50 via-dark-navy/90 to-dark-navy/60" />
-        
+
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-yellow-400/15 via-transparent to-transparent" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-red-500/15 via-transparent to-transparent" />
       </div>
 
-      <AnimatedLights />
+      {/* <AnimatedLights /> */}
 
       {/* Main Content */}
       <div className="container mx-auto relative z-30 max-w-7xl w-full px-0 sm:px-4">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 md:gap-12 lg:gap-16">
-          
+
           {/* Left Content */}
           <div className="hero-content w-full lg:w-1/2 text-center lg:text-left sm:flex sm:flex-col lg:flex-col sm:item-center sm:aligm-center flex flex-col items-center justify-center animate-fade-in-left">
-            {/* Badge */}
+            {/* Badge
             <div className="hero-badge inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-red-500/25 via-yellow-400/25 to-red-500/25 backdrop-blur-lg rounded-full border border-yellow-400/30 shadow-lg mb-4 sm:mb-6 mx-auto lg:mx-0 max-w-max overflow-hidden group animate-slide-down">
               <GiSparkles className="text-sm sm:text-base text-yellow-300 animate-pulse" />
               <span className="text-white font-semibold text-xs sm:text-sm tracking-wider whitespace-nowrap">
-                {hero.badge.text}
+                 {hero} 
               </span>
-            </div>
+            </div> */}
 
             {/* Title */}
             <h1 className="hero-title text-5xl xs:text-5xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 sm:mb-4 md:mb-5 leading-tight">
@@ -100,8 +100,8 @@ const Hero = () => {
             {/* Features List */}
             <ul className="hero-features space-y-2.5 sm:space-y-3 mb-6 sm:mb-8">
               {hero.features.map((feature, index) => (
-                <li 
-                  key={index} 
+                <li
+                  key={index}
                   className={`flex items-start justify-center lg:justify-start gap-2.5 sm:gap-3 text-white/90 text-xs xs:text-sm sm:text-base group px-1 animate-fade-in-left animation-delay-${300 + (index * 100)}`}
                 >
                   <div className="flex-shrink-0 mt-0.5 sm:mt-0">
@@ -116,13 +116,13 @@ const Hero = () => {
             <div className="cta-container w-72 flex justify-center lg:justify-start animate-scale-in animation-delay-700">
               <div className="relative group w-full max-w-xs sm:max-w-sm md:max-w-md">
                 <div className="absolute -inset-2 sm:-inset-3 bg-gradient-to-r from-emerald-500/20 via-green-500/20 to-emerald-500/20 rounded-xl sm:rounded-2xl blur-lg sm:blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-500" />
-                
+
                 <a
                   href={`tel:${hero.cta.phone.replace(/[^0-9]/g, '')}`}
                   className="relative flex items-center justify-between gap-2 sm:gap-3 bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-600 hover:from-emerald-500 hover:via-green-500 hover:to-emerald-500 text-white font-bold rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-emerald-400/50 backdrop-blur-sm px-3 sm:px-4 py-2.5 sm:py-3.5 w-full overflow-hidden hover-lift"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-                  
+
                   <FaPhoneAlt className="text-base sm:text-lg relative z-10 flex-shrink-0" />
                   <div className="text-center relative z-10 flex-1 min-w-0 px-1 sm:px-2">
                     <div className="text-[10px] xs:text-xs sm:text-sm font-semibold opacity-90 tracking-wide truncate mb-0.5">
@@ -139,21 +139,21 @@ const Hero = () => {
           </div>
 
           {/* Right Image */}
-          <div className="hero-image w-full lg:w-1/2 relative mt-6 sm:mt-8 lg:mt-0">
+          {/* <div className="hero-image w-full lg:w-1/2 relative mt-6 sm:mt-8 lg:mt-0">
             <div className="relative max-w-xs sm:max-w-sm md:max-w-md mx-auto lg:mx-0 lg:max-w-none animate-fade-in-right">
               <div className="absolute -inset-3 sm:-inset-4 md:-inset-5 rounded-xl sm:rounded-2xl overflow-hidden pointer-events-none">
                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 via-red-300/20 to-yellow-400/30 blur-lg sm:blur-xl opacity-50 animate-pulse"></div>
               </div>
-              
-              <div 
+
+              <div
                 className="relative rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-lg sm:shadow-2xl border border-white/20 backdrop-blur-sm group cursor-pointer"
                 style={{
                   background: 'linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.05) 100%)',
                 }}
               >
                 <div className="aspect-[3/4] sm:aspect-[4/5] md:aspect-[5/6] relative overflow-hidden">
-                  <img 
-                    src="/images/rightimage.jpg" 
+                  <img
+                    src="/images/rightimage.jpg"
                     alt="Beautiful Christmas Tree with professional holiday lighting"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="eager"
@@ -169,7 +169,7 @@ const Hero = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 

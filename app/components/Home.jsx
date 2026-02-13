@@ -106,7 +106,7 @@ const Home = () => {
       <Testimonials />
       <FAQSection />
       <GetQuoteFormAdvanced />
-      <CTASection />
+      {/* <CTASection /> */}
 
       {/* Enhanced snowfall animation styles */}
       <style jsx global>{`
