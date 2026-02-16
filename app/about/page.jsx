@@ -1,871 +1,678 @@
 'use client'
-import React, { useRef, useEffect, useState } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import owner from '../../public/images/aboutownerfamily.jpg';
 import {
-  FaStar,
-  FaTree,
-  FaHome,
-  FaSnowman,
-  FaRegSnowflake,
-  FaRegLightbulb,
-  FaUsers,
-  FaRibbon,
-  FaGift,
-  FaCandyCane,
-  FaRegGem,
-  FaRegHeart,
+  FaCheckCircle,
   FaArrowRight,
-  FaPlay,
+  FaMedal,
   FaShieldAlt,
   FaClock,
-  FaMedal,
-  FaCheckCircle,
-  FaQuoteRight,
-  FaRegStar,
+  FaStar,
+  FaUsers,
+  FaTree,
+  FaCalendarAlt,
+  FaPhone,
+  FaEnvelope,
+  FaQuoteLeft,
+  FaLightbulb,
+  FaHome,
+  FaTools,
+  FaBoxOpen,
+  FaTag,
+  FaQuestionCircle,
+  FaMinus,
+  FaPlus,
   FaAward,
-  FaRegSmile,
-  FaRegCalendarCheck,
-  FaRegClock,
-  FaRegMap,
-  FaMapMarkerAlt
+  FaRibbon,
+  FaGem,
+  FaRegSnowflake,
+  FaBuilding,
+  FaLeaf,
+  FaSnowman
 } from 'react-icons/fa';
-import { GiChristmasTree, GiCandles, GiSparkles, GiCrystalShine } from 'react-icons/gi';
+import { GiSparkles, GiFruitTree, GiCrystalGrowth, GiChristmasTree } from 'react-icons/gi';
 import { HiOutlineSparkles } from 'react-icons/hi';
-import { BsSnow2 } from 'react-icons/bs';
-import { MdOutlineNightlight, MdOutlineCelebration } from 'react-icons/md';
 
-// Register GSAP plugins
-gsap.registerPlugin(ScrollTrigger);
+// Add animation styles
+const addAnimationStyles = () => {
+  if (typeof document !== 'undefined') {
+    const style = document.createElement('style');
+    style.innerHTML = `
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .animate-fade-up {
+        animation: fadeUp 0.6s ease-out forwards;
+        opacity: 0;
+      }
+      
+      .animation-delay-200 {
+        animation-delay: 0.2s;
+      }
+      
+      .animation-delay-400 {
+        animation-delay: 0.4s;
+      }
+      
+      .animation-delay-600 {
+        animation-delay: 0.6s;
+      }
+      
+      .animation-delay-800 {
+        animation-delay: 0.8s;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+};
 
 const AboutUs = () => {
-  const [isMounted, setIsMounted] = useState(false);
-  const [activeStory, setActiveStory] = useState(0);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-
-  // Refs for animations
-  const heroRef = useRef(null);
-  const storyRef = useRef(null);
-  const valuesRef = useRef(null);
-  const teamRef = useRef(null);
-  const statsRef = useRef(null);
-  const journeyRef = useRef(null);
-  const parallaxRef = useRef(null);
-  const marqueeRef = useRef(null);
+  const [openFaq, setOpenFaq] = useState(null);
+  const [activeTab, setActiveTab] = useState('seasonal');
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setIsMounted(true);
-
-    // Mouse parallax effect
-    const handleMouseMove = (e) => {
-      const { clientX, clientY } = e;
-      const x = (clientX / window.innerWidth - 0.5) * 20;
-      const y = (clientY / window.innerHeight - 0.5) * 20;
-      setMousePosition({ x, y });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-
-    // GSAP Animations
-    const ctx = gsap.context(() => {
-      // Hero section animations
-      gsap.from('.about-hero-title', {
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: 'top center',
-          end: 'bottom center',
-          scrub: 1
-        },
-        y: 100,
-        opacity: 0,
-        duration: 1.5
-      });
-
-      // Parallax elements
-      gsap.to('.parallax-snowflake-1', {
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1
-        },
-        y: 200,
-        rotate: 180,
-        opacity: 0.3
-      });
-
-      gsap.to('.parallax-snowflake-2', {
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1
-        },
-        y: -150,
-        rotate: -120,
-        opacity: 0.2
-      });
-
-      // Story section animations
-      gsap.from('.story-card', {
-        scrollTrigger: {
-          trigger: storyRef.current,
-          start: 'top 80%',
-          end: 'bottom 60%',
-          scrub: 1
-        },
-        scale: 0.8,
-        opacity: 0,
-        stagger: 0.2
-      });
-
-      // Values section - 3D flip cards
-      gsap.utils.toArray('.value-card').forEach((card, i) => {
-        gsap.from(card, {
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            end: 'top 45%',
-            scrub: 1
-          },
-          rotationY: 90,
-          opacity: 0,
-          transformOrigin: 'center center',
-          delay: i * 0.1
-        });
-      });
-
-      // Stats counter animation
-      gsap.utils.toArray('.stat-number').forEach((stat) => {
-        ScrollTrigger.create({
-          trigger: stat,
-          start: 'top 80%',
-          onEnter: () => {
-            const target = stat;
-            const value = target.getAttribute('data-target');
-            gsap.to(target, {
-              innerHTML: value,
-              duration: 2,
-              snap: { innerHTML: 1 },
-              ease: 'power2.out'
-            });
-          }
-        });
-      });
-
-      // Journey timeline
-      gsap.from('.journey-item', {
-        scrollTrigger: {
-          trigger: journeyRef.current,
-          start: 'top 70%',
-          end: 'bottom 40%',
-          scrub: 1
-        },
-        x: -100,
-        opacity: 0,
-        stagger: 0.3
-      });
-
-      // Marquee scroll
-      gsap.to('.marquee-content', {
-        xPercent: -50,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: marqueeRef.current,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1
-        }
-      });
-
-      // Team section reveal
-      gsap.from('.team-member', {
-        scrollTrigger: {
-          trigger: teamRef.current,
-          start: 'top 70%',
-          end: 'bottom 40%',
-          scrub: 1
-        },
-        y: 100,
-        opacity: 0,
-        stagger: 0.2
-      });
-
-      // Parallax background
-      gsap.to('.parallax-bg', {
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1
-        },
-        y: 200,
-        scale: 1.2
-      });
-    });
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      ctx.revert();
-    };
+    setMounted(true);
+    addAnimationStyles();
   }, []);
 
-  // Story data
-  const stories = [
-    {
-      year: '2015',
-      title: 'The First Light',
-      description: 'Started with a single ladder and a dream to make holidays brighter. Our first installation was a small bungalow that sparked a movement.',
-      icon: <FaRegLightbulb className="text-4xl" />,
-      color: 'from-amber-400 to-yellow-500'
-    },
-    {
-      year: '2018',
-      title: 'Expanding Horizons',
-      description: 'Grew to serve over 100 homes, introducing commercial-grade LED technology and custom design services.',
-      icon: <FaTree className="text-4xl" />,
-      color: 'from-green-400 to-emerald-500'
-    },
-    {
-      year: '2020',
-      title: 'Innovation Era',
-      description: 'Launched permanent lighting solutions, allowing homes to celebrate every season with programmable displays.',
-      icon: <GiSparkles className="text-4xl" />,
-      color: 'from-blue-400 to-purple-500'
-    },
-    {
-      year: '2024',
-      title: 'Lighting Excellence',
-      description: 'Now a team of 50+ experts, serving 500+ happy clients with award-winning designs and unmatched service.',
-      icon: <FaAward className="text-4xl" />,
-      color: 'from-red-400 to-pink-500'
-    }
-  ];
-
-  // Values data
-  const values = [
-    {
-      title: 'Craftsmanship',
-      description: 'Every installation is a masterpiece, meticulously planned and executed with precision.',
-      icon: <GiCrystalShine />,
-      color: 'from-amber-400 to-orange-500',
-      stats: '100% Quality Guaranteed'
-    },
-    {
-      title: 'Innovation',
-      description: 'Pushing boundaries with smart lighting technology and sustainable solutions.',
-      icon: <FaRegLightbulb />,
-      color: 'from-blue-400 to-cyan-500',
-      stats: '15+ Patents Pending'
-    },
-    {
-      title: 'Community',
-      description: 'Bringing neighborhoods together through the magic of holiday lighting.',
-      icon: <FaUsers />,
-      color: 'from-green-400 to-emerald-500',
-      stats: '50+ Community Events'
-    },
-    {
-      title: 'Excellence',
-      description: 'Award-winning service that exceeds expectations every single time.',
-      icon: <FaMedal />,
-      color: 'from-purple-400 to-pink-500',
-      stats: '4.9★ Average Rating'
-    }
-  ];
-
-  // Team data
-  const team = [
-    {
-      name: 'James Chen',
-      role: 'Founder & Creative Director',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=faces',
-      expertise: 'Lighting Design',
-      years: '10+ years',
-      quote: 'Lighting is not just illumination; it\'s emotion.',
-      social: ['twitter', 'linkedin']
-    },
-    {
-      name: 'Sarah Williams',
-      role: 'Head of Design',
-      image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=faces',
-      expertise: 'Creative Direction',
-      years: '8+ years',
-      quote: 'Every home tells a story through light.',
-      social: ['instagram', 'pinterest']
-    },
-    {
-      name: 'Michael Torres',
-      role: 'Technical Director',
-      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=faces',
-      expertise: 'Smart Systems',
-      years: '12+ years',
-      quote: 'Innovation meets tradition in every installation.',
-      social: ['github', 'twitter']
-    },
-    {
-      name: 'Emily Parker',
-      role: 'Client Experience',
-      image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=faces',
-      expertise: 'Customer Success',
-      years: '6+ years',
-      quote: 'Creating magical moments for families is our passion.',
-      social: ['linkedin', 'instagram']
-    }
-  ];
-
-  // Stats data
-  const stats = [
-    { number: '500+', label: 'Happy Clients', icon: <FaRegSmile />, suffix: 'families' },
-    { number: '15+', label: 'Years Excellence', icon: <FaRegCalendarCheck />, suffix: 'years' },
-    { number: '24/7', label: 'Support Available', icon: <FaRegClock />, suffix: 'coverage' },
-    { number: '50+', label: 'Cities Served', icon: <FaRegMap />, suffix: 'locations' }
-  ];
-
-  // Achievements data
-  const achievements = [
-    {
-      title: 'Best Holiday Lighting',
-      year: '2023',
-      organization: 'International Lighting Association',
-      icon: <FaAward />
-    },
-    {
-      title: 'Customer Excellence Award',
-      year: '2022, 2023',
-      organization: 'Better Business Bureau',
-      icon: <FaMedal />
-    },
-    {
-      title: 'Innovation in Design',
-      year: '2024',
-      organization: 'Home & Garden Awards',
-      icon: <GiSparkles />
-    }
-  ];
-
-  if (!isMounted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-red-900 to-slate-900">
-        <div className="relative">
-          <div className="w-24 h-24 border-4 border-white/20 border-t-red-500 rounded-full animate-spin"></div>
-          <GiChristmasTree className="absolute inset-0 m-auto text-3xl text-green-400 animate-pulse" />
-        </div>
-      </div>
-    );
+  if (!mounted) {
+    return null;
   }
 
-  return (
-    <main className="relative bg-gradient-to-b from-[#0A0F1E] via-[#1A1F30] to-[#0A0F1E] text-white overflow-hidden">
+  // Company stats
+  const stats = [
+    { number: '500+', label: 'Homes Transformed', icon: FaTree },
+    { number: '15+', label: 'Years Experience', icon: FaCalendarAlt },
+    { number: '50+', label: 'Team Members', icon: FaUsers },
+    { number: '4.9', label: 'Client Rating', icon: FaStar }
+  ];
 
-      {/* Floating Particles Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[...Array(50)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute animate-float-particle"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${10 + Math.random() * 20}s`
-            }}
-          >
-            {i % 3 === 0 ? <BsSnow2 className="text-white/10 text-xl" /> :
-              i % 3 === 1 ? <FaRegSnowflake className="text-white/10 text-xl" /> :
-                <GiSparkles className="text-white/10 text-xl" />}
-          </div>
-        ))}
-      </div>
+  // Core values
+  const values = [
+    {
+      title: 'Quality First',
+      description: 'We use only commercial-grade materials and professional installation techniques.',
+      icon: FaMedal
+    },
+    {
+      title: 'Reliability',
+      description: 'On-time service with 48-hour maintenance guarantee throughout the season.',
+      icon: FaClock
+    },
+    {
+      title: 'Safety',
+      description: 'Fully insured with $2M liability coverage and certified technicians.',
+      icon: FaShieldAlt
+    }
+  ];
+
+  // Process steps - refined
+  const process = [
+    {
+      step: '01',
+      title: 'Consultation',
+      description: 'We visit your property, discuss your vision, and provide a detailed quote.',
+      image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop'
+    },
+    {
+      step: '02',
+      title: 'Installation',
+      description: 'Our team handles everything from design to installation in 3-8 hours.',
+      image: 'https://images.unsplash.com/photo-1631679706875-9b8ab86fcc4f?w=600&h=400&fit=crop'
+    },
+    {
+      step: '03',
+      title: 'Enjoy',
+      description: 'We maintain your lights all season and handle takedown and storage.',
+      image: 'https://images.unsplash.com/photo-1512389142860-9c449e6f8b1d?w=600&h=400&fit=crop'
+    }
+  ];
+
+  // Single founder
+  const founder = {
+    name: 'James Chen',
+    role: 'Founder & Creative Director',
+    quote: "I started this company because I believe every home deserves to shine during the holidays. We're not just installing lights — we're creating moments that families will remember for years.",
+    expertise: '15+ years in lighting design',
+    philosophy: 'Treat every property like it\'s our own'
+  };
+
+  // Services included
+  const services = [
+    { icon: FaLightbulb, text: 'Custom lighting design tailored to your home or business' },
+    { icon: FaTree, text: 'All Christmas lights and décor provided and professionally installed' },
+    { icon: FaTools, text: 'Ongoing maintenance throughout the holiday season' },
+    { icon: FaBoxOpen, text: 'Full takedown after the season ends' },
+    { icon: FaHome, text: 'All lights removed and stored at our facility — no storage required' }
+  ];
+
+  // FAQ items
+  const faqItems = [
+    {
+      question: 'What services are included with professional Christmas light installation?',
+      answer: '',
+      list: [
+        'Custom lighting design tailored to your home or business',
+        'All Christmas lights and décor provided and professionally installed',
+        'Ongoing maintenance throughout the holiday season',
+        'Full takedown after the season ends',
+        'All lights removed and stored at our facility — no storage required on your end'
+      ],
+      icon: FaQuestionCircle
+    },
+    {
+      question: 'What kind of Lights do you install?',
+      type: 'dual',
+      icon: FaLightbulb,
+      options: [
+        {
+          title: 'Seasonal Lighting',
+          description: 'We install commercial-grade C9 LED bulbs. These lights are 3x brighter than anything you\'ll find at a big-box store, and every display is custom-fit to your home.',
+          icon: GiSparkles
+        },
+        {
+          title: 'Permanent Lighting',
+          description: 'We install Invisilights permanent lighting systems that stay up year-round and can be customized for any holiday or occasion.',
+          icon: FaHome
+        }
+      ]
+    },
+    {
+      question: 'Am I Buying the Lights?',
+      type: 'comparison',
+      icon: FaTag,
+      comparisons: [
+        {
+          title: 'Seasonal Lighting',
+          answer: 'No. All seasonal lights and décor are leased and maintained by our team, so you never have to worry about repairs, storage, or climbing ladders. If anything needs attention during the season, we handle it.',
+          icon: GiSparkles
+        },
+        {
+          title: 'Permanent Lighting',
+          answer: 'Yes. Permanent lighting systems are purchased and professionally installed on your home.',
+          icon: FaHome
+        }
+      ]
+    },
+    {
+      question: 'Do you install the lights I own?',
+      answer: 'We don\'t — and here\'s why: we use professional-grade Christmas lighting on every project so we can guarantee quality, safety, and reliability all season long.',
+      icon: FaTools,
+      highlight: true
+    },
+    {
+      question: 'Are any discounts available?',
+      answer: 'Yes, we offer discounts for installations completed before November, as well as loyalty discounts for continuous years of service.',
+      icon: FaTag,
+      badge: 'Limited Time'
+    }
+  ];
+
+  return (
+    <main className="bg-white overflow-x-hidden w-full">
 
       {/* Hero Section */}
-      <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Parallax Background */}
-        <div className="parallax-bg absolute inset-0">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1513889961551-628c1e5c2f8b?auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center opacity-20"></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#0A0F1E]/50 to-[#0A0F1E]"></div>
+      <section className="relative bg-gray-900 text-white min-h-[90vh] flex items-center w-full">
+        <div className="absolute inset-0">
+          {/* Fixed image handling */}
+          <div className="relative w-full h-full">
+            <Image
+              src={owner}
+              alt="Professional lighting installation"
+              fill
+              className="object-cover opacity-30"
+              priority
+              sizes="100vw"
+              quality={90}
+            />
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/95 to-gray-900/90"></div>
         </div>
 
-        {/* Animated Snowflakes */}
-        <div className="parallax-snowflake-1 absolute top-20 left-20 text-white/20">
-          <GiChristmasTree className="text-9xl transform -rotate-12" />
-        </div>
-        <div className="parallax-snowflake-2 absolute bottom-20 right-20 text-white/20">
-          <FaSnowman className="text-9xl" />
-        </div>
+        <div className="relative container mx-auto px-4 sm:px-6 py-16 sm:py-24 md:py-32 w-full">
+          <div className="max-w-3xl">
+            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 text-amber-400 mb-4 sm:mb-6 animate-fade-up">
+              <GiSparkles className="w-3 h-3 sm:w-4 sm:h-4" />
+              <span className="text-[10px] sm:text-xs md:text-sm tracking-wider uppercase">Professional lighting installation</span>
+              <span className="w-0.5 h-0.5 sm:w-1 sm:h-1 bg-amber-400 rounded-full"></span>
+              <span className="text-[10px] sm:text-xs md:text-sm">Since 2015</span>
+            </div>
 
-        {/* Content */}
-        <div className="relative z-10 container mx-auto px-4 text-center">
-          <div className="about-hero-title">
-            <span className="inline-block px-6 py-2 mb-8 text-sm tracking-wider text-red-300 uppercase border border-red-500/30 rounded-full backdrop-blur-sm bg-white/5">
-              ✦ Our Story ✦
-            </span>
-
-            <h1 className="text-6xl md:text-8xl font-black mb-8 leading-none">
-              <span className="block text-white/90 mb-4">Illuminating</span>
-              <span className="block relative">
-                <span className="relative inline-block">
-                  <span className="bg-gradient-to-r from-amber-300 via-red-400 to-purple-400 bg-clip-text text-transparent bg-[length:200%_200%] animate-gradient">
-                    Holidays
-                  </span>
-                  <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-400 to-transparent"></span>
-                </span>
-                <span className="block text-4xl md:text-5xl mt-6 text-white/70 font-light">
-                  Since 2015
-                </span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-light mb-3 sm:mb-4 md:mb-6 leading-tight animate-fade-up animation-delay-200">
+              Professional Holiday Lighting
+              <span className="block font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-red-400 mt-1 sm:mt-2">
+                Done Right.
               </span>
             </h1>
 
-            <p className="max-w-2xl mx-auto text-lg md:text-xl text-white/70 mb-12 leading-relaxed">
-              From a single ladder to transforming hundreds of homes into winter wonderlands,
-              our passion for lighting has grown into an award-winning craft that brings joy to communities.
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 mb-6 sm:mb-8 md:mb-12 leading-relaxed max-w-2xl animate-fade-up animation-delay-400">
+              We transform homes and businesses into stunning holiday displays.
+              No ladders. No storage. No stress. Just beautiful lighting you can enjoy.
             </p>
 
-            <div className="flex items-center justify-center gap-6">
-              <button className="group relative px-8 py-4 bg-gradient-to-r from-red-500 to-amber-500 rounded-full overflow-hidden">
-                <span className="relative z-10 flex items-center gap-2 font-semibold">
-                  <FaPlay className="text-sm" />
-                  Watch Our Story
+            {/* CTA with exact styling from reference */}
+            <div className="animate-fade-up animation-delay-800 w-full px-0">
+              <Link
+                href="/contact"
+                className="relative overflow-hidden group inline-flex items-center justify-center px-4 sm:px-5 md:px-6 lg:px-8 py-2 sm:py-2.5 md:py-3 lg:py-4 bg-gradient-to-r from-yellow-500 to-red-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl text-xs sm:text-sm md:text-base lg:text-lg w-auto min-w-[120px] sm:min-w-[140px] md:min-w-[160px] lg:min-w-[180px] cursor-pointer"
+              >
+                <span className="relative z-10 flex items-center justify-center gap-1 sm:gap-1.5 md:gap-2">
+                  <HiOutlineSparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 lg:w-5 lg:h-5" />
+                  <span>Get My Free Quote</span>
+                  <FaArrowRight className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 lg:w-4 lg:h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              </button>
-
-              <div className="flex items-center gap-3">
-                <div className="flex -space-x-3">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="w-10 h-10 rounded-full border-2 border-white/20 overflow-hidden">
-                      <img src={`https://i.pravatar.cc/40?img=${i}`} alt="" className="w-full h-full object-cover" />
-                    </div>
-                  ))}
-                </div>
-                <span className="text-sm text-white/60">Join 500+ happy families</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-          <div className="flex flex-col items-center gap-2">
-            <span className="text-xs tracking-wider text-white/40 uppercase">Discover Our Journey</span>
-            <div className="w-6 h-10 border-2 border-white/20 rounded-full flex justify-center">
-              <div className="w-1 h-3 bg-white/40 rounded-full animate-scroll"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section ref={statsRef} className="relative py-32 overflow-hidden">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <section className="py-12 sm:py-16 bg-gray-50 border-y border-gray-100">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center group">
-                <div className="relative mb-6">
-                  <div className="text-5xl text-red-400/30 group-hover:text-red-400/50 transition-colors duration-500">
-                    {stat.icon}
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 border-2 border-red-500/0 group-hover:border-red-500/30 rounded-full transition-all duration-500 scale-0 group-hover:scale-150"></div>
-                  </div>
+                <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-br from-red-50 to-amber-50 rounded-lg sm:rounded-xl flex items-center justify-center mx-auto mb-2 sm:mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-300">
+                  <stat.icon className="text-sm sm:text-base md:text-xl text-red-600" />
                 </div>
-                <div className="stat-number text-4xl md:text-5xl font-bold mb-2" data-target={stat.number}>
-                  0
-                </div>
-                <div className="text-sm uppercase tracking-wider text-white/40 mb-1">{stat.label}</div>
-                <div className="text-xs text-red-400/60">{stat.suffix}</div>
+                <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-0.5 sm:mb-1">{stat.number}</div>
+                <div className="text-[10px] sm:text-xs md:text-sm text-gray-600">{stat.label}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Our Story Timeline */}
-      <section ref={storyRef} className="relative py-32">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-20">
-            <span className="inline-block px-4 py-2 mb-6 text-sm bg-white/5 backdrop-blur-sm rounded-full border border-white/10">
-              ✦ The Journey ✦
-            </span>
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              From{' '}
-              <span className="bg-gradient-to-r from-amber-400 to-red-400 bg-clip-text text-transparent">
-                Spark
-              </span>{' '}
-              to{' '}
-              <span className="bg-gradient-to-r from-red-400 to-purple-400 bg-clip-text text-transparent">
-                Brilliance
-              </span>
-            </h2>
-            <p className="max-w-2xl mx-auto text-white/60 text-lg">
-              Every great story begins with a single light. Here's how we've grown and evolved over the years.
-            </p>
-          </div>
+      {/* Founder Section - Single Hero */}
+      <section className="py-16 sm:py-20 md:py-24 bg-white">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
+            <div className="relative order-2 lg:order-1">
+              <div className="relative z-10">
+                <div className="flex items-center gap-1.5 sm:gap-2 text-red-600 mb-3 sm:mb-4">
+                  <FaAward className="text-sm sm:text-base md:text-lg" />
+                  <span className="text-[10px] sm:text-xs md:text-sm font-medium tracking-wider uppercase">The Founder</span>
+                </div>
 
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-transparent via-red-500/30 to-transparent"></div>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-gray-900 mb-2 sm:mb-3 md:mb-4">
+                  {founder.name}
+                </h2>
 
-            {stories.map((story, index) => (
-              <div
-                key={index}
-                className={`story-card relative flex flex-col md:flex-row ${index % 2 === 0 ? 'md:flex-row-reverse' : ''} items-center mb-20 last:mb-0`}
-              >
-                <div className="flex-1 md:w-1/2 p-8">
-                  <div className={`bg-gradient-to-br ${story.color} p-8 rounded-3xl backdrop-blur-sm bg-opacity-10 border border-white/10 hover:scale-105 transition-transform duration-500`}>
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center text-red-400">
-                        {story.icon}
-                      </div>
-                      <div>
-                        <div className="text-3xl font-black text-white/90">{story.year}</div>
-                      </div>
+                <p className="text-base sm:text-lg md:text-xl text-red-600 font-medium mb-4 sm:mb-5 md:mb-6">
+                  {founder.role}
+                </p>
+
+                <div className="space-y-4 sm:space-y-5 md:space-y-6 text-gray-600 leading-relaxed text-sm sm:text-base">
+                  <p className="text-base sm:text-lg italic text-gray-700 border-l-4 border-red-600 pl-4 sm:pl-5 md:pl-6">
+                    "{founder.quote}"
+                  </p>
+                  <p>
+                    It started with a single house in 2015. James wanted to create something special for his family. The result was so beautiful that neighbors started asking if he could do theirs too.
+                  </p>
+                  <p>
+                    Today, we've grown into a team of 50+ professionals serving hundreds of homes every holiday season. But our approach remains the same: treat every property like it's our own.
+                  </p>
+
+                  <div className="flex items-center gap-3 sm:gap-4 pt-3 sm:pt-4">
+                    <div className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-red-50 rounded-full flex items-center justify-center flex-shrink-0">
+                      <FaGem className="text-red-600 text-sm sm:text-base md:text-xl" />
                     </div>
-                    <h3 className="text-2xl font-bold mb-4">{story.title}</h3>
-                    <p className="text-white/70 leading-relaxed">{story.description}</p>
+                    <div>
+                      <div className="text-[10px] sm:text-xs text-gray-500">Philosophy</div>
+                      <div className="text-xs sm:text-sm md:text-base font-medium text-gray-900">{founder.philosophy}</div>
+                    </div>
                   </div>
                 </div>
+              </div>
 
-                <div className="relative flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-red-500 to-amber-500 z-10 shadow-xl my-4 md:my-0">
-                  <div className="absolute inset-0 rounded-full animate-ping bg-red-500/50"></div>
-                  <span className="relative text-xl font-black">{index + 1}</span>
+              {/* Decorative elements */}
+              <div className="absolute -bottom-4 sm:-bottom-6 -left-4 sm:-left-6 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-red-100 to-amber-100 rounded-full blur-3xl opacity-50 -z-10"></div>
+            </div>
+
+            <div className="relative order-1 lg:order-2">
+              <div className="relative">
+                <div className="aspect-[4/5] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
+                  <Image
+                    src={owner}
+                    alt={founder.name}
+                    className="w-full h-full object-cover"
+                    width={800}
+                    height={1000}
+                    priority
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+                  />
                 </div>
 
-                <div className="flex-1 md:w-1/2"></div>
+                {/* Experience badge - hidden on mobile */}
+                <div className="absolute -bottom-4 sm:-bottom-6 -left-4 sm:-left-6 bg-white p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl shadow-xl max-w-[200px] sm:max-w-xs hidden lg:block">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+                    <FaCalendarAlt className="text-red-600 text-base sm:text-lg md:text-xl" />
+                    <span className="text-[10px] sm:text-xs font-medium text-gray-600">Experience</span>
+                  </div>
+                  <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">{founder.expertise}</div>
+                </div>
+
+                {/* Decorative gradient */}
+                <div className="absolute -top-4 sm:-top-6 -right-4 sm:-right-6 w-32 sm:w-48 h-32 sm:h-48 bg-gradient-to-br from-red-500/10 to-amber-500/10 rounded-full blur-3xl"></div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Values Section with 3D Cards */}
-      <section ref={valuesRef} className="relative py-32 perspective-1000">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-20">
-            <span className="inline-block px-4 py-2 mb-6 text-sm bg-white/5 backdrop-blur-sm rounded-full border border-white/10">
-              ✦ Our Core ✦
-            </span>
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              Values That{' '}
-              <span className="bg-gradient-to-r from-amber-400 to-red-400 bg-clip-text text-transparent">
-                Illuminate
-              </span>
+      {/* Why Choose Us - Refined */}
+      <section className="py-16 sm:py-20 md:py-24 bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 md:mb-16">
+            <div className="flex items-center justify-center gap-1.5 sm:gap-2 text-red-600 mb-3 sm:mb-4">
+              <FaRibbon className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-[10px] sm:text-xs md:text-sm font-medium tracking-wider uppercase">Why Choose Us</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-gray-900 mb-3 sm:mb-4 md:mb-6">
+              The Professional
+              <span className="block font-bold mt-1 sm:mt-2">Difference</span>
             </h2>
-            <p className="max-w-2xl mx-auto text-white/60 text-lg">
-              The principles that guide every installation, every design, and every interaction.
+            <p className="text-sm sm:text-base md:text-lg text-gray-600 px-4">
+              We don't just hang lights — we create experiences with commercial-grade quality and white-glove service.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
             {values.map((value, index) => (
               <div
                 key={index}
-                className="value-card group relative h-80 cursor-pointer"
-                style={{ transformStyle: 'preserve-3d' }}
+                className="group bg-white p-5 sm:p-6 md:p-8 rounded-xl sm:rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
               >
-                {/* Front of Card */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm rounded-3xl border border-white/10 p-8 flex flex-col items-center text-center backface-hidden transition-all duration-500 group-hover:opacity-0">
-                  <div className={`w-20 h-20 mb-6 rounded-2xl bg-gradient-to-br ${value.color} flex items-center justify-center text-4xl text-white`}>
-                    {value.icon}
-                  </div>
-                  <h3 className="text-xl font-bold mb-4">{value.title}</h3>
-                  <p className="text-white/60 text-sm leading-relaxed">{value.description}</p>
+                <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-gradient-to-br from-red-50 to-amber-50 rounded-lg sm:rounded-xl flex items-center justify-center mb-4 sm:mb-5 md:mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <value.icon className="text-lg sm:text-xl md:text-2xl text-red-600" />
                 </div>
+                <h3 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-2 sm:mb-3 group-hover:text-red-600 transition-colors">
+                  {value.title}
+                </h3>
+                <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed">{value.description}</p>
 
-                {/* Back of Card */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${value.color} rounded-3xl p-8 flex flex-col items-center justify-center text-center backface-hidden rotateY-180 transition-all duration-500 group-hover:rotateY-0`}>
-                  <div className="text-4xl mb-4">✨</div>
-                  <h4 className="text-xl font-bold mb-4">Did You Know?</h4>
-                  <p className="text-white/90 text-sm leading-relaxed mb-6">{value.stats}</p>
-                  <div className="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center">
-                    <FaCheckCircle className="text-white" />
-                  </div>
-                </div>
+                {/* Decorative line */}
+                <div className="w-8 sm:w-10 md:w-12 h-0.5 bg-gradient-to-r from-red-600 to-amber-600 mt-4 sm:mt-5 md:mt-6 opacity-0 group-hover:opacity-100 transition-opacity"></div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Achievements Marquee */}
-      <section ref={marqueeRef} className="relative py-20 overflow-hidden">
-        <div className="marquee-content flex whitespace-nowrap">
-          {[...achievements, ...achievements].map((achievement, index) => (
-            <div key={index} className="inline-flex items-center gap-8 mx-8">
-              <div className="flex items-center gap-4">
-                <div className="text-4xl text-red-400">{achievement.icon}</div>
-                <div>
-                  <div className="text-xl font-bold">{achievement.title}</div>
-                  <div className="text-sm text-white/40">{achievement.year} • {achievement.organization}</div>
-                </div>
-              </div>
-              <div className="w-1 h-12 bg-gradient-to-b from-transparent via-red-400 to-transparent"></div>
+      {/* Process Section - Refined with Images */}
+      <section className="py-16 sm:py-20 md:py-24 bg-white">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 md:mb-16">
+            <div className="flex items-center justify-center gap-1.5 sm:gap-2 text-red-600 mb-3 sm:mb-4">
+              <FaClock className="w-4 h-4 sm:w-5 sm:h-5" />
+              <span className="text-[10px] sm:text-xs md:text-sm font-medium tracking-wider uppercase">Simple Process</span>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Team Section */}
-      <section ref={teamRef} className="relative py-32">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-20">
-            <span className="inline-block px-4 py-2 mb-6 text-sm bg-white/5 backdrop-blur-sm rounded-full border border-white/10">
-              ✦ The Dream Team ✦
-            </span>
-            <h2 className="text-4xl md:text-6xl font-bold mb-6">
-              Masters of{' '}
-              <span className="bg-gradient-to-r from-amber-400 to-red-400 bg-clip-text text-transparent">
-                Light
-              </span>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light text-gray-900 mb-3 sm:mb-4 md:mb-6">
+              How It
+              <span className="block font-bold mt-1 sm:mt-2">Works</span>
             </h2>
-            <p className="max-w-2xl mx-auto text-white/60 text-lg">
-              Meet the creative minds and technical experts behind every magical installation.
+            <p className="text-sm sm:text-base md:text-lg text-gray-600">
+              Three simple steps to a stunning holiday display
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member, index) => (
-              <div key={index} className="team-member group relative">
-                <div className="relative overflow-hidden rounded-3xl mb-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {process.map((item, index) => (
+              <div key={index} className="group relative">
+                <div className="relative h-48 sm:h-56 md:h-64 rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-5 md:mb-6">
                   <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full aspect-square object-cover transition-transform duration-700 group-hover:scale-110"
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
 
-                  {/* Hover Quote */}
-                  <div className="absolute bottom-0 left-0 right-0 p-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
-                    <p className="text-white/90 text-sm italic">"{member.quote}"</p>
+                  {/* Step number */}
+                  <div className="absolute top-3 right-3 sm:top-4 sm:right-4 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-white/90 backdrop-blur rounded-full flex items-center justify-center">
+                    <span className="text-[10px] sm:text-xs md:text-sm font-bold text-gray-900">{item.step}</span>
                   </div>
                 </div>
 
-                <div className="text-center">
-                  <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                  <p className="text-red-400 text-sm mb-2">{member.role}</p>
-                  <div className="flex items-center justify-center gap-4 text-xs text-white/40">
-                    <span>{member.expertise}</span>
-                    <span>•</span>
-                    <span>{member.years}</span>
-                  </div>
-                </div>
-
-                {/* Social Links */}
-                <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                  {member.social.map((platform, i) => (
-                    <button key={i} className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-colors">
-                      <span className="text-xs">{platform[0].toUpperCase()}</span>
-                    </button>
-                  ))}
-                </div>
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 group-hover:text-red-600 transition-colors">
+                  {item.title}
+                </h3>
+                <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed">{item.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Journey Visualization */}
-      <section ref={journeyRef} className="relative py-32">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <div>
-              <span className="inline-block px-4 py-2 mb-6 text-sm bg-white/5 backdrop-blur-sm rounded-full border border-white/10">
-                ✦ Our Impact ✦
-              </span>
-              <h2 className="text-4xl md:text-5xl font-bold mb-8">
-                Lighting Up{' '}
-                <span className="bg-gradient-to-r from-amber-400 to-red-400 bg-clip-text text-transparent">
-                  Communities
-                </span>
-              </h2>
-              <p className="text-white/60 text-lg leading-relaxed mb-12">
-                Beyond just installations, we're creating moments of joy that bring families and neighborhoods together.
-                Every light tells a story, and every display creates memories that last a lifetime.
-              </p>
-
-              <div className="space-y-6">
-                {[
-                  { label: 'Homes Transformed', value: '500+', progress: 85 },
-                  { label: 'Customer Satisfaction', value: '4.9/5', progress: 98 },
-                  { label: 'Cities Served', value: '50+', progress: 75 }
-                ].map((item, index) => (
-                  <div key={index} className="journey-item">
-                    <div className="flex justify-between mb-2">
-                      <span className="text-white/80">{item.label}</span>
-                      <span className="text-red-400 font-bold">{item.value}</span>
-                    </div>
-                    <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-amber-400 to-red-400 rounded-full"
-                        style={{ width: `${item.progress}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+      {/* Services Included Section */}
+      <section className="py-16 sm:py-20 md:py-24 bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-8 sm:mb-10 md:mb-12">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-light text-gray-900 mb-3 sm:mb-4">
+                What's Included With
+                <span className="block font-bold mt-1 sm:mt-2">Professional Installation</span>
+              </h3>
             </div>
-
-            <div className="relative">
-              {/* Interactive Map Visualization */}
-              <div className="relative aspect-square">
-                <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-amber-500/10 rounded-full animate-pulse"></div>
-
-                {/* Service Areas */}
-                {[
-                  { top: '30%', left: '40%', size: '60px', delay: '0s' },
-                  { top: '50%', left: '60%', size: '80px', delay: '1s' },
-                  { top: '70%', left: '30%', size: '70px', delay: '2s' },
-                  { top: '20%', left: '70%', size: '50px', delay: '3s' }
-                ].map((area, index) => (
-                  <div
-                    key={index}
-                    className="absolute rounded-full bg-gradient-to-r from-red-400/20 to-amber-400/20 animate-ping"
-                    style={{
-                      top: area.top,
-                      left: area.left,
-                      width: area.size,
-                      height: area.size,
-                      animationDelay: area.delay
-                    }}
-                  ></div>
-                ))}
-
-                {/* Center Point */}
-                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                  <div className="relative">
-                    <div className="w-24 h-24 rounded-full bg-gradient-to-r from-red-500 to-amber-500 flex items-center justify-center">
-                      <FaMapMarkerAlt className="text-3xl text-white" />
-                    </div>
-                    <div className="absolute inset-0 rounded-full animate-ping bg-red-500/50"></div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              {services.map((service, index) => (
+                <div key={index} className="flex items-start gap-2 sm:gap-3 p-3 sm:p-4 md:p-5 bg-white rounded-lg sm:rounded-xl shadow-sm hover:shadow-md transition-all group">
+                  <div className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 bg-gradient-to-br from-red-50 to-amber-50 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 sm:mt-1 group-hover:scale-110 transition-transform">
+                    <service.icon className="text-xs sm:text-sm text-red-600" />
                   </div>
+                  <p className="text-xs sm:text-sm md:text-base text-gray-700 leading-relaxed">{service.text}</p>
                 </div>
-              </div>
-
-              <p className="text-center mt-8 text-white/40 text-sm">
-                Expanding our service area to bring light to more communities
-              </p>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="relative py-32">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1513889961551-628c1e5c2f8b?auto=format&fit=crop&w=2000&q=80"
-            alt=""
-            className="w-full h-full object-cover opacity-10"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0F1E] via-transparent to-[#0A0F1E]"></div>
-        </div>
+      {/* Lighting Types */}
+      <section className="py-16 sm:py-20 md:py-24 bg-white">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div className="text-center mb-8 sm:mb-10 md:mb-12">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-light text-gray-900 mb-3 sm:mb-4">
+              What Kind of Lights Do
+              <span className="block font-bold mt-1 sm:mt-2">We Install?</span>
+            </h3>
+          </div>
 
-        <div className="relative container mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-6xl font-black mb-8 leading-tight">
-            Ready to Create Your{' '}
-            <span className="bg-gradient-to-r from-amber-400 to-red-400 bg-clip-text text-transparent">
-              Holiday Story?
-            </span>
-          </h2>
-          <p className="max-w-2xl mx-auto text-white/60 text-lg mb-12">
-            Join hundreds of happy families who've trusted us to make their holidays magical.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <button className="group relative px-10 py-5 bg-gradient-to-r from-red-500 to-amber-500 rounded-full overflow-hidden">
-              <span className="relative z-10 flex items-center gap-3 text-lg font-semibold">
-                Get Your Free Quote
-                <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
-              </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          {/* Tabs - responsive */}
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-6 sm:mb-8">
+            <button
+              onClick={() => setActiveTab('seasonal')}
+              className={`px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-lg font-medium transition-all text-xs sm:text-sm md:text-base ${activeTab === 'seasonal'
+                  ? 'bg-gradient-to-r from-red-600 to-amber-600 text-white shadow-lg'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+            >
+              Seasonal Lighting
             </button>
-            <button className="group px-10 py-5 border border-white/20 rounded-full hover:border-red-500/50 transition-colors">
-              <span className="flex items-center gap-3 text-lg">
-                <FaPlay className="text-sm" />
-                Watch Our Showreel
-              </span>
+            <button
+              onClick={() => setActiveTab('permanent')}
+              className={`px-3 sm:px-4 md:px-6 py-2 sm:py-2.5 md:py-3 rounded-lg font-medium transition-all text-xs sm:text-sm md:text-base ${activeTab === 'permanent'
+                  ? 'bg-gradient-to-r from-red-600 to-amber-600 text-white shadow-lg'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+            >
+              Permanent Lighting
             </button>
           </div>
 
-          {/* Trust Indicators */}
-          <div className="flex flex-wrap items-center justify-center gap-8 mt-16">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="flex items-center gap-2 text-white/40">
-                <FaStar className="text-yellow-400" />
-                <span className="text-sm">Industry Award {i}</span>
+          <div className="max-w-3xl mx-auto">
+            <div className="bg-gradient-to-br from-gray-50 to-white rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-sm border border-gray-100">
+              {activeTab === 'seasonal' ? (
+                <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 md:gap-8">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-br from-red-100 to-amber-100 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0 mx-auto sm:mx-0">
+                    <GiSparkles className="text-xl sm:text-2xl md:text-3xl text-red-600" />
+                  </div>
+                  <div>
+                    <h4 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-2 sm:mb-3 text-center sm:text-left">Commercial-Grade C9 LED Bulbs</h4>
+                    <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed text-center sm:text-left">
+                      We install commercial-grade C9 LED bulbs. These lights are <span className="font-semibold text-red-600">3x brighter</span> than anything you'll find at a big-box store, and every display is custom-fit to your home.
+                    </p>
+                    <div className="mt-3 sm:mt-4 flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2">
+                      <FaCheckCircle className="text-green-500 text-xs sm:text-sm" />
+                      <span className="text-[10px] sm:text-xs text-gray-600">Weather-resistant, energy-efficient, long-lasting</span>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 md:gap-8">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0 mx-auto sm:mx-0">
+                    <FaHome className="text-xl sm:text-2xl md:text-3xl text-gray-700" />
+                  </div>
+                  <div>
+                    <h4 className="text-base sm:text-lg md:text-xl font-bold text-gray-900 mb-2 sm:mb-3 text-center sm:text-left">Invisilights Permanent Systems</h4>
+                    <p className="text-xs sm:text-sm md:text-base text-gray-600 leading-relaxed text-center sm:text-left">
+                      We install Invisilights permanent lighting systems that stay up year-round and can be customized for any holiday or occasion.
+                    </p>
+                    <div className="mt-3 sm:mt-4 flex items-center justify-center sm:justify-start gap-1.5 sm:gap-2">
+                      <FaCheckCircle className="text-green-500 text-xs sm:text-sm" />
+                      <span className="text-[10px] sm:text-xs text-gray-600">Year-round use, app-controlled, 16 million colors</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-16 sm:py-20 md:py-24 bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6 max-w-3xl">
+          <div className="text-center mb-8 sm:mb-10 md:mb-12">
+            <h3 className="text-2xl sm:text-3xl md:text-4xl font-light text-gray-900 mb-3 sm:mb-4">
+              Frequently Asked
+              <span className="block font-bold mt-1 sm:mt-2">Questions</span>
+            </h3>
+            <p className="text-xs sm:text-sm md:text-base text-gray-600">Everything you need to know about our service</p>
+          </div>
+
+          <div className="space-y-3 sm:space-y-4">
+            {faqItems.map((item, index) => (
+              <div key={index} className="bg-white rounded-lg sm:rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <button
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="w-full text-left p-3 sm:p-4 md:p-6 flex items-start justify-between gap-3 sm:gap-4 hover:bg-gray-50 transition-colors"
+                >
+                  <div className="flex items-start gap-2 sm:gap-3">
+                    <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 bg-gradient-to-br from-red-50 to-amber-50 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <item.icon className="text-[10px] sm:text-xs md:text-sm text-red-600" />
+                    </div>
+                    <span className="text-xs sm:text-sm md:text-base font-medium text-gray-900">{item.question}</span>
+                  </div>
+                  {openFaq === index ?
+                    <FaMinus className="text-gray-400 flex-shrink-0 text-xs sm:text-sm" /> :
+                    <FaPlus className="text-gray-400 flex-shrink-0 text-xs sm:text-sm" />
+                  }
+                </button>
+
+                {openFaq === index && (
+                  <div className="px-3 sm:px-4 md:px-6 pb-3 sm:pb-4 md:pb-6 pt-2 border-t border-gray-100">
+                    {item.type === 'dual' ? (
+                      <div className="space-y-3 sm:space-y-4">
+                        {item.options.map((opt, i) => (
+                          <div key={i} className="bg-gray-50 p-3 sm:p-4 rounded-lg">
+                            <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                              <opt.icon className="text-red-600 text-xs sm:text-sm" />
+                              <h4 className="font-semibold text-gray-900 text-xs sm:text-sm">{opt.title}</h4>
+                            </div>
+                            <p className="text-gray-600 text-[10px] sm:text-xs">{opt.description}</p>
+                          </div>
+                        ))}
+                      </div>
+                    ) : item.type === 'comparison' ? (
+                      <div className="space-y-3 sm:space-y-4">
+                        {item.comparisons.map((comp, i) => (
+                          <div key={i} className="bg-gray-50 p-3 sm:p-4 rounded-lg">
+                            <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 sm:mb-2">
+                              <comp.icon className="text-red-600 text-xs sm:text-sm" />
+                              <h4 className="font-semibold text-gray-900 text-xs sm:text-sm">{comp.title}</h4>
+                            </div>
+                            <p className="text-gray-600 text-[10px] sm:text-xs">{comp.answer}</p>
+                          </div>
+                        ))}
+                      </div>
+                    ) : item.list ? (
+                      <ul className="space-y-1.5 sm:space-y-2">
+                        {item.list.map((li, i) => (
+                          <li key={i} className="flex items-start gap-1.5 sm:gap-2 text-[10px] sm:text-xs text-gray-600">
+                            <FaCheckCircle className="text-green-500 text-[8px] sm:text-[10px] mt-0.5 flex-shrink-0" />
+                            <span>{li}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className={`text-[10px] sm:text-xs leading-relaxed ${item.highlight ? 'bg-amber-50 p-3 sm:p-4 rounded-lg text-amber-800' : 'text-gray-600'}`}>
+                        {item.answer}
+                      </p>
+                    )}
+
+                    {item.badge && (
+                      <span className="inline-block mt-2 sm:mt-3 px-2 sm:px-3 py-0.5 sm:py-1 bg-amber-100 text-amber-700 text-[8px] sm:text-xs font-medium rounded-full">
+                        {item.badge}
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
             ))}
           </div>
         </div>
       </section>
 
+      {/* Global responsive styles */}
       <style jsx global>{`
-        @keyframes float-particle {
-          0%, 100% { transform: translate(0, 0) rotate(0deg); }
-          33% { transform: translate(30px, -50px) rotate(120deg); }
-          66% { transform: translate(-20px, 20px) rotate(240deg); }
+        @media (max-width: 320px) {
+          .container {
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+          }
+          h1 {
+            font-size: 1.5rem;
+          }
+          h2 {
+            font-size: 1.75rem;
+          }
+          .text-7xl {
+            font-size: 2rem;
+          }
         }
-
-        @keyframes gradient {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
+        
+        @media (min-width: 321px) and (max-width: 375px) {
+          .container {
+            padding-left: 1rem;
+            padding-right: 1rem;
+          }
         }
-
-        @keyframes scroll {
-          0% { transform: translateY(0); opacity: 1; }
-          100% { transform: translateY(20px); opacity: 0; }
+        
+        /* Ensure images don't overflow */
+        img {
+          max-width: 100%;
+          height: auto;
         }
-
-        .animate-float-particle {
-          animation: float-particle 15s ease-in-out infinite;
-        }
-
-        .animate-gradient {
-          background-size: 200% 200%;
-          animation: gradient 3s ease infinite;
-        }
-
-        .animate-scroll {
-          animation: scroll 1.5s ease-in-out infinite;
-        }
-
-        .perspective-1000 {
-          perspective: 1000px;
-        }
-
-        .backface-hidden {
-          backface-visibility: hidden;
-        }
-
-        .rotateY-180 {
-          transform: rotateY(180deg);
-        }
-
-        .group:hover .rotateY-180 {
-          transform: rotateY(0deg);
-        }
-
-        .marquee-content {
-          display: inline-flex;
-          will-change: transform;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-          width: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-          background: #0A0F1E;
-        }
-
-        ::-webkit-scrollbar-thumb {
-          background: linear-gradient(to bottom, #f59e0b, #ef4444);
-          border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(to bottom, #fbbf24, #dc2626);
+        
+        /* Smooth transitions */
+        * {
+          transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
+          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+          transition-duration: 150ms;
         }
       `}</style>
     </main>

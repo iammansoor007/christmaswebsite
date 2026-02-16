@@ -2,6 +2,8 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
+import Image from "next/image";
+import fadedmap from "../../public/images/fadedmap.png";
 import {
   FaMapMarkerAlt,
   FaClock,
@@ -429,13 +431,18 @@ export default function VanMapSection() {
         `}</style>
       </section>
 
-      {/* Map Section with Car Animation - Updated for better mobile positioning */}
+      {/* Map Section with Car Animation - Fixed Image */}
       <section className="relative w-full h-[400px] xs:h-[450px] sm:h-[500px] md:h-[550px] lg:h-[600px] overflow-hidden">
+        {/* Map Image using Next.js Image component */}
         <div className="absolute inset-0">
-          <img
-            src="/images/map.jpg"
+          <Image
+            src={fadedmap}
             alt="Service Area Map"
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+            quality={90}
           />
         </div>
 
