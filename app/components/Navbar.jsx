@@ -115,7 +115,7 @@ const Navbar = () => {
 
           {/* Desktop CTA Button */}
           <div className="hidden lg:flex items-center flex-shrink-0">
-            <div className="w-px h-6 bg-gradient-to-b from-transparent via-holiday-gold/50 to-transparent mx-4"></div>
+           
 
             <Button
               href="tel:+16143017100"

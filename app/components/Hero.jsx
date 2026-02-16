@@ -1,22 +1,29 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   FaCheckCircle,
-  FaPhoneAlt,
   FaArrowRight,
-  FaGem
+  FaStar,
+  FaShieldAlt,
+  FaClock,
+  FaMedal
 } from 'react-icons/fa';
-import { GiSparkles, GiStarFormation } from 'react-icons/gi';
-import AnimatedLights from './AnimatedLights';
+import { GiSparkles } from 'react-icons/gi';
+import { HiOutlineSparkles } from 'react-icons/hi';
+import Link from 'next/link';
 
 const Hero = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [data, setData] = useState(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const heroRef = useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     setIsMounted(true);
 
-    // Load data from JSON file
     const loadData = async () => {
       try {
         const response = await fetch('/data.json');
@@ -28,13 +35,51 @@ const Hero = () => {
     };
 
     loadData();
+
+    const handleMouseMove = (e) => {
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        setMousePosition({ x, y });
+      }
+    };
+
+    const handleScroll = () => {
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        const progress = Math.max(0, Math.min(1, -rect.top / (rect.height * 0.5)));
+        setScrollProgress(progress);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
-  // Show loading state while data is being fetched
+  useEffect(() => {
+    if (data?.hero?.features) {
+      const interval = setInterval(() => {
+        setActiveIndex((prev) => (prev + 1) % data.hero.features.length);
+      }, 3000);
+      return () => clearInterval(interval);
+    }
+  }, [data]);
+
   if (!data) {
     return (
-      <section className="relative min-h-[85vh] sm:min-h-screen flex items-center justify-center">
-        <div className="text-white">Loading...</div>
+      <section className="relative h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+        <div className="loader">
+          <div className="relative">
+            <div className="w-20 h-20 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
+            <GiSparkles className="absolute inset-0 m-auto text-3xl text-yellow-300 animate-pulse" />
+          </div>
+        </div>
       </section>
     );
   }
@@ -42,544 +87,352 @@ const Hero = () => {
   const { hero } = data;
 
   return (
-    <section className="relative min-h-[85vh] sm:min-h-screen flex items-center overflow-hidden px-4 sm:px-6 md:px-8 py-8 sm:py-12 md:py-0">
-      {/* Background */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
+    <section
+      ref={heroRef}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16"
+    >
+      {/* Ultra-immersive background */}
+      <div className="absolute inset-0 z-0">
+        {/* Base gradient */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0f1e] via-[#1a1f30] to-[#0a0f1e]"></div>
+
+        {/* Background Image - exactly as requested */}
         <div
-          className="absolute inset-0"
+          className="absolute inset-0 transition-transform duration-200 ease-out"
           style={{
-            backgroundImage: `url('/images/hero-background2.jpg')`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
+            transform: `translate(${mousePosition.x * 30}px, ${mousePosition.y * 30}px)`,
           }}
-        />
+        >
+          <div className="absolute inset-0 bg-[url('/images/hero-background2.jpg')] bg-cover bg-center opacity-30"></div>
+        </div>
 
-        <div className="absolute inset-0 bg-gradient-to-br from-dark-navy/50 via-dark-navy/90 to-dark-navy/60" />
+        {/* Animated gradient orbs */}
+        <div className="absolute top-0 -left-4 w-48 sm:w-64 md:w-80 lg:w-96 h-48 sm:h-64 md:h-80 lg:h-96 bg-purple-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute top-0 -right-4 w-48 sm:w-64 md:w-80 lg:w-96 h-48 sm:h-64 md:h-80 lg:h-96 bg-yellow-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-48 sm:w-64 md:w-80 lg:w-96 h-48 sm:h-64 md:h-80 lg:h-96 bg-red-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
 
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-yellow-400/15 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-red-500/15 via-transparent to-transparent" />
+        {/* Particle grid */}
+        <div className="absolute inset-0 opacity-20 sm:opacity-30">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+            backgroundSize: '30px 30px sm:50px 50px'
+          }}></div>
+        </div>
+
+        {/* Dynamic light streaks - hidden on very small screens */}
+        <div className="absolute inset-0 overflow-hidden hidden sm:block">
+          <div className="absolute top-0 left-1/4 w-0.5 h-full bg-gradient-to-b from-transparent via-yellow-400/20 to-transparent animate-scan"></div>
+          <div className="absolute top-0 right-1/4 w-0.5 h-full bg-gradient-to-b from-transparent via-red-400/20 to-transparent animate-scan animation-delay-2000"></div>
+        </div>
+
+        {/* Scroll-based overlay */}
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-black/50 transition-opacity duration-300"
+          style={{ opacity: scrollProgress }}
+        ></div>
       </div>
 
-      {/* <AnimatedLights /> */}
+      {/* Main Content - Perfectly Centered */}
+      <div
+        ref={containerRef}
+        className="container heroooo relative z-30 max-w-7xl mx-auto px-3 sm:px-4"
+      >
+        <div className="flex flex-col items-center justify-center text-center">
 
-      {/* Main Content */}
-      <div className="container mx-auto relative z-30 max-w-7xl w-full px-0 sm:px-4">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 md:gap-12 lg:gap-16">
-
-          {/* Left Content */}
-          <div className="hero-content w-full lg:w-1/2 text-center lg:text-left sm:flex sm:flex-col lg:flex-col sm:item-center sm:aligm-center flex flex-col items-center justify-center animate-fade-in-left">
-            {/* Badge
-            <div className="hero-badge inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-red-500/25 via-yellow-400/25 to-red-500/25 backdrop-blur-lg rounded-full border border-yellow-400/30 shadow-lg mb-4 sm:mb-6 mx-auto lg:mx-0 max-w-max overflow-hidden group animate-slide-down">
-              <GiSparkles className="text-sm sm:text-base text-yellow-300 animate-pulse" />
-              <span className="text-white font-semibold text-xs sm:text-sm tracking-wider whitespace-nowrap">
-                 {hero} 
-              </span>
-            </div> */}
-
-            {/* Title */}
-            <h1 className="hero-title text-5xl xs:text-5xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 sm:mb-4 md:mb-5 leading-tight">
-              <span className="block bg-gradient-to-r from-white via-white to-white/90 bg-clip-text text-transparent animate-fade-in-up">
-                {hero.title.part1}
-              </span>
-              <span className="block mt-1 sm:mt-2 animate-fade-in-up animation-delay-100">
-                <span className="relative inline-block">
-                  <span className="relative z-10 bg-gradient-to-r from-yellow-400 via-yellow-300 to-red-400 bg-clip-text text-transparent animate-gradient">
-                    {hero.title.part2}
-                  </span>
-                  <span className="absolute inset-0 bg-gradient-to-r from-yellow-400/40 to-red-400/40 blur-lg rounded -z-10 opacity-70 scale-105"></span>
+          {/* Main Title with increased font size on mobile */}
+          <h1 className="text-5xl xs:text-6xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 sm:mb-6 tracking-tight">
+            <span className="block text-white/90 mb-1 sm:mb-2 animate-title-slide-up">
+              {hero.title?.part1}
+            </span>
+            <span className="block relative animate-title-slide-up animation-delay-200">
+              <span className="relative inline-block">
+                <span className="relative z-10 bg-gradient-to-r from-yellow-300 via-red-300 to-yellow-300 bg-clip-text text-transparent bg-[length:200%_200%] animate-gradient-x">
+                  {hero.title?.part2}
                 </span>
+                <span className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 to-red-400/30 blur-3xl -z-10 scale-150"></span>
               </span>
-            </h1>
+              <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-16 sm:w-20 md:w-24 h-0.5 sm:h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></span>
+            </span>
+          </h1>
 
-            {/* Subtitle */}
-            <p className="hero-subtitle text-sm xs:text-base sm:text-lg text-white/85 mb-5 sm:mb-7 leading-relaxed font-light max-w-full sm:max-w-md mx-auto lg:mx-0 px-1 animate-fade-in-up animation-delay-200">
+          {/* Subtitle - adjusted for mobile */}
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/80 mb-6 sm:mb-8 md:mb-10 max-w-3xl mx-auto leading-relaxed px-2 sm:px-4 animate-fade-up animation-delay-400 group">
+            <span className="relative inline-block">
               {hero.subtitle}
-            </p>
+              <span className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-red-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+            </span>
+          </p>
 
-            {/* Features List */}
-            <ul className="hero-features space-y-2.5 sm:space-y-3 mb-6 sm:mb-8">
+          {/* Beautiful Feature Cards - Responsive grid */}
+          {hero.features && hero.features.length > 0 && (
+            <div className="grid grid-cols-2 xs:grid-cols-2 gap-3 sm:gap-4 md:gap-5 mb-6 sm:mb-8 md:mb-10 max-w-3xl mx-auto w-full px-2 sm:px-0 animate-fade-up animation-delay-600">
               {hero.features.map((feature, index) => (
-                <li
+                <div
                   key={index}
-                  className={`flex items-start justify-center lg:justify-start gap-2.5 sm:gap-3 text-white/90 text-xs xs:text-sm sm:text-base group px-1 animate-fade-in-left animation-delay-${300 + (index * 100)}`}
+                  className="relative group cursor-pointer w-full"
+                  onMouseEnter={() => setActiveIndex(index)}
                 >
-                  <div className="flex-shrink-0 mt-0.5 sm:mt-0">
-                    <FaCheckCircle className="text-green-400 text-sm sm:text-base group-hover:scale-110 transition-transform duration-300" />
+                  {/* Card background with gradient and blur */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 rounded-xl sm:rounded-2xl backdrop-blur-sm border border-white/10 group-hover:border-yellow-500/30 transition-all duration-500"></div>
+
+                  {/* Active/Hover glow effect */}
+                  <div className={`absolute inset-0 bg-gradient-to-r from-yellow-500/20 to-red-500/20 rounded-xl sm:rounded-2xl blur-lg sm:blur-xl transition-opacity duration-500 ${activeIndex === index ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'}`}></div>
+
+                  {/* Card content */}
+                  <div className="relative p-3 sm:p-4 md:p-5 lg:p-6 flex items-start gap-2 sm:gap-3 md:gap-4">
+                    {/* Icon container with gradient */}
+                    <div className={`
+                      flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl flex items-center justify-center 
+                      bg-gradient-to-br from-yellow-500 to-red-500 
+                      transition-all duration-500 shadow-lg
+                      ${activeIndex === index ? 'scale-105 sm:scale-110 shadow-yellow-500/30' : 'group-hover:scale-105 sm:group-hover:scale-110'}
+                    `}>
+                      <FaCheckCircle className={`text-white text-xs sm:text-sm md:text-base lg:text-lg transition-all duration-500
+                        ${activeIndex === index ? 'scale-105 sm:scale-110' : ''}`} />
+                    </div>
+
+                    {/* Feature text */}
+                    <div className="flex-1 text-left">
+                      <span className={`text-white/90 font-medium transition-all duration-500 text-xs sm:text-sm md:text-base
+                        ${activeIndex === index ? 'text-white' : 'group-hover:text-white'}`}>
+                        {feature}
+                      </span>
+
+                      {/* Bottom accent line */}
+                      <div className={`h-0.5 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full mt-1 sm:mt-2 transition-all duration-500 
+                        ${activeIndex === index ? 'w-full' : 'w-0 group-hover:w-full'}`}></div>
+                    </div>
                   </div>
-                  <span className="text-left leading-relaxed flex-1">{feature}</span>
-                </li>
+                </div>
               ))}
-            </ul>
-
-            {/* CTA Button - FIXED ANIMATION */}
-            <div className="cta-container w-72 flex justify-center lg:justify-start animate-scale-in animation-delay-700">
-              <div className="relative group w-full max-w-xs sm:max-w-sm md:max-w-md">
-                <div className="absolute -inset-2 sm:-inset-3 bg-gradient-to-r from-emerald-500/20 via-green-500/20 to-emerald-500/20 rounded-xl sm:rounded-2xl blur-lg sm:blur-xl opacity-0 group-hover:opacity-70 transition-opacity duration-500" />
-
-                <a
-                  href={`tel:${hero.cta.phone.replace(/[^0-9]/g, '')}`}
-                  className="relative flex items-center justify-between gap-2 sm:gap-3 bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-600 hover:from-emerald-500 hover:via-green-500 hover:to-emerald-500 text-white font-bold rounded-xl sm:rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-emerald-400/50 backdrop-blur-sm px-3 sm:px-4 py-2.5 sm:py-3.5 w-full overflow-hidden hover-lift"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-
-                  <FaPhoneAlt className="text-base sm:text-lg relative z-10 flex-shrink-0" />
-                  <div className="text-center relative z-10 flex-1 min-w-0 px-1 sm:px-2">
-                    <div className="text-[10px] xs:text-xs sm:text-sm font-semibold opacity-90 tracking-wide truncate mb-0.5">
-                      {hero.cta.subtext}
-                    </div>
-                    <div className="text-base sm:text-lg md:text-xl font-bold tracking-tight truncate">
-                      {hero.cta.phone}
-                    </div>
-                  </div>
-                  <FaArrowRight className="text-sm sm:text-base relative z-10 flex-shrink-0 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </div>
             </div>
-          </div>
+          )}
 
-          {/* Right Image */}
-          {/* <div className="hero-image w-full lg:w-1/2 relative mt-6 sm:mt-8 lg:mt-0">
-            <div className="relative max-w-xs sm:max-w-sm md:max-w-md mx-auto lg:mx-0 lg:max-w-none animate-fade-in-right">
-              <div className="absolute -inset-3 sm:-inset-4 md:-inset-5 rounded-xl sm:rounded-2xl overflow-hidden pointer-events-none">
-                <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 via-red-300/20 to-yellow-400/30 blur-lg sm:blur-xl opacity-50 animate-pulse"></div>
-              </div>
-
-              <div
-                className="relative rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-lg sm:shadow-2xl border border-white/20 backdrop-blur-sm group cursor-pointer"
-                style={{
-                  background: 'linear-gradient(135deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.05) 100%)',
-                }}
+          {/* Single CTA Button - exactly as requested */}
+          {hero.cta && (
+            <div className="animate-fade-up animation-delay-800 w-full px-3 sm:px-0">
+              <Link
+                href="/contact"
+                className="relative overflow-hidden group inline-flex items-center justify-center px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-gradient-to-r from-yellow-500 to-red-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg w-auto min-w-[140px] sm:min-w-[160px] md:min-w-[180px]"
               >
-                <div className="aspect-[3/4] sm:aspect-[4/5] md:aspect-[5/6] relative overflow-hidden">
-                  <img
-                    src="/images/rightimage.jpg"
-                    alt="Beautiful Christmas Tree with professional holiday lighting"
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    loading="eager"
-                  />
-                </div>
+                <span className="relative z-10 flex items-center justify-center gap-1.5 sm:gap-2">
+                  <HiOutlineSparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
+                  <span>{hero.cta.subtext || "Get My Free Quote"}</span>
+                  <FaArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+              </Link>
 
-                <div className="absolute bottom-3 sm:bottom-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-yellow-400/90 via-yellow-400/80 to-red-500/90 text-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full shadow-lg backdrop-blur-md border border-white/30 whitespace-nowrap group-hover:scale-105 transition-transform duration-300 animate-slide-up">
-                  <span className="font-bold text-xs sm:text-sm flex items-center gap-1.5 sm:gap-2">
-                    <FaGem className="text-xs sm:text-sm" />
-                    <span>{hero.imageBadge}</span>
-                    <GiStarFormation className="text-xs sm:text-sm" />
-                  </span>
+              {/* Trust badges - responsive layout */}
+              {hero.trustBadges && hero.trustBadges.length > 0 && (
+                <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-6 mt-4 sm:mt-6 md:mt-8 text-white/50 text-xs sm:text-sm">
+                  {hero.trustBadges.map((badge, index) => (
+                    <div key={index} className="flex items-center gap-1 sm:gap-2 hover:text-white/80 transition-colors duration-300">
+                      {badge.icon === 'shield' && <FaShieldAlt className="text-green-400 text-xs sm:text-sm md:text-base" />}
+                      {badge.icon === 'clock' && <FaClock className="text-blue-400 text-xs sm:text-sm md:text-base" />}
+                      {badge.icon === 'medal' && <FaMedal className="text-yellow-400 text-xs sm:text-sm md:text-base" />}
+                      {badge.icon === 'star' && <FaStar className="text-yellow-400 text-xs sm:text-sm md:text-base" />}
+                      <span className="whitespace-nowrap">{badge.text}</span>
+                    </div>
+                  ))}
                 </div>
-              </div>
+              )}
             </div>
-          </div> */}
+          )}
         </div>
       </div>
 
-      {/* Mobile Floating CTA */}
-      <div className="fixed bottom-4 right-4 z-50 lg:hidden animate-bounce-slow">
-        <a
-          href={`tel:${hero.cta.phone.replace(/[^0-9]/g, '')}`}
-          className="flex items-center justify-center w-12 h-12 bg-gradient-to-r from-emerald-600 to-green-600 text-white rounded-full shadow-lg border border-emerald-400/50 backdrop-blur-sm relative overflow-hidden group pulse-button"
-          aria-label="Call for quote"
-        >
-          <FaPhoneAlt className="text-lg" />
-          <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-        </a>
+      {/* Floating particles - fewer on mobile */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(typeof window !== 'undefined' && window.innerWidth < 640 ? 8 : 20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-0.5 h-0.5 sm:w-1 sm:h-1 bg-white/20 sm:bg-white/30 rounded-full animate-float"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${5 + Math.random() * 10}s`
+            }}
+          />
+        ))}
       </div>
 
       <style jsx global>{`
-        /* Animation keyframes - Clean and professional */
-        @keyframes fadeInUp {
+        @keyframes blob {
+          0%, 100% { transform: translate(0px, 0px) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        @keyframes scan {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100%); }
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes titleSlideUp {
           from {
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(50px) scale(0.9);
+            filter: blur(5px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            filter: blur(0);
+          }
+        }
+
+        @keyframes fadeUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
           }
           to {
             opacity: 1;
             transform: translateY(0);
           }
         }
-        
-        @keyframes fadeInLeft {
-          from {
-            opacity: 0;
-            transform: translateX(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
+
+        @keyframes gradientX {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
         }
-        
-        @keyframes fadeInRight {
-          from {
-            opacity: 0;
-            transform: translateX(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
+
+        .animate-blob {
+          animation: blob 10s infinite;
         }
-        
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-15px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+
+        .animate-scan {
+          animation: scan 8s linear infinite;
         }
-        
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(15px) translateX(-50%);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) translateX(-50%);
-          }
+
+        .animate-float {
+          animation: float 8s ease-in-out infinite;
         }
-        
-        @keyframes scaleIn {
-          from {
-            opacity: 0;
-            transform: scale(0.9);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-        
-        @keyframes bounceSlow {
-          0%, 100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-5px);
-          }
-        }
-        
-        @keyframes pulseSoft {
-          0%, 100% {
-            box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.4);
-          }
-          50% {
-            box-shadow: 0 0 0 10px rgba(52, 211, 153, 0);
-          }
-        }
-        
-        @keyframes gradient {
-          0%, 100% { 
-            background-position: 0% 50%; 
-          }
-          50% { 
-            background-position: 100% 50%; 
-          }
-        }
-        
-        /* Animation classes */
-        .animate-fade-in-up {
-          animation: fadeInUp 0.6s ease-out forwards;
+
+        .animate-title-slide-up {
+          animation: titleSlideUp 0.8s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
           opacity: 0;
         }
-        
-        .animate-fade-in-left {
-          animation: fadeInLeft 0.6s ease-out forwards;
+
+        .animate-fade-up {
+          animation: fadeUp 0.6s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
           opacity: 0;
         }
-        
-        .animate-fade-in-right {
-          animation: fadeInRight 0.6s ease-out forwards;
-          opacity: 0;
-        }
-        
-        .animate-slide-down {
-          animation: slideDown 0.5s ease-out forwards;
-          opacity: 0;
-        }
-        
-        .animate-slide-up {
-          animation: slideUp 0.5s ease-out 0.3s forwards;
-          opacity: 0;
-        }
-        
-        .animate-scale-in {
-          animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-          opacity: 0;
-        }
-        
-        .animate-bounce-slow {
-          animation: bounceSlow 2s ease-in-out infinite;
-        }
-        
-        .animate-gradient {
+
+        .animate-gradient-x {
           background-size: 200% 200%;
-          animation: gradient 3s ease-in-out infinite;
+          animation: gradientX 3s ease infinite;
         }
-        
-        /* Animation delays */
-        .animation-delay-100 {
-          animation-delay: 100ms;
-        }
-        
+
         .animation-delay-200 {
           animation-delay: 200ms;
         }
-        
-        .animation-delay-300 {
-          animation-delay: 300ms;
-        }
-        
+
         .animation-delay-400 {
           animation-delay: 400ms;
         }
-        
-        .animation-delay-500 {
-          animation-delay: 500ms;
-        }
-        
+
         .animation-delay-600 {
           animation-delay: 600ms;
         }
-        
-        .animation-delay-700 {
-          animation-delay: 700ms;
-        }
-        
-        /* CTA specific animations */
-        .hover-lift {
-          transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        
-        .hover-lift:hover {
-          transform: translateY(-3px);
-        }
-        
-        .pulse-button {
-          animation: pulseSoft 2s infinite;
-        }
-        
-        /* Stagger animation for list items */
-        .hero-features li:nth-child(1) { animation-delay: 300ms; }
-        .hero-features li:nth-child(2) { animation-delay: 400ms; }
-        .hero-features li:nth-child(3) { animation-delay: 500ms; }
-        .hero-features li:nth-child(4) { animation-delay: 600ms; }
 
-        /* Mobile animations */
-        @media (max-width: 767px) {
-          .hero-content {
-            animation: fadeInUp 0.6s ease-out forwards;
-            opacity: 0;
+        .animation-delay-800 {
+          animation-delay: 800ms;
+        }
+
+        .animation-delay-2000 {
+          animation-delay: 2000ms;
+        }
+
+        .animation-delay-4000 {
+          animation-delay: 4000ms;
+        }
+
+        /* Custom breakpoint for extra small devices */
+        @media (min-width: 400px) {
+          .xs\\:text-5xl {
+            font-size: 3rem;
+            line-height: 1.1;
           }
-          
-          .hero-image {
-            animation: fadeInUp 0.6s ease-out 0.2s forwards;
-            opacity: 0;
-          }
-          
-          .cta-container {
-            animation: scaleIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s forwards;
-            opacity: 0;
+          .xs\\:grid-cols-2 {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
           }
         }
 
-        /* Extra small screens (below 375px) */
-        @media (max-width: 374px) {
-          .hero-title {
-            font-size: 1.75rem !important;
-            line-height: 1.2 !important;
-          }
-          
-          .hero-subtitle {
-            font-size: 0.875rem !important;
-            line-height: 1.4 !important;
-          }
-          
-          .hero-features li {
-            font-size: 0.8125rem !important;
-            gap: 0.5rem !important;
-            align-items: flex-start !important;
-          }
-          
-          .hero-features li span {
-            line-height: 1.3 !important;
-          }
-          
-          .cta-container {
-            max-width: 280px !important;
-            margin-left: auto !important;
-            margin-right: auto !important;
-          }
-          
-          .cta-container a {
-            padding: 0.5rem 0.75rem !important;
-            gap: 0.5rem !important;
-            min-height: 24px !important;
-          }
-          
-          .cta-container a div:first-child {
-            font-size: 0.6875rem !important;
-          }
-          
-          .cta-container a div:last-child {
-            font-size: 0.9375rem !important;
-          }
-          
-          .hero-image {
-            max-width: 260px !important;
-          }
-        }
-
-        /* Very small screens (below 320px) */
-        @media (max-width: 319px) {
-          .hero-title {
-            font-size: 1.5rem !important;
-            line-height: 1.15 !important;
-          }
-          
-          .hero-subtitle {
-            font-size: 0.8125rem !important;
-          }
-          
-          .hero-features li {
-            font-size: 0.75rem !important;
-            gap: 0.375rem !important;
-          }
-          
-          .hero-badge {
-            padding: 0.375rem 0.75rem !important;
-          }
-          
-          .hero-badge span {
-            font-size: 0.75rem !important;
-          }
-          
-          .cta-container {
-            max-width: 260px !important;
-          }
-          
-          .cta-container a {
-            padding: 0.5rem 0.625rem !important;
-            gap: 0.375rem !important;
-            min-height: 44px !important;
-          }
-          
-          .cta-container a div:last-child {
-            font-size: 0.875rem !important;
-          }
-          
-          .hero-image {
-            max-width: 240px !important;
-          }
-          
-          .fixed.bottom-4.right-4 a {
-            width: 2.75rem !important;
-            height: 2.75rem !important;
-          }
-        }
-
-        /* Fix list items alignment on mobile */
-        @media (max-width: 767px) {
-          .hero-features li {
-            text-align: left !important;
-            justify-content: flex-start !important;
-            align-items: flex-start !important;
-            margin-left: auto !important;
-            margin-right: auto !important;
-            max-width: 320px !important;
-          }
-          
-          .hero-features li span {
-            flex: 1 !important;
-            min-width: 0 !important;
-          }
-          
-          /* Center everything but keep text left-aligned */
-          .hero-features {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-          }
-        }
-
-        /* Desktop: left-align list items */
-        @media (min-width: 1024px) {
-          .hero-features li {
-            justify-content: flex-start !important;
-            margin-left: 0 !important;
-            margin-right: 0 !important;
-            max-width: none !important;
-          }
-        }
-
-        /* Ensure CTA doesn't overflow */
-        .cta-container a {
-          min-width: 0 !important;
-          overflow: hidden !important;
-        }
-        
-        .cta-container a > * {
-          flex-shrink: 0 !important;
-        }
-        
-        .cta-container a div {
-          flex: 1 !important;
-          min-width: 0 !important;
-        }
-
-        /* Improve touch targets */
-        @media (max-width: 767px) {
-          
-          
-          .hero-badge {
-            min-height: 36px !important;
-          }
-          
-          .cta-container a {
-            touch-action: manipulation !important;
-          }
-        }
-
-        /* Remove hover effects on touch devices */
-        @media (hover: none) and (pointer: coarse) {
-          .group-hover\\:scale-110,
-          .group-hover\\:scale-105,
-          .group-hover\\:translate-x-1,
-          .group-hover\\:translate-x-\\[100\\%\\] {
-            transform: none !important;
-          }
-          
-          .hover-lift:hover {
-            transform: none !important;
-          }
-        }
-
-        /* Fix container padding on very small screens */
+        /* Mobile styles - increased heading size */
         @media (max-width: 639px) {
-          section {
-            padding-left: 0.75rem !important;
-            padding-right: 0.75rem !important;
-            padding-top: 1.5rem !important;
-            padding-bottom: 1.5rem !important;
+          h1 {
+            font-size: 2.5rem !important;
+            line-height: 1.1 !important;
+          }
+          
+          .text-4xl {
+            font-size: 2.25rem !important;
+          }
+          
+          .gap-2 {
+            gap: 0.35rem !important;
+          }
+          
+          .px-3 {
+            padding-left: 0.5rem !important;
+            padding-right: 0.5rem !important;
           }
         }
 
-        /* Landscape mode adjustments */
-        @media (max-height: 600px) and (orientation: landscape) {
-          .hero-features {
-            display: none !important;
+        /* Small phones */
+        @media (max-width: 380px) {
+          h1 {
+            font-size: 2rem !important;
           }
           
-          .hero-subtitle {
-            margin-bottom: 1rem !important;
+          .text-4xl {
+            font-size: 1.875rem !important;
           }
           
-          .cta-container {
-            margin-bottom: 1rem !important;
+          .text-base {
+            font-size: 0.875rem !important;
           }
+          
+          .gap-1 {
+            gap: 0.2rem !important;
+          }
+          
+          .px-2 {
+            padding-left: 0.375rem !important;
+            padding-right: 0.375rem !important;
+          }
+        }
+
+        /* Tablet styles */
+        @media (min-width: 640px) and (max-width: 1024px) {
+          h1 {
+            font-size: 3.5rem !important;
+          }
+        }
+
+        @media (hover: none) {
+          .group-hover\\:scale-105,
+          .group-hover\\:scale-110 {
+            transform: none !important;
+          }
+          .group-hover\\:translate-x-1 {
+            transform: none !important;
+          }
+          .group-hover\\:w-full {
+            width: 0 !important;
+          }
+        }
+
+        .loader {
+          perspective: 1000px;
         }
       `}</style>
     </section>

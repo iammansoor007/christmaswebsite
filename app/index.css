@@ -4,19 +4,27 @@
 
 /* Custom animations */
 @layer utilities {
-  .animate-twinkle-delay-1 { animation-delay: 0.5s; }
-  .animate-twinkle-delay-2 { animation-delay: 1s; }
-  .animate-twinkle-delay-3 { animation-delay: 1.5s; }
-  
+  .animate-twinkle-delay-1 {
+    animation-delay: 0.5s;
+  }
+
+  .animate-twinkle-delay-2 {
+    animation-delay: 1s;
+  }
+
+  .animate-twinkle-delay-3 {
+    animation-delay: 1.5s;
+  }
+
   .text-glow {
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
-                 0 0 20px rgba(255, 255, 255, 0.6),
-                 0 0 30px rgba(255, 255, 255, 0.4);
+      0 0 20px rgba(255, 255, 255, 0.6),
+      0 0 30px rgba(255, 255, 255, 0.4);
   }
-  
+
   .border-glow {
     box-shadow: 0 0 15px rgba(255, 215, 0, 0.5),
-                inset 0 0 15px rgba(255, 215, 0, 0.3);
+      inset 0 0 15px rgba(255, 215, 0, 0.3);
   }
 }
 
@@ -33,20 +41,23 @@
   left: -100%;
   width: 200%;
   height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 215, 0, 0.8),
-    rgba(255, 215, 0, 1),
-    rgba(255, 215, 0, 0.8),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 215, 0, 0.8),
+      rgba(255, 215, 0, 1),
+      rgba(255, 215, 0, 0.8),
+      transparent);
   animation: lightTravel 3s linear infinite;
 }
 
 @keyframes lightTravel {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(50%); }
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(50%);
+  }
 }
 
 /* Snowflakes */
@@ -72,16 +83,24 @@
   body {
     @apply bg-dark-navy text-white font-body;
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-display;
   }
 }
 
 @keyframes treeFloat {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0) rotate(0deg);
   }
+
   50% {
     transform: translateY(-10px) rotate(1deg);
   }
@@ -89,8 +108,8 @@
 
 .text-glow {
   text-shadow: 0 0 20px rgba(255, 215, 0, 0.5),
-               0 0 40px rgba(255, 215, 0, 0.3),
-               0 0 60px rgba(255, 215, 0, 0.1);
+    0 0 40px rgba(255, 215, 0, 0.3),
+    0 0 60px rgba(255, 215, 0, 0.1);
 }
 
 
@@ -134,5 +153,13 @@
 
   .hero-content .cta-container {
     justify-content: flex-start !important;
+  }
+}
+
+
+
+@media (min-width: 300px) and (max-width: 640px) {
+  .heroooo {
+    margin-top: -100vh;
   }
 }

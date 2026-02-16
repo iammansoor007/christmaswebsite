@@ -411,45 +411,49 @@ const ModernQuoteForm = () => {
               </div>
             </div>
 
-            {/* Contact Info */}
-            <div className="bg-gradient-to-r from-red-600 to-amber-500 rounded-xl xs:rounded-2xl shadow-lg p-4 xs:p-5 sm:p-6 text-white">
-              <h3 className="text-lg xs:text-xl font-bold mb-3">
-                Need Immediate Help?
-              </h3>
-              <div className="space-y-3">
-                <a
-                  href={`tel:${contactInfo.phone.replace(/[^\d]/g, "")}`}
-                  className="flex items-center gap-3 hover:opacity-90 transition-opacity"
-                >
-                  <div className="w-8 h-8 xs:w-10 xs:h-10 bg-white/20 rounded-lg flex items-center justify-center">
-                    <FaPhone className="text-sm xs:text-base" />
-                  </div>
-                  <div>
-                    <div className="text-xs text-white/80">Call us 24/7</div>
-                    <div className="text-base xs:text-lg font-bold">
-                      {contactInfo.phone}
-                    </div>
-                  </div>
-                </a>
-                <a
-                  href={`mailto:${contactInfo.email}`}
-                  className="flex items-center gap-3 hover:opacity-90 transition-opacity"
-                >
-                  <div className="w-8 h-8 xs:w-10 xs:h-10 bg-white/20 rounded-lg flex items-center justify-center">
-                    <FaEnvelope className="text-sm xs:text-base" />
-                  </div>
-                  <div>
-                    <div className="text-xs text-white/80">Email us</div>
-                    <div className="text-base xs:text-lg font-bold">
-                      {contactInfo.email}
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <p className="text-xs text-white/70 mt-4">
-                Emergency services available 24/7 for urgent lighting needs
-              </p>
-            </div>
+         {/* Contact Info */}
+<div className="bg-gradient-to-r from-red-600 to-amber-500 rounded-xl xs:rounded-2xl shadow-lg p-4 xs:p-5 sm:p-6 text-white">
+  <h3 className="text-lg xs:text-xl font-bold mb-3">
+    Need Immediate Help?
+  </h3>
+  <div className="space-y-3">
+    <a
+      href={`tel:${typeof contactInfo?.phone === 'string' 
+        ? contactInfo.phone.replace(/[^\d]/g, "") 
+        : contactInfo?.phone?.value?.replace(/[^\d]/g, "") || ''}`}
+      className="flex items-center gap-3 hover:opacity-90 transition-opacity"
+    >
+      <div className="w-8 h-8 xs:w-10 xs:h-10 bg-white/20 rounded-lg flex items-center justify-center">
+        <FaPhone className="text-sm xs:text-base" />
+      </div>
+      <div>
+        <div className="text-xs text-white/80">Call us 24/7</div>
+        <div className="text-base xs:text-lg font-bold">
+          {typeof contactInfo?.phone === 'string' 
+            ? contactInfo.phone 
+            : contactInfo?.phone?.value || contactInfo?.phone?.text || '(555) 123-4567'}
+        </div>
+      </div>
+    </a>
+    <a
+      href={`mailto:${contactInfo?.email || ''}`}
+      className="flex items-center gap-3 hover:opacity-90 transition-opacity"
+    >
+      <div className="w-8 h-8 xs:w-10 xs:h-10 bg-white/20 rounded-lg flex items-center justify-center">
+        <FaEnvelope className="text-sm xs:text-base" />
+      </div>
+      <div>
+        <div className="text-xs text-white/80">Email us</div>
+        <div className="text-base xs:text-lg font-bold">
+          {contactInfo?.email || 'info@example.com'}
+        </div>
+      </div>
+    </a>
+  </div>
+  <p className="text-xs text-white/70 mt-4">
+    Emergency services available 24/7 for urgent lighting needs
+  </p>
+</div>
           </div>
         </div>
       </div>

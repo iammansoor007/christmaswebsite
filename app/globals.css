@@ -24,9 +24,11 @@
   .animate-twinkle-delay-1 {
     animation-delay: 0.5s;
   }
+
   .animate-twinkle-delay-2 {
     animation-delay: 1s;
   }
+
   .animate-twinkle-delay-3 {
     animation-delay: 1.5s;
   }
@@ -58,14 +60,12 @@
   left: -100%;
   width: 200%;
   height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 215, 0, 0.8),
-    rgba(255, 215, 0, 1),
-    rgba(255, 215, 0, 0.8),
-    transparent
-  );
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 215, 0, 0.8),
+      rgba(255, 215, 0, 1),
+      rgba(255, 215, 0, 0.8),
+      transparent);
   animation: lightTravel 3s linear infinite;
 }
 
@@ -73,16 +73,19 @@
   0% {
     transform: translateX(-50%);
   }
+
   100% {
     transform: translateX(50%);
   }
 }
 
 @keyframes treeFloat {
+
   0%,
   100% {
     transform: translateY(0) rotate(0deg);
   }
+
   50% {
     transform: translateY(-10px) rotate(1deg);
   }
@@ -93,6 +96,7 @@
    ========================================= */
 
 @media (min-width: 800px) {
+
   /* Main hero container */
   .hero-content {
     align-items: flex-start !important;
@@ -135,6 +139,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -144,6 +149,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(-360deg);
   }
@@ -165,6 +171,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -176,11 +183,13 @@
 
 /* Add these for the lights animation */
 @keyframes twinkle {
+
   0%,
   100% {
     opacity: 0.5;
     transform: scale(1);
   }
+
   50% {
     opacity: 1;
     transform: scale(1.1);
@@ -195,17 +204,20 @@
   0% {
     transform: translateX(-100%);
   }
+
   100% {
     transform: translateX(100%);
   }
 }
 
 @keyframes twinkle {
+
   0%,
   100% {
     opacity: 0.3;
     transform: scale(0.8);
   }
+
   50% {
     opacity: 1;
     transform: scale(1.2);
@@ -217,9 +229,11 @@
     transform: rotate(0deg) translate(44px) rotate(0deg);
     box-shadow: 0 0 10px 2px rgba(251, 191, 36, 0.8);
   }
+
   50% {
     box-shadow: 0 0 15px 3px rgba(251, 191, 36, 1);
   }
+
   100% {
     transform: rotate(360deg) translate(44px) rotate(-360deg);
     box-shadow: 0 0 10px 2px rgba(251, 191, 36, 0.8);
@@ -227,11 +241,13 @@
 }
 
 @keyframes pulse-slow {
+
   0%,
   100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.8;
     transform: scale(1.05);
@@ -239,10 +255,12 @@
 }
 
 @keyframes fade-in-out {
+
   0%,
   100% {
     opacity: 0.6;
   }
+
   50% {
     opacity: 1;
   }
@@ -269,11 +287,13 @@
   from {
     opacity: 1;
   }
+
   to {
     opacity: 0;
     visibility: hidden;
   }
 }
+
 /* Custom color definitions */
 :root {
   --navy-dark: #0a192f;
@@ -284,24 +304,24 @@
 
 /* Brand gradient animation */
 @keyframes brand-gradient-flow {
+
   0%,
   100% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
 }
 
 .brand-gradient {
-  background: linear-gradient(
-    90deg,
-    var(--navy-dark),
-    var(--beach-teal),
-    var(--holiday-green),
-    var(--holiday-red),
-    var(--navy-dark)
-  );
+  background: linear-gradient(90deg,
+      var(--navy-dark),
+      var(--beach-teal),
+      var(--holiday-green),
+      var(--holiday-red),
+      var(--navy-dark));
   background-size: 300% 100%;
   animation: brand-gradient-flow 4s ease-in-out infinite;
 }
@@ -312,9 +332,11 @@
     transform: rotate(0deg) translate(44px) rotate(0deg);
     box-shadow: 0 0 8px 2px rgba(56, 178, 172, 0.7);
   }
+
   50% {
     box-shadow: 0 0 12px 3px rgba(245, 101, 101, 0.8);
   }
+
   100% {
     transform: rotate(360deg) translate(44px) rotate(-360deg);
     box-shadow: 0 0 8px 2px rgba(56, 178, 172, 0.7);
@@ -322,11 +344,13 @@
 }
 
 @keyframes twinkle {
+
   0%,
   100% {
     opacity: 0.4;
     transform: scale(0.8);
   }
+
   50% {
     opacity: 0.9;
     transform: scale(1.2);
@@ -337,17 +361,20 @@
   0% {
     transform: translateX(-100%);
   }
+
   100% {
     transform: translateX(100%);
   }
 }
 
 @keyframes pulse-slow {
+
   0%,
   100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.8;
     transform: scale(1.05);
@@ -355,10 +382,12 @@
 }
 
 @keyframes fade-in-out {
+
   0%,
   100% {
     opacity: 0.6;
   }
+
   50% {
     opacity: 1;
   }
@@ -385,6 +414,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -393,6 +423,7 @@
 .buttons {
   margin-top: 20px;
 }
+
 .buttons {
   gap: 20px;
   justify-content: space-around;
@@ -407,6 +438,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -417,6 +449,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -427,6 +460,7 @@
     opacity: 0;
     transform: translateY(30px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -434,36 +468,43 @@
 }
 
 @keyframes gradientShift {
+
   0%,
   100% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
 }
 
 @keyframes pulse {
+
   0%,
   100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.5;
   }
 }
 
 @keyframes pulseSlow {
+
   0%,
   100% {
     opacity: 0.5;
   }
+
   50% {
     opacity: 0.2;
   }
 }
 
 @keyframes pingSlow {
+
   75%,
   100% {
     transform: scale(1.5);
@@ -472,10 +513,12 @@
 }
 
 @keyframes bounceSlow {
+
   0%,
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-5px);
   }
@@ -525,5 +568,13 @@
 @media (max-width: 640px) {
   .hover-lift:hover {
     transform: translateY(-1px);
+  }
+}
+
+
+
+@media (min-width: 300px) and (max-width: 640px) {
+  .heroooo {
+    margin-top: -10vh;
   }
 }
