@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import owner from '../../public/images/aboutownerfamily.jpg';
 import installation from '../../public/images/installationmain.jpg';
-import hero from '../../public/images/abouthero.jpg';
+import hero from '../../public/images/hero-background.jpg';
 import enjoy from '../../public/images/enjoy.jpg';
 import {
   FaCheckCircle,
@@ -38,66 +38,6 @@ import {
 import { GiSparkles, GiFruitTree, GiCrystalGrowth, GiChristmasTree } from 'react-icons/gi';
 import { HiOutlineSparkles } from 'react-icons/hi';
 
-// Add animation styles
-const addAnimationStyles = () => {
-  if (typeof document !== 'undefined') {
-    const style = document.createElement('style');
-    style.innerHTML = `
-      @keyframes fadeUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      
-      .animate-fade-up {
-        animation: fadeUp 0.6s ease-out forwards;
-        opacity: 0;
-      }
-      
-      .animation-delay-200 {
-        animation-delay: 0.2s;
-      }
-      
-      .animation-delay-400 {
-        animation-delay: 0.4s;
-      }
-      
-      .animation-delay-600 {
-        animation-delay: 0.6s;
-      }
-      
-      .animation-delay-800 {
-        animation-delay: 0.8s;
-      }
-
-      /* Mobile text size improvements */
-      @media (max-width: 640px) {
-        .mobile-text-base {
-          font-size: 1rem !important;
-        }
-        .mobile-text-lg {
-          font-size: 1.125rem !important;
-        }
-        .mobile-text-xl {
-          font-size: 1.25rem !important;
-        }
-        .mobile-text-2xl {
-          font-size: 1.5rem !important;
-        }
-        .mobile-text-3xl {
-          font-size: 1.875rem !important;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-  }
-};
-
 const AboutUs = () => {
   const [openFaq, setOpenFaq] = useState(null);
   const [activeTab, setActiveTab] = useState('seasonal');
@@ -105,7 +45,6 @@ const AboutUs = () => {
 
   useEffect(() => {
     setMounted(true);
-    addAnimationStyles();
   }, []);
 
   if (!mounted) {
@@ -139,7 +78,7 @@ const AboutUs = () => {
     }
   ];
 
-  // Process steps - fixed with proper image handling
+  // Process steps
   const process = [
     {
       step: '01',
@@ -167,13 +106,16 @@ const AboutUs = () => {
     }
   ];
 
-  // Single founder
+  // Founder information
   const founder = {
-    name: 'James Chen',
-    role: 'Founder & Creative Director',
-    quote: "I started this company because I believe every home deserves to shine during the holidays. We're not just installing lights — we're creating moments that families will remember for years.",
-    expertise: '15+ years in lighting design',
-    philosophy: 'Treat every property like it\'s our own'
+    name: 'Ethen',
+    role: 'Owner, Christmas Lights Over Columbus',
+    quote: "Hi, I'm Ethen, owner of Christmas Lights Over Columbus. We help families across Central Ohio create beautiful, welcoming holiday displays without the stress of ladders or tangled lights. From custom design and installation to takedown after the season, my team takes care of everything so you can focus on what truly matters—making memories and enjoying time with the people you love.",
+    expertise: 'Serving Central Ohio families',
+    philosophy: 'Making holiday memories stress-free',
+    company: 'Christmas Lights Over Columbus',
+    tagline: 'Installing Christmas lights. Serving your family.',
+    location: 'Central Ohio'
   };
 
   // Services included
@@ -248,61 +190,234 @@ const AboutUs = () => {
   ];
 
   return (
-    <main className=" overflow-x-hidden w-full">
+    <main className="overflow-x-hidden w-full">
 
-      {/* Hero Section */}
-      <section className="relative text-white min-h-[90vh] flex items-center w-full">
+      {/* Modern Hero Section - Redesigned */}
+      <section className="relative min-h-[90vh] flex items-center w-full overflow-hidden">
+        {/* Background Image with Parallax Effect */}
         <div className="absolute inset-0">
           <div className="relative w-full h-full">
             <Image
               src={hero}
-              alt="Professional lighting installation"
+              alt="Professional Christmas light installation by Christmas Lights Over Columbus"
               fill
-              className="object-cover opacity-30"
+              className="object-cover scale-105 transform transition-transform duration-[10000ms] ease-out group-hover:scale-100"
               priority
               sizes="100vw"
-              quality={90}
+              quality={100}
             />
           </div>
-          <div className="absolute inset-0 "></div>
+          {/* Sophisticated gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0B1120]/95 via-[#0B1120]/80 to-[#0B1120]/60"></div>
+          {/* Subtle animated pattern overlay */}
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute inset-0" style={{
+              backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
+              backgroundSize: '40px 40px'
+            }}></div>
+          </div>
         </div>
 
-        <div className="relative container mx-auto px-4 sm:px-6 py-12 sm:py-26 md:py-20 w-full">
-          <div className="max-w-3xl mx-auto sm:mx-0 text-center sm:text-left">
-            <div className="flex flex-wrap items-center justify-center sm:justify-start gap-1.5 sm:gap-2 text-amber-400 mb-4 sm:mb-6 animate-fade-up">
-              <GiSparkles className="w-4 h-4 sm:w-4 sm:h-4" />
-              <span className="text-sm sm:text-xs md:text-sm tracking-wider uppercase">Professional lighting installation</span>
-              <span className="w-1 h-1 bg-amber-400 rounded-full"></span>
-              <span className="text-sm sm:text-xs md:text-sm">Since 2015</span>
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-14 lg:py-16">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left Content */}
+            <div className="max-w-2xl text-center lg:text-left">
+
+              {/* Main Heading with Split Animation */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-white mb-4 md:mb-6 animate-fade-up animation-delay-200">
+                Professional Holiday
+                <span className="block font-bold mt-2">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-red-400">
+                    Lighting Done Right
+                  </span>
+                </span>
+              </h1>
+
+              {/* Description with improved typography */}
+              <p className="text-lg sm:text-xl text-white/80 mb-8 md:mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0 animate-fade-up animation-delay-400">
+                We help families across Central Ohio create beautiful, welcoming holiday displays without the stress of ladders or tangled lights.
+              </p>
+
+              {/* CTA Group */}
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 animate-fade-up animation-delay-600">
+                <Link
+                  href="/contact"
+                  className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-amber-400 to-red-500 text-white font-semibold rounded-xl overflow-hidden transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 w-full sm:w-auto"
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    <HiOutlineSparkles className="w-5 h-5" />
+                    <span>Get Your Free Quote</span>
+                    <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </Link>
+
+                <Link
+                  href="/portfolio"
+                  className="group inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-300 hover:scale-105 w-full sm:w-auto"
+                >
+                  <span className="flex items-center gap-2">
+                    <FaStar className="w-4 h-4 text-amber-400" />
+                    <span>View Our Work</span>
+                  </span>
+                </Link>
+              </div>
+
+              {/* Trust Indicators */}
+              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 mt-10 pt-6 border-t border-white/10 animate-fade-up animation-delay-800">
+                <div className="flex items-center gap-2">
+                  <div className="flex -space-x-2">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-red-400 border-2 border-white/20 flex items-center justify-center text-xs font-bold text-white">
+                        {i === 4 ? '500+' : ''}
+                      </div>
+                    ))}
+                  </div>
+                  <span className="text-sm text-white/60">500+ happy homes</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <FaMedal className="w-5 h-5 text-amber-400" />
+                  <span className="text-sm text-white/60">5-star rated</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <FaShieldAlt className="w-5 h-5 text-amber-400" />
+                  <span className="text-sm text-white/60">Fully insured</span>
+                </div>
+              </div>
             </div>
 
-            <h1 className="text-4xl sm:text-4xl md:text-5xl lg:text-7xl font-light mb-3 sm:mb-4 md:mb-6 leading-tight animate-fade-up animation-delay-200">
-              Professional Holiday Lighting
-              <span className="block font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-red-400 mt-1 sm:mt-2">
-                Done Right.
-              </span>
-            </h1>
+            {/* Right Content - Enhanced Stats Cards */}
+            <div className="hidden lg:block relative">
+              {/* Main decorative element */}
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-red-400/20 rounded-full blur-3xl"></div>
 
-            <p className="text-lg sm:text-base md:text-lg lg:text-xl text-gray-300 mb-6 sm:mb-8 md:mb-12 leading-relaxed max-w-2xl mx-auto sm:mx-0 animate-fade-up animation-delay-400">
-              We transform homes and businesses into stunning holiday displays.
-              No ladders. No storage. No stress. Just beautiful lighting you can enjoy.
-            </p>
+              {/* Stats Grid Layout */}
+              <div className="relative grid grid-cols-2 gap-4">
+                {/* Row 1 - Large Feature Card */}
+                <div className="col-span-2 bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-6 transform hover:translate-y-[-4px] transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/20 group">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 bg-gradient-to-br from-amber-400 to-red-400 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                      <FaTree className="w-7 h-7 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-3xl font-bold text-white">500+</div>
+                      <p className="text-white/60 text-sm">Homes Transformed</p>
+                      <p className="text-white/40 text-xs mt-1">Across Central Ohio</p>
+                    </div>
+                  </div>
+                </div>
 
-            {/* CTA with exact styling from reference */}
-            <div className="animate-fade-up animation-delay-800 w-full flex justify-center sm:justify-start px-0">
-              <Link
-                href="/contact"
-                className="relative overflow-hidden group inline-flex items-center justify-center px-6 sm:px-5 md:px-6 lg:px-8 py-3 sm:py-2.5 md:py-3 lg:py-4 bg-gradient-to-r from-yellow-500 to-red-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl text-base sm:text-sm md:text-base lg:text-lg w-auto min-w-[180px] sm:min-w-[140px] md:min-w-[160px] lg:min-w-[180px] cursor-pointer"
-              >
-                <span className="relative z-10 flex items-center justify-center gap-2 sm:gap-1.5 md:gap-2">
-                  <HiOutlineSparkles className="w-5 h-5 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 lg:w-5 lg:h-5" />
-                  <span>Get My Free Quote</span>
-                  <FaArrowRight className="w-4 h-4 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 lg:w-4 lg:h-4 group-hover:translate-x-1 transition-transform" />
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-              </Link>
+                {/* Row 2 - Two Cards */}
+                <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-5 transform hover:translate-y-[-4px] transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/20 group">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-red-400 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                      <FaCalendarAlt className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-white">15+</div>
+                      <p className="text-white/60 text-xs">Years Experience</p>
+                      <p className="text-white/40 text-[10px] mt-0.5">Since 2009</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-5 transform hover:translate-y-[-4px] transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/20 group">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-red-400 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                      <FaUsers className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-white">50+</div>
+                      <p className="text-white/60 text-xs">Team Members</p>
+                      <p className="text-white/40 text-[10px] mt-0.5">Certified pros</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Row 3 - Two Cards */}
+                <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-5 transform hover:translate-y-[-4px] transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/20 group">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-red-400 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                      <FaStar className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-2xl font-bold text-white">4.9/5</div>
+                      <p className="text-white/60 text-xs">Client Rating</p>
+                      <p className="text-white/40 text-[10px] mt-0.5">500+ reviews</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-5 transform hover:translate-y-[-4px] transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/20 group">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-red-400 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                      <FaShieldAlt className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold text-white">$2M</div>
+                      <p className="text-white/60 text-xs">Liability Insured</p>
+                      <p className="text-white/40 text-[10px] mt-0.5">Full coverage</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Row 4 - Two Cards */}
+                <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-5 transform hover:translate-y-[-4px] transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/20 group">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-red-400 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                      <FaClock className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold text-white">48hr</div>
+                      <p className="text-white/60 text-xs">Response Time</p>
+                      <p className="text-white/40 text-[10px] mt-0.5">Maintenance guarantee</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-white/10 backdrop-blur-lg border border-white/20 rounded-2xl p-5 transform hover:translate-y-[-4px] transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/20 group">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-red-400 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0">
+                      <FaMedal className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                      <div className="text-lg font-bold text-white">5 Stars</div>
+                      <p className="text-white/60 text-xs">Top Rated</p>
+                      <p className="text-white/40 text-[10px] mt-0.5">Best of Columbus</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Row 5 - Full Width Award Card */}
+                <div className="col-span-2 bg-gradient-to-r from-amber-500/20 to-red-500/20 backdrop-blur-lg border border-white/20 rounded-2xl p-5 transform hover:translate-y-[-4px] transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/20 group">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+                        <FaAward className="w-5 h-5 text-amber-600" />
+                      </div>
+                      <div>
+                        <p className="text-white font-semibold">Best Holiday Lighting 2024</p>
+                        <p className="text-white/60 text-xs">Columbus Business Journal</p>
+                      </div>
+                    </div>
+                    <div className="text-amber-400 text-xl font-bold">#1</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating decorative elements with different animations */}
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-amber-400/20 rounded-full blur-3xl animate-pulse"></div>
+              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-red-400/20 rounded-full blur-3xl animate-pulse animation-delay-1000"></div>
+              <div className="absolute top-1/2 -right-5 w-20 h-20 bg-amber-400/10 rounded-full blur-2xl animate-bounce"></div>
+              <div className="absolute bottom-1/4 -left-5 w-20 h-20 bg-red-400/10 rounded-full blur-2xl animate-bounce animation-delay-500"></div>
+
+              {/* Additional floating micro-interactions */}
+              <div className="absolute top-10 right-20 w-2 h-2 bg-amber-400 rounded-full animate-ping"></div>
+              <div className="absolute bottom-20 left-10 w-2 h-2 bg-red-400 rounded-full animate-ping animation-delay-300"></div>
             </div>
           </div>
+
+
         </div>
       </section>
 
@@ -323,7 +438,7 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* Founder Section - Single Hero */}
+      {/* Founder Section */}
       <section className="py-16 sm:py-20 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
@@ -331,7 +446,7 @@ const AboutUs = () => {
               <div className="relative z-10">
                 <div className="flex items-center justify-center lg:justify-start gap-1.5 sm:gap-2 text-red-600 mb-3 sm:mb-4">
                   <FaAward className="text-lg sm:text-base md:text-lg" />
-                  <span className="text-sm sm:text-xs md:text-sm font-medium tracking-wider uppercase">The Founder</span>
+                  <span className="text-sm sm:text-xs md:text-sm font-medium tracking-wider uppercase">Meet The Owner</span>
                 </div>
 
                 <h2 className="text-4xl sm:text-4xl md:text-5xl font-light text-gray-900 mb-2 sm:mb-3 md:mb-4">
@@ -343,14 +458,13 @@ const AboutUs = () => {
                 </p>
 
                 <div className="space-y-4 sm:space-y-5 md:space-y-6 text-gray-600 leading-relaxed text-base sm:text-sm md:text-base">
-                  <p className="text-lg sm:text-lg italic text-gray-700 border-l-4 border-red-600 pl-4 sm:pl-5 md:pl-6 text-center lg:text-left">
+                  <p className="text-lg sm:text-lg text-gray-700 text-center lg:text-left">
                     "{founder.quote}"
                   </p>
                   <p>
-                    It started with a single house in 2015. James wanted to create something special for his family. The result was so beautiful that neighbors started asking if he could do theirs too.
-                  </p>
-                  <p>
-                    Today, we've grown into a team of 50+ professionals serving hundreds of homes every holiday season. But our approach remains the same: treat every property like it's our own.
+                    From custom design and installation to takedown after the season, my team takes care of
+                    everything so you can focus on what truly matters—making memories and enjoying time with
+                    the people you love.
                   </p>
 
                   <div className="flex items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-3 sm:pt-4">
@@ -358,7 +472,7 @@ const AboutUs = () => {
                       <FaGem className="text-red-600 text-lg sm:text-base md:text-xl" />
                     </div>
                     <div className="text-left">
-                      <div className="text-sm sm:text-xs text-gray-500">Philosophy</div>
+                      <div className="text-sm sm:text-xs text-gray-500">Mission</div>
                       <div className="text-base sm:text-sm md:text-base font-medium text-gray-900">{founder.philosophy}</div>
                     </div>
                   </div>
@@ -383,11 +497,11 @@ const AboutUs = () => {
                   />
                 </div>
 
-                {/* Experience badge - hidden on mobile */}
+                {/* Experience badge */}
                 <div className="absolute -bottom-4 sm:-bottom-6 -left-4 sm:-left-6 bg-white p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl shadow-xl max-w-[200px] sm:max-w-xs hidden lg:block">
                   <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
                     <FaCalendarAlt className="text-red-600 text-base sm:text-lg md:text-xl" />
-                    <span className="text-xs sm:text-xs font-medium text-gray-600">Experience</span>
+                    <span className="text-xs sm:text-xs font-medium text-gray-600">Serving</span>
                   </div>
                   <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">{founder.expertise}</div>
                 </div>
@@ -400,7 +514,7 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* Why Choose Us - Refined */}
+      {/* Why Choose Us Section */}
       <section className="py-16 sm:py-20 md:py-24 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 md:mb-16">
@@ -439,7 +553,7 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* Process Section - Fixed with proper image handling */}
+      {/* Process Section */}
       <section className="py-16 sm:py-20 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12 md:mb-16">
@@ -461,7 +575,6 @@ const AboutUs = () => {
               <div key={index} className="group relative text-center sm:text-left">
                 <div className="relative h-56 sm:h-56 md:h-64 rounded-xl sm:rounded-2xl overflow-hidden mb-4 sm:mb-5 md:mb-6">
                   {item.isExternal ? (
-                    // For external Unsplash URLs
                     <img
                       src={item.image}
                       alt={item.imageAlt}
@@ -469,7 +582,6 @@ const AboutUs = () => {
                       loading="lazy"
                     />
                   ) : (
-                    // For imported local images
                     <Image
                       src={item.image}
                       alt={item.imageAlt}
@@ -520,7 +632,7 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* Lighting Types */}
+      {/* Lighting Types Section */}
       <section className="py-16 sm:py-20 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-8 sm:mb-10 md:mb-12">
@@ -530,7 +642,7 @@ const AboutUs = () => {
             </h3>
           </div>
 
-          {/* Tabs - responsive */}
+          {/* Tabs */}
           <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-6 sm:mb-8">
             <button
               onClick={() => setActiveTab('seasonal')}
@@ -676,8 +788,90 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* Global responsive styles */}
+      {/* Global Styles */}
       <style jsx global>{`
+        /* Animation Keyframes */
+        @keyframes fadeUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+        }
+        
+        @keyframes scroll {
+          0% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(15px);
+            opacity: 0;
+          }
+        }
+
+        /* Animation Classes */
+        .animate-fade-up {
+          animation: fadeUp 0.6s ease-out forwards;
+          opacity: 0;
+        }
+        
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+        
+        .animate-scroll {
+          animation: scroll 2s ease-in-out infinite;
+        }
+        
+        .animation-delay-200 {
+          animation-delay: 0.2s;
+        }
+        
+        .animation-delay-400 {
+          animation-delay: 0.4s;
+        }
+        
+        .animation-delay-600 {
+          animation-delay: 0.6s;
+        }
+        
+        .animation-delay-800 {
+          animation-delay: 0.8s;
+        }
+
+        /* Mobile text improvements */
+        @media (max-width: 640px) {
+          .mobile-text-base {
+            font-size: 1rem !important;
+          }
+          .mobile-text-lg {
+            font-size: 1.125rem !important;
+          }
+          .mobile-text-xl {
+            font-size: 1.25rem !important;
+          }
+          .mobile-text-2xl {
+            font-size: 1.5rem !important;
+          }
+          .mobile-text-3xl {
+            font-size: 1.875rem !important;
+          }
+        }
+
+        /* Responsive styles */
         @media (max-width: 320px) {
           .container {
             padding-left: 0.75rem;
@@ -701,7 +895,7 @@ const AboutUs = () => {
           }
         }
         
-        /* Ensure images don't overflow */
+        /* Image optimization */
         img {
           max-width: 100%;
           height: auto;
