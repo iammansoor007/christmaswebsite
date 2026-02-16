@@ -64,8 +64,8 @@ const Navbar = () => {
     <nav
       ref={navbarRef}
       className={`sticky top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${scrolled
-          ? 'bg-dark-navy/95 backdrop-blur-lg shadow-lg shadow-holiday-gold/10 py-2'
-          : 'bg-dark-navy/90 backdrop-blur-md py-3'
+        ? 'bg-dark-navy/95 backdrop-blur-lg shadow-lg shadow-holiday-gold/10 py-2'
+        : 'bg-dark-navy/90 backdrop-blur-md py-3'
         }`}
     >
       <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
@@ -77,7 +77,7 @@ const Navbar = () => {
               className="group inline-flex items-center"
               onClick={() => setIsOpen(false)}
             >
-              <div className="relative w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16">
+              <div className="relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-18 lg:h-18">
                 <Image
                   src="/images/mainlogo.png"
                   alt="Luminous Holiday Logo"
@@ -99,8 +99,8 @@ const Navbar = () => {
                   key={item.path}
                   href={item.path}
                   className={`relative px-4 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 group ${isActive(item.path)
-                      ? 'text-holiday-gold'
-                      : 'text-warm-white hover:text-holiday-gold'
+                    ? 'text-holiday-gold'
+                    : 'text-warm-white hover:text-holiday-gold'
                     }`}
                 >
                   <span className="relative z-10 whitespace-nowrap">{item.label}</span>
@@ -115,7 +115,7 @@ const Navbar = () => {
 
           {/* Desktop CTA Button */}
           <div className="hidden lg:flex items-center flex-shrink-0">
-           
+
 
             <Button
               href="tel:+16143017100"
@@ -173,8 +173,8 @@ const Navbar = () => {
                   href={item.path}
                   onClick={() => setIsOpen(false)}
                   className={`relative px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 group ${isActive(item.path)
-                      ? 'text-holiday-gold bg-gradient-to-r from-holiday-red/5 to-holiday-gold/5 border border-holiday-gold/20'
-                      : 'text-warm-white hover:text-holiday-gold hover:bg-dark-navy/50'
+                    ? 'text-holiday-gold bg-gradient-to-r from-holiday-red/5 to-holiday-gold/5 border border-holiday-gold/20'
+                    : 'text-warm-white hover:text-holiday-gold hover:bg-dark-navy/50'
                     }`}
                 >
                   <div className="flex items-center justify-between">
