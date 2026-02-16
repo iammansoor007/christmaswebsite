@@ -256,7 +256,7 @@ const ModernQuoteForm = () => {
                         value={formData.fname}
                         onChange={handleChange}
                         required
-                        className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base"
+                        className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base text-gray-900 placeholder-gray-500"
                         placeholder="John"
                       />
                     </div>
@@ -274,7 +274,7 @@ const ModernQuoteForm = () => {
                         value={formData.lname}
                         onChange={handleChange}
                         required
-                        className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base"
+                        className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base text-gray-900 placeholder-gray-500"
                         placeholder="Smith"
                       />
                     </div>
@@ -295,7 +295,7 @@ const ModernQuoteForm = () => {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base"
+                        className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base text-gray-900 placeholder-gray-500"
                         placeholder="john@example.com"
                       />
                     </div>
@@ -313,7 +313,7 @@ const ModernQuoteForm = () => {
                         value={formData.phone}
                         onChange={handleChange}
                         required
-                        className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base"
+                        className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base text-gray-900 placeholder-gray-500"
                         placeholder="(740) 527-0010"
                       />
                     </div>
@@ -334,7 +334,7 @@ const ModernQuoteForm = () => {
                         value={formData.address}
                         onChange={handleChange}
                         required
-                        className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base"
+                        className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base text-gray-900 placeholder-gray-500"
                         placeholder="123 Main St"
                       />
                     </div>
@@ -351,7 +351,7 @@ const ModernQuoteForm = () => {
                         value={formData.city}
                         onChange={handleChange}
                         required
-                        className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base"
+                        className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base text-gray-900 placeholder-gray-500"
                         placeholder="Columbus"
                       />
                     </div>
@@ -370,11 +370,11 @@ const ModernQuoteForm = () => {
                       value={formData.budget}
                       onChange={handleChange}
                       required
-                      className="w-full pl-10 pr-8 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base appearance-none"
+                      className="w-full pl-10 pr-8 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base appearance-none text-gray-900"
                     >
-                      <option value="">Select your budget...</option>
+                      <option value="" className="text-gray-900">Select your budget...</option>
                       {budgetOptions.map((option, index) => (
-                        <option key={index} value={option} className="text-gray-700">
+                        <option key={index} value={option} className="text-gray-900">
                           {option}
                         </option>
                       ))}
@@ -407,7 +407,7 @@ const ModernQuoteForm = () => {
                             } transition-transform`}>
                             {area.emoji}
                           </div>
-                          <p className="text-xs sm:text-sm text-gray-700 font-medium">
+                          <p className="text-xs sm:text-sm text-gray-900 font-medium">
                             {area.label}
                           </p>
                           {formData.lightingAreas[area.id] && (
@@ -433,7 +433,7 @@ const ModernQuoteForm = () => {
                       name="colorPref"
                       value={formData.colorPref}
                       onChange={handleChange}
-                      className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base"
+                      className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base text-gray-900 placeholder-gray-500"
                       placeholder="e.g., Warm white, Multi-color, Red & Green..."
                     />
                   </div>
@@ -449,14 +449,14 @@ const ModernQuoteForm = () => {
                     value={formData.notes}
                     onChange={handleChange}
                     rows="3"
-                    className="w-full px-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base resize-none"
+                    className="w-full px-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base resize-none text-gray-900 placeholder-gray-500"
                     placeholder="Please let us know any details you would like to share to help us create your quote..."
                   />
                 </div>
 
                 {/* Photo Upload Section */}
                 <div>
-                  <p className="text-gray-600 text-sm mb-2 bg-amber-50 p-2 rounded-lg">
+                  <p className="text-gray-700 text-sm mb-2 bg-amber-50 p-2 rounded-lg">
                     For the quickest turn-around time, upload a front facing photo of your home below 🙂
                   </p>
                   <div className="relative">
@@ -473,7 +473,7 @@ const ModernQuoteForm = () => {
                       className="flex items-center justify-center gap-2 w-full px-4 py-3 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-amber-500 hover:bg-amber-50/50 transition-all group"
                     >
                       <FaUpload className="text-gray-400 group-hover:text-amber-500 transition-colors" />
-                      <span className="text-gray-600 text-sm">
+                      <span className="text-gray-900 text-sm">
                         {files.length > 0 ? `${files.length} file(s) selected` : 'Click to upload photos'}
                       </span>
                     </label>
@@ -481,10 +481,10 @@ const ModernQuoteForm = () => {
                   {files.length > 0 && (
                     <div className="mt-2 space-y-1">
                       {files.map((file, index) => (
-                        <div key={index} className="flex items-center gap-2 text-xs text-gray-600 bg-gray-50 p-2 rounded">
+                        <div key={index} className="flex items-center gap-2 text-xs text-gray-900 bg-gray-50 p-2 rounded">
                           <FaImage className="text-amber-500" />
                           <span className="truncate flex-1">{file.name}</span>
-                          <span className="text-gray-400">
+                          <span className="text-gray-600">
                             {(file.size / 1024).toFixed(0)}KB
                           </span>
                         </div>
@@ -528,7 +528,7 @@ const ModernQuoteForm = () => {
           </div>
 
           {/* Benefits Section - Takes 1 column */}
-          <div className="space-y-6 xs:space-y-8">
+          <div className="hidden md:block space-y-6 ">
             {/* Stats */}
             <div className="bg-gradient-to-br from-red-600/5 via-amber-500/5 to-red-600/5 rounded-xl xs:rounded-2xl border border-amber-500/20 p-4 xs:p-5 sm:p-6">
               <h3 className="text-lg xs:text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
@@ -678,119 +678,141 @@ const ModernQuoteForm = () => {
       </div>
 
       <style jsx global>{`
-  /* ... your existing styles ... */
+        /* Extra small screen optimizations */
+        @media (max-width: 374px) {
+          input,
+          select,
+          textarea,
+          button {
+            font-size: 16px !important;
+            min-height: 44px;
+          }
 
-  /* ===== AGGRESSIVE FIX FOR YELLOW AUTOFILL BACKGROUND ===== */
-  /* Target all autofill states with maximum specificity */
-  input:-webkit-autofill,
-  input:-webkit-autofill:focus,
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:active,
-  input:autofill,
-  input:autofill:focus,
-  input:autofill:hover,
-  input:autofill:active,
-  select:-webkit-autofill,
-  select:-webkit-autofill:focus,
-  select:-webkit-autofill:hover,
-  select:-webkit-autofill:active,
-  textarea:-webkit-autofill,
-  textarea:-webkit-autofill:focus,
-  textarea:-webkit-autofill:hover,
-  textarea:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0px 1000px #f9fafb inset !important;
-    box-shadow: 0 0 0px 1000px #f9fafb inset !important;
-    -webkit-text-fill-color: #374151 !important;
-    color: #374151 !important;
-    background-color: #f9fafb !important;
-    background: #f9fafb !important;
-    border-color: #e5e7eb !important;
-    transition: none !important;
-    animation: none !important;
-  }
+          .text-2xl {
+            font-size: 1.375rem;
+          }
 
-  /* Specific fix for the background color */
-  input:-internal-autofill-selected {
-    background-color: #f9fafb !important;
-    background: #f9fafb !important;
-    color: #374151 !important;
-  }
+          .text-lg {
+            font-size: 1rem;
+          }
 
-  /* Override for all input types */
-  input[type="text"]:-webkit-autofill,
-  input[type="email"]:-webkit-autofill,
-  input[type="tel"]:-webkit-autofill,
-  input[type="number"]:-webkit-autofill,
-  input[type="date"]:-webkit-autofill,
-  select:-webkit-autofill,
-  textarea:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px #f9fafb inset !important;
-    box-shadow: 0 0 0px 1000px #f9fafb inset !important;
-    background-color: #f9fafb !important;
-    background: #f9fafb !important;
-  }
+          .grid-cols-2 {
+            grid-template-columns: 1fr;
+            gap: 0.75rem;
+          }
+        }
 
-  /* Focus state */
-  input:-webkit-autofill:focus,
-  select:-webkit-autofill:focus,
-  textarea:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0px 1000px #f9fafb inset, 0 0 0 3px rgba(245, 158, 11, 0.1) !important;
-    box-shadow: 0 0 0px 1000px #f9fafb inset, 0 0 0 3px rgba(245, 158, 11, 0.1) !important;
-    border-color: #f59e0b !important;
-  }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
 
-  /* Ensure background stays consistent */
-  .bg-gray-50 input:-webkit-autofill,
-  input.bg-gray-50:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0px 1000px #f9fafb inset !important;
-    box-shadow: 0 0 0px 1000px #f9fafb inset !important;
-  }
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out;
+        }
 
-  /* Remove any transition that might flash yellow */
-  input,
-  select,
-  textarea {
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
-    -webkit-transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
-  }
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
 
-  /* Fix for the autofill background in Chrome/Edge */
-  @keyframes autofill-fix {
-    from {
-      background-color: #f9fafb;
-    }
-    to {
-      background-color: #f9fafb;
-    }
-  }
-  
-  input:-webkit-autofill {
-    animation: autofill-fix 0s forwards !important;
-  }
+        .animate-spin {
+          animation: spin 1s linear infinite;
+        }
 
-  /* Fix for select dropdowns */
-  select:-webkit-autofill {
-    background-color: #f9fafb !important;
-    background: #f9fafb !important;
-  }
+        /* Prevent text zoom on iOS */
+        @media screen and (max-width: 768px) {
+          input,
+          select,
+          textarea {
+            font-size: 16px;
+          }
+        }
 
-  /* Fix for dark mode if needed */
-  @media (prefers-color-scheme: dark) {
-    input:-webkit-autofill,
-    input:-webkit-autofill:focus,
-    input:-webkit-autofill:hover,
-    input:-webkit-autofill:active,
-    select:-webkit-autofill,
-    textarea:-webkit-autofill {
-      -webkit-box-shadow: 0 0 0px 1000px #1f2937 inset !important;
-      box-shadow: 0 0 0px 1000px #1f2937 inset !important;
-      -webkit-text-fill-color: #f3f4f6 !important;
-      color: #f3f4f6 !important;
-      background-color: #1f2937 !important;
-      background: #1f2937 !important;
-    }
-  }
-`}</style>
+        /* Custom date picker */
+        input[type="date"] {
+          min-height: 44px;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+          opacity: 0.5;
+          padding: 0.5rem;
+        }
+
+        /* Remove number input spinners */
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        /* Button active state */
+        button:active {
+          transform: scale(0.98);
+        }
+
+        /* FIX FOR YELLOW AUTOFILL BACKGROUND - Keep background but ensure text is black */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active,
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus,
+        select:-webkit-autofill:active,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus,
+        textarea:-webkit-autofill:active {
+          -webkit-box-shadow: 0 0 0px 1000px #f9fafb inset !important;
+          box-shadow: 0 0 0px 1000px #f9fafb inset !important;
+          -webkit-text-fill-color: #111827 !important;
+          color: #111827 !important;
+          background-color: #f9fafb !important;
+          background: #f9fafb !important;
+          border-color: #e5e7eb !important;
+        }
+
+        /* Focus state for autofilled inputs */
+        input:-webkit-autofill:focus,
+        select:-webkit-autofill:focus,
+        textarea:-webkit-autofill:focus {
+          -webkit-box-shadow: 0 0 0px 1000px #f9fafb inset, 0 0 0 3px rgba(245, 158, 11, 0.1) !important;
+          box-shadow: 0 0 0px 1000px #f9fafb inset, 0 0 0 3px rgba(245, 158, 11, 0.1) !important;
+          border-color: #f59e0b !important;
+        }
+
+        /* Ensure text is black in all inputs */
+        input, select, textarea {
+          color: #111827 !important;
+        }
+
+        input::placeholder, textarea::placeholder {
+          color: #6b7280 !important;
+          opacity: 1;
+        }
+
+        /* Ensure consistent background */
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
+          background-color: #f9fafb;
+        }
+      `}</style>
     </div>
   );
 };
