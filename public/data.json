@@ -303,7 +303,7 @@
     "badge": "Frequently Asked Questions",
     "title": "Questions & Answers",
     "subtitle": "Everything you need to know about our premium holiday lighting services. Can't find your answer?",
-    "phone": "(123) 456-7890",
+    "phone": "(614) 301-7100",
     "items": [
       {
         "question": "What areas do you serve for Christmas light installation?",
@@ -416,7 +416,7 @@
     }
   },
   "contact": {
-    "phone": "(123) 456-7890",
+    "phone": "(614) 301-7100",
     "email": "info@christmaslights.com",
     "address": "123 Christmas Lane, North Pole",
     "hours": "Mon-Sun: 8am-8pm"
@@ -574,7 +574,7 @@
       }
     ],
     "contactInfo": {
-      "phone": "(555) 123-4567",
+      "phone": "(614) 301-7100",
       "email": "quote@example.com",
       "hours": "Mon-Fri: 8AM-6PM",
       "support": "24/7 Support"
@@ -582,23 +582,23 @@
     "benefits": [
       {
         "text": "Free on-site consultation",
-        "color": "text-emerald-600"
+        "color": "text-black"
       },
       {
         "text": "Professional design service",
-        "color": "text-amber-600"
+        "color": "text-black"
       },
       {
         "text": "Quality LED lighting",
-        "color": "text-blue-600"
+        "color": "text-black"
       },
       {
         "text": "Season-long warranty",
-        "color": "text-red-600"
+        "color": "text-black"
       },
       {
         "text": "Flexible scheduling",
-        "color": "text-purple-600"
+        "color": "text-black"
       }
     ],
     "stats": [
@@ -620,7 +620,7 @@
       {
         "value": "100%",
         "label": "Satisfaction",
-        "color": "text-blue-600"
+        "color": "text-black"
       }
     ]
   },
@@ -680,10 +680,10 @@
   },
   "footer": {
     "companyName": "Luminous Holiday Lighting",
-    "year": 2024,
+    "year": 2026,
     "tagline": "Professional holiday lighting installation & design services",
     "contact": {
-      "phone": "(555) 123-4567",
+      "phone": "(614) 301-7100",
       "email": "info@luminousholiday.com",
       "address": "123 Holiday Lane, North Pole, 12345",
       "hours": "Mon-Fri: 8AM-6PM",

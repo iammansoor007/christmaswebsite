@@ -23,18 +23,22 @@ const RefinedWorkShowcase = () => {
     loadData();
   }, []);
 
-  // Real images from public/images directory
+  // Real images from public/images/gallery1.jpg to gallery14.jpg
   const images = [
-    "/images/demo1.jpeg",
-    "/images/demo2.jpeg",
-    "/images/demo3.jpeg",
-    "/images/demo4.jpeg",
-    "/images/demo5.jpeg",
-    "/images/demo6.jpeg",
-    "/images/demo7.jpeg",
-    "/images/demo8.jpeg",
-    "/images/demo9.jpeg",
-    "/images/demo10.jpeg",
+    "/images/gallery1.jpg",
+    "/images/gallery2.jpg",
+    "/images/gallery3.jpg",
+    "/images/gallery4.jpg",
+    "/images/gallery5.jpg",
+    "/images/gallery6.jpg",
+    "/images/gallery7.jpg",
+    "/images/gallery8.jpg",
+    "/images/gallery9.jpg",
+    "/images/gallery10.jpg",
+    "/images/gallery11.jpg",
+    "/images/gallery12.jpg",
+    "/images/gallery13.jpg",
+    "/images/gallery14.jpg",
   ];
 
   // For infinite scroll, duplicate images multiple times
@@ -131,7 +135,7 @@ const RefinedWorkShowcase = () => {
                     className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 brightness-100 group-hover:brightness-125 saturate-125 group-hover:saturate-200 contrast-105 group-hover:contrast-125"
                     loading="lazy"
                     onError={(e) => {
-                      // Fallback image in case the demo image doesn't exist
+                      // Fallback image in case the gallery image doesn't exist
                       e.target.onerror = null;
                       e.target.src = `https://images.unsplash.com/photo-1575425187336-d5ec5d0a1451?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&h=600`;
                     }}
@@ -174,11 +178,11 @@ const RefinedWorkShowcase = () => {
                   {/* HIGH QUALITY IMAGES with Better Clarity */}
                   <img
                     src={src}
-                    alt={`Christmas Installation ${index + 7}`}
+                    alt={`Christmas Installation ${index + 15}`}
                     className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 brightness-100 group-hover:brightness-125 saturate-125 group-hover:saturate-200 contrast-105 group-hover:contrast-125"
                     loading="lazy"
                     onError={(e) => {
-                      // Fallback image in case the demo image doesn't exist
+                      // Fallback image in case the gallery image doesn't exist
                       e.target.onerror = null;
                       e.target.src = `https://images.unsplash.com/photo-1575425187336-d5ec5d0a1451?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80&h=600`;
                     }}

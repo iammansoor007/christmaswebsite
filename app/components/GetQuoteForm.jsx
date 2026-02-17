@@ -314,7 +314,7 @@ const ModernQuoteForm = () => {
                         onChange={handleChange}
                         required
                         className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base text-gray-900 placeholder-gray-500"
-                        placeholder="(740) 527-0010"
+                        placeholder="(614) 301-7100"
                       />
                     </div>
                   </div>
@@ -528,7 +528,7 @@ const ModernQuoteForm = () => {
           </div>
 
           {/* Benefits Section - Takes 1 column */}
-          <div className="hidden md:block space-y-6 ">
+          <div className="hidden md:block space-y-6">
             {/* Stats */}
             <div className="bg-gradient-to-br from-red-600/5 via-amber-500/5 to-red-600/5 rounded-xl xs:rounded-2xl border border-amber-500/20 p-4 xs:p-5 sm:p-6">
               <h3 className="text-lg xs:text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
@@ -538,32 +538,30 @@ const ModernQuoteForm = () => {
               <div className="grid grid-cols-2 gap-4">
                 {stats ? stats.map((stat, index) => (
                   <div key={index} className="text-center">
-                    <div
-                      className={`text-2xl xs:text-3xl font-bold ${stat.color || 'text-amber-600'}`}
-                    >
+                    <div className="text-2xl xs:text-3xl font-bold text-gray-900">
                       {stat.value}
                     </div>
-                    <div className="text-gray-700 text-xs xs:text-sm font-medium">
+                    <div className="text-gray-900 text-xs xs:text-sm font-medium">
                       {stat.label}
                     </div>
                   </div>
                 )) : (
                   <>
                     <div className="text-center">
-                      <div className="text-2xl xs:text-3xl font-bold text-red-600">500+</div>
-                      <div className="text-gray-700 text-xs xs:text-sm font-medium">Homes Lit</div>
+                      <div className="text-2xl xs:text-3xl font-bold text-gray-900">500+</div>
+                      <div className="text-gray-900 text-xs xs:text-sm font-medium">Homes Lit</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl xs:text-3xl font-bold text-amber-600">15+</div>
-                      <div className="text-gray-700 text-xs xs:text-sm font-medium">Years Exp</div>
+                      <div className="text-2xl xs:text-3xl font-bold text-gray-900">15+</div>
+                      <div className="text-gray-900 text-xs xs:text-sm font-medium">Years Exp</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl xs:text-3xl font-bold text-green-600">4.9★</div>
-                      <div className="text-gray-700 text-xs xs:text-sm font-medium">Rating</div>
+                      <div className="text-2xl xs:text-3xl font-bold text-gray-900">4.9★</div>
+                      <div className="text-gray-900 text-xs xs:text-sm font-medium">Rating</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl xs:text-3xl font-bold text-emerald-600">$2M</div>
-                      <div className="text-gray-700 text-xs xs:text-sm font-medium">Insured</div>
+                      <div className="text-2xl xs:text-3xl font-bold text-gray-900">$2M</div>
+                      <div className="text-gray-900 text-xs xs:text-sm font-medium">Insured</div>
                     </div>
                   </>
                 )}
@@ -581,7 +579,7 @@ const ModernQuoteForm = () => {
                     <div className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center flex-shrink-0">
                       <FaCheckCircle className="text-white text-xs" />
                     </div>
-                    <span className={`text-sm xs:text-base font-medium ${item.color || 'text-gray-700'}`}>
+                    <span className="text-sm xs:text-base font-medium text-gray-900">
                       {item.text}
                     </span>
                   </div>
@@ -591,31 +589,31 @@ const ModernQuoteForm = () => {
                       <div className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center flex-shrink-0">
                         <FaCheckCircle className="text-white text-xs" />
                       </div>
-                      <span className="text-sm xs:text-base font-medium text-gray-700">Free consultation & design</span>
+                      <span className="text-sm xs:text-base font-medium text-gray-900">Free consultation & design</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center flex-shrink-0">
                         <FaCheckCircle className="text-white text-xs" />
                       </div>
-                      <span className="text-sm xs:text-base font-medium text-gray-700">Professional installation</span>
+                      <span className="text-sm xs:text-base font-medium text-gray-900">Professional installation</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center flex-shrink-0">
                         <FaCheckCircle className="text-white text-xs" />
                       </div>
-                      <span className="text-sm xs:text-base font-medium text-gray-700">Commercial-grade LED lights</span>
+                      <span className="text-sm xs:text-base font-medium text-gray-900">Commercial-grade LED lights</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center flex-shrink-0">
                         <FaCheckCircle className="text-white text-xs" />
                       </div>
-                      <span className="text-sm xs:text-base font-medium text-gray-700">Full-season maintenance</span>
+                      <span className="text-sm xs:text-base font-medium text-gray-900">Full-season maintenance</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center flex-shrink-0">
                         <FaCheckCircle className="text-white text-xs" />
                       </div>
-                      <span className="text-sm xs:text-base font-medium text-gray-700">Free takedown & storage</span>
+                      <span className="text-sm xs:text-base font-medium text-gray-900">Free takedown & storage</span>
                     </div>
                   </>
                 )}
@@ -624,7 +622,7 @@ const ModernQuoteForm = () => {
 
             {/* Contact Info */}
             <div className="bg-gradient-to-r from-red-600 to-amber-500 rounded-xl xs:rounded-2xl shadow-lg p-4 xs:p-5 sm:p-6 text-white">
-              <h3 className="text-lg xs:text-xl font-bold mb-3">
+              <h3 className="text-lg xs:text-xl font-bold text-white mb-3">
                 Need Immediate Help?
               </h3>
               <div className="space-y-3">
@@ -633,12 +631,12 @@ const ModernQuoteForm = () => {
                   className="flex items-center gap-3 hover:opacity-90 transition-opacity group"
                 >
                   <div className="w-8 h-8 xs:w-10 xs:h-10 bg-white/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <FaPhone className="text-sm xs:text-base" />
+                    <FaPhone className="text-sm xs:text-base text-white" />
                   </div>
                   <div>
                     <div className="text-xs text-white/80">Call us 24/7</div>
-                    <div className="text-base xs:text-lg font-bold">
-                      (740) 527-0010
+                    <div className="text-base xs:text-lg font-bold text-white">
+                      (614) 301-7100
                     </div>
                   </div>
                 </a>
@@ -647,18 +645,18 @@ const ModernQuoteForm = () => {
                   className="flex items-center gap-3 hover:opacity-90 transition-opacity group"
                 >
                   <div className="w-8 h-8 xs:w-10 xs:h-10 bg-white/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <FaEnvelope className="text-sm xs:text-base" />
+                    <FaEnvelope className="text-sm xs:text-base text-white" />
                   </div>
                   <div>
                     <div className="text-xs text-white/80">Email us</div>
-                    <div className="text-sm xs:text-base font-bold break-all">
+                    <div className="text-sm xs:text-base font-bold text-white break-all">
                       info@christmaslightsovercolumbus.com
                     </div>
                   </div>
                 </a>
               </div>
               <p className="text-xs text-white/70 mt-4 flex items-center gap-1">
-                <FaClock className="text-xs" />
+                <FaClock className="text-xs text-white/70" />
                 Emergency services available 24/7 for urgent lighting needs
               </p>
             </div>
@@ -671,7 +669,7 @@ const ModernQuoteForm = () => {
                 ))}
               </div>
               <p className="text-gray-900 font-medium">4.9/5 Rating</p>
-              <p className="text-gray-600 text-sm">Based on 500+ verified reviews</p>
+              <p className="text-gray-900 text-sm">Based on 500+ verified reviews</p>
             </div>
           </div>
         </div>
