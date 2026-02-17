@@ -37,7 +37,7 @@ export default function ProfessionalLoader() {
 
   useEffect(() => {
     setIsMounted(true)
-    
+
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -103,14 +103,12 @@ export default function ProfessionalLoader() {
             }}
           >
             <div className="relative">
-              <div className={`w-2 h-2 rounded-full ${
-                light.color === 'red' ? 'bg-red-500' : 
+              <div className={`w-2 h-2 rounded-full ${light.color === 'red' ? 'bg-red-500' :
                 light.color === 'amber' ? 'bg-amber-400' : 'bg-emerald-500'
-              }`}>
-                <div className={`absolute inset-0 rounded-full animate-ping ${
-                  light.color === 'red' ? 'bg-red-500/50' : 
+                }`}>
+                <div className={`absolute inset-0 rounded-full animate-ping ${light.color === 'red' ? 'bg-red-500/50' :
                   light.color === 'amber' ? 'bg-amber-400/50' : 'bg-emerald-500/50'
-                }`}></div>
+                  }`}></div>
               </div>
             </div>
           </div>
@@ -130,7 +128,7 @@ export default function ProfessionalLoader() {
               animationDelay: `${sparkle.delay}s`,
             }}
           >
-            <FaStar 
+            <FaStar
               className={i % 3 === 0 ? 'text-red-400/30' : i % 3 === 1 ? 'text-amber-400/30' : 'text-emerald-400/30'}
               style={{ fontSize: '12px' }}
             />
@@ -144,12 +142,12 @@ export default function ProfessionalLoader() {
         <div className="relative mb-10">
           {/* Outer glow rings */}
           <div className="absolute inset-0 rounded-full bg-gradient-to-r from-red-600/20 via-amber-500/20 to-emerald-600/20 blur-xl animate-pulse"></div>
-          
+
           {/* Main ring */}
           <div className="relative w-32 h-32 sm:w-36 sm:h-36">
             {/* Rotating ring with gradient */}
             <div className="absolute inset-0 rounded-full border-2 border-red-600/30 animate-spin-slow"></div>
-            
+
             {/* Animated Christmas lights around the ring */}
             {Array.from({ length: 8 }).map((_, i) => {
               const colors = [
@@ -168,29 +166,26 @@ export default function ProfessionalLoader() {
                     transform: `rotate(${i * 45}deg) translate(64px) rotate(-${i * 45}deg)`,
                   }}
                 >
-                  <div className={`relative w-4 h-4 rounded-full bg-gradient-to-br ${
-                    colorIndex === 0 ? 'from-red-500 to-red-600' :
+                  <div className={`relative w-4 h-4 rounded-full bg-gradient-to-br ${colorIndex === 0 ? 'from-red-500 to-red-600' :
                     colorIndex === 1 ? 'from-amber-400 to-amber-500' :
-                    'from-emerald-500 to-emerald-600'
-                  } shadow-lg animate-lightPulse`}
-                  style={{
-                    animationDelay: `${i * 0.2}s`,
-                    boxShadow: `0 0 20px ${
-                      colorIndex === 0 ? '#ef4444' :
-                      colorIndex === 1 ? '#f59e0b' :
-                      '#10b981'
-                    }`
-                  }}>
-                    <div className={`absolute inset-0 rounded-full animate-ping ${
-                      colorIndex === 0 ? 'bg-red-500/50' :
+                      'from-emerald-500 to-emerald-600'
+                    } shadow-lg animate-lightPulse`}
+                    style={{
+                      animationDelay: `${i * 0.2}s`,
+                      boxShadow: `0 0 20px ${colorIndex === 0 ? '#ef4444' :
+                        colorIndex === 1 ? '#f59e0b' :
+                          '#10b981'
+                        }`
+                    }}>
+                    <div className={`absolute inset-0 rounded-full animate-ping ${colorIndex === 0 ? 'bg-red-500/50' :
                       colorIndex === 1 ? 'bg-amber-400/50' :
-                      'bg-emerald-500/50'
-                    }`}></div>
+                        'bg-emerald-500/50'
+                      }`}></div>
                   </div>
                 </div>
               )
             })}
-            
+
             {/* Center icon with premium effect */}
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="relative">
@@ -245,7 +240,7 @@ export default function ProfessionalLoader() {
         {/* Premium progress bar */}
         <div className="w-64 sm:w-72">
           <div className="relative h-1 bg-gray-800/50 rounded-full overflow-hidden mb-3 backdrop-blur-sm">
-            <div 
+            <div
               className="absolute inset-0 bg-gradient-to-r from-red-500 via-amber-400 to-emerald-500 transition-all duration-300 ease-out rounded-full"
               style={{ width: `${progress}%` }}
             >
