@@ -271,14 +271,14 @@ const Testimonials = () => {
             </span>
           </div>
 
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
+          <h2 className="text-4xl font-montserrat md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4">
             <span className="block">{testimonials.title.line1}</span>
             <span className="block mt-2 bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
               {testimonials.title.line2}
             </span>
           </h2>
 
-          <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl font-montserrat text-gray-600 max-w-3xl mx-auto leading-relaxed">
             {testimonials.subtitle}
           </p>
 
@@ -506,9 +506,8 @@ const Testimonials = () => {
                       setIsAutoRotating(false);
                       setTimeout(() => setIsAutoRotating(true), 1000);
                     }}
-                    className={`rounded-full transition-all duration-300 ${
-                      isActive ? "w-12 h-2" : "w-2 h-2"
-                    }`}
+                    className={`rounded-full transition-all duration-300 ${isActive ? "w-12 h-2" : "w-2 h-2"
+                      }`}
                     style={{
                       backgroundColor: isActive
                         ? testimonial.color

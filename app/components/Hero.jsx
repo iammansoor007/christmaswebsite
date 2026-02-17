@@ -154,7 +154,7 @@ const Hero = () => {
         <div className="flex flex-col items-center justify-center text-center">
 
           {/* Main Title with increased font size on mobile */}
-          <h1 className="text-5xl xs:text-6xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 sm:mb-6 tracking-tight">
+          <h1 className=" font-montserrat font-extrabold text-5xl xs:text-6xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 sm:mb-6 tracking-tight">
             <span className="block text-white/90 mb-1 sm:mb-2 animate-title-slide-up">
               {hero.title?.part1}
             </span>

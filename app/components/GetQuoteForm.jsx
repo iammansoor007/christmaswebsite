@@ -188,14 +188,14 @@ const ModernQuoteForm = () => {
             </span>
           </div>
 
-          <h1 className="text-2xl xs:text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+          <h1 className="text-2xl font-montserrat xs:text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">
             Get Your{" "}
-            <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r font-montserrat font-bold from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
               Fast
             </span>{" "}
             Quote
           </h1>
-          <p className="text-sm xs:text-base text-gray-600 max-w-2xl mx-auto px-2">
+          <p className="text-sm font-montserrat xs:text-base text-gray-600 max-w-2xl mx-auto px-2">
             {subtitle || "We are so excited to light up your property 🙂"}
           </p>
         </div>

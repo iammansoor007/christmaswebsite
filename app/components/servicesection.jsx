@@ -255,9 +255,9 @@ const ChristmasLightingSection = () => {
                 </div>
 
                 {/* Heading */}
-                <div className="xs-300:mb-8 xs:mb-8 sm:mb-10">
+                <div className="xs-300:mb-8 xs:mb-8 sm:mb-10 font-montserrat font-extrabold">
                   <h1
-                    className={`font-bold text-slate-900 tracking-tight mb-3 xs-300:mb-4 animate-fade-in-up`}
+                    className={`font-extrabold font-montserrat text-slate-900 tracking-tight mb-3 xs-300:mb-4 animate-fade-in-up`}
                     style={{ animationDelay: "0.2s" }}
                   >
                     {/* Expert */}
@@ -291,7 +291,7 @@ const ChristmasLightingSection = () => {
                 {/* Features Grid - IMPROVED STYLING */}
                 <div className="mb-8 xs:mt-2 xs:mb-3 sm:mt-2 xs-300:mb-10 xs:mb-10 sm:mb-12">
                   <h3
-                    className={`${screenSize === "xs-300" ? "text-base" : "text-lg"} font-semibold text-slate-900 mb-4 xs-300:mb-6 text-center lg:text-left animate-fade-in-up`}
+                    className={`${screenSize === "xs-300" ? "text-base" : "text-lg"} font-montserrat font-extrabold text-slate-900 mb-4 xs-300:mb-6 text-center lg:text-left animate-fade-in-up`}
                     style={{ animationDelay: "0.4s" }}
                   >
                     Why Choose Us
@@ -429,11 +429,10 @@ const ChristmasLightingSection = () => {
                           aria-label={`View image ${idx + 1}`}
                         >
                           <div
-                            className={`${screenSize === "xs-300" ? "w-1.5 h-1.5" : "w-2 h-2"} xs:w-2.5 xs:h-2.5 rounded-full transition-all duration-300 ${
-                              idx === currentIndex
-                                ? "scale-125"
-                                : "bg-slate-300 group-hover:bg-slate-400"
-                            }`}
+                            className={`${screenSize === "xs-300" ? "w-1.5 h-1.5" : "w-2 h-2"} xs:w-2.5 xs:h-2.5 rounded-full transition-all duration-300 ${idx === currentIndex
+                              ? "scale-125"
+                              : "bg-slate-300 group-hover:bg-slate-400"
+                              }`}
                             style={{
                               background:
                                 idx === currentIndex

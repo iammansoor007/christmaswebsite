@@ -45,7 +45,7 @@ const FAQSection = () => {
       <div className="max-w-5xl mx-auto">
 
         {/* Heading */}
-        <h2 className="text-center text-4xl md:text-5xl font-bold mb-20">
+        <h2 className="text-center font-montserrat text-4xl md:text-5xl font-extrabold mb-20">
           <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
             {title}
           </span>

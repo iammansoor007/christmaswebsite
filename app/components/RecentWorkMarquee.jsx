@@ -226,9 +226,9 @@ const RefinedWorkShowcase = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 leading-tight"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-montserrat font-extrabold text-white mb-4 sm:mb-6 leading-tight"
           >
-            <span className="block tracking-tight font-light text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+            <span className="block tracking-tight font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl">
               {title.prefix}
             </span>
             <span className="block mt-2 sm:mt-2">
@@ -256,7 +256,7 @@ const RefinedWorkShowcase = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-gray-300 text-lg sm:text-base md:text-lg max-w-sm sm:max-w-xl mx-auto mb-8 sm:mb-12 leading-relaxed font-light px-2"
+            className="text-gray-100 font-montserrat text-lg sm:text-base md:text-lg max-w-sm sm:max-w-xl mx-auto mb-8 sm:mb-12 leading-relaxed font-light px-2"
           >
             {description}
           </motion.p>

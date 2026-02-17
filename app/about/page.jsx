@@ -224,7 +224,7 @@ const AboutUs = () => {
             <div className="max-w-2xl text-center lg:text-left">
 
               {/* Main Heading with Split Animation */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-white mb-4 md:mb-6 animate-fade-up animation-delay-200">
+              <h1 className=" font-montserrat-900 font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl  text-white mb-4 md:mb-6 animate-fade-up animation-delay-200">
                 Professional Holiday
                 <span className="block font-bold mt-2">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-red-400">
@@ -449,7 +449,7 @@ const AboutUs = () => {
                   <span className="text-sm sm:text-xs md:text-sm font-medium tracking-wider uppercase">Meet The Owner</span>
                 </div>
 
-                <h2 className="text-4xl sm:text-4xl md:text-5xl font-light text-gray-900 mb-2 sm:mb-3 md:mb-4">
+                <h2 className="text-4xl font-montserrat font-extrabold sm:text-4xl md:text-5xl font-light text-gray-900 mb-2 sm:mb-3 md:mb-4">
                   {founder.name}
                 </h2>
 
@@ -522,9 +522,9 @@ const AboutUs = () => {
               <FaRibbon className="w-5 h-5 sm:w-5 sm:h-5" />
               <span className="text-sm sm:text-xs md:text-sm font-medium tracking-wider uppercase">Why Choose Us</span>
             </div>
-            <h2 className="text-4xl sm:text-4xl md:text-5xl font-light text-gray-900 mb-3 sm:mb-4 md:mb-6">
+            <h2 className="text-4xl font-montserrat font-extrabold sm:text-4xl md:text-5xl font-light text-gray-900 mb-3 sm:mb-4 md:mb-6">
               The Professional
-              <span className="block font-bold mt-1 sm:mt-2">Difference</span>
+              <span className="block font-extrabold mt-1 sm:mt-2">Difference</span>
             </h2>
             <p className="text-lg sm:text-base md:text-lg text-gray-600 px-4">
               We don't just hang lights — we create experiences with commercial-grade quality and white-glove service.
@@ -561,9 +561,9 @@ const AboutUs = () => {
               <FaClock className="w-5 h-5 sm:w-5 sm:h-5" />
               <span className="text-sm sm:text-xs md:text-sm font-medium tracking-wider uppercase">Simple Process</span>
             </div>
-            <h2 className="text-4xl sm:text-4xl md:text-5xl font-light text-gray-900 mb-3 sm:mb-4 md:mb-6">
+            <h2 className=" font-montserrat font-extrabold text-4xl sm:text-4xl md:text-5xl font-light text-gray-900 mb-3 sm:mb-4 md:mb-6">
               How It
-              <span className="block font-bold mt-1 sm:mt-2">Works</span>
+              <span className="block font-extrabold mt-1 sm:mt-2">Works</span>
             </h2>
             <p className="text-lg sm:text-base md:text-lg text-gray-600">
               Three simple steps to a stunning holiday display
@@ -613,9 +613,9 @@ const AboutUs = () => {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-8 sm:mb-10 md:mb-12">
-              <h3 className="text-3xl sm:text-3xl md:text-4xl font-light text-gray-900 mb-3 sm:mb-4">
+              <h3 className="font-montserrat font-extrabold text-3xl sm:text-3xl md:text-4xl font-light text-gray-900 mb-3 sm:mb-4">
                 What's Included With
-                <span className="block font-bold mt-1 sm:mt-2">Professional Installation</span>
+                <span className="block font-extrabold mt-1 sm:mt-2">Professional Installation</span>
               </h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
@@ -636,9 +636,9 @@ const AboutUs = () => {
       <section className="py-16 sm:py-20 md:py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="text-center mb-8 sm:mb-10 md:mb-12">
-            <h3 className="text-3xl sm:text-3xl md:text-4xl font-light text-gray-900 mb-3 sm:mb-4">
+            <h3 className=" font-montserrat font-extrabold text-3xl sm:text-3xl md:text-4xl font-light text-gray-900 mb-3 sm:mb-4">
               What Kind of Lights Do
-              <span className="block font-bold mt-1 sm:mt-2">We Install?</span>
+              <span className="block font-extrabold mt-1 sm:mt-2">We Install?</span>
             </h3>
           </div>
 
@@ -708,9 +708,9 @@ const AboutUs = () => {
       <section className="py-16 sm:py-20 md:py-24 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 max-w-3xl">
           <div className="text-center mb-8 sm:mb-10 md:mb-12">
-            <h3 className="text-3xl sm:text-3xl md:text-4xl font-light text-gray-900 mb-3 sm:mb-4">
+            <h3 className=" font-montserrat font-extrabold text-3xl sm:text-3xl md:text-4xl font-light text-gray-900 mb-3 sm:mb-4">
               Frequently Asked
-              <span className="block font-bold mt-1 sm:mt-2">Questions</span>
+              <span className="block font-extrabold mt-1 sm:mt-2">Questions</span>
             </h3>
             <p className="text-base sm:text-sm md:text-base text-gray-600">Everything you need to know about our service</p>
           </div>

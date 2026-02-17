@@ -16,9 +16,9 @@ module.exports = {
         'holiday-gold-light': '#FFE066',
       },
       fontFamily: {
-        'display': ['"Playfair Display"', 'serif'],
-        'body': ['Arial', 'Helvetica', 'sans-serif'],
-      },
+        montserrat: ['var(--font-montserrat)', 'sans-serif'],
+      }
+      ,
       animation: {
         'twinkle': 'twinkle 1s ease-in-out infinite',
         'tree-float': 'treeFloat 3s ease-in-out infinite',
