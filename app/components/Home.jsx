@@ -10,8 +10,9 @@ import RecentWorkMarquee from "../components/RecentWorkMarquee";
 import ChristmasLightingMap from "../components/ChristmasLightingMap";
 import Testimonials from "../components/TestimonialCard";
 import FAQSection from "../components/FAQSection";
-import { useEffect, useState } from "react";
 import GetQuoteFormAdvanced from "./GetQuoteForm";
+import QuickQuote from "../components/QuickQuote"; // ✅ Import QuickQuote
+import { useEffect, useState } from "react";
 
 const Home = () => {
   const [isClient, setIsClient] = useState(false);
@@ -107,6 +108,9 @@ const Home = () => {
       <FAQSection />
       <GetQuoteFormAdvanced />
       {/* <CTASection /> */}
+
+      {/* ✅ Add QuickQuote here - after all components */}
+      <QuickQuote />
 
       {/* Enhanced snowfall animation styles */}
       <style jsx global>{`
