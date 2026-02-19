@@ -42,11 +42,12 @@ const AboutUs = () => {
   const [openFaq, setOpenFaq] = useState(null);
   const [activeTab, setActiveTab] = useState('seasonal');
   const [mounted, setMounted] = useState(false);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   useEffect(() => {
     setMounted(true);
   }, []);
-
   if (!mounted) {
     return null;
   }
@@ -58,6 +59,7 @@ const AboutUs = () => {
     { number: '50+', label: 'Team Members', icon: FaUsers },
     { number: '4.9', label: 'Client Rating', icon: FaStar }
   ];
+
 
   // Core values
   const values = [
