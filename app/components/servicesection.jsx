@@ -415,46 +415,63 @@ const ChristmasLightingSection = () => {
                     ))}
                   </div>
 
-                  {/* Navigation Dots */}
+                  {/* FIXED: Navigation Dots - Now properly responsive */}
                   {images.length > 0 && (
-                    <div
-                      className={`absolute bottom-2 xs-300:bottom-3 xs:bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-1.5 xs-300:gap-2 xs:gap-3 
-                      ${screenSize.includes("xs") ? "bg-white/95 px-2.5 xs-300:px-3 xs:px-4 py-1.5 xs-300:py-2 xs:py-2.5 rounded-full shadow-md" : "bg-white/90 backdrop-blur-lg px-4 py-2.5 rounded-full shadow-lg"}`}
-                    >
-                      {images.map((_, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => setCurrentIndex(idx)}
-                          className="relative group"
-                          aria-label={`View image ${idx + 1}`}
-                        >
-                          <div
-                            className={`${screenSize === "xs-300" ? "w-1.5 h-1.5" : "w-2 h-2"} xs:w-2.5 xs:h-2.5 rounded-full transition-all duration-300 ${idx === currentIndex
-                              ? "scale-125"
-                              : "bg-slate-300 group-hover:bg-slate-400"
-                              }`}
-                            style={{
-                              background:
-                                idx === currentIndex
-                                  ? colors.gradient
-                                  : undefined,
-                            }}
+                    <div className="absolute bottom-2 xs-300:bottom-2 xs:bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-20">
+                      <div className={`
+                        flex items-center justify-center
+                        ${screenSize === "xs-300"
+                          ? "gap-1 bg-black/30 px-2 py-1 rounded-full"
+                          : screenSize === "xs"
+                            ? "gap-1.5 bg-black/30 px-2.5 py-1.5 rounded-full"
+                            : screenSize === "sm"
+                              ? "gap-2 bg-black/30 backdrop-blur-sm px-3 py-2 rounded-full"
+                              : "gap-2 sm:gap-3 bg-black/30 backdrop-blur-sm px-3 py-2 sm:px-4 sm:py-2.5 rounded-full"
+                        }
+                      `}>
+                        {images.map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setCurrentIndex(idx)}
+                            className="relative group focus:outline-none"
+                            aria-label={`View image ${idx + 1}`}
                           >
-                            {idx === currentIndex && (
-                              <div className="absolute inset-0 rounded-full animate-ping-slow opacity-75">
+                            {/* Dot */}
+                            <div
+                              className={`
+                                rounded-full transition-all duration-300
+                                ${screenSize === "xs-300"
+                                  ? idx === currentIndex ? "w-2 h-2" : "w-1.5 h-1.5"
+                                  : screenSize === "xs"
+                                    ? idx === currentIndex ? "w-2.5 h-2.5" : "w-2 h-2"
+                                    : screenSize === "sm"
+                                      ? idx === currentIndex ? "w-3 h-3" : "w-2 h-2"
+                                      : idx === currentIndex ? "w-3 h-3 sm:w-3.5 sm:h-3.5" : "w-2 h-2 sm:w-2.5 sm:h-2.5"
+                                }
+                                ${idx === currentIndex
+                                  ? "bg-white scale-110"
+                                  : "bg-white/50 group-hover:bg-white/70"
+                                }
+                              `}
+                              style={idx === currentIndex ? { background: colors.gradient } : {}}
+                            />
+
+                            {/* Pulse animation for active dot - only on larger screens */}
+                            {idx === currentIndex && screenSize !== "xs-300" && screenSize !== "xs" && (
+                              <div className="absolute inset-0 animate-ping-slow opacity-50">
                                 <div
                                   className="absolute inset-0 rounded-full"
                                   style={{ background: colors.gradient }}
                                 />
                               </div>
                             )}
-                          </div>
-                        </button>
-                      ))}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   )}
 
-                  {/* Navigation Buttons */}
+                  {/* Navigation Buttons - ORIGINAL LAYOUT PRESERVED */}
                   <div
                     className={`absolute top-1/2 -translate-y-1/2 left-1.5 xs-300:left-2 xs:left-3 sm:left-4 right-1.5 xs-300:right-2 xs:right-3 sm:right-4 flex justify-between pointer-events-none`}
                   >
@@ -488,7 +505,7 @@ const ChristmasLightingSection = () => {
                   )}
                 </div>
 
-                {/* Buttons */}
+                {/* Buttons - ORIGINAL LAYOUT COMPLETELY PRESERVED */}
                 <div className="flex buttons xs-300:flex-row gap-2.5 xs-300:gap-3 xs:gap-4 mt-6 xs-300:mt-8 xs:mt-10 justify-center lg:justify-start items-center">
                   {/* Primary CTA Button */}
                   <button

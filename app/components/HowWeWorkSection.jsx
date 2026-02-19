@@ -158,11 +158,11 @@ const HowWeWorkSection = () => {
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Modern Header */}
         <div
-          className={`text-center mb-8 xs:mb-10 sm:mb-12 md:mb-16 px-1 transition-all duration-700 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
+          className={`text-center mb-6 xs:mb-8 sm:mb-10 md:mb-12 lg:mb-16 px-1 transition-all duration-700 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
         >
           {/* Minimal Badge */}
           <div
-            className={`inline-flex items-center gap-1.5 xs:gap-2 px-3 xs:px-4 py-1.5 xs:py-2 bg-white rounded-full shadow-sm mb-4 xs:mb-5 sm:mb-6 border border-gray-100 transition-all duration-700 delay-100 ${isVisible ? "animate-fadeInScale" : "opacity-0 scale-95"}`}
+            className={`inline-flex items-center gap-1.5 xs:gap-2 px-3 xs:px-4 py-1.5 xs:py-2 bg-white rounded-full shadow-sm mb-3 xs:mb-4 sm:mb-5 md:mb-6 border border-gray-100 transition-all duration-700 delay-100 ${isVisible ? "animate-fadeInScale" : "opacity-0 scale-95"}`}
           >
             <div className="w-1.5 h-1.5 xs:w-2 xs:h-2 bg-emerald-500 rounded-full animate-pulse flex-shrink-0" />
             <span className="text-xs xs:text-sm font-medium text-gray-700 uppercase tracking-wide whitespace-nowrap overflow-hidden text-ellipsis max-w-[180px] xs:max-w-none">
@@ -172,7 +172,7 @@ const HowWeWorkSection = () => {
 
           {/* Main Title */}
           <h2
-            className={`text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-3 xs:mb-4 leading-tight transition-all duration-700 delay-200 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
+            className={`text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-2 xs:mb-3 sm:mb-4 leading-tight transition-all duration-700 delay-200 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
           >
             {title.prefix}{" "}
             <span className="relative inline-block">
@@ -200,7 +200,7 @@ const HowWeWorkSection = () => {
           />
         </div>
 
-        {/* Modern Steps - Responsive Layout */}
+        {/* Modern Steps - Responsive Layout with Fixed Card Sizing */}
         <div className="relative">
           {/* Connection Line - Desktop Only */}
           {!isMobile && isClient && (
@@ -209,14 +209,14 @@ const HowWeWorkSection = () => {
             </div>
           )}
 
-          {/* Steps Container - Responsive grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 md:gap-6 lg:gap-8 xl:gap-10">
+          {/* Steps Container - Responsive grid with fixed card heights */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-5 md:gap-6 lg:gap-8">
             {steps.map((step, index) => {
               const delay = 400 + index * 150;
               return (
                 <div
                   key={index}
-                  className={`relative group transition-all duration-700 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-8"}`}
+                  className={`relative group transition-all duration-700 w-full ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-8"}`}
                   style={{
                     animationDelay: `${delay}ms`,
                     animationFillMode: "both",
@@ -225,27 +225,27 @@ const HowWeWorkSection = () => {
                   {/* Step Number Badge - Floating */}
                   <div className="absolute -top-3 xs:-top-4 left-1/2 -translate-x-1/2 z-20">
                     <div
-                      className="w-9 h-9 xs:w-10 xs:h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-lg xs:rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:rotate-12"
+                      className="w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 rounded-lg xs:rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg backdrop-blur-sm transition-all duration-300 group-hover:scale-110 group-hover:rotate-12"
                       style={{ backgroundColor: step.color, color: "white" }}
                     >
-                      <span className="text-sm xs:text-base font-bold">
+                      <span className="text-xs xs:text-sm sm:text-base font-bold">
                         {step.number}
                       </span>
                     </div>
                   </div>
 
-                  {/* Modern White Card - Responsive height */}
-                  <div className="relative h-full bg-white rounded-xl xs:rounded-2xl sm:rounded-3xl p-4 xs:p-5 sm:p-6 md:p-6 lg:p-8 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden min-h-[320px] xs:min-h-[340px] sm:min-h-[360px] md:min-h-[380px] group-hover:-translate-y-1">
+                  {/* Modern White Card - Fixed height for consistent sizing */}
+                  <div className="relative h-full bg-white rounded-xl xs:rounded-2xl sm:rounded-3xl p-4 xs:p-5 sm:p-6 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col">
                     {/* Accent Border Top */}
                     <div
                       className="absolute top-0 left-0 right-0 h-1 xs:h-1.5 transition-all duration-300 group-hover:h-2"
                       style={{ backgroundColor: step.color }}
                     />
 
-                    {/* Icon */}
-                    <div className="flex justify-center mb-4 xs:mb-5 sm:mb-6">
+                    {/* Icon - Centered */}
+                    <div className="flex justify-center mt-2 xs:mt-3 mb-3 xs:mb-4">
                       <div
-                        className="w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 rounded-xl xs:rounded-2xl flex items-center justify-center shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-6"
+                        className="w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 rounded-xl xs:rounded-2xl flex items-center justify-center shadow-md transition-all duration-300 group-hover:scale-110 group-hover:rotate-6"
                         style={{
                           backgroundColor: `${step.color}15`,
                           color: step.color,
@@ -254,38 +254,40 @@ const HowWeWorkSection = () => {
                         <SafeIconComponent
                           iconName={step.icon}
                           color={step.color}
-                          className="text-lg xs:text-xl sm:text-2xl"
+                          className="text-xl xs:text-2xl sm:text-3xl"
                         />
                       </div>
                     </div>
 
                     {/* Step Title */}
-                    <h3 className="text-lg xs:text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 xs:mb-4 text-center leading-tight transition-all duration-300 group-hover:text-gray-800">
+                    <h3 className="text-base xs:text-lg sm:text-xl md:text-xl lg:text-2xl font-bold text-gray-900 mb-2 xs:mb-3 text-center leading-tight transition-all duration-300 group-hover:text-gray-800">
                       {step.title}
                     </h3>
 
-                    {/* Step Description */}
-                    <p className="text-gray-600 text-xs xs:text-sm sm:text-base md:text-base mb-4 xs:mb-5 sm:mb-6 leading-relaxed text-center line-clamp-3 md:line-clamp-4 transition-all duration-300 group-hover:text-gray-700">
-                      {step.description}
-                    </p>
+                    {/* Step Description - Fixed height with scrolling if needed */}
+                    <div className="mb-3 xs:mb-4 flex-grow">
+                      <p className="text-gray-600 text-xs xs:text-sm sm:text-sm md:text-base text-center leading-relaxed">
+                        {step.description}
+                      </p>
+                    </div>
 
-                    {/* Features List */}
-                    <div className="space-y-2 xs:space-y-2.5 sm:space-y-3 flex-grow">
+                    {/* Features List - Compact and consistent */}
+                    <div className="space-y-1.5 xs:space-y-2 mt-auto pt-2 xs:pt-3 border-t border-gray-100">
                       {step.features.map((feature, idx) => (
                         <div
                           key={idx}
-                          className="flex items-start xs:items-center gap-2 xs:gap-3 transition-all duration-300 hover:translate-x-1"
+                          className="flex items-start gap-1.5 xs:gap-2 transition-all duration-300 hover:translate-x-1"
                         >
                           <div
-                            className="flex-shrink-0 w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center mt-0.5 xs:mt-0 transition-all duration-300 group-hover:scale-110"
+                            className="flex-shrink-0 w-4 h-4 xs:w-4 xs:h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center mt-0.5 transition-all duration-300 group-hover:scale-110"
                             style={{ backgroundColor: `${step.color}15` }}
                           >
                             <CheckCircleIcon
                               color={step.color}
-                              className="text-xs xs:text-sm transition-all duration-300 group-hover:rotate-12"
+                              className="text-xs transition-all duration-300 group-hover:rotate-12"
                             />
                           </div>
-                          <span className="text-gray-700 text-xs xs:text-sm sm:text-base md:text-sm lg:text-base flex-1 leading-relaxed">
+                          <span className="text-gray-700 text-xs xs:text-xs sm:text-sm flex-1 leading-relaxed">
                             {feature}
                           </span>
                         </div>
@@ -294,7 +296,7 @@ const HowWeWorkSection = () => {
 
                     {/* Decorative Corner */}
                     <div
-                      className="absolute -bottom-4 -right-4 w-16 h-16 xs:w-20 xs:h-20 sm:w-24 sm:h-24 rounded-full opacity-10 group-hover:opacity-20 transition-all duration-500 group-hover:scale-125"
+                      className="absolute -bottom-4 -right-4 w-16 h-16 xs:w-20 xs:h-20 opacity-10 group-hover:opacity-20 transition-all duration-500 group-hover:scale-125"
                       style={{ backgroundColor: step.color }}
                     />
                   </div>
@@ -306,9 +308,9 @@ const HowWeWorkSection = () => {
                       index < steps.length - 1)) &&
                     index < steps.length - 1 && (
                       <div
-                        className={`flex justify-center my-4 xs:my-5 ${isTablet && (index === 0 || index === 2) ? "md:hidden" : ""}`}
+                        className={`flex justify-center my-3 xs:my-4 ${isTablet && (index === 0 || index === 2) ? "md:hidden" : ""}`}
                       >
-                        <div className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm">
+                        <div className="w-6 h-6 xs:w-7 xs:h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm">
                           <FaArrowRight className="text-gray-400 text-xs xs:text-sm" />
                         </div>
                       </div>
@@ -321,40 +323,40 @@ const HowWeWorkSection = () => {
 
         {/* Modern CTA - Responsive */}
         <div
-          className={`mt-10 xs:mt-12 sm:mt-14 md:mt-16 lg:mt-20 transition-all duration-700 delay-900 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
+          className={`mt-8 xs:mt-10 sm:mt-12 md:mt-14 lg:mt-16 xl:mt-20 transition-all duration-700 delay-900 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
         >
-          <div className="bg-gradient-to-r from-emerald-50 via-amber-50 to-red-50 rounded-2xl sm:rounded-3xl p-5 xs:p-6 sm:p-8 md:p-10 lg:p-12 text-center border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 group">
-            <h3 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 xs:mb-4 transition-all duration-300 group-hover:text-gray-800">
+          <div className="bg-gradient-to-r from-emerald-50 via-amber-50 to-red-50 rounded-xl xs:rounded-2xl sm:rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 lg:p-10 text-center border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 group">
+            <h3 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 xs:mb-3 sm:mb-4 transition-all duration-300 group-hover:text-gray-800">
               {cta.title}
             </h3>
-            <p className="text-gray-600 text-sm xs:text-base sm:text-lg md:text-xl mb-6 xs:mb-8 max-w-2xl mx-auto leading-relaxed transition-all duration-300 group-hover:text-gray-700">
+            <p className="text-gray-600 text-xs xs:text-sm sm:text-base md:text-lg mb-4 xs:mb-5 sm:mb-6 max-w-2xl mx-auto leading-relaxed transition-all duration-300 group-hover:text-gray-700">
               {cta.description}
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 xs:gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-2 xs:gap-3 justify-center">
               <button
-                className="group/btn relative px-5 xs:px-6 sm:px-8 md:px-10 py-3 xs:py-3.5 sm:py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold rounded-lg xs:rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden w-full sm:w-auto text-center active:scale-95"
+                className="group/btn relative px-4 xs:px-5 sm:px-6 md:px-8 py-2.5 xs:py-3 sm:py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold rounded-lg xs:rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden w-full sm:w-auto text-center active:scale-95"
                 aria-label={cta.buttons.primary}
                 onClick={() => window.location.href = 'tel:+16143017100'}
               >
-                <span className="relative z-10 flex items-center justify-center gap-2 xs:gap-3">
-                  <FaPhoneAlt className="text-sm xs:text-base" />
-                  <span className="text-sm xs:text-base sm:text-lg whitespace-nowrap">
+                <span className="relative z-10 flex items-center justify-center gap-1.5 xs:gap-2">
+                  <FaPhoneAlt className="text-xs xs:text-sm" />
+                  <span className="text-xs xs:text-sm sm:text-base whitespace-nowrap">
                     {cta.buttons.primary}
                   </span>
-                  <FaArrowRight className="text-sm xs:text-base transition-all duration-300 group-hover/btn:translate-x-2" />
+                  <FaArrowRight className="text-xs xs:text-sm transition-all duration-300 group-hover/btn:translate-x-2" />
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
               </button>
 
               <button
-                className="px-5 xs:px-6 sm:px-8 md:px-10 py-3 xs:py-3.5 sm:py-4 font-semibold text-gray-700 hover:text-gray-900 border-2 border-gray-300 hover:border-gray-400 rounded-lg xs:rounded-xl transition-all duration-300 bg-white hover:bg-gray-50 w-full sm:w-auto text-center active:scale-95"
+                className="px-4 xs:px-5 sm:px-6 md:px-8 py-2.5 xs:py-3 sm:py-3.5 font-semibold text-gray-700 hover:text-gray-900 border-2 border-gray-300 hover:border-gray-400 rounded-lg xs:rounded-xl transition-all duration-300 bg-white hover:bg-gray-50 w-full sm:w-auto text-center active:scale-95"
                 aria-label={cta.buttons.secondary}
                 onClick={() => window.location.href = '/contact'}
               >
-                <span className="flex items-center justify-center gap-2 xs:gap-3">
-                  <FaCalendarAlt className="text-sm xs:text-base" />
-                  <span className="text-sm xs:text-base sm:text-lg whitespace-nowrap">
+                <span className="flex items-center justify-center gap-1.5 xs:gap-2">
+                  <FaCalendarAlt className="text-xs xs:text-sm" />
+                  <span className="text-xs xs:text-sm sm:text-base whitespace-nowrap">
                     {cta.buttons.secondary}
                   </span>
                 </span>
@@ -362,7 +364,7 @@ const HowWeWorkSection = () => {
             </div>
 
             {/* Phone number display */}
-            <div className="mt-4 text-sm text-gray-500">
+            <div className="mt-3 xs:mt-4 text-xs xs:text-sm text-gray-500">
               Or call us directly: <a href="tel:+16143017100" className="text-emerald-600 font-semibold hover:underline">(614) 301-7100</a>
             </div>
           </div>
@@ -401,29 +403,10 @@ const HowWeWorkSection = () => {
           animation: fadeInScale 0.5s ease-out forwards;
         }
 
-        /* Base responsive text clamping */
-        .line-clamp-3 {
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        .line-clamp-4 {
-          display: -webkit-box;
-          -webkit-line-clamp: 4;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-
-        /* Extra small screens (below 320px) */
+        /* Fix card heights for all screen sizes */
         @media (max-width: 319px) {
           .min-w-\\[280px\\] {
             min-width: 280px;
-          }
-
-          .min-h-\\[320px\\] {
-            min-height: 300px;
           }
 
           .text-xl {
@@ -446,39 +429,15 @@ const HowWeWorkSection = () => {
 
         /* Small screens (320px - 479px) */
         @media (min-width: 320px) and (max-width: 479px) {
-          .min-h-\\[340px\\] {
-            min-height: 330px;
+          .grid {
+            gap: 0.75rem;
           }
         }
 
         /* Tablet portrait (768px - 1023px) */
         @media (min-width: 768px) and (max-width: 1023px) {
-          .md\\:min-h-\\[380px\\] {
-            min-height: 370px;
-          }
-
           .md\\:grid-cols-2 {
             grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
-
-          .md\\:p-6 {
-            padding: 1.25rem;
-          }
-
-          .md\\:text-2xl {
-            font-size: 1.5rem;
-          }
-
-          .md\\:text-base {
-            font-size: 1rem;
-          }
-
-          .md\\:text-sm {
-            font-size: 0.9375rem;
-          }
-
-          .md\\:line-clamp-4 {
-            -webkit-line-clamp: 4;
           }
 
           .md\\:hidden {
@@ -492,16 +451,8 @@ const HowWeWorkSection = () => {
             gap: 1.5rem;
           }
 
-          .lg\\:p-8 {
-            padding: 1.5rem;
-          }
-
-          .lg\\:text-3xl {
-            font-size: 1.75rem;
-          }
-
-          .lg\\:text-base {
-            font-size: 1rem;
+          .lg\\:text-2xl {
+            font-size: 1.5rem;
           }
         }
 
@@ -518,6 +469,11 @@ const HowWeWorkSection = () => {
           [role="button"] {
             min-height: 44px;
             min-width: 44px;
+          }
+          
+          /* Ensure cards don't stretch too much */
+          .flex.flex-col {
+            height: auto;
           }
         }
 
@@ -536,13 +492,6 @@ const HowWeWorkSection = () => {
         * {
           -webkit-font-smoothing: antialiased;
           -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* Fix for iOS Safari */
-        @supports (-webkit-touch-callout: none) {
-          .min-h-\\[320px\\] {
-            min-height: -webkit-fill-available;
-          }
         }
 
         /* Reduce motion preferences */
