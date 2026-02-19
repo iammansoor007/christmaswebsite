@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, memo, React } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Button from './Button'
@@ -229,4 +229,4 @@ const Navbar = () => {
   )
 }
 
-export default Navbar
+export default memo(Navbar);

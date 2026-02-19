@@ -1,6 +1,6 @@
 // components/Footer.jsx
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo, React } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -378,4 +378,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;
+export default memo(Footer);
