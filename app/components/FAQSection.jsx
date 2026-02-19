@@ -91,7 +91,7 @@ const FAQSection = () => {
                 <div
                   ref={(el) => (contentRefs.current[index] = el)}
                   className="overflow-hidden transition-[height] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-                  style={{ height: 0 }}
+                  style={{ height: index === 0 ? 'auto' : 0 }}
                 >
                   <div className="pl-24 pr-8 pb-8 text-gray-600 leading-relaxed text-base">
                     {item.answer}
