@@ -207,7 +207,7 @@ const ChristmasLightingSection = () => {
   }));
 
   return (
-    <section className="relative w-full min-w-[280px] overflow-hidden bg-gradient-to-b from-slate-50 to-white">
+    <section className="relative w-full min-w-[280px] overflow-hidden bg-gradient-to-b from-slate-50 to-white p-4 xs:p-6 sm:p-8 md:p-10 lg:p-12" ref={boxRef}>
       {/* Container with responsive padding */}
       <div
         className={` xs-300:px-3 xs:px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16  xs-300:py-8 xs:py-8 sm:py-8 md:py-10 lg:py-14 xl:py-18`}

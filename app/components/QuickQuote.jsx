@@ -464,13 +464,12 @@ ${formData.message}
                                                         transition={{ delay: 0.2 + i * 0.1 }}
                                                     >
                                                         <motion.div
-                                                            className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-all duration-500 ${
-                                                                i <= step
+                                                            className={`w-10 h-10 rounded-full flex items-center justify-center mb-2 transition-all duration-500 ${i <= step
                                                                     ? i === 1 ? 'bg-red-500 text-white shadow-lg shadow-red-500/30'
                                                                         : i === 2 ? 'bg-green-500 text-white shadow-lg shadow-green-500/30'
-                                                                        : 'bg-yellow-500 text-white shadow-lg shadow-yellow-500/30'
+                                                                            : 'bg-yellow-500 text-white shadow-lg shadow-yellow-500/30'
                                                                     : 'bg-gray-100 text-gray-400'
-                                                            }`}
+                                                                }`}
                                                             animate={i === step ? {
                                                                 scale: [1, 1.1, 1],
                                                                 boxShadow: [

@@ -22,6 +22,7 @@ export default function VanMapSection() {
   const isInView = useInView(containerRef, { once: true, margin: "-50px" });
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
+  const [screenSize, setScreenSize] = useState("desktop");
   const [gradientPositions, setGradientPositions] = useState([]);
 
   useEffect(() => {
@@ -29,6 +30,13 @@ export default function VanMapSection() {
       const width = window.innerWidth;
       setIsMobile(width < 768);
       setIsTablet(width >= 768 && width < 1024);
+      
+      if (width < 300) setScreenSize("xs-300");
+      else if (width < 400) setScreenSize("xs");
+      else if (width < 640) setScreenSize("sm");
+      else if (width < 768) setScreenSize("md");
+      else if (width < 1024) setScreenSize("lg");
+      else setScreenSize("xl");
     };
 
     checkScreenSize();
@@ -186,7 +194,7 @@ export default function VanMapSection() {
             </motion.p>
           </motion.div>
 
-          {/* Modern Steps - Responsive Layout */}
+          {/* Modern Steps - Responsive Layout with Fixed Card Sizing */}
           <div className="relative">
             {/* Connection Line - Desktop Only */}
             {!isMobile && (
@@ -195,31 +203,47 @@ export default function VanMapSection() {
               </div>
             )}
 
-            {/* Steps Container - Responsive grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 md:gap-6 lg:gap-8 xl:gap-10">
+            {/* Steps Container - Responsive grid with fixed card heights */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-5 md:gap-6 lg:gap-8">
               {steps.map((step, index) => (
                 <motion.div
                   key={index}
                   initial={{ opacity: 0, y: 30 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.4 + index * 0.15 }}
-                  whileHover={{ y: -6 }}
-                  className="relative group"
+                  whileHover={{ y: -4 }}
+                  className="relative group w-full"
                 >
                   {/* Step Number Badge - Floating */}
                   <div className="absolute -top-3 xs:-top-4 left-1/2 -translate-x-1/2 z-20">
                     <div
-                      className="w-9 h-9 xs:w-10 xs:h-10 sm:w-11 sm:h-11 md:w-12 md:h-12 rounded-lg xs:rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg backdrop-blur-sm"
+                      className={`
+                        rounded-lg xs:rounded-xl md:rounded-2xl flex items-center justify-center shadow-lg backdrop-blur-sm
+                        ${screenSize === "xs-300" ? "w-7 h-7 text-xs" : ""}
+                        ${screenSize === "xs" ? "w-8 h-8 text-xs" : ""}
+                        ${screenSize === "sm" ? "w-9 h-9 text-sm" : ""}
+                        ${screenSize === "md" ? "w-10 h-10 text-sm" : ""}
+                        ${screenSize === "lg" ? "lg:w-11 lg:h-11 lg:text-base" : ""}
+                        ${screenSize === "xl" ? "xl:w-12 xl:h-12 xl:text-base" : ""}
+                      `}
                       style={{ backgroundColor: step.color, color: "white" }}
                     >
-                      <span className="text-sm xs:text-base font-bold">
+                      <span className="font-bold">
                         {step.number}
                       </span>
                     </div>
                   </div>
 
-                  {/* Modern White Card - Responsive height */}
-                  <div className="relative h-full bg-white rounded-xl xs:rounded-2xl sm:rounded-3xl p-4 xs:p-5 sm:p-6 md:p-6 lg:p-8 shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden min-h-[320px] xs:min-h-[340px] sm:min-h-[360px] md:min-h-[380px]">
+                  {/* Modern White Card - Fixed height based on screen size */}
+                  <div className={`
+                    relative h-full bg-white rounded-xl xs:rounded-2xl sm:rounded-3xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col
+                    ${screenSize === "xs-300" ? "min-h-[340px] p-3" : ""}
+                    ${screenSize === "xs" ? "min-h-[360px] p-3.5" : ""}
+                    ${screenSize === "sm" ? "min-h-[380px] p-4" : ""}
+                    ${screenSize === "md" ? "min-h-[400px] p-4" : ""}
+                    ${screenSize === "lg" ? "lg:min-h-[420px] lg:p-5" : ""}
+                    ${screenSize === "xl" ? "xl:min-h-[440px] xl:p-6" : ""}
+                  `}>
                     {/* Accent Border Top */}
                     <div
                       className="absolute top-0 left-0 right-0 h-1 xs:h-1.5"
@@ -227,45 +251,92 @@ export default function VanMapSection() {
                     />
 
                     {/* Icon */}
-                    <div className="flex justify-center mb-4 xs:mb-5 sm:mb-6">
+                    <div className="flex justify-center mt-2 xs:mt-3 mb-2 xs:mb-3">
                       <div
-                        className="w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 rounded-xl xs:rounded-2xl flex items-center justify-center shadow-md"
+                        className={`
+                          rounded-xl xs:rounded-2xl flex items-center justify-center shadow-md
+                          ${screenSize === "xs-300" ? "w-10 h-10 text-lg" : ""}
+                          ${screenSize === "xs" ? "w-11 h-11 text-xl" : ""}
+                          ${screenSize === "sm" ? "w-12 h-12 text-xl" : ""}
+                          ${screenSize === "md" ? "w-14 h-14 text-2xl" : ""}
+                          ${screenSize === "lg" ? "lg:w-16 lg:h-16 lg:text-2xl" : ""}
+                          ${screenSize === "xl" ? "xl:w-16 xl:h-16 xl:text-3xl" : ""}
+                        `}
                         style={{
                           backgroundColor: `${step.color}15`,
                           color: step.color,
                         }}
                       >
-                        <step.icon className="text-lg xs:text-xl sm:text-2xl" />
+                        <step.icon />
                       </div>
                     </div>
 
                     {/* Step Title */}
-                    <h3 className="text-lg xs:text-xl sm:text-2xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-3 xs:mb-4 text-center leading-tight">
+                    <h3 className={`
+                      font-bold text-gray-900 text-center leading-tight mb-2 xs:mb-3
+                      ${screenSize === "xs-300" ? "text-base" : ""}
+                      ${screenSize === "xs" ? "text-lg" : ""}
+                      ${screenSize === "sm" ? "text-xl" : ""}
+                      ${screenSize === "md" ? "text-xl" : ""}
+                      ${screenSize === "lg" ? "lg:text-2xl" : ""}
+                      ${screenSize === "xl" ? "xl:text-3xl" : ""}
+                    `}>
                       {step.title}
                     </h3>
 
                     {/* Step Description */}
-                    <p className="text-gray-600 text-xs xs:text-sm sm:text-base md:text-base mb-4 xs:mb-5 sm:mb-6 leading-relaxed text-center line-clamp-3 md:line-clamp-4">
+                    <p className={`
+                      text-gray-600 leading-relaxed text-center line-clamp-3 mb-2 xs:mb-3 flex-grow
+                      ${screenSize === "xs-300" ? "text-[10px]" : ""}
+                      ${screenSize === "xs" ? "text-xs" : ""}
+                      ${screenSize === "sm" ? "text-sm" : ""}
+                      ${screenSize === "md" ? "text-sm" : ""}
+                      ${screenSize === "lg" ? "lg:text-sm" : ""}
+                      ${screenSize === "xl" ? "xl:text-base" : ""}
+                    `}>
                       {step.description}
                     </p>
 
                     {/* Features List */}
-                    <div className="space-y-2 xs:space-y-2.5 sm:space-y-3 flex-grow">
+                    <div className="space-y-1.5 xs:space-y-2 mt-auto pt-2 border-t border-gray-100">
                       {step.features.map((feature, idx) => (
                         <div
                           key={idx}
-                          className="flex items-start xs:items-center gap-2 xs:gap-3"
+                          className="flex items-start gap-1.5 xs:gap-2"
                         >
                           <div
-                            className="flex-shrink-0 w-4 h-4 xs:w-5 xs:h-5 sm:w-6 sm:h-6 rounded-full flex items-center justify-center mt-0.5 xs:mt-0"
+                            className={`
+                              flex-shrink-0 rounded-full flex items-center justify-center mt-0.5
+                              ${screenSize === "xs-300" ? "w-3 h-3" : ""}
+                              ${screenSize === "xs" ? "w-3.5 h-3.5" : ""}
+                              ${screenSize === "sm" ? "w-4 h-4" : ""}
+                              ${screenSize === "md" ? "w-4 h-4" : ""}
+                              ${screenSize === "lg" ? "lg:w-4 lg:h-4" : ""}
+                              ${screenSize === "xl" ? "xl:w-5 xl:h-5" : ""}
+                            `}
                             style={{ backgroundColor: `${step.color}15` }}
                           >
                             <FaCheckCircle
                               style={{ color: step.color }}
-                              className="text-xs xs:text-sm"
+                              className={`
+                                ${screenSize === "xs-300" ? "text-[8px]" : ""}
+                                ${screenSize === "xs" ? "text-[10px]" : ""}
+                                ${screenSize === "sm" ? "text-xs" : ""}
+                                ${screenSize === "md" ? "text-xs" : ""}
+                                ${screenSize === "lg" ? "lg:text-xs" : ""}
+                                ${screenSize === "xl" ? "xl:text-sm" : ""}
+                              `}
                             />
                           </div>
-                          <span className="text-gray-700 text-xs xs:text-sm sm:text-base md:text-sm lg:text-base flex-1 leading-relaxed">
+                          <span className={`
+                            text-gray-700 flex-1 leading-relaxed
+                            ${screenSize === "xs-300" ? "text-[10px]" : ""}
+                            ${screenSize === "xs" ? "text-xs" : ""}
+                            ${screenSize === "sm" ? "text-xs" : ""}
+                            ${screenSize === "md" ? "text-sm" : ""}
+                            ${screenSize === "lg" ? "lg:text-sm" : ""}
+                            ${screenSize === "xl" ? "xl:text-base" : ""}
+                          `}>
                             {feature}
                           </span>
                         </div>
@@ -274,7 +345,7 @@ export default function VanMapSection() {
 
                     {/* Decorative Corner */}
                     <div
-                      className="absolute -bottom-4 -right-4 w-16 h-16 xs:w-20 xs:h-20 sm:w-24 sm:h-24 rounded-full opacity-10 group-hover:opacity-20 transition-opacity duration-500"
+                      className="absolute -bottom-4 -right-4 w-12 h-12 xs:w-14 xs:h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 rounded-full opacity-10 group-hover:opacity-20 transition-opacity duration-500"
                       style={{ backgroundColor: step.color }}
                     />
                   </div>
@@ -286,10 +357,10 @@ export default function VanMapSection() {
                       index < steps.length - 1)) &&
                     index < steps.length - 1 && (
                       <div
-                        className={`flex justify-center my-4 xs:my-5 ${isTablet && (index === 0 || index === 2) ? "md:hidden" : ""}`}
+                        className={`flex justify-center my-3 xs:my-4 ${isTablet && (index === 0 || index === 2) ? "md:hidden" : ""}`}
                       >
-                        <div className="w-6 h-6 xs:w-7 xs:h-7 sm:w-8 sm:h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm">
-                          <FaArrowRight className="text-gray-400 text-xs xs:text-sm" />
+                        <div className="w-5 h-5 xs:w-6 xs:h-6 sm:w-7 sm:h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm">
+                          <FaArrowRight className="text-gray-400 text-[10px] xs:text-xs sm:text-sm" />
                         </div>
                       </div>
                     )}
@@ -309,107 +380,10 @@ export default function VanMapSection() {
             overflow: hidden;
           }
 
-          .line-clamp-4 {
-            display: -webkit-box;
-            -webkit-line-clamp: 4;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-          }
-
           /* Extra small screens (below 320px) */
           @media (max-width: 319px) {
             .min-w-\[280px\] {
               min-width: 280px;
-            }
-
-            .min-h-\[320px\] {
-              min-height: 300px;
-            }
-
-            /* Improve text sizes */
-            .text-xl {
-              font-size: 1.25rem;
-              line-height: 1.3;
-            }
-
-            .text-sm {
-              font-size: 0.8125rem;
-            }
-
-            .text-xs {
-              font-size: 0.75rem;
-            }
-
-            /* Better spacing */
-            .space-y-2 > * + * {
-              margin-top: 0.375rem;
-            }
-          }
-
-          /* Small screens (320px - 479px) */
-          @media (min-width: 320px) and (max-width: 479px) {
-            .min-h-\[340px\] {
-              min-height: 330px;
-            }
-          }
-
-          /* Tablet portrait (768px - 1023px) */
-          @media (min-width: 768px) and (max-width: 1023px) {
-            .md\:min-h-\[380px\] {
-              min-height: 370px;
-            }
-
-            .md\:grid-cols-2 {
-              grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-
-            /* Adjust padding for tablet */
-            .md\:p-6 {
-              padding: 1.25rem;
-            }
-
-            /* Adjust text sizes for tablet */
-            .md\:text-2xl {
-              font-size: 1.5rem;
-            }
-
-            .md\:text-base {
-              font-size: 1rem;
-            }
-
-            .md\:text-sm {
-              font-size: 0.9375rem;
-            }
-
-            /* Tablet-specific line clamping */
-            .md\:line-clamp-4 {
-              -webkit-line-clamp: 4;
-            }
-
-            /* Hide every other arrow connector on tablet */
-            .md\:hidden {
-              display: none;
-            }
-          }
-
-          /* Tablet landscape (1024px - 1279px) */
-          @media (min-width: 1024px) and (max-width: 1279px) {
-            .lg\:gap-8 {
-              gap: 1.5rem;
-            }
-
-            /* Adjust padding */
-            .lg\:p-8 {
-              padding: 1.5rem;
-            }
-
-            /* Adjust text sizes */
-            .lg\:text-3xl {
-              font-size: 1.75rem;
-            }
-
-            .lg\:text-base {
-              font-size: 1rem;
             }
           }
 
@@ -431,7 +405,7 @@ export default function VanMapSection() {
         `}</style>
       </section>
 
-      {/* Map Section with Car Animation - Fixed Image */}
+      {/* Map Section with Car Animation - COMPLETELY UNCHANGED */}
       <section className="relative w-full h-[400px] xs:h-[450px] sm:h-[500px] md:h-[550px] lg:h-[600px] overflow-hidden">
         {/* Map Image using Next.js Image component */}
         <div className="absolute inset-0">
@@ -472,7 +446,7 @@ export default function VanMapSection() {
           </motion.div>
         </div>
 
-        {/* Responsive Styles for map section */}
+        {/* Responsive Styles for map section - COMPLETELY UNCHANGED */}
         <style jsx>{`
           /* Mobile van positioning adjustment */
           @media (max-width: 767px) {
