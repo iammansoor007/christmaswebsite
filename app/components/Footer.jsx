@@ -236,64 +236,7 @@ const Footer = () => {
             ))}
           </div>
 
-          {/* Map Column - Updated for larger screens */}
-          <div className="lg:col-span-3 xl:col-span-3">
-            <h4 className="text-white font-semibold text-lg lg:text-xl mb-4 lg:mb-6 pb-3 border-b border-holiday-gold/20 relative">
-              Our Location
-              <div className="absolute bottom-0 left-0 w-10 lg:w-12 h-0.5 bg-gradient-to-r from-holiday-gold to-holiday-red"></div>
-            </h4>
-            <div className="bg-dark-navy/60 backdrop-blur-sm rounded-xl overflow-hidden border border-holiday-gold/20 hover:border-holiday-red/40 transition-all duration-300 group shadow-xl">
-              <div className="relative h-48 lg:h-56 xl:h-64 overflow-hidden">
-                <img
-                  src="/images/map.jpg"
-                  alt="Luminous Holiday Location Map"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  onError={(e) => {
-                    const target = e.target;
-                    target.onerror = null;
-                    target.src =
-                      "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80";
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-dark-navy/80 via-dark-navy/30 to-transparent"></div>
-                <div className="absolute bottom-4 left-4 right-4">
-                  <div className="flex items-center space-x-3 text-white bg-dark-navy/80 backdrop-blur-sm rounded-lg p-3 lg:p-4 border border-holiday-gold/20">
-                    <div className="relative flex-shrink-0">
-                      <FaMapMarkerAlt className="text-holiday-gold text-base lg:text-lg" />
-                      <div className="absolute -inset-1 bg-holiday-gold/10 rounded-full animate-ping opacity-20"></div>
-                    </div>
-                    <div className="min-w-0">
-                      <p className="font-medium text-sm lg:text-base truncate">
-                        {location.address}
-                      </p>
-                      <p className="text-white/70 text-xs lg:text-sm truncate">
-                        {location.cityState}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4 lg:p-6">
-                <p className="text-white/80 text-sm lg:text-base leading-relaxed">
-                  {location.description}
-                </p>
-                <a
-                  href={location.mapUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center mt-4 text-holiday-gold hover:text-holiday-gold-light text-sm lg:text-base font-medium group"
-                >
-                  <span className="relative">
-                    Get Directions
-                    <span className="absolute -bottom-0.5 left-0 w-0 h-0.5 bg-gradient-to-r from-holiday-gold to-holiday-red group-hover:w-full transition-all duration-300"></span>
-                  </span>
-                  <span className="ml-2 group-hover:translate-x-2 transition-transform duration-200 transform group-hover:scale-125 text-base">
-                    →
-                  </span>
-                </a>
-              </div>
-            </div>
-          </div>
+        
         </div>
 
         {/* Bottom Bar - Enhanced for all screens */}
