@@ -117,13 +117,7 @@ const ModernServicesSection = () => {
                       loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-                    {/* Stat badge */}
-                    <div
-                      className="absolute bottom-3 left-3 px-2.5 py-1 rounded-full text-white text-xs font-semibold shadow-md backdrop-blur-sm"
-                      style={{ backgroundColor: `${service.color}CC` }}
-                    >
-                      {service.stat}
-                    </div>
+
                   </div>
 
                   {/* Content — right side */}

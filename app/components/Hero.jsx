@@ -149,12 +149,12 @@ const Hero = () => {
       {/* Main Content - Perfectly Centered */}
       <div
         ref={containerRef}
-        className="container heroooo relative z-30 max-w-7xl mx-auto px-3 sm:px-4"
+        className="container heroooo relative z-30 max-w-7xl mx-auto my-auto  px-3 sm:px-4"
       >
         <div className="flex flex-col items-center justify-center text-center">
 
           {/* Main Title with increased font size on mobile */}
-          <h1 className=" font-montserrat font-extrabold text-5xl xs:text-6xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 sm:mb-6 tracking-tight">
+          <h1 className=" font-montserrat font-extrabold -mt-6 text-5xl xs:text-6xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 sm:mb-6 tracking-tight">
             <span className="block text-white/90 mb-1 sm:mb-2 animate-title-slide-up">
               {hero.title?.part1}
             </span>
@@ -177,50 +177,6 @@ const Hero = () => {
             </span>
           </p>
 
-          {/* Beautiful Feature Cards - Responsive grid */}
-          {hero.features && hero.features.length > 0 && (
-            <div className="grid grid-cols-2 xs:grid-cols-2 gap-3 sm:gap-4 md:gap-5 mb-6 sm:mb-8 md:mb-10 max-w-3xl mx-auto w-full px-2 sm:px-0 animate-fade-up animation-delay-600">
-              {hero.features.map((feature, index) => (
-                <div
-                  key={index}
-                  className="relative group cursor-pointer w-full"
-                  onMouseEnter={() => setActiveIndex(index)}
-                >
-                  {/* Card background with gradient and blur */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-white/10 rounded-xl sm:rounded-2xl backdrop-blur-sm border border-white/10 group-hover:border-yellow-500/30 transition-all duration-500"></div>
-
-                  {/* Active/Hover glow effect */}
-                  <div className={`absolute inset-0 bg-gradient-to-r from-yellow-500/20 to-red-500/20 rounded-xl sm:rounded-2xl blur-lg sm:blur-xl transition-opacity duration-500 ${activeIndex === index ? 'opacity-100' : 'opacity-0 group-hover:opacity-60'}`}></div>
-
-                  {/* Card content */}
-                  <div className="relative p-3 sm:p-4 md:p-5 lg:p-6 flex items-start gap-2 sm:gap-3 md:gap-4">
-                    {/* Icon container with gradient */}
-                    <div className={`
-                      flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-lg sm:rounded-xl flex items-center justify-center 
-                      bg-gradient-to-br from-yellow-500 to-red-500 
-                      transition-all duration-500 shadow-lg
-                      ${activeIndex === index ? 'scale-105 sm:scale-110 shadow-yellow-500/30' : 'group-hover:scale-105 sm:group-hover:scale-110'}
-                    `}>
-                      <FaCheckCircle className={`text-white text-xs sm:text-sm md:text-base lg:text-lg transition-all duration-500
-                        ${activeIndex === index ? 'scale-105 sm:scale-110' : ''}`} />
-                    </div>
-
-                    {/* Feature text */}
-                    <div className="flex-1 text-left">
-                      <span className={`text-white/90 font-medium transition-all duration-500 text-xs sm:text-sm md:text-base
-                        ${activeIndex === index ? 'text-white' : 'group-hover:text-white'}`}>
-                        {feature}
-                      </span>
-
-                      {/* Bottom accent line */}
-                      <div className={`h-0.5 bg-gradient-to-r from-yellow-500 to-red-500 rounded-full mt-1 sm:mt-2 transition-all duration-500 
-                        ${activeIndex === index ? 'w-full' : 'w-0 group-hover:w-full'}`}></div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
 
           {/* Single CTA Button - with click-to-call functionality */}
           {hero.cta && (
