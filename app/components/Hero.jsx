@@ -151,7 +151,7 @@ const Hero = () => {
         ref={containerRef}
         className="container heroooo relative z-30 max-w-7xl mx-auto my-auto  px-3 sm:px-4"
       >
-        <div className="flex flex-col items-center justify-center text-center">
+        <div className="flex textdiv flex-col items-center justify-center text-center">
 
           {/* Main Title with increased font size on mobile */}
           <h1 className=" font-montserrat font-extrabold -mt-6 text-5xl xs:text-6xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 sm:mb-6 tracking-tight">

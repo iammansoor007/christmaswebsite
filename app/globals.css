@@ -578,3 +578,9 @@
     margin-top: -10vh;
   }
 }
+
+@media (min-width: 1000px) and (max-width: 2500px) {
+  .textdiv {
+    margin-top: -14vh;
+  }
+}

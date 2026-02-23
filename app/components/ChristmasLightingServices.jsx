@@ -1,234 +1,337 @@
-// components/ModernServicesSection.jsx
+// components/AwardWinningServicesSection.jsx
 "use client";
 import { useRef, useEffect, useState } from "react";
-import { FaArrowRight, FaCheckCircle } from "react-icons/fa";
+import { motion, useInView } from "framer-motion";
+import {
+  FaArrowRight,
+  FaCheckCircle,
+  FaStar,
+  FaRegGem,
+  FaCrown,
+  FaLightbulb,
+  FaShieldAlt
+} from "react-icons/fa";
 import { GiSparkles } from "react-icons/gi";
 import { getServicesData } from "../services/dataService";
 
-const ModernServicesSection = () => {
+const AwardWinningServicesSection = () => {
   const containerRef = useRef(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(entry.target);
-        }
-      },
-      { threshold: 0.1, rootMargin: "-50px" },
-    );
-    if (containerRef.current) observer.observe(containerRef.current);
-    return () => observer.disconnect();
-  }, []);
+  const [activeIndex, setActiveIndex] = useState(null);
+  const isInView = useInView(containerRef, { once: true, amount: 0.2 });
 
   const servicesData = getServicesData();
   const { badge, title, subtitle, items: services } = servicesData;
 
+  // Card variants
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.15,
+        duration: 0.8,
+        ease: [0.25, 0.1, 0.25, 1]
+      }
+    }),
+    hover: {
+      y: -8,
+      boxShadow: "0 30px 40px -20px rgba(0,0,0,0.15), 0 0 0 1px rgba(245,158,11,0.3)",
+      transition: {
+        duration: 0.3,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
     <section
       ref={containerRef}
-      className="relative w-full overflow-hidden bg-gradient-to-b from-gray-50 to-white px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24"
+      className="relative w-full overflow-hidden bg-white px-3 xs:px-4 sm:px-6 lg:px-8  py-8 sm:py-10 lg:py-8 xl:py-6"
     >
-      {/* Background dot pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage: `radial-gradient(circle at 22px 22px, #94a3b8 1.5px, transparent 1.5px)`,
-          backgroundSize: "44px 44px",
-        }}
-      />
+      {/* Light theme background patterns */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(#fcd34d20_1px,transparent_1px)] bg-[length:24px_24px] xs:bg-[length:28px_28px] sm:bg-[length:32px_32px]" />
+        <div className="absolute top-0 left-0 right-0 h-32 xs:h-40 sm:h-48 lg:h-64 bg-gradient-to-b from-white to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-32 xs:h-40 sm:h-48 lg:h-64 bg-gradient-to-t from-white to-transparent" />
+      </div>
 
-      {/* Soft blobs */}
-      <div className="absolute -top-24 -right-24 w-80 h-80 bg-amber-100 rounded-full opacity-30 blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-red-100 rounded-full opacity-25 blur-3xl pointer-events-none" />
+      {/* Decorative light elements */}
+      <div className="absolute top-20 left-5 xs:left-10 w-40 xs:w-56 sm:w-72 lg:w-96 h-40 xs:h-56 sm:h-72 lg:h-96 bg-amber-200/30 rounded-full blur-2xl xs:blur-3xl" />
+      <div className="absolute bottom-20 right-5 xs:right-10 w-48 xs:w-64 sm:w-80 lg:w-[500px] h-48 xs:h-64 sm:h-80 lg:h-[500px] bg-red-200/30 rounded-full blur-2xl xs:blur-3xl" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] xs:w-[350px] sm:w-[400px] lg:w-[500px] h-[280px] xs:h-[350px] sm:h-[400px] lg:h-[500px] bg-gradient-to-r from-amber-100/30 to-red-100/30 rounded-full blur-2xl xs:blur-3xl" />
 
-      <div className="relative z-10 max-w-6xl mx-auto">
+      {/* Floating Christmas lights */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(15)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 xs:w-1.5 h-1 xs:h-1.5 rounded-full"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              background: i % 3 === 0 ? '#f59e0b' : i % 3 === 1 ? '#ef4444' : '#10b981',
+              opacity: 0.2,
+            }}
+            animate={{
+              y: [0, -20, 0],
+              opacity: [0.2, 0.5, 0.2],
+            }}
+            transition={{
+              duration: 4 + Math.random() * 4,
+              repeat: Infinity,
+              delay: Math.random() * 2,
+            }}
+          />
+        ))}
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
-        <div
-          className={`text-center mb-10 sm:mb-14 transition-all duration-700 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"
-            }`}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center mb-8 xs:mb-10 sm:mb-14 lg:mb-16 xl:mb-20"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-600/10 via-amber-500/10 to-red-600/10 rounded-full border border-amber-500/30 mb-5">
-            <GiSparkles className="text-amber-500 text-sm flex-shrink-0" />
-            <span className="text-xs sm:text-sm font-medium text-gray-800 uppercase tracking-wide">
+          {/* Premium badge */}
+          <motion.div
+            className="inline-flex items-center gap-1.5 xs:gap-2 sm:gap-3 px-3 xs:px-4 sm:px-6 py-1.5 xs:py-2 sm:py-2.5 bg-white shadow-lg rounded-full border border-amber-200/50 mb-4 xs:mb-5 sm:mb-6"
+            whileHover={{ scale: 1.05 }}
+          >
+            <GiSparkles className="text-amber-500 text-xs xs:text-sm sm:text-base lg:text-lg" />
+            <span className="text-[10px] xs:text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-[0.1em] xs:tracking-[0.15em] sm:tracking-[0.2em]">
               {badge}
             </span>
-          </div>
+            <FaCrown className="text-amber-500 text-[10px] xs:text-xs sm:text-sm" />
+          </motion.div>
 
-          <h2 className="font-montserrat font-extrabold text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-gray-900 mb-4 leading-tight">
-            <span className="block text-center">
-              {title.prefix}{" "}
-              <span className="relative inline-block">
-                <span className="relative z-10 bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
-                  {title.text}
-                </span>
-                <svg
-                  className="absolute -bottom-1 sm:-bottom-2 left-0 w-full h-2 sm:h-3 text-gray-200"
-                  viewBox="0 0 100 10"
-                  preserveAspectRatio="none"
-                >
-                  <path
-                    d="M0,5 Q25,0 50,5 T100,5"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    fill="none"
-                  />
-                </svg>
+          {/* Title */}
+          <h2 className="font-montserrat font-black text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl mb-3 xs:mb-4 sm:mb-5 lg:mb-6 leading-tight px-2">
+            <span className="text-gray-800 block">{title.prefix}</span>
+            <span className="relative inline-block mt-1 xs:mt-2">
+              <span className="bg-gradient-to-r from-amber-600 via-red-600 to-emerald-600 bg-clip-text text-transparent">
+                {title.text}
               </span>
+              <motion.div
+                className="absolute -bottom-1.5 xs:-bottom-2 sm:-bottom-3 left-0 right-0 h-0.5 xs:h-0.5 sm:h-1 bg-gradient-to-r from-amber-500 via-red-500 to-emerald-500 rounded-full"
+                initial={{ scaleX: 0 }}
+                animate={isInView ? { scaleX: 1 } : {}}
+                transition={{ delay: 0.5, duration: 1 }}
+              />
             </span>
           </h2>
 
-          <p className="text-gray-500 text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+          {/* Subtitle */}
+          <p className="text-gray-600 text-xs xs:text-sm sm:text-base lg:text-lg xl:text-xl max-w-3xl mx-auto leading-relaxed font-light px-3 xs:px-4">
             {subtitle}
           </p>
+        </motion.div>
 
-          <div className="mt-5 h-0.5 w-32 mx-auto bg-gradient-to-r from-transparent via-amber-500 to-transparent" />
-        </div>
-
-        {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 lg:gap-8">
+        {/* Services Grid - FIXED CARD HEIGHTS */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8 xl:gap-10">
           {services.map((service, index) => {
             const IconComponent = service.icon;
-            const delay = 400 + index * 150;
+
             return (
-              <div
+              <motion.div
                 key={index}
-                className={`group relative bg-white rounded-2xl border border-gray-100 shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-8"
-                  }`}
-                style={{ animationDelay: `${delay}ms`, animationFillMode: "both" }}
+                custom={index}
+                variants={cardVariants}
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+                whileHover="hover"
+                onHoverStart={() => setActiveIndex(index)}
+                onHoverEnd={() => setActiveIndex(null)}
+                className="group relative h-full"
               >
-                {/* Colored top bar */}
-                <div
-                  className="h-1.5 w-full"
-                  style={{ backgroundColor: service.color }}
-                />
+                {/* Premium card - FIXED HEIGHT */}
+                <div className="relative bg-white rounded-xl xs:rounded-2xl sm:rounded-3xl shadow-lg xs:shadow-xl overflow-hidden border border-gray-100 h-full min-h-[380px] xs:min-h-[400px] sm:min-h-[420px] lg:min-h-[440px] xl:min-h-[460px] flex flex-col">
 
-                {/* Card body: image LEFT, content RIGHT */}
-                <div className="flex flex-col sm:flex-row min-h-0">
+                  {/* Top color bar */}
+                  <motion.div
+                    className="h-1 xs:h-1.5 sm:h-2 w-full flex-shrink-0"
+                    style={{ backgroundColor: service.color }}
+                    animate={activeIndex === index ? { height: "4px" } : { height: "2px" }}
+                  />
 
-                  {/* Image — full width on mobile, 40% on sm+ */}
-                  <div className="relative sm:w-2/5 h-44 sm:h-auto overflow-hidden flex-shrink-0">
-                    <img
-                      src={`/images/demo${index + 1}.jpeg`}
-                      alt={service.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+                  {/* Image + Content row - FIXED LAYOUT with flex-1 to fill height */}
+                  <div className="flex flex-col sm:flex-row flex-1">
+                    {/* Image section - FIXED HEIGHT AND ASPECT RATIO */}
+                    <div className="sm:w-2/5 w-full">
+                      <div className="relative w-full h-48 xs:h-52 sm:h-full min-h-[180px] sm:min-h-full overflow-hidden">
+                        <img
+                          src={`/images/demo${index + 1}.jpeg`}
+                          alt={service.title}
+                          className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
+                          loading="lazy"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
 
-                  </div>
-
-                  {/* Content — right side */}
-                  <div className="flex-1 p-4 sm:p-5 flex flex-col gap-2.5 relative overflow-hidden">
-                    {/* Accent line on left edge (desktop) */}
-                    <div
-                      className="absolute top-0 left-0 bottom-0 w-0.5 hidden sm:block"
-                      style={{ backgroundColor: `${service.color}40` }}
-                    />
-
-                    {/* Icon + Title + Number */}
-                    <div className="flex items-center gap-2.5">
-                      <div
-                        className="w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-sm flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
-                        style={{
-                          backgroundColor: `${service.color}15`,
-                          color: service.color,
-                        }}
-                      >
-                        <IconComponent />
+                      
                       </div>
-                      <h3 className="font-bold text-gray-900 text-sm sm:text-base lg:text-lg leading-snug flex-1">
-                        {service.title}
-                      </h3>
-                      <span
-                        className="text-xl font-black opacity-10 leading-none flex-shrink-0"
-                        style={{ color: service.color }}
-                      >
-                        {service.number}
-                      </span>
                     </div>
 
-                    {/* Description */}
-                    <p className="text-gray-500 text-xs sm:text-sm leading-relaxed line-clamp-2">
-                      {service.description}
-                    </p>
+                    {/* Content section - flex-1 to fill remaining height with scroll if needed */}
+                    <div className="flex-1 p-3 xs:p-4 sm:p-5 lg:p-6 xl:p-8 overflow-y-auto">
+                      {/* Icon and title row */}
+                      <div className="flex items-start gap-2 xs:gap-3 sm:gap-4 mb-2 xs:mb-3 sm:mb-4">
+                        <motion.div
+                          className="w-8 xs:w-10 sm:w-12 h-8 xs:h-10 sm:h-12 rounded-lg xs:rounded-xl flex items-center justify-center text-sm xs:text-base sm:text-lg shadow-md xs:shadow-lg flex-shrink-0"
+                          style={{
+                            background: `linear-gradient(135deg, ${service.color}15, white)`,
+                            color: service.color,
+                            boxShadow: `0 5px 10px -5px ${service.color}80`
+                          }}
+                          whileHover={{ rotate: 360 }}
+                          transition={{ duration: 0.5 }}
+                        >
+                          <IconComponent />
+                        </motion.div>
 
-                    {/* Divider */}
-                    <div className="border-t border-gray-100" />
-
-                    {/* Features */}
-                    <ul className="space-y-1.5 flex-grow">
-                      {service.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-center gap-2">
-                          <FaCheckCircle
-                            className="flex-shrink-0 text-xs"
-                            style={{ color: service.color }}
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-sm xs:text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-gray-800 leading-tight">
+                            {service.title}
+                          </h3>
+                          <motion.div
+                            className="h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent"
+                            animate={activeIndex === index ? { scaleX: 1 } : { scaleX: 0 }}
+                            transition={{ duration: 0.3 }}
                           />
-                          <span className="text-gray-700 text-xs sm:text-sm font-medium">
-                            {feature}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
+                        </div>
 
-                    {/* CTA Button */}
-                    <button
-                      className="relative mt-auto w-full text-white font-semibold text-xs sm:text-sm px-3 py-2 rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden active:scale-95"
-                      style={{
-                        background: `linear-gradient(135deg, ${service.color}, ${service.color}CC)`,
-                      }}
-                      aria-label={`View details for ${service.title}`}
-                    >
-                      <span className="relative z-10 flex items-center justify-center gap-1.5">
+                        <span
+                          className="text-base xs:text-lg sm:text-xl lg:text-2xl xl:text-4xl font-black opacity-10 flex-shrink-0"
+                          style={{ color: service.color }}
+                        >
+                          {service.number}
+                        </span>
+                      </div>
+
+                      {/* Description */}
+                      <p className="text-gray-600 text-xs xs:text-sm sm:text-base mb-2 xs:mb-3 sm:mb-4 leading-relaxed">
+                        {service.description}
+                      </p>
+
+                      {/* Features */}
+                      <ul className="space-y-1 xs:space-y-1.5 sm:space-y-2 mb-3 xs:mb-4 sm:mb-5 lg:mb-6">
+                        {service.features.slice(0, 3).map((feature, idx) => (
+                          <motion.li
+                            key={idx}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={isInView ? { opacity: 1, x: 0 } : {}}
+                            transition={{ delay: index * 0.1 + idx * 0.1 }}
+                            className="flex items-center gap-1 xs:gap-1.5 sm:gap-2"
+                          >
+                            <FaCheckCircle
+                              className="text-xs xs:text-sm sm:text-base flex-shrink-0"
+                              style={{ color: service.color }}
+                            />
+                            <span className="text-gray-700 text-xs xs:text-sm sm:text-base">{feature}</span>
+                          </motion.li>
+                        ))}
+                      </ul>
+
+                      {/* CTA Button */}
+                      <motion.button
+                        className="relative w-full overflow-hidden rounded-lg xs:rounded-xl font-semibold text-xs xs:text-sm sm:text-base py-2 xs:py-2.5 sm:py-3 px-3 xs:px-4 flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 transition-all"
+                        style={{
+                          background: `linear-gradient(135deg, ${service.color}10, ${service.color}20)`,
+                          color: service.color,
+                          border: `1px solid ${service.color}30`
+                        }}
+                        whileHover={{
+                          scale: 1.02,
+                          background: `linear-gradient(135deg, ${service.color}20, ${service.color}30)`,
+                        }}
+                        whileTap={{ scale: 0.98 }}
+                      >
                         <span>View Details</span>
-                        <FaArrowRight className="transition-transform duration-300 group-hover:translate-x-1" />
-                      </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                    </button>
+                        <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
 
-                    {/* Decorative corner blob */}
-                    <div
-                      className="absolute -bottom-6 -right-6 w-16 h-16 rounded-full opacity-10 group-hover:opacity-20 transition-opacity duration-500"
-                      style={{ backgroundColor: service.color }}
-                    />
+                        {/* Shine effect */}
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                          animate={{
+                            x: ['-100%', '100%']
+                          }}
+                          transition={{
+                            duration: 1.5,
+                            repeat: Infinity,
+                            repeatDelay: 2
+                          }}
+                        />
+                      </motion.button>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             );
           })}
         </div>
 
         {/* Bottom CTA */}
-        <div
-          className={`hidden lg:block mt-14 text-center transition-all duration-700 delay-1000 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"
-            }`}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 0.8, duration: 0.8 }}
+          className="mt-8 xs:mt-10 sm:mt-12 lg:mt-14 xl:mt-16 text-center"
         >
-          <button className="px-8 py-4 bg-gradient-to-r from-red-600 to-amber-500 text-white font-bold rounded-xl hover:shadow-xl transition-all duration-300 hover:-translate-y-1 active:scale-95">
-            View All Services
-          </button>
-        </div>
+          <motion.button
+            className="group relative px-4 xs:px-6 sm:px-8 lg:px-10 py-2 xs:py-2.5 sm:py-3 lg:py-4 bg-gradient-to-r from-amber-500 to-red-500 rounded-lg xs:rounded-xl text-white font-bold text-xs xs:text-sm sm:text-base lg:text-lg shadow-md xs:shadow-lg lg:shadow-xl"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <span className="relative z-10 flex items-center gap-1 xs:gap-1.5 sm:gap-2">
+              <FaLightbulb className="text-yellow-200 text-xs xs:text-sm sm:text-base" />
+              <span>View All Services</span>
+              <FaStar className="text-yellow-200 text-xs xs:text-sm sm:text-base" />
+            </span>
+          </motion.button>
+        </motion.div>
       </div>
 
-      {/* CSS Animations */}
+      {/* Custom breakpoint styles */}
       <style jsx global>{`
-        @keyframes fadeInUp {
-          from { opacity: 0; transform: translateY(30px); }
-          to   { opacity: 1; transform: translateY(0); }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
         }
-        @keyframes fadeInScale {
-          from { opacity: 0; transform: scale(0.9); }
-          to   { opacity: 1; transform: scale(1); }
+        
+        .animate-float {
+          animation: float 4s ease-in-out infinite;
         }
-        .animate-fadeInUp    { animation: fadeInUp    0.6s ease-out forwards; }
-        .animate-fadeInScale { animation: fadeInScale 0.5s ease-out forwards; }
-        .line-clamp-2 {
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
+        
+        @media (max-width: 300px) {
+          .text-\\[8px\\] {
+            font-size: 6px !important;
+          }
+          .text-\\[10px\\] {
+            font-size: 8px !important;
+          }
+          .text-xs {
+            font-size: 0.6rem !important;
+          }
+          .gap-1 {
+            gap: 0.15rem !important;
+          }
+          .p-3 {
+            padding: 0.5rem !important;
+          }
+          .h-48 {
+            height: 140px !important;
+          }
+          .min-h-\\[380px\\] {
+            min-height: 320px !important;
+          }
         }
+
+        @media (max-width: 640px) {
+          .sm\\:h-full {
+            height: 200px !important;
+          }
+        }
+
         @media (prefers-reduced-motion: reduce) {
           *, *::before, *::after {
             animation-duration: 0.01ms !important;
@@ -240,4 +343,4 @@ const ModernServicesSection = () => {
   );
 };
 
-export default ModernServicesSection;
+export default AwardWinningServicesSection;

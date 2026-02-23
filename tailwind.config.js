@@ -6,6 +6,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+       screens: {
+        'xs': '475px',
+        // => @media (min-width: 475px) { ... }
+      },
       colors: {
         'holiday-red': '#FF0000',
         'holiday-gold': '#FFD700',
