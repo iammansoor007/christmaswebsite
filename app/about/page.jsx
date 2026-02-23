@@ -1,14 +1,16 @@
 'use client'
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import owner from '../../public/images/aboutownerfamily.jpg';
 import installation from '../../public/images/installationmain.jpg';
+import FAQ from '../components/FAQSection';
 import hero from '../../public/images/hero-background.jpg';
 import enjoy from '../../public/images/enjoy.jpg';
 import {
   FaCheckCircle,
   FaArrowRight,
+  FaGift as FaAward,
   FaMedal,
   FaShieldAlt,
   FaClock,
@@ -27,13 +29,16 @@ import {
   FaQuestionCircle,
   FaMinus,
   FaPlus,
-  FaAward,
   FaRibbon,
   FaGem,
   FaRegSnowflake,
   FaBuilding,
   FaLeaf,
-  FaSnowman
+  FaSnowman,
+  FaPhoneAlt,
+  FaMapMarkerAlt,
+  FaHeart,
+  FaRocket
 } from 'react-icons/fa';
 import { GiSparkles, GiFruitTree, GiCrystalGrowth, GiChristmasTree } from 'react-icons/gi';
 import { HiOutlineSparkles } from 'react-icons/hi';
@@ -42,71 +47,87 @@ const AboutUs = () => {
   const [openFaq, setOpenFaq] = useState(null);
   const [activeTab, setActiveTab] = useState('seasonal');
   const [mounted, setMounted] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const [data, setData] = useState(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const heroRef = useRef(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-  useEffect(() => {
+    setIsVisible(true);
     setMounted(true);
+
+    const loadData = async () => {
+      try {
+        const response = await fetch('/data.json');
+        const jsonData = await response.json();
+        setData(jsonData);
+      } catch (error) {
+        console.error('Error loading data:', error);
+      }
+    };
+
+    loadData();
+
+    const handleMouseMove = (e) => {
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        setMousePosition({ x, y });
+      }
+    };
+
+    const handleScroll = () => {
+      if (heroRef.current) {
+        const rect = heroRef.current.getBoundingClientRect();
+        const progress = Math.max(0, Math.min(1, -rect.top / (rect.height * 0.5)));
+        setScrollProgress(progress);
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
+
   if (!mounted) {
     return null;
   }
 
+  if (!data) {
+    return (
+      <section className="relative min-h-[90vh] flex items-center justify-center bg-[#0B1120]">
+        <div className="relative">
+          <div className="w-20 h-20 border-4 border-amber-500/20 border-t-amber-500 rounded-full animate-spin"></div>
+        </div>
+      </section>
+    );
+  }
 
+  const { hero } = data;
 
-
-  // Core values
-  const values = [
-    {
-      title: 'Quality First',
-      description: 'We use only commercial-grade materials and professional installation techniques.',
-      icon: FaMedal
-    },
-    {
-      title: 'Reliability',
-      description: 'On-time service with 48-hour maintenance guarantee throughout the season.',
-      icon: FaClock
-    },
-    {
-      title: 'Safety',
-      description: 'Fully insured with $2M liability coverage and certified technicians.',
-      icon: FaShieldAlt
+  // Function to handle phone call
+  const handleCallClick = (e) => {
+    e.preventDefault();
+    if (data?.hero?.cta?.phone) {
+      const phoneNumber = data.hero.cta.phone.replace(/[^\d+]/g, '');
+      window.location.href = `tel:${phoneNumber}`;
+    } else {
+      window.location.href = '/contact';
     }
-  ];
-
-  // Process steps
-  const process = [
-    {
-      step: '01',
-      title: 'Consultation',
-      description: 'We visit your property, discuss your vision, and provide a detailed quote.',
-      image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop',
-      imageAlt: 'Consultation meeting',
-      isExternal: true
-    },
-    {
-      step: '02',
-      title: 'Installation',
-      description: 'Our team handles everything from design to installation in 3-8 hours.',
-      image: installation,
-      imageAlt: 'Professional Christmas light installation',
-      isExternal: false
-    },
-    {
-      step: '03',
-      title: 'Enjoy',
-      description: 'We maintain your lights all season and handle takedown and storage.',
-      image: enjoy,
-      imageAlt: 'Family enjoying Christmas lights at home',
-      isExternal: false
-    }
-  ];
+  };
 
   // Founder information
   const founder = {
     name: 'Ethen',
     role: 'Owner, Christmas Lights Over Columbus',
-    quote: "Hi, I'm Ethen, owner of Christmas Lights Over Columbus. We help families across Central Ohio create beautiful, welcoming holiday displays without the stress of ladders or tangled lights. From custom design and installation to takedown after the season, my team takes care of everything so you can focus on what truly matters—making memories and enjoying time with the people you love.",
+    quote: "Hi, I'm Ethen, owner of Christmas Lights Over Columbus. We help families across Central Ohio create beautiful, welcoming holiday displays without the stress of ladders or tangled lights.",
     expertise: 'Serving Central Ohio families',
     philosophy: 'Making holiday memories stress-free',
     company: 'Christmas Lights Over Columbus',
@@ -185,279 +206,370 @@ const AboutUs = () => {
     }
   ];
 
+  // CTA Content
+  const cta = {
+    title: 'Ready to Transform Your Home Into a Holiday Wonderland?',
+    description: 'Join hundreds of satisfied Central Ohio families who trust us to make their holiday lighting stress-free and spectacular. Get your free, no-obligation quote today!',
+    buttons: {
+      primary: 'Call Us Now: (614) 301-7100',
+      secondary: 'Get Free Quote'
+    },
+    features: [
+      { icon: FaClock, text: 'Free Estimates' },
+      { icon: FaShieldAlt, text: 'Fully Insured' },
+      { icon: FaStar, text: '5-Star Service' }
+    ]
+  };
+
   return (
     <main className="overflow-x-hidden w-full">
 
-      {/* Modern Hero Section - Redesigned */}
-      <section className="relative min-h-[90vh] flex items-center w-full overflow-hidden">
-        {/* Background Image with Parallax Effect */}
+      {/* Hero Section */}
+      <section
+        ref={heroRef}
+        className="relative min-h-[90vh] flex items-center w-full overflow-hidden"
+      >
+        {/* Background Image with Parallax */}
         <div className="absolute inset-0">
-          <div className="relative w-full h-full">
+          <div
+            className="relative w-full h-full transition-transform duration-200 ease-out"
+            style={{
+              transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px) scale(1.05)`,
+            }}
+          >
             <Image
-              src={hero}
-              alt="Professional Christmas light installation by Christmas Lights Over Columbus"
+              src="/images/hero-background2.jpg"
+              alt="About Christmas Lights Over Columbus"
               fill
-              className="object-cover scale-105 transform transition-transform duration-[10000ms] ease-out group-hover:scale-100"
+              className="object-cover"
               priority
               sizes="100vw"
               quality={100}
             />
           </div>
-          {/* Sophisticated gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#0B1120]/95 via-[#0B1120]/80 to-[#0B1120]/60"></div>
-          {/* Subtle animated pattern overlay */}
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `radial-gradient(circle at 2px 2px, white 1px, transparent 0)`,
-              backgroundSize: '40px 40px'
-            }}></div>
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#0B1120]/90 via-[#0B1120]/80 to-[#0B1120]/90"></div>
+        </div>
+
+        {/* Animated orbs */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-0 -left-4 w-96 h-96 bg-amber-600 rounded-full mix-blend-soft-light filter blur-3xl opacity-20 animate-blob"></div>
+          <div className="absolute top-0 -right-4 w-96 h-96 bg-red-600 rounded-full mix-blend-soft-light filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+          <div className="absolute -bottom-8 left-20 w-96 h-96 bg-orange-600 rounded-full mix-blend-soft-light filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+        </div>
+
+        {/* Particle grid */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.3) 1px, transparent 0)`,
+            backgroundSize: '50px 50px'
+          }}></div>
+        </div>
+
+        {/* Scroll overlay */}
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent transition-opacity duration-300"
+          style={{ opacity: scrollProgress }}
+        ></div>
+
+        {/* Content */}
+        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-20 z-10">
+          <div className="max-w-4xl mx-auto text-center">
+
+            {/* About Us Badge with animation */}
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500/20 to-red-500/20 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8 animate-fade-up">
+              <HiOutlineSparkles className="w-4 h-4 text-amber-400" />
+              <span className="text-white/90 text-sm font-medium tracking-wider">ABOUT US</span>
+            </div>
+
+            {/* Main Heading with animations */}
+            <h1 className="font-montserrat font-extrabold text-5xl sm:text-6xl lg:text-7xl text-white mb-6">
+              <span className="block animate-title-slide-up">
+                Get to Know{' '}
+              </span>
+              <span className="block relative animate-title-slide-up animation-delay-200">
+                <span className="relative inline-block">
+                  <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-red-400 bg-[length:200%_200%] animate-gradient-x">
+                    Your Lighting Team
+                  </span>
+                  <span className="absolute inset-0 bg-gradient-to-r from-amber-400/30 to-red-400/30 blur-3xl -z-10 scale-150"></span>
+                </span>
+              </span>
+            </h1>
+
+            {/* Description with animation */}
+            <p className="text-xl sm:text-2xl text-white/80 mb-10 leading-relaxed max-w-3xl mx-auto animate-fade-up animation-delay-400">
+              {hero?.subtitle || "We're your neighbors in Central Ohio dedicated to making your holiday season magical and stress-free."}
+            </p>
+
+            {/* CTA Buttons with animations */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-fade-up animation-delay-600">
+              <Link
+                href="/contact"
+                className="group relative overflow-hidden inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-amber-400 to-red-500 text-white font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300 w-full sm:w-auto"
+              >
+                <span className="relative z-10 flex items-center gap-2">
+                  <HiOutlineSparkles className="w-5 h-5" />
+                  <span>Meet Our Team</span>
+                  <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-amber-400 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+              </Link>
+
+              <Link
+                href="#story"
+                className="group inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-full hover:bg-white/20 transition-all duration-300 w-full sm:w-auto"
+              >
+                <span className="flex items-center gap-2">
+                  <span>Our Story</span>
+                </span>
+              </Link>
+            </div>
+
+            {/* Trust badges with animation */}
+            {hero?.trustBadges && hero.trustBadges.length > 0 && (
+              <div className="flex flex-wrap items-center justify-center gap-6 text-white/60 text-sm animate-fade-up animation-delay-800">
+                {hero.trustBadges.map((badge, index) => (
+                  <div key={index} className="flex items-center gap-2 hover:text-white/80 transition-colors duration-300">
+                    {badge.icon === 'shield' && <FaShieldAlt className="text-amber-400" />}
+                    {badge.icon === 'clock' && <FaClock className="text-amber-400" />}
+                    {badge.icon === 'medal' && <FaMedal className="text-amber-400" />}
+                    {badge.icon === 'star' && <FaStar className="text-amber-400" />}
+                    <span>{badge.text}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-14 lg:py-16">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left Content */}
-            <div className="max-w-2xl text-center lg:text-left">
 
-              {/* Main Heading with Split Animation */}
-              <h1 className=" font-montserrat-900 font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl  text-white mb-4 md:mb-6 animate-fade-up animation-delay-200">
-                Professional Holiday
-                <span className="block font-bold mt-2">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-red-400">
-                    Lighting Done Right
-                  </span>
-                </span>
-              </h1>
+      </section>
 
-              {/* Description with improved typography */}
-              <p className="text-lg sm:text-xl text-white/80 mb-8 md:mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0 animate-fade-up animation-delay-400">
-                We help families across Central Ohio create beautiful, welcoming holiday displays without the stress of ladders or tangled lights.
-              </p>
+      {/* Founder Section with ID for anchor link */}
+      <section id="story" className="py-16 sm:py-20 md:py-24 bg-white relative overflow-hidden">
+        {/* Decorative background elements */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(245,158,11,0.1) 1px, transparent 0)`,
+            backgroundSize: '50px 50px'
+          }}></div>
+        </div>
 
-              {/* CTA Group */}
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 animate-fade-up animation-delay-600">
-                <Link
-                  href="/contact"
-                  className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-amber-400 to-red-500 text-white font-semibold rounded-xl overflow-hidden transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105 w-full sm:w-auto"
-                >
-                  <span className="relative z-10 flex items-center gap-2">
-                    <HiOutlineSparkles className="w-5 h-5" />
-                    <span>Get Your Free Quote</span>
-                    <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-red-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </Link>
+        <div className="container mx-auto px-4 sm:px-6 relative z-10">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
+              <div className="relative order-2 lg:order-1 text-center lg:text-left">
+                <div className="relative z-10">
+                  {/* Section badge - reduced bottom margin */}
+                  <div className="flex justify-center lg:justify-start mb-2 animate-fade-up">
+                    <div className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500/10 to-red-500/10 backdrop-blur-sm border border-amber-200/30 rounded-full px-4 py-1.5">
+                      <FaAward className="w-3.5 h-3.5 text-amber-500" />
+                      <span className="text-amber-700 text-xs font-medium tracking-wider">INSTALLING CHRISTMAS LIGHTS</span>
+                    </div>
+                  </div>
 
-                <Link
-                  href="/portfolio"
-                  className="group inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-300 hover:scale-105 w-full sm:w-auto"
-                >
-                  <span className="flex items-center gap-2">
-                    <FaStar className="w-4 h-4 text-amber-400" />
-                    <span>View Our Work</span>
-                  </span>
-                </Link>
+                  {/* Main heading - reduced top margin and adjusted spacing */}
+                  <h2 className="font-montserrat font-extrabold text-4xl sm:text-5xl lg:text-6xl text-gray-900 leading-tight animate-title-slide-up">
+                    <span className="block">Serving your</span>
+                    <span className="block relative -mt-1">
+                      <span className="relative inline-block">
+                        <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-red-500 bg-[length:200%_200%] animate-gradient-x">
+                          family
+                        </span>
+                        <span className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-red-400/20 blur-3xl -z-10 scale-150"></span>
+                      </span>
+                    </span>
+                  </h2>
+
+                  {/* Content with adjusted top spacing */}
+                  <div className="space-y-5 text-gray-600 leading-relaxed text-base sm:text-lg mt-4 animate-fade-up animation-delay-200">
+                    <p className="text-lg sm:text-xl text-gray-700 italic">
+                      <FaQuoteLeft className="inline-block w-4 h-4 text-amber-400 mr-1 opacity-50" />
+                      {founder.quote}
+                    </p>
+                    <p>
+                      From custom design and installation to takedown after the season, my team takes care of
+                      everything so you can focus on what truly matters—making memories and enjoying time with
+                      the people you love.
+                    </p>
+
+                    <div className="flex items-center justify-center lg:justify-start gap-3 pt-3 animate-fade-up animation-delay-400">
+                      <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <FaGem className="text-amber-600 text-lg" />
+                      </div>
+                      <div className="text-left">
+                        <div className="text-xs text-gray-500">Mission</div>
+                        <div className="text-base font-semibold text-gray-900">{founder.philosophy}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Decorative elements */}
+                <div className="absolute -bottom-4 sm:-bottom-6 -left-4 sm:-left-6 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-amber-100 to-red-100 rounded-full blur-3xl opacity-50 -z-10"></div>
               </div>
 
-              {/* Trust Indicators */}
-              <div className="flex flex-wrap items-center justify-center lg:justify-start gap-6 mt-10 pt-6 border-t border-white/10 animate-fade-up animation-delay-800">
-                <div className="flex items-center gap-2">
-                  <div className="flex -space-x-2">
-                    {[1, 2, 3, 4].map((i) => (
-                      <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-red-400 border-2 border-white/20 flex items-center justify-center text-xs font-bold text-white">
-                        {i === 4 ? '500+' : ''}
-                      </div>
-                    ))}
+              <div className="relative order-1 lg:order-2 animate-fade-up animation-delay-200">
+                <div className="relative">
+                  <div className="aspect-[4/5] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
+                    <Image
+                      src={owner}
+                      alt={founder.name}
+                      className="w-full h-full object-cover"
+                      width={800}
+                      height={1000}
+                      priority
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+                    />
                   </div>
-                  <span className="text-sm text-white/60">500+ happy homes</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <FaMedal className="w-5 h-5 text-amber-400" />
-                  <span className="text-sm text-white/60">5-star rated</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <FaShieldAlt className="w-5 h-5 text-amber-400" />
-                  <span className="text-sm text-white/60">Fully insured</span>
+
+                  {/* Experience badge */}
+                  <div className="absolute -bottom-4 sm:-bottom-6 -left-4 sm:-left-6 bg-white/90 backdrop-blur-sm p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl shadow-xl max-w-[200px] sm:max-w-xs hidden lg:block border border-amber-100">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+                      <FaCalendarAlt className="text-amber-500 text-base sm:text-lg md:text-xl" />
+                      <span className="text-xs sm:text-xs font-medium text-gray-600">Serving</span>
+                    </div>
+                    <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">{founder.expertise}</div>
+                  </div>
+
+                  {/* Decorative gradient */}
+                  <div className="absolute -top-4 sm:-top-6 -right-4 sm:-right-6 w-32 sm:w-48 h-32 sm:h-48 bg-gradient-to-br from-amber-500/10 to-red-500/10 rounded-full blur-3xl"></div>
                 </div>
               </div>
             </div>
-
-
           </div>
-
-
         </div>
       </section>
+      {/* FAQ Section */}
+      <FAQ />
 
-      {/* Founder Section */}
-      <section className="py-16 sm:py-20 md:py-24 bg-white">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center">
-            <div className="relative order-2 lg:order-1 text-center lg:text-left">
-              <div className="relative z-10">
-                <div className="flex items-center justify-center lg:justify-start gap-1.5 sm:gap-2 text-red-600 mb-3 sm:mb-4">
-                  <FaAward className="text-lg sm:text-base md:text-lg" />
-                  <span className="text-sm sm:text-xs md:text-sm font-medium tracking-wider uppercase">Meet The Owner</span>
+      {/* CTA Section */}
+      <section className="py-12 xs:py-16 sm:py-20 md:py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
+        {/* Decorative background elements */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(245,158,11,0.2) 1px, transparent 0)`,
+            backgroundSize: '50px 50px'
+          }}></div>
+        </div>
+
+        <div className="container mx-auto px-4 xs:px-6 relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <div
+              className={`transition-all duration-700 delay-900 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
+            >
+              <div className="bg-gradient-to-r from-amber-50 via-red-50 to-amber-50 rounded-xl xs:rounded-2xl sm:rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 lg:p-10 text-center border border-amber-100 shadow-lg hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
+
+                {/* Decorative elements */}
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-200/20 to-red-200/20 rounded-bl-full"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-amber-200/20 to-red-200/20 rounded-tr-full"></div>
+
+                {/* Animated orbs */}
+                <div className="absolute inset-0 overflow-hidden">
+                  <div className="absolute top-0 -left-4 w-48 h-48 bg-amber-400 rounded-full mix-blend-soft-light filter blur-3xl opacity-10 animate-blob"></div>
+                  <div className="absolute bottom-0 -right-4 w-48 h-48 bg-red-400 rounded-full mix-blend-soft-light filter blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
                 </div>
 
-                <h2 className="text-4xl font-montserrat font-extrabold sm:text-4xl md:text-5xl font-light text-gray-900 mb-2 sm:mb-3 md:mb-4">
-                  {founder.name}
-                </h2>
-
-                <p className="text-xl sm:text-lg md:text-xl text-red-600 font-medium mb-4 sm:mb-5 md:mb-6">
-                  {founder.role}
+                <h3 className="font-montserrat font-extrabold text-2xl xs:text-3xl sm:text-4xl md:text-5xl text-gray-900 mb-4 transition-all duration-300 group-hover:text-gray-800 animate-title-slide-up">
+                  {cta.title}
+                </h3>
+                <p className="text-gray-600 text-base xs:text-lg sm:text-xl md:text-2xl mb-6 max-w-2xl mx-auto leading-relaxed transition-all duration-300 group-hover:text-gray-700 animate-fade-up animation-delay-200">
+                  {cta.description}
                 </p>
 
-                <div className="space-y-4 sm:space-y-5 md:space-y-6 text-gray-600 leading-relaxed text-base sm:text-sm md:text-base">
-                  <p className="text-lg sm:text-lg text-gray-700 text-center lg:text-left">
-                    "{founder.quote}"
-                  </p>
-                  <p>
-                    From custom design and installation to takedown after the season, my team takes care of
-                    everything so you can focus on what truly matters—making memories and enjoying time with
-                    the people you love.
-                  </p>
-
-                  <div className="flex items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-3 sm:pt-4">
-                    <div className="w-10 h-10 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-red-50 rounded-full flex items-center justify-center flex-shrink-0">
-                      <FaGem className="text-red-600 text-lg sm:text-base md:text-xl" />
+                {/* Features */}
+                <div className="flex flex-wrap justify-center gap-4 mb-6 xs:mb-8 animate-fade-up animation-delay-400">
+                  {cta.features.map((feature, index) => (
+                    <div key={index} className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm border border-amber-100">
+                      <feature.icon className="text-amber-500 text-sm" />
+                      <span className="text-sm sm:text-base text-gray-700 font-medium">{feature.text}</span>
                     </div>
-                    <div className="text-left">
-                      <div className="text-sm sm:text-xs text-gray-500">Mission</div>
-                      <div className="text-base sm:text-sm md:text-base font-medium text-gray-900">{founder.philosophy}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Decorative elements */}
-              <div className="absolute -bottom-4 sm:-bottom-6 -left-4 sm:-left-6 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-red-100 to-amber-100 rounded-full blur-3xl opacity-50 -z-10"></div>
-            </div>
-
-            <div className="relative order-1 lg:order-2">
-              <div className="relative">
-                <div className="aspect-[4/5] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
-                  <Image
-                    src={owner}
-                    alt={founder.name}
-                    className="w-full h-full object-cover"
-                    width={800}
-                    height={1000}
-                    priority
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
-                  />
+                  ))}
                 </div>
 
-                {/* Experience badge */}
-                <div className="absolute -bottom-4 sm:-bottom-6 -left-4 sm:-left-6 bg-white p-4 sm:p-5 md:p-6 rounded-xl sm:rounded-2xl shadow-xl max-w-[200px] sm:max-w-xs hidden lg:block">
-                  <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
-                    <FaCalendarAlt className="text-red-600 text-base sm:text-lg md:text-xl" />
-                    <span className="text-xs sm:text-xs font-medium text-gray-600">Serving</span>
-                  </div>
-                  <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900">{founder.expertise}</div>
-                </div>
-
-                {/* Decorative gradient */}
-                <div className="absolute -top-4 sm:-top-6 -right-4 sm:-right-6 w-32 sm:w-48 h-32 sm:h-48 bg-gradient-to-br from-red-500/10 to-amber-500/10 rounded-full blur-3xl"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-  
-
-     
-
-
-      {/* FAQ Section */}
-      <section className="py-16 sm:py-20 md:py-24 bg-gray-50">
-        <div className="container mx-auto px-4 sm:px-6 max-w-3xl">
-          <div className="text-center mb-8 sm:mb-10 md:mb-12">
-            <h3 className=" font-montserrat font-extrabold text-3xl sm:text-3xl md:text-4xl font-light text-gray-900 mb-3 sm:mb-4">
-              Frequently Asked
-              <span className="block font-extrabold mt-1 sm:mt-2">Questions</span>
-            </h3>
-            <p className="text-base sm:text-sm md:text-base text-gray-600">Everything you need to know about our service</p>
-          </div>
-
-          <div className="space-y-3 sm:space-y-4">
-            {faqItems.map((item, index) => (
-              <div key={index} className="bg-white rounded-lg sm:rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                <button
-                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
-                  className="w-full text-left p-4 sm:p-4 md:p-6 flex items-start justify-between gap-3 sm:gap-4 hover:bg-gray-50 transition-colors"
-                >
-                  <div className="flex items-start gap-3 sm:gap-3">
-                    <div className="w-8 h-8 sm:w-7 sm:h-7 md:w-8 md:h-8 bg-gradient-to-br from-red-50 to-amber-50 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <item.icon className="text-sm sm:text-xs md:text-sm text-red-600" />
-                    </div>
-                    <span className="text-base sm:text-sm md:text-base font-medium text-gray-900">{item.question}</span>
-                  </div>
-                  {openFaq === index ?
-                    <FaMinus className="text-gray-400 flex-shrink-0 text-sm sm:text-xs" /> :
-                    <FaPlus className="text-gray-400 flex-shrink-0 text-sm sm:text-xs" />
-                  }
-                </button>
-
-                {openFaq === index && (
-                  <div className="px-4 sm:px-4 md:px-6 pb-4 sm:pb-4 md:pb-6 pt-2 border-t border-gray-100">
-                    {item.type === 'dual' ? (
-                      <div className="space-y-3 sm:space-y-4">
-                        {item.options.map((opt, i) => (
-                          <div key={i} className="bg-gray-50 p-4 sm:p-4 rounded-lg">
-                            <div className="flex items-center gap-2 sm:gap-2 mb-2 sm:mb-2">
-                              <opt.icon className="text-red-600 text-base sm:text-sm" />
-                              <h4 className="font-semibold text-gray-900 text-base sm:text-sm">{opt.title}</h4>
-                            </div>
-                            <p className="text-gray-600 text-sm sm:text-xs">{opt.description}</p>
-                          </div>
-                        ))}
-                      </div>
-                    ) : item.type === 'comparison' ? (
-                      <div className="space-y-3 sm:space-y-4">
-                        {item.comparisons.map((comp, i) => (
-                          <div key={i} className="bg-gray-50 p-4 sm:p-4 rounded-lg">
-                            <div className="flex items-center gap-2 sm:gap-2 mb-2 sm:mb-2">
-                              <comp.icon className="text-red-600 text-base sm:text-sm" />
-                              <h4 className="font-semibold text-gray-900 text-base sm:text-sm">{comp.title}</h4>
-                            </div>
-                            <p className="text-gray-600 text-sm sm:text-xs">{comp.answer}</p>
-                          </div>
-                        ))}
-                      </div>
-                    ) : item.list ? (
-                      <ul className="space-y-2 sm:space-y-2">
-                        {item.list.map((li, i) => (
-                          <li key={i} className="flex items-start gap-2 sm:gap-2 text-sm sm:text-xs text-gray-600">
-                            <FaCheckCircle className="text-green-500 text-xs sm:text-[10px] mt-0.5 flex-shrink-0" />
-                            <span>{li}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    ) : (
-                      <p className={`text-sm sm:text-xs leading-relaxed ${item.highlight ? 'bg-amber-50 p-4 sm:p-4 rounded-lg text-amber-800' : 'text-gray-600'}`}>
-                        {item.answer}
-                      </p>
-                    )}
-
-                    {item.badge && (
-                      <span className="inline-block mt-3 sm:mt-3 px-3 sm:px-3 py-1 sm:py-1 bg-amber-100 text-amber-700 text-sm sm:text-xs font-medium rounded-full">
-                        {item.badge}
+                <div className="flex flex-col sm:flex-row gap-2 xs:gap-3 justify-center animate-fade-up animation-delay-600">
+                  <button
+                    className="group/btn relative px-4 xs:px-5 sm:px-6 md:px-8 py-2.5 xs:py-3 sm:py-3.5 bg-gradient-to-r from-amber-500 to-red-500 text-white font-semibold rounded-lg xs:rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden w-full sm:w-auto text-center active:scale-95"
+                    aria-label={cta.buttons.primary}
+                    onClick={() => window.location.href = 'tel:+16143017100'}
+                  >
+                    <span className="relative z-10 flex items-center justify-center gap-1.5 xs:gap-2">
+                      <FaPhoneAlt className="text-xs xs:text-sm" />
+                      <span className="text-xs xs:text-sm sm:text-base whitespace-nowrap">
+                        {cta.buttons.primary}
                       </span>
-                    )}
-                  </div>
-                )}
+                      <FaArrowRight className="text-xs xs:text-sm transition-all duration-300 group-hover/btn:translate-x-2" />
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
+                  </button>
+
+                  <Link
+                    href="/contact"
+                    className="group px-4 xs:px-5 sm:px-6 md:px-8 py-2.5 xs:py-3 sm:py-3.5 font-semibold text-gray-700 border-2 border-amber-200 hover:border-amber-300 rounded-lg xs:rounded-xl transition-all duration-300 bg-white hover:bg-amber-50 w-full sm:w-auto text-center active:scale-95"
+                    aria-label={cta.buttons.secondary}
+                  >
+                    <span className="flex items-center justify-center gap-1.5 xs:gap-2">
+                      <span className="text-xs xs:text-sm sm:text-base whitespace-nowrap">
+                        {cta.buttons.secondary}
+                      </span>
+                      <FaArrowRight className="text-xs xs:text-sm opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0" />
+                    </span>
+                  </Link>
+                </div>
+
+                {/* Trust badge */}
+                <div className="mt-4 xs:mt-5 text-xs xs:text-sm text-gray-500 flex items-center justify-center gap-2 animate-fade-up animation-delay-800">
+                  <FaShieldAlt className="text-amber-500" />
+                  <span>No commitment • Free consultation • 100% satisfaction guaranteed</span>
+                </div>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Global Styles */}
       <style jsx global>{`
-        /* Animation Keyframes */
+        @keyframes blob {
+          0%, 100% { transform: translate(0px, 0px) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.1); }
+          66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes titleSlideUp {
+          from {
+            opacity: 0;
+            transform: translateY(50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
         @keyframes fadeUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes gradientX {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+
+        @keyframes fadeInUp {
           from {
             opacity: 0;
             transform: translateY(20px);
@@ -467,111 +579,70 @@ const AboutUs = () => {
             transform: translateY(0);
           }
         }
-        
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-10px);
-          }
-        }
-        
-        @keyframes scroll {
-          0% {
-            transform: translateY(0);
-            opacity: 1;
-          }
-          100% {
-            transform: translateY(15px);
-            opacity: 0;
-          }
+
+        .animate-blob {
+          animation: blob 10s infinite;
         }
 
-        /* Animation Classes */
-        .animate-fade-up {
-          animation: fadeUp 0.6s ease-out forwards;
+        .animate-float {
+          animation: float 8s ease-in-out infinite;
+        }
+
+        .animate-title-slide-up {
+          animation: titleSlideUp 0.8s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
           opacity: 0;
         }
-        
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-        
-        .animate-scroll {
-          animation: scroll 2s ease-in-out infinite;
-        }
-        
-        .animation-delay-200 {
-          animation-delay: 0.2s;
-        }
-        
-        .animation-delay-400 {
-          animation-delay: 0.4s;
-        }
-        
-        .animation-delay-600 {
-          animation-delay: 0.6s;
-        }
-        
-        .animation-delay-800 {
-          animation-delay: 0.8s;
+
+        .animate-fade-up {
+          animation: fadeUp 0.6s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+          opacity: 0;
         }
 
-        /* Mobile text improvements */
+        .animate-gradient-x {
+          background-size: 200% 200%;
+          animation: gradientX 3s ease infinite;
+        }
+
+        .animate-fadeInUp {
+          animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .animation-delay-200 {
+          animation-delay: 200ms;
+        }
+
+        .animation-delay-400 {
+          animation-delay: 400ms;
+        }
+
+        .animation-delay-600 {
+          animation-delay: 600ms;
+        }
+
+        .animation-delay-800 {
+          animation-delay: 800ms;
+        }
+
+        .animation-delay-2000 {
+          animation-delay: 2000ms;
+        }
+
+        .animation-delay-4000 {
+          animation-delay: 4000ms;
+        }
+
+        .animation-delay-900 {
+          animation-delay: 900ms;
+        }
+
         @media (max-width: 640px) {
-          .mobile-text-base {
-            font-size: 1rem !important;
+          h1, h2, h3 {
+            line-height: 1.2 !important;
           }
-          .mobile-text-lg {
+          
+          .text-xl {
             font-size: 1.125rem !important;
           }
-          .mobile-text-xl {
-            font-size: 1.25rem !important;
-          }
-          .mobile-text-2xl {
-            font-size: 1.5rem !important;
-          }
-          .mobile-text-3xl {
-            font-size: 1.875rem !important;
-          }
-        }
-
-        /* Responsive styles */
-        @media (max-width: 320px) {
-          .container {
-            padding-left: 0.75rem;
-            padding-right: 0.75rem;
-          }
-          h1 {
-            font-size: 1.75rem;
-          }
-          h2 {
-            font-size: 2rem;
-          }
-          .text-7xl {
-            font-size: 2.25rem;
-          }
-        }
-        
-        @media (min-width: 321px) and (max-width: 375px) {
-          .container {
-            padding-left: 1rem;
-            padding-right: 1rem;
-          }
-        }
-        
-        /* Image optimization */
-        img {
-          max-width: 100%;
-          height: auto;
-        }
-        
-        /* Smooth transitions */
-        * {
-          transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-          transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-          transition-duration: 150ms;
         }
       `}</style>
     </main>

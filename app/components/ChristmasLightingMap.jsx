@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
-import fadedmap from "../../public/images/fadedmap.png";
+import fadedmap from "../../public/images/realmap.png";
 import {
   FaMapMarkerAlt,
   FaClock,
@@ -104,7 +104,7 @@ export default function VanMapSection() {
     <>
       <section
         ref={containerRef}
-        className="relative w-full overflow-hidden bg-gradient-to-b from-white to-gray-50 px-2 xs:px-3 sm:px-4 md:px-6 lg:px-8 py-8 xs:py-10 sm:py-12 md:py-16 lg:py-20 min-w-[280px]"
+        className="relative w-full overflow-hidden bg-gradient-to-b from-white to-gray-50 px-2 xs:px-3 sm:px-4 md:px-6 lg:px-6 py-8 xs:py-10 sm:py-12 md:py-12 lg:py-14 min-w-[280px]"
       >
         {/* Subtle Background Pattern */}
         <div className="absolute inset-0 opacity-5">
@@ -163,10 +163,10 @@ export default function VanMapSection() {
               transition={{ delay: 0.2 }}
               className="text-xl xs:text-2xl font-montserrat font-extrabold sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-3 xs:mb-4 leading-tight"
             >
-              Fast Local{" "}
+              Areas We Are{" "}
               <span className="relative inline-block">
                 <span className="relative z-10 bg-gradient-to-r from-emerald-600 via-amber-500 to-red-500 bg-clip-text text-transparent break-words text-center">
-                  Holiday Service
+                  Proud Serving
                 </span>
                 <svg
                   className="absolute -bottom-1 xs:-bottom-1.5 sm:-bottom-2 left-0 w-full h-1.5 xs:h-2 sm:h-2.5 text-gray-200"
@@ -194,7 +194,7 @@ export default function VanMapSection() {
             </motion.p>
           </motion.div>
 
-        
+
         </div>
 
         {/* Responsive Styles for cards section */}
@@ -248,15 +248,15 @@ export default function VanMapSection() {
         </div>
 
         {/* Overlay */}
-        <div className="absolute inset-0 z-10 bg-gradient-to-r from-white via-white/90 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-white via-white/60 to-transparent pointer-events-none" />
 
         {/* Animated Car with mobile positioning adjustment */}
         <div className="absolute z-20 left-0 h-full flex items-center">
           <motion.div
             initial={{ x: "-100%" }}
-            whileInView={{ x: "30px" }}
+            whileInView={{ x: "4px" }}
             transition={{
-              duration: 1.2,
+              duration: 1,
               ease: "easeOut",
             }}
             viewport={{ once: true }}

@@ -307,92 +307,45 @@
     "phone": "(614) 301-7100",
     "items": [
       {
-        "question": "What areas do you serve for Christmas light installation?",
-        "answer": "We serve residential and commercial clients throughout the metro area and surrounding suburbs. Contact us with your address for specific service availability.",
-        "icon": "FaHome",
-        "category": "Service Area",
+        "question": "What services are included with professional Christmas light installation?",
+        "answer": "Our professional installation includes custom lighting design tailored to your home or business, all Christmas lights and décor provided and professionally installed, ongoing maintenance throughout the holiday season, full takedown after the season ends, and all lights removed and stored at our facility — no storage required on your end.",
+        "icon": "FaConciergeBell",
+        "category": "Service",
         "features": [
-          "Residential",
-          "Commercial",
-          "Suburbs",
-          "Metro Area"
+          "Custom Design",
+          "Lights & Décor Provided",
+          "Ongoing Maintenance",
+          "Full Takedown",
+          "Free Storage"
         ]
       },
       {
-        "question": "How much does professional installation cost?",
-        "answer": "Pricing varies based on property size and design complexity. Residential installations typically range from $300-$1,500. We provide free, no-obligation quotes after a brief property assessment.",
-        "icon": "FaDollarSign",
-        "category": "Pricing",
-        "features": [
-          "Free Quotes",
-          "Transparent Pricing",
-          "Custom Estimates",
-          "Early Bird Specials"
-        ]
-      },
-      {
-        "question": "When should I schedule my installation?",
-        "answer": "We recommend booking 4-6 weeks before your desired installation date. Our schedule fills quickly in November. Early bookings (before October 31) receive priority scheduling.",
-        "icon": "FaCalendarAlt",
-        "category": "Timing",
-        "features": [
-          "4-6 Weeks Ahead",
-          "Priority Booking",
-          "Flexible Scheduling",
-          "Seasonal Planning"
-        ]
-      },
-      {
-        "question": "What type of lighting do you use?",
-        "answer": "We use commercial-grade LED lights that are energy-efficient, durable, and weather-resistant. Our seasonal C9 LED bulbs are 3x brighter than store-bought options. We also offer Invisilights permanent lighting systems.",
+        "question": "What kind of lights do you install?",
+        "answer": "We install two types of lighting: Seasonal Lighting – commercial-grade C9 LED bulbs that are 3x brighter than anything you'll find at a big-box store, with every display custom-fit to your home. Permanent Lighting – Invisilights permanent lighting systems.",
         "icon": "FaLightbulb",
         "category": "Products",
         "features": [
-          "Commercial-Grade LED",
+          "Commercial-Grade C9 LED",
           "3x Brighter",
-          "Permanent Options",
-          "UL Certified"
+          "Custom-Fit Displays",
+          "Invisilights Permanent"
         ]
       },
       {
-        "question": "Do you handle maintenance and removal?",
-        "answer": "Yes. All seasonal lighting includes ongoing maintenance throughout the holiday season and full takedown after the season ends. We even store everything at our facility — no storage required on your end.",
-        "icon": "FaClock",
-        "category": "Service",
-        "features": [
-          "Ongoing Maintenance",
-          "Full Takedown",
-          "Free Storage",
-          "Complete Service"
-        ]
-      },
-      {
-        "question": "Are your installations insured?",
-        "answer": "Absolutely. We carry $2 million in liability insurance and all technicians are trained and certified. Your property is fully protected.",
-        "icon": "FaShieldAlt",
-        "category": "Safety",
-        "features": [
-          "$2M Insurance",
-          "Trained Technicians",
-          "Certified",
-          "Property Protected"
-        ]
-      },
-      {
-        "question": "Do I buy the seasonal lights or lease them?",
-        "answer": "All seasonal lights and décor are leased and maintained by our team. You never have to worry about repairs, storage, or climbing ladders. Permanent lighting systems are purchased and installed.",
-        "icon": "FaTag",
+        "question": "Am I buying the lights?",
+        "answer": "● Seasonal Lighting - No. All seasonal lights and décor are leased and maintained by our team, so you never have to worry about repairs, storage, or climbing ladders. If anything needs attention during the season, we handle it. ● Permanent Lighting – Yes. Permanent lighting systems are purchased and professionally installed on your home.",
+        "icon": "FaFileContract",
         "category": "Pricing",
         "features": [
           "Seasonal: Lease",
           "Permanent: Purchase",
-          "No Storage Needed",
-          "Full Maintenance"
+          "No Repairs Needed",
+          "No Storage Required"
         ]
       },
       {
-        "question": "Do you install lights I already own?",
-        "answer": "We don't install customer-owned lights because we use professional-grade Christmas lighting on every project to guarantee quality, safety, and reliability all season long.",
+        "question": "Do you install the lights I own?",
+        "answer": "We don't — and here's why: we use professional-grade Christmas lighting on every project so we can guarantee quality, safety, and reliability all season long.",
         "icon": "FaTools",
         "category": "Installation",
         "features": [
@@ -400,6 +353,18 @@
           "Quality Guarantee",
           "Safety First",
           "Reliability"
+        ]
+      },
+      {
+        "question": "Are any discounts available?",
+        "answer": "Yes, we offer discounts for installations completed before November, as well as loyalty discounts for continuous years of service.",
+        "icon": "FaPercent",
+        "category": "Pricing",
+        "features": [
+          "Early Bird Discounts",
+          "Loyalty Discounts",
+          "Pre-November Savings",
+          "Repeat Customer Benefits"
         ]
       }
     ]
@@ -733,16 +698,8 @@
           "href": "/services#commercial"
         },
         {
-          "label": "Custom Designs",
+          "label": "Permanent Holiday Lighting",
           "href": "/services#custom"
-        },
-        {
-          "label": "Maintenance",
-          "href": "/services#maintenance"
-        },
-        {
-          "label": "LED Upgrades",
-          "href": "/services#led"
         }
       ],
       "Company": [
@@ -761,10 +718,6 @@
         {
           "label": "Testimonials",
           "href": "/testimonials"
-        },
-        {
-          "label": "Careers",
-          "href": "/careers"
         }
       ],
       "Support": [
