@@ -363,10 +363,10 @@ const HowWeWorkSection = () => {
               </button>
             </div>
 
-            {/* Phone number display */}
+            {/* Phone number display
             <div className="mt-3 xs:mt-4 text-xs xs:text-sm text-gray-500">
               Or call us directly: <a href="tel:+16143017100" className="text-emerald-600 font-semibold hover:underline">(614) 301-7100</a>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

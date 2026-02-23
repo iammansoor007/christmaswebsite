@@ -421,23 +421,7 @@ const ModernQuoteForm = () => {
                   </div>
                 </div>
 
-                {/* Color Preferences */}
-                <div>
-                  <label className="block text-gray-700 text-sm font-medium mb-1.5">
-                    Color Preferences
-                  </label>
-                  <div className="relative group">
-                    <FaPalette className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-hover:text-amber-500 transition-colors text-sm" />
-                    <input
-                      type="text"
-                      name="colorPref"
-                      value={formData.colorPref}
-                      onChange={handleChange}
-                      className="w-full pl-10 pr-3 py-2.5 xs:py-3 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-amber-500/30 focus:border-amber-500 outline-none transition text-sm xs:text-base text-gray-900 placeholder-gray-500"
-                      placeholder="e.g., Warm white, Multi-color, Red & Green..."
-                    />
-                  </div>
-                </div>
+
 
                 {/* Additional Notes */}
                 <div>
@@ -529,44 +513,6 @@ const ModernQuoteForm = () => {
 
           {/* Benefits Section - Takes 1 column */}
           <div className="hidden md:block space-y-6">
-            {/* Stats */}
-            <div className="bg-gradient-to-br from-red-600/5 via-amber-500/5 to-red-600/5 rounded-xl xs:rounded-2xl border border-amber-500/20 p-4 xs:p-5 sm:p-6">
-              <h3 className="text-lg xs:text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                <FaMedal className="text-amber-500" />
-                Why Choose Us
-              </h3>
-              <div className="grid grid-cols-2 gap-4">
-                {stats ? stats.map((stat, index) => (
-                  <div key={index} className="text-center">
-                    <div className="text-2xl xs:text-3xl font-bold text-gray-900">
-                      {stat.value}
-                    </div>
-                    <div className="text-gray-900 text-xs xs:text-sm font-medium">
-                      {stat.label}
-                    </div>
-                  </div>
-                )) : (
-                  <>
-                    <div className="text-center">
-                      <div className="text-2xl xs:text-3xl font-bold text-gray-900">500+</div>
-                      <div className="text-gray-900 text-xs xs:text-sm font-medium">Homes Lit</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl xs:text-3xl font-bold text-gray-900">15+</div>
-                      <div className="text-gray-900 text-xs xs:text-sm font-medium">Years Exp</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl xs:text-3xl font-bold text-gray-900">4.9★</div>
-                      <div className="text-gray-900 text-xs xs:text-sm font-medium">Rating</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl xs:text-3xl font-bold text-gray-900">$2M</div>
-                      <div className="text-gray-900 text-xs xs:text-sm font-medium">Insured</div>
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
 
             {/* Benefits */}
             <div className="bg-white rounded-xl xs:rounded-2xl shadow-lg border border-gray-100 p-4 xs:p-5 sm:p-6">
@@ -589,7 +535,7 @@ const ModernQuoteForm = () => {
                       <div className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center flex-shrink-0">
                         <FaCheckCircle className="text-white text-xs" />
                       </div>
-                      <span className="text-sm xs:text-base font-medium text-gray-900">Free consultation & design</span>
+                      <span className="text-sm xs:text-base font-medium text-gray-900">Free Consultation.</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center flex-shrink-0">

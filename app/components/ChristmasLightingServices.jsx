@@ -110,7 +110,7 @@ const AwardWinningServicesSection = () => {
           <h2 className="font-montserrat font-black text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl mb-3 xs:mb-4 sm:mb-5 lg:mb-6 leading-tight px-2">
             <span className="text-gray-800 block">{title.prefix}</span>
             <span className="relative inline-block mt-1 xs:mt-2">
-              <span className="bg-gradient-to-r from-amber-600 via-red-600 to-emerald-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-amber-600 via-red-600 to-green-600 bg-clip-text text-transparent">
                 {title.text}
               </span>
               <motion.div
@@ -168,7 +168,7 @@ const AwardWinningServicesSection = () => {
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
 
-                      
+
                       </div>
                     </div>
 

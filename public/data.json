@@ -135,8 +135,8 @@
   "services": {
     "badge": "Premium Services",
     "title": {
-      "text": "Holiday Lighting",
-      "prefix": "Professional"
+      "text": "Christmas Lighting",
+      "prefix": "Premium"
     },
     "subtitle": "Transform your property with premium, energy-efficient lighting",
     "features": [
@@ -294,7 +294,7 @@
       "title": "Ready to Light Up Your Holidays?",
       "description": "Start with a free, no-obligation quote today. Call us at (614) 301-7100 or fill out our quick form!",
       "buttons": {
-        "primary": "Get Your Free Quote",
+        "primary": "Call Us (614) 301-7100",
         "secondary": "Schedule Consultation"
       }
     }
