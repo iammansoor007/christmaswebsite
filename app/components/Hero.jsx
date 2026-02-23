@@ -149,12 +149,12 @@ const Hero = () => {
       {/* Main Content - Perfectly Centered */}
       <div
         ref={containerRef}
-        className="container heroooo relative z-30 max-w-7xl mx-auto my-auto  px-3 sm:px-4"
+        className="container heroooo relative z-30 max-w-7xl mx-auto px-3 sm:px-4"
       >
-        <div className="flex textdiv flex-col items-center justify-center text-center">
+        <div className="flex flex-col textdiv items-center justify-center text-center">
 
           {/* Main Title with increased font size on mobile */}
-          <h1 className=" font-montserrat font-extrabold -mt-6 text-5xl xs:text-6xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 sm:mb-6 tracking-tight">
+          <h1 className=" font-montserrat font-extrabold text-5xl xs:text-6xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 sm:mb-6 tracking-tight">
             <span className="block text-white/90 mb-1 sm:mb-2 animate-title-slide-up">
               {hero.title?.part1}
             </span>
@@ -162,6 +162,9 @@ const Hero = () => {
               <span className="relative inline-block">
                 <span className="relative z-10 bg-gradient-to-r from-yellow-300 via-red-300 to-yellow-300 bg-clip-text text-transparent bg-[length:200%_200%] animate-gradient-x">
                   {hero.title?.part2}
+                </span> < br />
+                <span className="relative z-10 bg-gradient-to-r from-yellow-300 via-red-300 to-yellow-300 bg-clip-text text-transparent bg-[length:200%_200%] animate-gradient-x">
+                  {hero.title?.part3}
                 </span>
                 <span className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 to-red-400/30 blur-3xl -z-10 scale-150"></span>
               </span>
@@ -176,6 +179,7 @@ const Hero = () => {
               <span className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-red-400/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
             </span>
           </p>
+
 
 
           {/* Single CTA Button - with click-to-call functionality */}
