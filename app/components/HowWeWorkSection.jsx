@@ -608,25 +608,9 @@ const HowWeWorkSection = () => {
             </div>
 
             {/* Main Title */}
-            <h2
-              className={`text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-2 xs:mb-3 sm:mb-4 leading-tight transition-all duration-700 delay-200 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
-            >
-              {title.prefix}{" "}
-              <span className="relative inline-block">
-                <span className="relative z-10 bg-gradient-to-r from-emerald-600 via-amber-500 to-red-500 bg-clip-text text-transparent break-words text-center">
-                  {title.text}
-                </span>
-                <svg
-                  className="absolute -bottom-1 xs:-bottom-1.5 sm:-bottom-2 left-0 w-full h-1.5 xs:h-2 sm:h-2.5 text-gray-200"
-                  viewBox="0 0 100 10"
-                >
-                  <path
-                    d="M0,5 Q25,0 50,5 T100,5"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    fill="none"
-                  />
-                </svg>
+            <h2 className="text-center font-montserrat text-4xl md:text-5xl font-extrabold mb-6">
+              <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
+                Working With Us Coultn't Be Easier
               </span>
             </h2>
 

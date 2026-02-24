@@ -107,24 +107,15 @@ const AwardWinningServicesSection = () => {
           </motion.div>
 
           {/* Title */}
-          <h2 className="font-montserrat font-black text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl mb-3 xs:mb-4 sm:mb-5 lg:mb-6 leading-tight px-2">
-            <span className="text-gray-800 block">{title.prefix}</span>
-            <span className="relative inline-block mt-1 xs:mt-2">
-              <span className="bg-gradient-to-r from-amber-600 via-red-600 to-green-600 bg-clip-text text-transparent">
-                {title.text}
-              </span>
-              <motion.div
-                className="absolute -bottom-1.5 xs:-bottom-2 sm:-bottom-3 left-0 right-0 h-0.5 xs:h-0.5 sm:h-1 bg-gradient-to-r from-amber-500 via-red-500 to-emerald-500 rounded-full"
-                initial={{ scaleX: 0 }}
-                animate={isInView ? { scaleX: 1 } : {}}
-                transition={{ delay: 0.5, duration: 1 }}
-              />
+          <h2 className="text-center font-montserrat text-4xl md:text-5xl font-extrabold mb-6">
+            <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
+              Premium Christmas Lighting Services
             </span>
           </h2>
 
           {/* Subtitle */}
-          <p className="text-gray-600 text-xs xs:text-sm sm:text-base lg:text-lg xl:text-xl max-w-3xl mx-auto leading-relaxed font-light px-3 xs:px-4">
-            {subtitle}
+          <p className="text-gray-600 font-montserrat  text-xs xs:text-sm sm:text-base lg:text-lg xl:text-xl max-w-3xl mx-auto leading-relaxed font-light px-3 xs:px-4">
+            <span className="font-bold ">{subtitle}</span>
           </p>
         </motion.div>
 

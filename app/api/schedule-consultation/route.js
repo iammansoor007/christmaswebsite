@@ -32,19 +32,19 @@ const serviceTypeMap = {
 export async function POST(request) {
   // Start timing
   const startTime = Date.now();
-  
+
   try {
     const body = await request.json();
-    const { 
-      name, 
-      email, 
-      phone, 
-      address, 
-      serviceType, 
-      preferredDate, 
-      preferredTime, 
+    const {
+      name,
+      email,
+      phone,
+      address,
+      serviceType,
+      preferredDate,
+      preferredTime,
       message,
-      hearAbout 
+      hearAbout
     } = body;
 
     // Quick validation
@@ -65,9 +65,9 @@ export async function POST(request) {
 
     // IMMEDIATE RESPONSE - Don't wait for emails
     const response = NextResponse.json(
-      { 
+      {
         message: 'Consultation scheduled successfully! Check your email for confirmation.',
-        timing: `${Date.now() - startTime}ms` 
+        timing: `${Date.now() - startTime}ms`
       },
       { status: 200 }
     );
@@ -76,7 +76,7 @@ export async function POST(request) {
     if (process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD) {
       // Fire and forget - user doesn't need to wait
       sendEmailsInBackground({
-        name, email, phone, address, serviceType, 
+        name, email, phone, address, serviceType,
         formattedDate, preferredTime, message, hearAbout
       }).catch(error => {
         console.error('Background email error:', error);
@@ -178,6 +178,6 @@ async function sendEmailsInBackground(data) {
     transporter.sendMail(businessMailOptions),
     transporter.sendMail(customerMailOptions)
   ]);
-  
+
   console.log(`✅ Background emails sent to ${email}`);
 }

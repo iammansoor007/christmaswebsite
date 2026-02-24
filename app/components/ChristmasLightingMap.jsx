@@ -157,30 +157,11 @@ export default function VanMapSection() {
             </motion.div>
 
             {/* Main Title */}
-            <motion.h2
-              initial={{ opacity: 0, y: 15 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 0.2 }}
-              className="text-xl xs:text-2xl font-montserrat font-extrabold sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-gray-900 mb-3 xs:mb-4 leading-tight"
-            >
-              Areas We Are{" "}
-              <span className="relative inline-block">
-                <span className="relative z-10 bg-gradient-to-r from-emerald-600 via-amber-500 to-red-500 bg-clip-text text-transparent break-words text-center">
-                  Proud Serving
-                </span>
-                <svg
-                  className="absolute -bottom-1 xs:-bottom-1.5 sm:-bottom-2 left-0 w-full h-1.5 xs:h-2 sm:h-2.5 text-gray-200"
-                  viewBox="0 0 100 10"
-                >
-                  <path
-                    d="M0,5 Q25,0 50,5 T100,5"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    fill="none"
-                  />
-                </svg>
+            <h2 className="text-center font-montserrat text-4xl md:text-5xl font-extrabold mb-6">
+              <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
+                Areas We Are Proud Serving
               </span>
-            </motion.h2>
+            </h2>
 
             {/* Subtitle */}
             <motion.p

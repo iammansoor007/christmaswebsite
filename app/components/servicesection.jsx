@@ -87,13 +87,11 @@ const ChristmasLightingSection = () => {
                 <span className="text-sm font-medium text-amber-700">Premium Service</span>
               </div>
 
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold">
-                <span className="text-slate-900">Serving Columbus with</span>
-                <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-amber-500 to-emerald-600">
-                  Stress-Free Holiday Lighting
+              <h2 className="text-left font-montserrat text-4xl md:text-5xl font-extrabold mb-20">
+                <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
+                  Serving Columbs With Stress Free Holiday Lighting
                 </span>
-              </h1>
+              </h2>
             </div>
 
             {/* Paragraph - EXACT TEXT */}
