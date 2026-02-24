@@ -492,7 +492,7 @@ const ServicesPage = () => {
   return (
     <main className="overflow-x-hidden w-full">
 
-      {/* Hero Section - Fixed with services data */}
+      {/* Hero Section */}
       <section
         ref={heroRef}
         className="relative min-h-[90vh] flex items-center w-full overflow-hidden"
@@ -515,8 +515,8 @@ const ServicesPage = () => {
               quality={100}
             />
           </div>
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0B1120]/90 via-[#0B1120]/80 to-[#0B1120]/90"></div>
+          {/* Gradient overlay - darker version with amber/red */}
+          <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 via-gray-900/90 to-red-500/30"></div>
         </div>
 
         {/* Animated orbs */}
@@ -565,23 +565,23 @@ const ServicesPage = () => {
               </span>
             </h1>
 
-            {/* Description with animation - FIXED: using services.subtitle */}
+            {/* Description with animation */}
             <p className="text-xl sm:text-2xl text-white/80 mb-10 leading-relaxed max-w-3xl mx-auto animate-fade-up animation-delay-400">
               {services.subtitle}
             </p>
 
-            {/* CTA Buttons with animations - FIXED: updated for services page */}
+            {/* CTA Buttons with animations */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-fade-up animation-delay-600">
               <Link
-                href="/contact"
-                className="group relative overflow-hidden inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-emerald-400 to-amber-500 text-white font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300 w-full sm:w-auto"
+                href="/about"
+                className="group relative overflow-hidden inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-amber-400 to-red-500 text-white font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300 w-full sm:w-auto"
               >
                 <span className="relative z-10 flex items-center gap-2">
                   <HiOutlineSparkles className="w-5 h-5" />
-                  <span>View All Services</span>
+                  <span>View About Us</span>
                   <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-500 via-emerald-400 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-amber-400 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
               </Link>
 
               <Link
@@ -594,27 +594,13 @@ const ServicesPage = () => {
               </Link>
             </div>
 
-            {/* Trust badges with animation - FIXED: using services.trustIndicators */}
-            <div className="flex flex-wrap items-center justify-center gap-6 text-white/60 text-sm animate-fade-up animation-delay-800">
-              <div className="flex items-center gap-2 hover:text-white/80 transition-colors duration-300">
-                <FaHome className="text-emerald-400" />
-                <span>{services.trustIndicators.homesCount} Homes Lit</span>
-              </div>
-              <div className="flex items-center gap-2 hover:text-white/80 transition-colors duration-300">
-                <FaStar className="text-amber-400" />
-                <span>{services.trustIndicators.rating} • {services.trustIndicators.reviewsCount}</span>
-              </div>
-              <div className="flex items-center gap-2 hover:text-white/80 transition-colors duration-300">
-                <FaShieldAlt className="text-red-400" />
-                <span>Fully Insured</span>
-              </div>
-            </div>
+
           </div>
         </div>
       </section>
 
       {/* Services Sections - Alternating Left/Right Layout */}
-      <section id="services" className="py-16 sm:py-20 md:py-24 bg-white relative overflow-hidden">
+      <section id="services" className="py-4 sm:py-8 md:py-12 bg-white relative overflow-hidden">
         {/* Decorative background elements */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0" style={{
@@ -633,7 +619,9 @@ const ServicesPage = () => {
                 <span className="text-emerald-700 text-xs font-medium tracking-wider">PREMIUM SERVICES</span>
               </div>
               <h2 className="font-montserrat font-extrabold text-3xl sm:text-4xl md:text-5xl text-gray-900 mt-4 mb-4">
-                Our <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-amber-500">Lighting Collection</span>
+                <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
+                  Our Lighting Collection
+                </span>
               </h2>
               <p className="text-gray-600 text-lg max-w-3xl mx-auto">
                 {services.subtitle}
@@ -641,98 +629,110 @@ const ServicesPage = () => {
             </div>
 
             {/* Alternating Service Cards */}
-            {services.items.map((service, index) => (
-              <div
-                key={index}
-                className={`grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center py-16 ${index !== 0 ? 'border-t border-gray-100' : ''}`}
-              >
-                {/* Content - alternating order */}
-                <div className={`relative order-2 ${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'} text-center lg:text-left animate-fade-up`} style={{ animationDelay: `${400 + index * 150}ms` }}>
-                  <div className="relative z-10">
-                    {/* Section badge */}
-                    <div className="flex justify-center lg:justify-start mb-4">
-                      <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/10 to-amber-500/10 backdrop-blur-sm border border-emerald-200/30 rounded-full px-4 py-1.5">
-                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: service.color }}></div>
-                        <span className="text-emerald-700 text-xs font-medium tracking-wider">{service.number}</span>
-                      </div>
-                    </div>
+            {services.items.map((service, index) => {
+              // Determine the correct link based on service title
+              const serviceLink = service.title.toLowerCase().includes('residential')
+                ? '/services/residential-lighting'
+                : service.title.toLowerCase().includes('commercial')
+                  ? '/services/commercial-lighting'
+                  : service.title.toLowerCase().includes('permanent')
+                    ? '/services/permanent-lighting'
+                    : `/services/${service.title.toLowerCase().replace(/\s+/g, '-')}`;
 
-                    {/* Title */}
-                    <h2 className="font-montserrat font-extrabold text-3xl sm:text-4xl lg:text-5xl text-gray-900 leading-tight mb-4">
-                      {service.title}
-                    </h2>
-
-                    {/* Description */}
-                    <p className="text-gray-600 text-base sm:text-lg mb-6 leading-relaxed">
-                      {service.description}
-                    </p>
-
-                    {/* Features List */}
-                    <div className="space-y-3 mb-8">
-                      {service.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-start gap-3">
-                          <FaCheckCircle className="text-emerald-500 mt-1 flex-shrink-0" />
-                          <span className="text-gray-700">{feature}</span>
+              return (
+                <div
+                  key={index}
+                  className={`grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center py-16 ${index !== 0 ? 'border-t border-gray-100' : ''}`}
+                >
+                  {/* Content - alternating order */}
+                  <div className={`relative order-2 ${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'} text-center lg:text-left animate-fade-up`} style={{ animationDelay: `${400 + index * 150}ms` }}>
+                    <div className="relative z-10">
+                      {/* Section badge */}
+                      <div className="flex justify-center lg:justify-start mb-4">
+                        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/10 to-amber-500/10 backdrop-blur-sm border border-emerald-200/30 rounded-full px-4 py-1.5">
+                          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: service.color }}></div>
+                          <span className="text-emerald-700 text-xs font-medium tracking-wider">{service.number}</span>
                         </div>
-                      ))}
+                      </div>
+
+                      <h2 className="font-montserrat font-extrabold text-3xl sm:text-4xl lg:text-5xl text-gray-900 leading-tight mb-4">
+                        <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
+                          {service.title}
+                        </span>
+                      </h2>
+
+                      {/* Description */}
+                      <p className="text-gray-600 text-base sm:text-lg mb-6 leading-relaxed">
+                        {service.description}
+                      </p>
+
+                      {/* Features List */}
+                      <div className="space-y-3 mb-8">
+                        {service.features.slice(0, 4).map((feature, idx) => (
+                          <div key={idx} className="flex items-start gap-3">
+                            <FaCheckCircle className="text-emerald-500 mt-1 flex-shrink-0" />
+                            <span className="text-gray-700">{feature}</span>
+                          </div>
+                        ))}
+                      </div>
+
+                      {/* CTA Button - Now links to specific service page */}
+                      <div className="flex justify-center lg:justify-start">
+                        <Link
+                          href={serviceLink}
+                          className="group relative overflow-hidden inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-amber-400 to-red-500 text-white font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                        >
+                          <span className="relative z-10 flex items-center gap-2">
+                            <HiOutlineSparkles className="w-5 h-5" />
+                            <span>Learn More</span>
+                            <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          </span>
+                          <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-amber-400 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+                        </Link>
+                      </div>
+
+
                     </div>
 
-                    {/* CTA Button */}
-                    <div className="flex justify-center lg:justify-start">
-                      <Link
-                        href={`/services/${service.title.toLowerCase().replace(/\s+/g, '-')}`}
-                        className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-500 to-amber-500 text-white font-semibold rounded-full hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300"
-                      >
-                        <span>Learn More</span>
-                        <FaArrowRight className="text-sm group-hover:translate-x-1 transition-transform" />
-                      </Link>
-                    </div>
-
-                    {/* Stat Badge */}
-                    <div className="mt-6 inline-flex items-center gap-2 bg-gray-50 rounded-full px-4 py-2">
-                      <FaGem className="text-emerald-500" />
-                      <span className="text-sm text-gray-600">{service.stat}</span>
-                    </div>
+                    {/* Decorative elements */}
+                    <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-gradient-to-br from-emerald-100 to-amber-100 rounded-full blur-3xl opacity-50 -z-10"></div>
                   </div>
 
-                  {/* Decorative elements */}
-                  <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-gradient-to-br from-emerald-100 to-amber-100 rounded-full blur-3xl opacity-50 -z-10"></div>
-                </div>
+                  {/* Image - alternating order */}
+                  <div className={`relative order-1 ${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'} animate-fade-up`} style={{ animationDelay: `${500 + index * 150}ms` }}>
+                    <div className="relative">
+                      <div className="aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
+                        <Image
+                          src={service.image || "/images/placeholder.jpg"}
+                          alt={service.title}
+                          className="w-full h-full object-cover"
+                          width={800}
+                          height={600}
+                          priority={index === 0}
+                          unoptimized
+                        />
+                        {/* Gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                      </div>
 
-                {/* Image - alternating order */}
-                <div className={`relative order-1 ${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'} animate-fade-up`} style={{ animationDelay: `${500 + index * 150}ms` }}>
-                  <div className="relative">
-                    <div className="aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
-                      <Image
-                        src={service.image || "/images/placeholder.jpg"}
-                        alt={service.title}
-                        className="w-full h-full object-cover"
-                        width={800}
-                        height={600}
-                        priority={index === 0}
-                        unoptimized
-                      />
-                      {/* Gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                      {/* Color accent */}
+                      <div
+                        className="absolute -bottom-4 -right-4 w-24 h-24 rounded-full blur-2xl opacity-30"
+                        style={{ backgroundColor: service.color }}
+                      ></div>
+
+                      {/* Decorative gradient */}
+                      <div className="absolute -top-4 -left-4 w-32 h-32 bg-gradient-to-br from-emerald-500/10 to-amber-500/10 rounded-full blur-3xl"></div>
                     </div>
-
-                    {/* Color accent */}
-                    <div
-                      className="absolute -bottom-4 -right-4 w-24 h-24 rounded-full blur-2xl opacity-30"
-                      style={{ backgroundColor: service.color }}
-                    ></div>
-
-                    {/* Decorative gradient */}
-                    <div className="absolute -top-4 -left-4 w-32 h-32 bg-gradient-to-br from-emerald-500/10 to-amber-500/10 rounded-full blur-3xl"></div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* CTA Section - EXACTLY as you provided from About page */}
+      {/* CTA Section */}
       <section className="py-12 xs:py-16 sm:py-20 md:py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
         {/* Decorative background elements */}
         <div className="absolute inset-0 opacity-10">

@@ -247,7 +247,7 @@ const AboutUs = () => {
             />
           </div>
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#0B1120]/90 via-[#0B1120]/80 to-[#0B1120]/90"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-amber-400/15 via-gray-900/90 to-red-500/30"></div>
         </div>
 
         {/* Animated orbs */}
