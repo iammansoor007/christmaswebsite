@@ -2,7 +2,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import owner from '../../public/images/aboutownerfamily.jpg';
 import installation from '../../public/images/installationmain.jpg';
 import FAQ from '../components/FAQSection';
 import hero from '../../public/images/hero-background.jpg';
@@ -414,12 +413,13 @@ const AboutUs = () => {
                 <div className="relative">
                   <div className="aspect-[4/5] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
                     <Image
-                      src={owner}
+                      src="/images/aboutownerfamily.JPEG?t=1"
                       alt={founder.name}
                       className="w-full h-full object-cover"
                       width={800}
                       height={1000}
                       priority
+                      unoptimized // Add this to bypass Next.js image optimization
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
                     />
                   </div>
@@ -479,49 +479,52 @@ const AboutUs = () => {
                 </p>
 
                 {/* Features */}
-                <div className="flex flex-wrap justify-center gap-4 mb-6 xs:mb-8 animate-fade-up animation-delay-400">
+                <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-6 xs:mb-8 animate-fade-up animation-delay-400">
                   {cta.features.map((feature, index) => (
-                    <div key={index} className="flex items-center gap-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-sm border border-amber-100">
-                      <feature.icon className="text-amber-500 text-sm" />
-                      <span className="text-sm sm:text-base text-gray-700 font-medium">{feature.text}</span>
+                    <div key={index} className="flex items-center gap-1.5 bg-white/80 backdrop-blur-sm px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-sm border border-amber-100">
+                      <feature.icon className="text-amber-500 text-xs sm:text-sm" />
+                      <span className="text-xs sm:text-base text-gray-700 font-medium whitespace-nowrap">{feature.text}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="flex flex-col sm:flex-row gap-2 xs:gap-3 justify-center animate-fade-up animation-delay-600">
+                {/* IMPROVED BUTTON SECTION */}
+                <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-4 animate-fade-up animation-delay-600 max-w-xs mx-auto sm:max-w-none">
+                  {/* Primary Button - Full width on mobile, auto on desktop */}
                   <button
-                    className="group/btn relative px-4 xs:px-5 sm:px-6 md:px-8 py-2.5 xs:py-3 sm:py-3.5 bg-gradient-to-r from-amber-500 to-red-500 text-white font-semibold rounded-lg xs:rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden w-full sm:w-auto text-center active:scale-95"
+                    className="group/btn relative w-full sm:w-auto px-5 py-3.5 sm:px-6 md:px-8 sm:py-3.5 bg-gradient-to-r from-amber-500 to-red-500 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden active:scale-[0.98] sm:active:scale-95"
                     aria-label={cta.buttons.primary}
                     onClick={() => window.location.href = 'tel:+16143017100'}
                   >
-                    <span className="relative z-10 flex items-center justify-center gap-1.5 xs:gap-2">
-                      <FaPhoneAlt className="text-xs xs:text-sm" />
-                      <span className="text-xs xs:text-sm sm:text-base whitespace-nowrap">
+                    <span className="relative z-10 flex items-center justify-center gap-2">
+                      <FaPhoneAlt className="text-sm sm:text-sm" />
+                      <span className="text-sm sm:text-base whitespace-nowrap">
                         {cta.buttons.primary}
                       </span>
-                      <FaArrowRight className="text-xs xs:text-sm transition-all duration-300 group-hover/btn:translate-x-2" />
+                      <FaArrowRight className="text-xs sm:text-sm transition-all duration-300 group-hover/btn:translate-x-2" />
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
                   </button>
 
+                  {/* Secondary Button - Full width on mobile, auto on desktop */}
                   <Link
                     href="/contact"
-                    className="group px-4 xs:px-5 sm:px-6 md:px-8 py-2.5 xs:py-3 sm:py-3.5 font-semibold text-gray-700 border-2 border-amber-200 hover:border-amber-300 rounded-lg xs:rounded-xl transition-all duration-300 bg-white hover:bg-amber-50 w-full sm:w-auto text-center active:scale-95"
+                    className="group relative w-full sm:w-auto px-5 py-3.5 sm:px-6 md:px-8 sm:py-3.5 font-semibold text-gray-700 border-2 border-amber-200 hover:border-amber-300 rounded-xl transition-all duration-300 bg-white hover:bg-amber-50 active:scale-[0.98] sm:active:scale-95 text-center"
                     aria-label={cta.buttons.secondary}
                   >
-                    <span className="flex items-center justify-center gap-1.5 xs:gap-2">
-                      <span className="text-xs xs:text-sm sm:text-base whitespace-nowrap">
+                    <span className="flex items-center justify-center gap-2">
+                      <span className="text-sm sm:text-base whitespace-nowrap">
                         {cta.buttons.secondary}
                       </span>
-                      <FaArrowRight className="text-xs xs:text-sm opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0" />
+                      <FaArrowRight className="text-xs sm:text-sm transition-all duration-300 group-hover:translate-x-1" />
                     </span>
                   </Link>
                 </div>
 
                 {/* Trust badge */}
-                <div className="mt-4 xs:mt-5 text-xs xs:text-sm text-gray-500 flex items-center justify-center gap-2 animate-fade-up animation-delay-800">
-                  <FaShieldAlt className="text-amber-500" />
-                  <span>No commitment • Free consultation • 100% satisfaction guaranteed</span>
+                <div className="mt-5 xs:mt-6 text-xs xs:text-sm text-gray-500 flex flex-wrap items-center justify-center gap-2 animate-fade-up animation-delay-800">
+                  <FaShieldAlt className="text-amber-500 flex-shrink-0" />
+                  <span className="text-center">No commitment • Free consultation • 100% satisfaction guaranteed</span>
                 </div>
               </div>
             </div>

@@ -531,36 +531,7 @@ const ModernQuoteForm = () => {
                   </div>
                 )) : (
                   <>
-                    <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center flex-shrink-0">
-                        <FaCheckCircle className="text-white text-xs" />
-                      </div>
-                      <span className="text-sm xs:text-base font-medium text-gray-900">Free Consultation.</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center flex-shrink-0">
-                        <FaCheckCircle className="text-white text-xs" />
-                      </div>
-                      <span className="text-sm xs:text-base font-medium text-gray-900">Professional installation</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center flex-shrink-0">
-                        <FaCheckCircle className="text-white text-xs" />
-                      </div>
-                      <span className="text-sm xs:text-base font-medium text-gray-900">Commercial-grade LED lights</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center flex-shrink-0">
-                        <FaCheckCircle className="text-white text-xs" />
-                      </div>
-                      <span className="text-sm xs:text-base font-medium text-gray-900">Full-season maintenance</span>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <div className="w-5 h-5 xs:w-6 xs:h-6 rounded-full bg-gradient-to-r from-emerald-500 to-green-600 flex items-center justify-center flex-shrink-0">
-                        <FaCheckCircle className="text-white text-xs" />
-                      </div>
-                      <span className="text-sm xs:text-base font-medium text-gray-900">Free takedown & storage</span>
-                    </div>
+
                   </>
                 )}
               </div>
