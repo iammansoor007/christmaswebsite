@@ -197,20 +197,6 @@ const Hero = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
               </button>
 
-              {/* Trust badges - responsive layout */}
-              {hero.trustBadges && hero.trustBadges.length > 0 && (
-                <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-6 mt-4 sm:mt-6 md:mt-8 text-white/50 text-xs sm:text-sm">
-                  {hero.trustBadges.map((badge, index) => (
-                    <div key={index} className="flex items-center gap-1 sm:gap-2 hover:text-white/80 transition-colors duration-300">
-                      {badge.icon === 'shield' && <FaShieldAlt className="text-green-400 text-xs sm:text-sm md:text-base" />}
-                      {badge.icon === 'clock' && <FaClock className="text-blue-400 text-xs sm:text-sm md:text-base" />}
-                      {badge.icon === 'medal' && <FaMedal className="text-yellow-400 text-xs sm:text-sm md:text-base" />}
-                      {badge.icon === 'star' && <FaStar className="text-yellow-400 text-xs sm:text-sm md:text-base" />}
-                      <span className="whitespace-nowrap">{badge.text}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
             </div>
           )}
         </div>

@@ -49,6 +49,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
   const [error, setError] = useState('');
   const modalRef = useRef(null);
   const scrollContainerRef = useRef(null);
+  const initialFocusRef = useRef(null);
 
   useEffect(() => {
     const handleEscape = (e) => {
@@ -65,6 +66,13 @@ const ConsultationModal = ({ isOpen, onClose }) => {
       document.body.style.top = `-${scrollY}px`;
       document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
+
+      // Focus first input when modal opens
+      setTimeout(() => {
+        if (initialFocusRef.current) {
+          initialFocusRef.current.focus();
+        }
+      }, 100);
     } else {
       const scrollY = document.body.style.top;
       document.body.style.position = '';
@@ -81,6 +89,32 @@ const ConsultationModal = ({ isOpen, onClose }) => {
       document.body.style.width = '';
       document.body.style.overflow = '';
     };
+  }, [isOpen]);
+
+  useEffect(() => {
+    const handleWheel = (e) => {
+      if (scrollContainerRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
+        const isAtTop = scrollTop === 0;
+        const isAtBottom = scrollTop + clientHeight >= scrollHeight;
+
+        if ((isAtTop && e.deltaY < 0) || (isAtBottom && e.deltaY > 0)) {
+          e.stopPropagation();
+        }
+      }
+    };
+
+    if (isOpen) {
+      const modalContent = scrollContainerRef.current;
+      if (modalContent) {
+        modalContent.addEventListener('wheel', handleWheel, { passive: false });
+      }
+      return () => {
+        if (modalContent) {
+          modalContent.removeEventListener('wheel', handleWheel);
+        }
+      };
+    }
   }, [isOpen]);
 
   const handleBackdropClick = (e) => {
@@ -103,36 +137,26 @@ const ConsultationModal = ({ isOpen, onClose }) => {
     setError('');
 
     try {
-      const response = await fetch('/api/schedule-consultation', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      console.log('Form submitted:', formData);
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setIsSubmitted(true);
-        setTimeout(() => {
-          setIsSubmitted(false);
-          setFormData({
-            name: '',
-            email: '',
-            phone: '',
-            address: '',
-            serviceType: 'seasonal',
-            preferredDate: '',
-            preferredTime: '',
-            message: '',
-            hearAbout: ''
-          });
-          onClose();
-        }, 3000);
-      } else {
-        setError(data.message || 'Something went wrong. Please try again.');
-      }
+      setIsSubmitted(true);
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          address: '',
+          serviceType: 'seasonal',
+          preferredDate: '',
+          preferredTime: '',
+          message: '',
+          hearAbout: ''
+        });
+        onClose();
+      }, 3000);
     } catch (error) {
       console.error('Error submitting form:', error);
       setError('Network error. Please check your connection and try again.');
@@ -228,6 +252,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                         Full Name *
                       </label>
                       <input
+                        ref={initialFocusRef}
                         type="text"
                         name="name"
                         value={formData.name}
@@ -415,10 +440,10 @@ const ServicesPage = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const heroRef = useRef(null);
 
+  // Load data and initial setup
   useEffect(() => {
-    window.scrollTo(0, 0);
-    setIsVisible(true);
     setMounted(true);
+    window.scrollTo(0, 0);
 
     const loadData = async () => {
       try {
@@ -431,7 +456,10 @@ const ServicesPage = () => {
     };
 
     loadData();
+  }, []);
 
+  // Mouse move handler for parallax
+  useEffect(() => {
     const handleMouseMove = (e) => {
       if (heroRef.current) {
         const rect = heroRef.current.getBoundingClientRect();
@@ -441,22 +469,49 @@ const ServicesPage = () => {
       }
     };
 
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // Scroll handler for overlay
+  useEffect(() => {
     const handleScroll = () => {
       if (heroRef.current) {
-        const rect = heroRef.current.getBoundingClientRect();
-        const progress = Math.max(0, Math.min(1, -rect.top / (rect.height * 0.5)));
+        const scrollY = window.scrollY;
+        const heroHeight = heroRef.current.offsetHeight;
+        const progress = Math.min(scrollY / (heroHeight * 0.5), 1);
         setScrollProgress(progress);
       }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('scroll', handleScroll);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Visibility handler for CTA animation
+  useEffect(() => {
+    const handleVisibility = () => {
+      const ctaSection = document.getElementById('cta-section');
+      if (ctaSection) {
+        const rect = ctaSection.getBoundingClientRect();
+        const isVisible = rect.top <= window.innerHeight * 0.75 && rect.bottom >= 0;
+        setIsVisible(isVisible);
+      }
+    };
+
+    window.addEventListener('scroll', handleVisibility);
+    handleVisibility(); // Check initial visibility
+
+    return () => window.removeEventListener('scroll', handleVisibility);
+  }, []);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCallClick = () => {
+    window.location.href = 'tel:+16143017100';
+  };
 
   if (!mounted) {
     return null;
@@ -474,17 +529,13 @@ const ServicesPage = () => {
 
   const { services, howWeWork } = data;
 
-  const handleCallClick = () => {
-    window.location.href = 'tel:+16143017100';
-  };
-
   // CTA Content from howWeWork
   const cta = {
-    title: howWeWork.cta.title,
-    description: howWeWork.cta.description,
+    title: howWeWork?.cta?.title || "Ready to Transform Your Home?",
+    description: howWeWork?.cta?.description || "Schedule your free consultation today and let us bring your vision to life.",
     buttons: {
-      primary: howWeWork.cta.buttons.primary,
-      secondary: howWeWork.cta.buttons.secondary
+      primary: howWeWork?.cta?.buttons?.primary || "Call Us Now",
+      secondary: howWeWork?.cta?.buttons?.secondary || "Schedule Consultation"
     },
     features: [
       { icon: FaClock, text: 'Free Estimates' },
@@ -495,7 +546,6 @@ const ServicesPage = () => {
 
   return (
     <main className="overflow-x-hidden w-full">
-
       {/* Hero Section */}
       <section
         ref={heroRef}
@@ -547,11 +597,10 @@ const ServicesPage = () => {
         {/* Content */}
         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-20 z-10">
           <div className="max-w-4xl mx-auto text-center">
-
             {/* Services Badge with animation */}
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/20 to-amber-500/20 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8 animate-fade-up">
               <HiOutlineSparkles className="w-4 h-4 text-emerald-400" />
-              <span className="text-white/90 text-sm font-medium tracking-wider">{services.badge}</span>
+              <span className="text-white/90 text-sm font-medium tracking-wider">{services?.badge || "Premium Services"}</span>
             </div>
 
             {/* Main Heading with animations */}
@@ -571,33 +620,29 @@ const ServicesPage = () => {
 
             {/* Description with animation */}
             <p className="text-xl sm:text-2xl text-white/80 mb-10 leading-relaxed max-w-3xl mx-auto animate-fade-up animation-delay-400">
-              {services.subtitle}
+              {services?.subtitle || "Transform your property with professional holiday lighting installations"}
             </p>
 
             {/* CTA Buttons with animations */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-fade-up animation-delay-600">
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-fade-up animation-delay-600">
-                <button
-                  onClick={handleCallClick}
-                  className="relative overflow-hidden group inline-flex items-center justify-center px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-gradient-to-r from-yellow-500 to-red-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg w-auto min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
-                >
-                  <span className="relative z-10 flex items-center justify-center gap-1.5 sm:gap-2">
-                    <HiOutlineSparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
-                    <span>Get My Free Quote</span>
-                    <FaArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-                </button>
-              </div>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up animation-delay-600">
+              <button
+                onClick={handleCallClick}
+                className="relative overflow-hidden group inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-yellow-500 to-red-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl text-lg cursor-pointer"
+              >
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  <HiOutlineSparkles className="w-5 h-5" />
+                  <span>Get My Free Quote</span>
+                  <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+              </button>
             </div>
-
-
           </div>
         </div>
       </section>
 
-      {/* Services Sections - Alternating Left/Right Layout */}
-      <section id="services" className="py-4 sm:py-8 md:py-12 bg-white relative overflow-hidden">
+      {/* Services Sections - Alternating Left/Right Layout with Equal Height Cards */}
+      <section id="services" className="py-16 sm:py-20 md:py-24 bg-white relative overflow-hidden">
         {/* Decorative background elements */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0" style={{
@@ -608,9 +653,8 @@ const ServicesPage = () => {
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-7xl mx-auto">
-
             {/* Section Header */}
-            <div className="text-center mb-12 animate-fade-up">
+            <div className="text-center mb-16 animate-fade-up">
               <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/10 to-amber-500/10 backdrop-blur-sm border border-emerald-200/30 rounded-full px-4 py-1.5">
                 <GiSparkles className="w-3.5 h-3.5 text-emerald-500" />
                 <span className="text-emerald-700 text-xs font-medium tracking-wider">PREMIUM SERVICES</span>
@@ -621,12 +665,12 @@ const ServicesPage = () => {
                 </span>
               </h2>
               <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-                {services.subtitle}
+                {services?.subtitle || "Professional holiday lighting solutions for every property"}
               </p>
             </div>
 
-            {/* Alternating Service Cards */}
-            {services.items.map((service, index) => {
+            {/* Alternating Service Cards with Equal Height */}
+            {services?.items?.map((service, index) => {
               // Determine the correct link based on service title
               const serviceLink = service.title.toLowerCase().includes('residential')
                 ? '/services/residential-lighting'
@@ -639,16 +683,21 @@ const ServicesPage = () => {
               return (
                 <div
                   key={index}
-                  className={`grid lg:grid-cols-2 gap-8 sm:gap-12 md:gap-16 items-center py-16 ${index !== 0 ? 'border-t border-gray-100' : ''}`}
+                  className={`grid lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-stretch py-16 ${index !== 0 ? 'border-t border-gray-100' : ''
+                    }`}
                 >
                   {/* Content - alternating order */}
-                  <div className={`relative order-2 ${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'} text-center lg:text-left animate-fade-up`} style={{ animationDelay: `${400 + index * 150}ms` }}>
-                    <div className="relative z-10">
+                  <div
+                    className={`relative order-2 ${index % 2 === 0 ? 'lg:order-1' : 'lg:order-2'
+                      } animate-fade-up h-full`}
+                    style={{ animationDelay: `${400 + index * 150}ms` }}
+                  >
+                    <div className="relative z-10 bg-white rounded-3xl p-8 h-full flex flex-col">
                       {/* Section badge */}
                       <div className="flex justify-center lg:justify-start mb-4">
                         <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/10 to-amber-500/10 backdrop-blur-sm border border-emerald-200/30 rounded-full px-4 py-1.5">
-                          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: service.color }}></div>
-                          <span className="text-emerald-700 text-xs font-medium tracking-wider">{service.number}</span>
+                          <div className="w-2 h-2 rounded-full" style={{ backgroundColor: service.color || '#10b981' }}></div>
+                          <span className="text-emerald-700 text-xs font-medium tracking-wider">{service.number || `0${index + 1}`}</span>
                         </div>
                       </div>
 
@@ -659,13 +708,13 @@ const ServicesPage = () => {
                       </h2>
 
                       {/* Description */}
-                      <p className="text-gray-600 text-base sm:text-lg mb-6 leading-relaxed">
+                      <p className="text-gray-600 text-base sm:text-lg mb-6 leading-relaxed flex-grow">
                         {service.description}
                       </p>
 
                       {/* Features List */}
                       <div className="space-y-3 mb-8">
-                        {service.features.slice(0, 4).map((feature, idx) => (
+                        {service.features?.slice(0, 4).map((feature, idx) => (
                           <div key={idx} className="flex items-start gap-3">
                             <FaCheckCircle className="text-emerald-500 mt-1 flex-shrink-0" />
                             <span className="text-gray-700">{feature}</span>
@@ -673,8 +722,8 @@ const ServicesPage = () => {
                         ))}
                       </div>
 
-                      {/* CTA Button - Now links to specific service page */}
-                      <div className="flex justify-center lg:justify-start">
+                      {/* CTA Button */}
+                      <div className="flex justify-center lg:justify-start mt-auto">
                         <Link
                           href={serviceLink}
                           className="group relative overflow-hidden inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-amber-400 to-red-500 text-white font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300"
@@ -688,17 +737,19 @@ const ServicesPage = () => {
                         </Link>
                       </div>
 
-
+                      {/* Decorative elements */}
+                      <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-gradient-to-br from-emerald-100 to-amber-100 rounded-full blur-3xl opacity-50 -z-10"></div>
                     </div>
-
-                    {/* Decorative elements */}
-                    <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-gradient-to-br from-emerald-100 to-amber-100 rounded-full blur-3xl opacity-50 -z-10"></div>
                   </div>
 
-                  {/* Image - alternating order */}
-                  <div className={`relative order-1 ${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'} animate-fade-up`} style={{ animationDelay: `${500 + index * 150}ms` }}>
-                    <div className="relative">
-                      <div className="aspect-[4/3] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
+                  {/* Image - alternating order with equal height */}
+                  <div
+                    className={`relative order-1 ${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'
+                      } animate-fade-up h-full`}
+                    style={{ animationDelay: `${500 + index * 150}ms` }}
+                  >
+                    <div className="relative h-full">
+                      <div className="aspect-[4/3] lg:aspect-auto lg:h-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
                         <Image
                           src={service.image || "/images/placeholder.jpg"}
                           alt={service.title}
@@ -707,6 +758,7 @@ const ServicesPage = () => {
                           height={600}
                           priority={index === 0}
                           unoptimized
+                          style={{ objectFit: 'cover' }}
                         />
                         {/* Gradient overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
@@ -715,7 +767,7 @@ const ServicesPage = () => {
                       {/* Color accent */}
                       <div
                         className="absolute -bottom-4 -right-4 w-24 h-24 rounded-full blur-2xl opacity-30"
-                        style={{ backgroundColor: service.color }}
+                        style={{ backgroundColor: service.color || '#10b981' }}
                       ></div>
 
                       {/* Decorative gradient */}
@@ -730,87 +782,47 @@ const ServicesPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 xs:py-16 sm:py-20 md:py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
-        {/* Decorative background elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(16,185,129,0.2) 1px, transparent 0)`,
-            backgroundSize: '50px 50px'
-          }}></div>
-        </div>
+      <section id="cta-section" className="py-16 sm:py-20 bg-gray-50 relative overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div
+            className={`max-w-4xl mx-auto transition-all duration-700 delay-900 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"
+              }`}
+          >
+            <div className="bg-gradient-to-r from-emerald-50 via-amber-50 to-red-50 rounded-2xl sm:rounded-3xl p-8 sm:p-10 md:p-12 lg:p-16 text-center border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 group">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 transition-all duration-300 group-hover:text-gray-800">
+                {cta.title}
+              </h3>
+              <p className="text-gray-600 text-base sm:text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
+                {cta.description}
+              </p>
 
-        <div className="container mx-auto px-4 xs:px-6 relative z-10">
-          <div className="max-w-4xl mx-auto">
-            <div
-              className={`transition-all duration-700 delay-900 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
-            >
-              <div className="bg-gradient-to-r from-emerald-50 via-amber-50 to-red-50 rounded-xl xs:rounded-2xl sm:rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 lg:p-10 text-center border border-emerald-100 shadow-lg hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
-
-                {/* Decorative elements */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-200/20 to-amber-200/20 rounded-bl-full"></div>
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-emerald-200/20 to-red-200/20 rounded-tr-full"></div>
-
-                {/* Animated orbs */}
-                <div className="absolute inset-0 overflow-hidden">
-                  <div className="absolute top-0 -left-4 w-48 h-48 bg-emerald-400 rounded-full mix-blend-soft-light filter blur-3xl opacity-10 animate-blob"></div>
-                  <div className="absolute bottom-0 -right-4 w-48 h-48 bg-amber-400 rounded-full mix-blend-soft-light filter blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
-                </div>
-
-                <h3 className="font-montserrat font-extrabold text-2xl xs:text-3xl sm:text-4xl md:text-5xl text-gray-900 mb-4 transition-all duration-300 group-hover:text-gray-800 animate-title-slide-up">
-                  {cta.title}
-                </h3>
-                <p className="text-gray-600 text-base xs:text-lg sm:text-xl md:text-2xl mb-6 max-w-2xl mx-auto leading-relaxed transition-all duration-300 group-hover:text-gray-700 animate-fade-up animation-delay-200">
-                  {cta.description}
-                </p>
-
-                {/* Features */}
-                <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-6 xs:mb-8 animate-fade-up animation-delay-400">
-                  {cta.features.map((feature, index) => (
-                    <div key={index} className="flex items-center gap-1.5 bg-white/80 backdrop-blur-sm px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-sm border border-emerald-100">
-                      <feature.icon className="text-emerald-500 text-xs sm:text-sm" />
-                      <span className="text-xs sm:text-base text-gray-700 font-medium whitespace-nowrap">{feature.text}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Button Section */}
-                <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-4 animate-fade-up animation-delay-600 max-w-xs mx-auto sm:max-w-none">
-                  {/* Primary Button */}
-                  <button
-                    className="group/btn relative w-full sm:w-auto px-5 py-3.5 sm:px-6 md:px-8 sm:py-3.5 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden active:scale-[0.98] sm:active:scale-95"
-                    aria-label={cta.buttons.primary}
-                    onClick={() => window.location.href = 'tel:+16143017100'}
-                  >
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      <FaPhoneAlt className="text-sm sm:text-sm" />
-                      <span className="text-sm sm:text-base whitespace-nowrap">
-                        {cta.buttons.primary}
-                      </span>
-                      <FaArrowRight className="text-xs sm:text-sm transition-all duration-300 group-hover/btn:translate-x-2" />
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  onClick={handleCallClick}
+                  className="group/btn relative px-8 py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden w-full sm:w-auto text-center active:scale-95"
+                  aria-label={cta.buttons.primary}
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    <FaPhoneAlt className="text-sm" />
+                    <span className="text-base whitespace-nowrap">
+                      {cta.buttons.primary}
                     </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
-                  </button>
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
+                </button>
 
-                  {/* Secondary Button */}
-                  <button
-                    className="group relative w-full sm:w-auto px-5 py-3.5 sm:px-6 md:px-8 sm:py-3.5 font-semibold text-gray-700 border-2 border-emerald-200 hover:border-emerald-300 rounded-xl transition-all duration-300 bg-white hover:bg-emerald-50 active:scale-[0.98] sm:active:scale-95 text-center"
-                    aria-label={cta.buttons.secondary}
-                    onClick={() => setIsModalOpen(true)}
-                  >
-                    <span className="flex items-center justify-center gap-2">
-                      <span className="text-sm sm:text-base whitespace-nowrap">
-                        {cta.buttons.secondary}
-                      </span>
-                      <FaArrowRight className="text-xs sm:text-sm transition-all duration-300 group-hover:translate-x-1" />
+                <button
+                  onClick={handleOpenModal}
+                  className="px-8 py-4 font-semibold text-gray-700 hover:text-gray-900 border-2 border-gray-300 hover:border-gray-400 rounded-xl transition-all duration-300 bg-white hover:bg-gray-50 w-full sm:w-auto text-center active:scale-95"
+                  aria-label={cta.buttons.secondary}
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    <FaCalendarAlt className="text-sm" />
+                    <span className="text-base whitespace-nowrap">
+                      {cta.buttons.secondary}
                     </span>
-                  </button>
-                </div>
-
-                {/* Trust badge */}
-                <div className="mt-5 xs:mt-6 text-xs xs:text-sm text-gray-500 flex flex-wrap items-center justify-center gap-2 animate-fade-up animation-delay-800">
-                  <FaShieldAlt className="text-emerald-500 flex-shrink-0" />
-                  <span className="text-center">No commitment • Free consultation • 100% satisfaction guaranteed</span>
-                </div>
+                  </span>
+                </button>
               </div>
             </div>
           </div>

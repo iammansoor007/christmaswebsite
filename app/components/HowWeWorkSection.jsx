@@ -752,7 +752,7 @@ const HowWeWorkSection = () => {
                     <span className="text-xs xs:text-sm sm:text-base whitespace-nowrap">
                       {cta.buttons.primary}
                     </span>
-                   
+
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
                 </button>
