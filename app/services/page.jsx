@@ -628,7 +628,7 @@ const ServicesPage = () => {
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
               </button>
-            
+
             </div>
           </div>
         </div>
