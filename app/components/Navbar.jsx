@@ -119,10 +119,14 @@ const Navbar = () => {
 
             {/* Desktop CTA Button */}
             <div className="hidden lg:flex items-center flex-shrink-0">
-              <Button
+              <a
                 href="tel:+16143017100"
-                variant="primary"
-                className="relative overflow-hidden group min-w-[140px]"
+                className="relative overflow-hidden group min-w-[140px] inline-flex items-center justify-center px-4 py-2 rounded-lg bg-gradient-to-r from-holiday-red via-holiday-gold to-holiday-green text-white font-semibold hover:shadow-lg transition-all duration-300"
+                onClick={(e) => {
+                  // This will open the native dialer on mobile devices
+                  // For desktop, it may open default calling app or do nothing
+                  window.location.href = "tel:+16143017100";
+                }}
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <svg
@@ -135,13 +139,13 @@ const Navbar = () => {
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={2}
-                      d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
                     />
                   </svg>
-                  <span className="truncate">Get My Quote</span>
+                  <span className="truncate">Call Now (614) 301-7100</span>
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-holiday-red via-holiday-gold to-holiday-green opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-              </Button>
+              </a>
             </div>
 
             {/* Mobile menu button */}
@@ -190,27 +194,25 @@ const Navbar = () => {
 
                 <div className="pt-4 mt-2 border-t border-holiday-gold/20">
                   <Button
-                    href="/contact"
+                    href="tel:+16143017100"
                     variant="primary"
                     className="w-full justify-center py-3 text-base"
-                    onClick={() => setIsOpen(false)}
+                    onClick={(e) => {
+                      setIsOpen(false);
+                      // The href="tel:" will handle opening the dialer
+                    }}
                   >
                     <span className="flex items-center justify-center gap-2">
                       <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
-                      Get Free Quote
+                      Call Now (614) 301-7100
                     </span>
                   </Button>
 
                   <div className="mt-4 pt-4 border-t border-holiday-gold/10">
                     <div className="flex flex-col space-y-3 text-sm">
-                      <a href="tel:+15551234567" className="flex items-center gap-2 text-warm-white/80 hover:text-holiday-gold transition-colors px-1 py-2 rounded-lg hover:bg-dark-navy/30">
-                        <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                        </svg>
-                        <span className="truncate">(555) 123-4567</span>
-                      </a>
+
                       <a href="mailto:info@luminousholiday.com" className="flex items-center gap-2 text-warm-white/80 hover:text-holiday-gold transition-colors px-1 py-2 rounded-lg hover:bg-dark-navy/30">
                         <svg className="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />

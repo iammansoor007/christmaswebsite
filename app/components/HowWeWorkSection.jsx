@@ -722,20 +722,7 @@ const HowWeWorkSection = () => {
                       />
                     </div>
 
-                    {/* Arrow Connector - Mobile & Tablet Only */}
-                    {(isMobile ||
-                      (isTablet &&
-                        index % 2 === 0 &&
-                        index < steps.length - 1)) &&
-                      index < steps.length - 1 && (
-                        <div
-                          className={`flex justify-center my-3 xs:my-4 ${isTablet && (index === 0 || index === 2) ? "md:hidden" : ""}`}
-                        >
-                          <div className="w-6 h-6 xs:w-7 xs:h-7 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm">
-                            <FaArrowRight className="text-gray-400 text-xs xs:text-sm" />
-                          </div>
-                        </div>
-                      )}
+
                   </div>
                 );
               })}
@@ -765,7 +752,7 @@ const HowWeWorkSection = () => {
                     <span className="text-xs xs:text-sm sm:text-base whitespace-nowrap">
                       {cta.buttons.primary}
                     </span>
-                    <FaArrowRight className="text-xs xs:text-sm transition-all duration-300 group-hover/btn:translate-x-2" />
+                   
                   </span>
                   <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
                 </button>

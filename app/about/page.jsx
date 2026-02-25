@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import installation from '../../public/images/installationmain.jpg';
 import FAQ from '../components/FAQSection';
+import ChristmasLightingMap from '../components/ChristmasLightingMap';
 import hero from '../../public/images/hero-background.jpg';
 import enjoy from '../../public/images/enjoy.jpg';
 import {
@@ -37,7 +38,10 @@ import {
   FaPhoneAlt,
   FaMapMarkerAlt,
   FaHeart,
-  FaRocket
+  FaRocket,
+  FaUser,
+  FaSpinner,
+  FaTimes
 } from 'react-icons/fa';
 import { GiSparkles, GiFruitTree, GiCrystalGrowth, GiChristmasTree } from 'react-icons/gi';
 import { HiOutlineSparkles } from 'react-icons/hi';
@@ -50,7 +54,9 @@ const AboutUs = () => {
   const [data, setData] = useState(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const heroRef = useRef(null);
+  const mainRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -86,6 +92,8 @@ const AboutUs = () => {
       }
     };
 
+
+
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('scroll', handleScroll);
 
@@ -99,6 +107,19 @@ const AboutUs = () => {
     return null;
   }
 
+  const handleCallClick = (e) => {
+    e.preventDefault();
+    if (data?.hero?.cta?.phone) {
+      // Remove any non-numeric characters except +
+      const phoneNumber = data.hero.cta.phone.replace(/[^\d+]/g, '');
+      window.location.href = `tel:${phoneNumber}`;
+    } else {
+      console.warn('Phone number not found in data.json');
+      // Fallback to contact page if no phone number
+      window.location.href = '/contact';
+    }
+  };
+
   if (!data) {
     return (
       <section className="relative min-h-[90vh] flex items-center justify-center bg-[#0B1120]">
@@ -111,15 +132,413 @@ const AboutUs = () => {
 
   const { hero } = data;
 
-  // Function to handle phone call
-  const handleCallClick = (e) => {
-    e.preventDefault();
-    if (data?.hero?.cta?.phone) {
-      const phoneNumber = data.hero.cta.phone.replace(/[^\d+]/g, '');
-      window.location.href = `tel:${phoneNumber}`;
-    } else {
-      window.location.href = '/contact';
-    }
+  // ConsultationModal component - fixed all issues
+  const ConsultationModal = ({ isOpen, onClose }) => {
+    const [formData, setFormData] = useState({
+      name: '',
+      email: '',
+      phone: '',
+      address: '',
+      serviceType: 'seasonal',
+      preferredDate: '',
+      preferredTime: '',
+      message: '',
+      hearAbout: ''
+    });
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
+    const [error, setError] = useState('');
+    const modalRef = useRef(null);
+    const scrollContainerRef = useRef(null);
+    const initialFocusRef = useRef(null);
+
+    // Store scroll position when modal opens
+    useEffect(() => {
+      if (isOpen) {
+        // Store current scroll position
+        const scrollY = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${scrollY}px`;
+        document.body.style.left = '0';
+        document.body.style.right = '0';
+        document.body.style.width = '100%';
+
+        // Focus first input after modal is mounted
+        setTimeout(() => {
+          if (initialFocusRef.current) {
+            initialFocusRef.current.focus();
+          }
+        }, 100);
+      }
+
+      return () => {
+        // Restore scroll position when modal closes
+        const scrollY = document.body.style.top;
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.left = '';
+        document.body.style.right = '';
+        document.body.style.width = '';
+
+        if (scrollY) {
+          window.scrollTo(0, parseInt(scrollY || '0') * -1);
+        }
+      };
+    }, [isOpen]);
+
+    // Handle escape key
+    useEffect(() => {
+      const handleEscape = (e) => {
+        if (e.key === 'Escape' && isOpen) {
+          onClose();
+        }
+      };
+
+      window.addEventListener('keydown', handleEscape);
+      return () => window.removeEventListener('keydown', handleEscape);
+    }, [isOpen, onClose]);
+
+    // Handle backdrop click
+    const handleBackdropClick = (e) => {
+      if (modalRef.current && !modalRef.current.contains(e.target)) {
+        onClose();
+      }
+    };
+
+    // Prevent scroll propagation - fixed
+    const handleWheel = (e) => {
+      if (scrollContainerRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
+        e.stopPropagation();
+
+        // If at the top and trying to scroll up, or at bottom and trying to scroll down
+        if (
+          (scrollTop === 0 && e.deltaY < 0) ||
+          (scrollTop + clientHeight >= scrollHeight && e.deltaY > 0)
+        ) {
+          e.preventDefault();
+        }
+      }
+    };
+
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    };
+
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setIsSubmitting(true);
+      setError('');
+
+      // Simulate API call (replace with actual API)
+      setTimeout(() => {
+        setIsSubmitted(true);
+        setTimeout(() => {
+          setIsSubmitted(false);
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            address: '',
+            serviceType: 'seasonal',
+            preferredDate: '',
+            preferredTime: '',
+            message: '',
+            hearAbout: ''
+          });
+          onClose();
+        }, 2000);
+      }, 1500);
+    };
+
+    const timeSlots = [
+      '9:00 AM', '10:00 AM', '11:00 AM',
+      '12:00 PM', '1:00 PM', '2:00 PM',
+      '3:00 PM', '4:00 PM', '5:00 PM'
+    ];
+
+    const serviceTypes = [
+      { value: 'seasonal', label: 'Seasonal Christmas Lighting' },
+      { value: 'permanent', label: 'Permanent Lighting Installation' },
+      { value: 'commercial', label: 'Commercial Property' },
+      { value: 'consultation', label: 'General Consultation' }
+    ];
+
+    const hearOptions = [
+      'Google Search',
+      'Facebook',
+      'Instagram',
+      'Friend/Family Referral',
+      'Previous Customer',
+      'Other'
+    ];
+
+    if (!isOpen) return null;
+
+    return (
+      <div
+        className="fixed inset-0 z-[9999] overflow-hidden"
+        onClick={handleBackdropClick}
+      >
+        {/* Backdrop with blur */}
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" />
+
+        {/* Modal Container */}
+        <div className="fixed inset-0 flex items-center justify-center p-4 pointer-events-none">
+          <div
+            ref={modalRef}
+            className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl transform transition-all duration-300 pointer-events-auto max-h-[90vh] flex flex-col overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close button */}
+            <button
+              onClick={onClose}
+              className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105"
+              aria-label="Close modal"
+            >
+              <FaTimes className="text-gray-600 w-4 h-4" />
+            </button>
+
+            {/* Success View */}
+            {isSubmitted ? (
+              <div className="p-8 text-center overflow-y-auto min-h-[300px] flex flex-col items-center justify-center">
+                <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
+                  <FaCheckCircle className="w-10 h-10 text-emerald-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                  Consultation Scheduled!
+                </h3>
+                <p className="text-gray-600">
+                  Thank you for scheduling a consultation. We'll contact you within 24 hours to confirm your appointment.
+                </p>
+              </div>
+            ) : (
+              <>
+                {/* Header */}
+                <div className="bg-gradient-to-r from-emerald-600 to-emerald-700 p-6 flex-shrink-0">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                      <GiFruitTree className="text-white text-2xl" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold text-white">Schedule Free Consultation</h3>
+                      <p className="text-emerald-100 text-sm">Christmas Lights Over Columbus</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Scrollable Form Container */}
+                <div
+                  ref={scrollContainerRef}
+                  className="flex-1 overflow-y-auto p-6"
+                  onWheel={handleWheel}
+                  style={{ maxHeight: 'calc(90vh - 120px)' }}
+                >
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    {error && (
+                      <div className="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
+                        {error}
+                      </div>
+                    )}
+
+                    {/* Form Fields - All fields now have visible text */}
+                    <div className="space-y-5">
+                      {/* Name */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                          <FaUser className="inline mr-2 text-emerald-600" />
+                          Full Name *
+                        </label>
+                        <input
+                          ref={initialFocusRef}
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 text-gray-900 bg-white placeholder-gray-400"
+                          placeholder="John Doe"
+                        />
+                      </div>
+
+                      {/* Email */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                          <FaEnvelope className="inline mr-2 text-emerald-600" />
+                          Email Address *
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 text-gray-900 bg-white placeholder-gray-400"
+                          placeholder="john@example.com"
+                        />
+                      </div>
+
+                      {/* Phone */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                          <FaPhoneAlt className="inline mr-2 text-emerald-600" />
+                          Phone Number *
+                        </label>
+                        <input
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 text-gray-900 bg-white placeholder-gray-400"
+                          placeholder="(614) 555-0123"
+                        />
+                      </div>
+
+                      {/* Address */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                          <FaHome className="inline mr-2 text-emerald-600" />
+                          Service Address *
+                        </label>
+                        <input
+                          type="text"
+                          name="address"
+                          value={formData.address}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 text-gray-900 bg-white placeholder-gray-400"
+                          placeholder="123 Main St, Columbus, OH 43215"
+                        />
+                      </div>
+
+                      {/* Service Type */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                          <FaTree className="inline mr-2 text-emerald-600" />
+                          Service Type *
+                        </label>
+                        <select
+                          name="serviceType"
+                          value={formData.serviceType}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 text-gray-900 bg-white"
+                        >
+                          {serviceTypes.map(type => (
+                            <option key={type.value} value={type.value} className="text-gray-900">
+                              {type.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Preferred Date */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                          <FaCalendarAlt className="inline mr-2 text-emerald-600" />
+                          Preferred Date *
+                        </label>
+                        <input
+                          type="date"
+                          name="preferredDate"
+                          value={formData.preferredDate}
+                          onChange={handleChange}
+                          required
+                          min={new Date().toISOString().split('T')[0]}
+                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 text-gray-900 bg-white"
+                        />
+                      </div>
+
+                      {/* Preferred Time */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                          <FaClock className="inline mr-2 text-emerald-600" />
+                          Preferred Time *
+                        </label>
+                        <select
+                          name="preferredTime"
+                          value={formData.preferredTime}
+                          onChange={handleChange}
+                          required
+                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 text-gray-900 bg-white"
+                        >
+                          <option value="" className="text-gray-500">Select a time</option>
+                          {timeSlots.map(time => (
+                            <option key={time} value={time} className="text-gray-900">{time}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* How did you hear about us */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                          How did you hear about us?
+                        </label>
+                        <select
+                          name="hearAbout"
+                          value={formData.hearAbout}
+                          onChange={handleChange}
+                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 text-gray-900 bg-white"
+                        >
+                          <option value="" className="text-gray-500">Select an option</option>
+                          {hearOptions.map(option => (
+                            <option key={option} value={option} className="text-gray-900">{option}</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {/* Message */}
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                          Additional Details (Optional)
+                        </label>
+                        <textarea
+                          name="message"
+                          value={formData.message}
+                          onChange={handleChange}
+                          rows="4"
+                          className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-200 text-gray-900 bg-white placeholder-gray-400 resize-none"
+                          placeholder="Tell us about your vision for your holiday display..."
+                        />
+                      </div>
+                    </div>
+
+                    {/* Submit Button */}
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full mt-6 px-6 py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold rounded-xl hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0 text-base"
+                    >
+                      {isSubmitting ? (
+                        <span className="flex items-center justify-center gap-2">
+                          <FaSpinner className="animate-spin w-4 h-4" />
+                          Scheduling...
+                        </span>
+                      ) : (
+                        <span className="flex items-center justify-center gap-2">
+                          <FaCalendarAlt className="w-4 h-4" />
+                          Schedule Free Consultation
+                        </span>
+                      )}
+                    </button>
+
+                    <p className="text-xs text-gray-500 text-center mt-4">
+                      By submitting, you agree to be contacted by Christmas Lights Over Columbus.
+                    </p>
+                  </form>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+    );
   };
 
   // Founder information
@@ -134,84 +553,13 @@ const AboutUs = () => {
     location: 'Central Ohio'
   };
 
-  // Services included
-  const services = [
-    { icon: FaLightbulb, text: 'Custom lighting design tailored to your home or business' },
-    { icon: FaTree, text: 'All Christmas lights and décor provided and professionally installed' },
-    { icon: FaTools, text: 'Ongoing maintenance throughout the holiday season' },
-    { icon: FaBoxOpen, text: 'Full takedown after the season ends' },
-    { icon: FaHome, text: 'All lights removed and stored at our facility — no storage required' }
-  ];
-
-  // FAQ items
-  const faqItems = [
-    {
-      question: 'What services are included with professional Christmas light installation?',
-      answer: '',
-      list: [
-        'Custom lighting design tailored to your home or business',
-        'All Christmas lights and décor provided and professionally installed',
-        'Ongoing maintenance throughout the holiday season',
-        'Full takedown after the season ends',
-        'All lights removed and stored at our facility — no storage required on your end'
-      ],
-      icon: FaQuestionCircle
-    },
-    {
-      question: 'What kind of Lights do you install?',
-      type: 'dual',
-      icon: FaLightbulb,
-      options: [
-        {
-          title: 'Seasonal Lighting',
-          description: 'We install commercial-grade C9 LED bulbs. These lights are 3x brighter than anything you\'ll find at a big-box store, and every display is custom-fit to your home.',
-          icon: GiSparkles
-        },
-        {
-          title: 'Permanent Lighting',
-          description: 'We install Invisilights permanent lighting systems that stay up year-round and can be customized for any holiday or occasion.',
-          icon: FaHome
-        }
-      ]
-    },
-    {
-      question: 'Am I Buying the Lights?',
-      type: 'comparison',
-      icon: FaTag,
-      comparisons: [
-        {
-          title: 'Seasonal Lighting',
-          answer: 'No. All seasonal lights and décor are leased and maintained by our team, so you never have to worry about repairs, storage, or climbing ladders. If anything needs attention during the season, we handle it.',
-          icon: GiSparkles
-        },
-        {
-          title: 'Permanent Lighting',
-          answer: 'Yes. Permanent lighting systems are purchased and professionally installed on your home.',
-          icon: FaHome
-        }
-      ]
-    },
-    {
-      question: 'Do you install the lights I own?',
-      answer: 'We don\'t — and here\'s why: we use professional-grade Christmas lighting on every project so we can guarantee quality, safety, and reliability all season long.',
-      icon: FaTools,
-      highlight: true
-    },
-    {
-      question: 'Are any discounts available?',
-      answer: 'Yes, we offer discounts for installations completed before November, as well as loyalty discounts for continuous years of service.',
-      icon: FaTag,
-      badge: 'Limited Time'
-    }
-  ];
-
   // CTA Content
   const cta = {
     title: 'Ready to Transform Your Home Into a Holiday Wonderland?',
     description: 'Join hundreds of satisfied Central Ohio families who trust us to make their holiday lighting stress-free and spectacular. Get your free, no-obligation quote today!',
     buttons: {
       primary: 'Call Us Now: (614) 301-7100',
-      secondary: 'Get Free Quote'
+      secondary: 'Schedule Free Consultation'
     },
     features: [
       { icon: FaClock, text: 'Free Estimates' },
@@ -220,8 +568,20 @@ const AboutUs = () => {
     ]
   };
 
+  // Handle button click without page jump
+  const handleOpenModal = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsModalOpen(true);
+  };
+
   return (
-    <main className="overflow-x-hidden w-full">
+    <main ref={mainRef} className="overflow-x-hidden w-full">
+      {/* Modal Component */}
+      <ConsultationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
 
       {/* Hero Section */}
       <section
@@ -284,12 +644,12 @@ const AboutUs = () => {
             {/* Main Heading with animations */}
             <h1 className="font-montserrat font-extrabold text-5xl sm:text-6xl lg:text-7xl text-white mb-6">
               <span className="block animate-title-slide-up">
-                Get to Know{' '}
+                GET TO KNOW{' '}
               </span>
               <span className="block relative animate-title-slide-up animation-delay-200">
                 <span className="relative inline-block">
                   <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-amber-300 to-red-400 bg-[length:200%_200%] animate-gradient-x">
-                    Your Lighting Team
+                    YOUR LIGHTING TEAM
                   </span>
                   <span className="absolute inset-0 bg-gradient-to-r from-amber-400/30 to-red-400/30 blur-3xl -z-10 scale-150"></span>
                 </span>
@@ -303,26 +663,17 @@ const AboutUs = () => {
 
             {/* CTA Buttons with animations */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-fade-up animation-delay-600">
-              <Link
-                href="/contact"
-                className="group relative overflow-hidden inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-amber-400 to-red-500 text-white font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all duration-300 w-full sm:w-auto"
+              <button
+                onClick={handleCallClick}
+                className="relative overflow-hidden group inline-flex items-center justify-center px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-gradient-to-r from-yellow-500 to-red-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg w-auto min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
               >
-                <span className="relative z-10 flex items-center gap-2">
-                  <HiOutlineSparkles className="w-5 h-5" />
-                  <span>Meet Our Team</span>
-                  <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <span className="relative z-10 flex items-center justify-center gap-1.5 sm:gap-2">
+                  <HiOutlineSparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
+                  <span>{hero.cta.subtext || "Get My Free Quote"}</span>
+                  <FaArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-amber-400 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-              </Link>
-
-              <Link
-                href="#story"
-                className="group inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-full hover:bg-white/20 transition-all duration-300 w-full sm:w-auto"
-              >
-                <span className="flex items-center gap-2">
-                  <span>Our Story</span>
-                </span>
-              </Link>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+              </button>
             </div>
 
             {/* Trust badges with animation */}
@@ -341,8 +692,6 @@ const AboutUs = () => {
             )}
           </div>
         </div>
-
-
       </section>
 
       {/* Founder Section with ID for anchor link */}
@@ -419,7 +768,7 @@ const AboutUs = () => {
                       width={800}
                       height={1000}
                       priority
-                      unoptimized // Add this to bypass Next.js image optimization
+                      unoptimized
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
                     />
                   </div>
@@ -441,91 +790,55 @@ const AboutUs = () => {
           </div>
         </div>
       </section>
+
+      <ChristmasLightingMap />
       {/* FAQ Section */}
       <FAQ />
 
       {/* CTA Section */}
-      <section className="py-12 xs:py-16 sm:py-20 md:py-24 bg-gradient-to-b from-white to-gray-50 relative overflow-hidden">
-        {/* Decorative background elements */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(245,158,11,0.2) 1px, transparent 0)`,
-            backgroundSize: '50px 50px'
-          }}></div>
-        </div>
+      <section className="py-16 sm:py-20 bg-gray-50 relative overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6">
+          <div
+            className={`max-w-4xl mx-auto transition-all duration-700 delay-900 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
+          >
+            <div className="bg-gradient-to-r from-emerald-50 via-amber-50 to-red-50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 text-center border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 group">
+              <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 transition-all duration-300 group-hover:text-gray-800">
+                {cta.title}
+              </h3>
+              <p className="text-gray-600 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
+                {cta.description}
+              </p>
 
-        <div className="container mx-auto px-4 xs:px-6 relative z-10">
-          <div className="max-w-4xl mx-auto">
-            <div
-              className={`transition-all duration-700 delay-900 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
-            >
-              <div className="bg-gradient-to-r from-amber-50 via-red-50 to-amber-50 rounded-xl xs:rounded-2xl sm:rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 lg:p-10 text-center border border-amber-100 shadow-lg hover:shadow-xl transition-all duration-300 group relative overflow-hidden">
-
-                {/* Decorative elements */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-amber-200/20 to-red-200/20 rounded-bl-full"></div>
-                <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-amber-200/20 to-red-200/20 rounded-tr-full"></div>
-
-                {/* Animated orbs */}
-                <div className="absolute inset-0 overflow-hidden">
-                  <div className="absolute top-0 -left-4 w-48 h-48 bg-amber-400 rounded-full mix-blend-soft-light filter blur-3xl opacity-10 animate-blob"></div>
-                  <div className="absolute bottom-0 -right-4 w-48 h-48 bg-red-400 rounded-full mix-blend-soft-light filter blur-3xl opacity-10 animate-blob animation-delay-2000"></div>
-                </div>
-
-                <h3 className="font-montserrat font-extrabold text-2xl xs:text-3xl sm:text-4xl md:text-5xl text-gray-900 mb-4 transition-all duration-300 group-hover:text-gray-800 animate-title-slide-up">
-                  {cta.title}
-                </h3>
-                <p className="text-gray-600 text-base xs:text-lg sm:text-xl md:text-2xl mb-6 max-w-2xl mx-auto leading-relaxed transition-all duration-300 group-hover:text-gray-700 animate-fade-up animation-delay-200">
-                  {cta.description}
-                </p>
-
-                {/* Features */}
-                <div className="flex flex-wrap justify-center gap-2 sm:gap-4 mb-6 xs:mb-8 animate-fade-up animation-delay-400">
-                  {cta.features.map((feature, index) => (
-                    <div key={index} className="flex items-center gap-1.5 bg-white/80 backdrop-blur-sm px-3 py-1.5 sm:px-4 sm:py-2 rounded-full shadow-sm border border-amber-100">
-                      <feature.icon className="text-amber-500 text-xs sm:text-sm" />
-                      <span className="text-xs sm:text-base text-gray-700 font-medium whitespace-nowrap">{feature.text}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* IMPROVED BUTTON SECTION */}
-                <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center sm:gap-4 animate-fade-up animation-delay-600 max-w-xs mx-auto sm:max-w-none">
-                  {/* Primary Button - Full width on mobile, auto on desktop */}
-                  <button
-                    className="group/btn relative w-full sm:w-auto px-5 py-3.5 sm:px-6 md:px-8 sm:py-3.5 bg-gradient-to-r from-amber-500 to-red-500 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden active:scale-[0.98] sm:active:scale-95"
-                    aria-label={cta.buttons.primary}
-                    onClick={() => window.location.href = 'tel:+16143017100'}
-                  >
-                    <span className="relative z-10 flex items-center justify-center gap-2">
-                      <FaPhoneAlt className="text-sm sm:text-sm" />
-                      <span className="text-sm sm:text-base whitespace-nowrap">
-                        {cta.buttons.primary}
-                      </span>
-                      <FaArrowRight className="text-xs sm:text-sm transition-all duration-300 group-hover/btn:translate-x-2" />
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                <button
+                  className="group/btn relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden w-full sm:w-auto text-center active:scale-95"
+                  aria-label={cta.buttons.primary}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = 'tel:+16143017100';
+                  }}
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    <FaPhoneAlt className="text-sm" />
+                    <span className="text-sm sm:text-base whitespace-nowrap">
+                      {cta.buttons.primary}
                     </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
-                  </button>
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
+                </button>
 
-                  {/* Secondary Button - Full width on mobile, auto on desktop */}
-                  <Link
-                    href="/contact"
-                    className="group relative w-full sm:w-auto px-5 py-3.5 sm:px-6 md:px-8 sm:py-3.5 font-semibold text-gray-700 border-2 border-amber-200 hover:border-amber-300 rounded-xl transition-all duration-300 bg-white hover:bg-amber-50 active:scale-[0.98] sm:active:scale-95 text-center"
-                    aria-label={cta.buttons.secondary}
-                  >
-                    <span className="flex items-center justify-center gap-2">
-                      <span className="text-sm sm:text-base whitespace-nowrap">
-                        {cta.buttons.secondary}
-                      </span>
-                      <FaArrowRight className="text-xs sm:text-sm transition-all duration-300 group-hover:translate-x-1" />
+                <button
+                  className="px-6 sm:px-8 py-3 sm:py-4 font-semibold text-gray-700 hover:text-gray-900 border-2 border-gray-300 hover:border-gray-400 rounded-xl transition-all duration-300 bg-white hover:bg-gray-50 w-full sm:w-auto text-center active:scale-95"
+                  aria-label={cta.buttons.secondary}
+                  onClick={handleOpenModal}
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    <FaCalendarAlt className="text-sm" />
+                    <span className="text-sm sm:text-base whitespace-nowrap">
+                      {cta.buttons.secondary}
                     </span>
-                  </Link>
-                </div>
-
-                {/* Trust badge */}
-                <div className="mt-5 xs:mt-6 text-xs xs:text-sm text-gray-500 flex flex-wrap items-center justify-center gap-2 animate-fade-up animation-delay-800">
-                  <FaShieldAlt className="text-amber-500 flex-shrink-0" />
-                  <span className="text-center">No commitment • Free consultation • 100% satisfaction guaranteed</span>
-                </div>
+                  </span>
+                </button>
               </div>
             </div>
           </div>
@@ -636,6 +949,25 @@ const AboutUs = () => {
 
         .animation-delay-900 {
           animation-delay: 900ms;
+        }
+
+        /* Improve modal scrollbar */
+        .overflow-y-auto::-webkit-scrollbar {
+          width: 8px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 8px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-thumb {
+          background: #c1c1c1;
+          border-radius: 8px;
+        }
+
+        .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+          background: #a1a1a1;
         }
 
         @media (max-width: 640px) {

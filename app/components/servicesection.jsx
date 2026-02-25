@@ -48,7 +48,7 @@ const ChristmasLightingSection = () => {
           <div className="w-full lg:w-1/2">
             <div className="relative">
               <div className="relative overflow-hidden rounded-3xl shadow-2xl">
-                <div className="relative pb-[125%] lg:pb-[133%]"> {/* Tall aspect ratio for vertical image */}
+                <div className="relative pb-[100%] lg:pb-[110%]"> {/* Tall aspect ratio for vertical image */}
                   <Image
                     src={heroowner}
                     alt="Owner - Christmas Lights Over Columbus"
@@ -104,17 +104,6 @@ const ChristmasLightingSection = () => {
               </p>
             </div>
 
-            {/* Features - Clean grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              {hero.features.map((feature, idx) => (
-                <div key={idx} className="flex items-start gap-3">
-                  <div className="flex-shrink-0 w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center">
-                    <FaCheckCircle className="w-4 h-4 text-emerald-600" />
-                  </div>
-                  <span className="text-sm md:text-base text-slate-700 font-medium">{feature}</span>
-                </div>
-              ))}
-            </div>
 
             {/* CTA - Clean buttons */}
             <div className="space-y-4 pt-4">
