@@ -194,7 +194,7 @@
           "Custom Design & Warrantied Installation",
           "Removal and Storage Included"
         ],
-        "image": "https://images.unsplash.com/photo-1513584684374-8bab748fbf90?auto=format&fit=crop&w=800&q=80",
+        "image": "/images/gallery1.jpg",
         "stat": "500+ Homes"
       },
       {
@@ -209,7 +209,7 @@
           "Custom Design & Warrantied Installation",
           "Removal and Storage Included"
         ],
-        "image": "https://images.unsplash.com/photo-1542672885-712dd1f0d3be?auto=format&fit=crop&w=800&q=80",
+        "image": "/images/gallery2.jpg",
         "stat": "100+ Businesses"
       },
       {
@@ -224,7 +224,7 @@
           "Durable and weather resistant",
           "Year-round curb appeal"
         ],
-        "image": "https://images.unsplash.com/photo-1482517967863-00e15c9b44be?auto=format&fit=crop&w=800&q=80",
+        "image": "/images/gallery3.jpg",
         "stat": "Custom Designs"
       }
     ]

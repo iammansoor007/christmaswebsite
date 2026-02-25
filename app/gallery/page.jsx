@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import CallToAction from '../components/CallToAction';
 import Link from 'next/link';
 import {
   FaArrowRight,
@@ -518,7 +519,7 @@ const Gallery = () => {
           <div
             className="relative w-full h-full transition-transform duration-[50ms] ease-out will-change-transform"
             style={{
-              transform: `translate(${mousePosition.x}px, ${mousePosition.y}px) scale(1.02)`,
+              transform: `translate(${mousePosition.x * 5}px, ${mousePosition.y * 5}px) scale(1.02)`,
             }}
           >
             <Image
@@ -732,51 +733,8 @@ const Gallery = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section id="cta-section" className="py-12 sm:py-16 md:py-20 bg-gray-50 relative overflow-hidden">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div
-            className={`transition-all duration-700 delay-300 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-              }`}
-          >
-            <div className="bg-gradient-to-r from-emerald-50 via-amber-50 to-red-50 rounded-xl sm:rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 text-center border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 group">
-              <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
-                {cta.title}
-              </h3>
-              <p className="text-gray-600 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
-                {cta.description}
-              </p>
 
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-                <button
-                  onClick={handleCallClick}
-                  className="group/btn relative px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold rounded-lg sm:rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden w-full sm:w-auto text-center active:scale-95 text-sm sm:text-base"
-                >
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    <FaPhoneAlt className="text-xs sm:text-sm" />
-                    <span className="whitespace-nowrap">
-                      {cta.buttons.primary}
-                    </span>
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
-                </button>
-
-                <button
-                  onClick={handleOpenModal}
-                  className="px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 font-semibold text-gray-700 hover:text-gray-900 border-2 border-gray-300 hover:border-gray-400 rounded-lg sm:rounded-xl transition-all duration-300 bg-white hover:bg-gray-50 w-full sm:w-auto text-center active:scale-95 text-sm sm:text-base"
-                >
-                  <span className="flex items-center justify-center gap-2">
-                    <FaCalendarAlt className="text-xs sm:text-sm" />
-                    <span className="whitespace-nowrap">
-                      {cta.buttons.secondary}
-                    </span>
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <section className="sm:-mt-12 lg:-mt-24 sm:p-6  lg:p-12 bg-white"> <CallToAction /></section>
 
       {/* Lightbox Modal */}
       {selectedImage && (

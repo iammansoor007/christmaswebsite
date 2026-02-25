@@ -1,5 +1,6 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
+import CallToAction from "./CallToAction";
 import {
   FaPhoneAlt,
   FaCalendarAlt,
@@ -729,49 +730,7 @@ const HowWeWorkSection = () => {
             </div>
           </div>
 
-          {/* Modern CTA - Responsive */}
-          <div
-            className={`mt-8 xs:mt-10 sm:mt-12 md:mt-14 lg:mt-16 xl:mt-20 transition-all duration-700 delay-900 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
-          >
-            <div className="bg-gradient-to-r from-emerald-50 via-amber-50 to-red-50 rounded-xl xs:rounded-2xl sm:rounded-3xl p-4 xs:p-5 sm:p-6 md:p-8 lg:p-10 text-center border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 group">
-              <h3 className="text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-2 xs:mb-3 sm:mb-4 transition-all duration-300 group-hover:text-gray-800">
-                {cta.title}
-              </h3>
-              <p className="text-gray-600 text-xs xs:text-sm sm:text-base md:text-lg mb-4 xs:mb-5 sm:mb-6 max-w-2xl mx-auto leading-relaxed transition-all duration-300 group-hover:text-gray-700">
-                {cta.description}
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-2 xs:gap-3 justify-center">
-                <button
-                  className="group/btn relative px-4 xs:px-5 sm:px-6 md:px-8 py-2.5 xs:py-3 sm:py-3.5 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold rounded-lg xs:rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden w-full sm:w-auto text-center active:scale-95"
-                  aria-label={cta.buttons.primary}
-                  onClick={() => window.location.href = 'tel:+16143017100'}
-                >
-                  <span className="relative z-10 flex items-center justify-center gap-1.5 xs:gap-2">
-                    <FaPhoneAlt className="text-xs xs:text-sm" />
-                    <span className="text-xs xs:text-sm sm:text-base whitespace-nowrap">
-                      {cta.buttons.primary}
-                    </span>
-
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
-                </button>
-
-                <button
-                  className="px-4 xs:px-5 sm:px-6 md:px-8 py-2.5 xs:py-3 sm:py-3.5 font-semibold text-gray-700 hover:text-gray-900 border-2 border-gray-300 hover:border-gray-400 rounded-lg xs:rounded-xl transition-all duration-300 bg-white hover:bg-gray-50 w-full sm:w-auto text-center active:scale-95"
-                  aria-label={cta.buttons.secondary}
-                  onClick={() => setIsModalOpen(true)} // Updated this line
-                >
-                  <span className="flex items-center justify-center gap-1.5 xs:gap-2">
-                    <FaCalendarAlt className="text-xs xs:text-sm" />
-                    <span className="text-xs xs:text-sm sm:text-base whitespace-nowrap">
-                      {cta.buttons.secondary}
-                    </span>
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
+          <section className="-mt-12 sm:p-6  lg:p-12 "> <CallToAction /></section>
         </div>
 
         {/* CSS Animations - Same as your original */}

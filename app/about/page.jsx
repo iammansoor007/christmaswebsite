@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import installation from '../../public/images/installationmain.jpg';
 import FAQ from '../components/FAQSection';
+import CallToAction from '../components/CallToAction'
 import ChristmasLightingMap from '../components/ChristmasLightingMap';
 import hero from '../../public/images/hero-background.jpg';
 import enjoy from '../../public/images/enjoy.jpg';
@@ -593,7 +594,7 @@ const AboutUs = () => {
           <div
             className="relative w-full h-full transition-transform duration-200 ease-out"
             style={{
-              transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px) scale(1.05)`,
+              transform: `translate(${mousePosition.x * 5}px, ${mousePosition.y * 5}px) scale(1.05)`,
             }}
           >
             <Image
@@ -795,55 +796,7 @@ const AboutUs = () => {
       {/* FAQ Section */}
       <FAQ />
 
-      {/* CTA Section */}
-      <section className="py-16 sm:py-20 bg-gray-50 relative overflow-hidden">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div
-            className={`max-w-4xl mx-auto transition-all duration-700 delay-900 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"}`}
-          >
-            <div className="bg-gradient-to-r from-emerald-50 via-amber-50 to-red-50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 lg:p-12 text-center border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 group">
-              <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4 transition-all duration-300 group-hover:text-gray-800">
-                {cta.title}
-              </h3>
-              <p className="text-gray-600 text-sm sm:text-base md:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto leading-relaxed">
-                {cta.description}
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-                <button
-                  className="group/btn relative px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden w-full sm:w-auto text-center active:scale-95"
-                  aria-label={cta.buttons.primary}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.location.href = 'tel:+16143017100';
-                  }}
-                >
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    <FaPhoneAlt className="text-sm" />
-                    <span className="text-sm sm:text-base whitespace-nowrap">
-                      {cta.buttons.primary}
-                    </span>
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
-                </button>
-
-                <button
-                  className="px-6 sm:px-8 py-3 sm:py-4 font-semibold text-gray-700 hover:text-gray-900 border-2 border-gray-300 hover:border-gray-400 rounded-xl transition-all duration-300 bg-white hover:bg-gray-50 w-full sm:w-auto text-center active:scale-95"
-                  aria-label={cta.buttons.secondary}
-                  onClick={handleOpenModal}
-                >
-                  <span className="flex items-center justify-center gap-2">
-                    <FaCalendarAlt className="text-sm" />
-                    <span className="text-sm sm:text-base whitespace-nowrap">
-                      {cta.buttons.secondary}
-                    </span>
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <section className="sm:-mt-12 lg:-mt-16 sm:p-6  lg:p-12 bg-gray-50"> <CallToAction /></section>
 
       {/* Global Styles */}
       <style jsx global>{`

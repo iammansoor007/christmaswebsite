@@ -114,7 +114,7 @@ const Hero = () => {
         <div
           className="absolute inset-0 transition-transform duration-200 ease-out"
           style={{
-            transform: `translate(${mousePosition.x * 30}px, ${mousePosition.y * 30}px)`,
+            transform: `translate(${mousePosition.x * 5}px, ${mousePosition.y * 5}px)`,
           }}
         >
           <div className="absolute inset-0 bg-[url('/images/hero-background2.jpg')] bg-cover bg-center opacity-30"></div>

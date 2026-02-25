@@ -121,10 +121,8 @@ const Navbar = () => {
             <div className="hidden lg:flex items-center flex-shrink-0">
               <a
                 href="tel:+16143017100"
-                className="relative overflow-hidden group min-w-[140px] inline-flex items-center justify-center px-4 py-2 rounded-lg bg-gradient-to-r from-holiday-red via-holiday-gold to-holiday-green text-white font-semibold hover:shadow-lg transition-all duration-300"
+                className="relative overflow-hidden group min-w-[140px] inline-flex items-center justify-center px-4 py-2 rounded-lg bg-gradient-to-r from-holiday-red to-holiday-gold text-white font-semibold hover:shadow-lg transition-all duration-300"
                 onClick={(e) => {
-                  // This will open the native dialer on mobile devices
-                  // For desktop, it may open default calling app or do nothing
                   window.location.href = "tel:+16143017100";
                 }}
               >

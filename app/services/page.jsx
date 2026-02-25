@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import CallToAction from '../components/CallToAction';
 import Link from 'next/link';
 import {
   FaCheckCircle,
@@ -30,7 +31,6 @@ import {
 import { GiSparkles } from 'react-icons/gi';
 import { HiOutlineSparkles } from 'react-icons/hi';
 
-// Consultation Modal Component
 const ConsultationModal = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -67,7 +67,6 @@ const ConsultationModal = ({ isOpen, onClose }) => {
       document.body.style.width = '100%';
       document.body.style.overflow = 'hidden';
 
-      // Focus first input when modal opens
       setTimeout(() => {
         if (initialFocusRef.current) {
           initialFocusRef.current.focus();
@@ -137,7 +136,6 @@ const ConsultationModal = ({ isOpen, onClose }) => {
     setError('');
 
     try {
-      // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1500));
       console.log('Form submitted:', formData);
 
@@ -258,7 +256,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-black placeholder-gray-400"
                         placeholder="John Doe"
                       />
                     </div>
@@ -274,7 +272,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-black placeholder-gray-400"
                         placeholder="john@example.com"
                       />
                     </div>
@@ -290,7 +288,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                         value={formData.phone}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-black placeholder-gray-400"
                         placeholder="(614) 555-0123"
                       />
                     </div>
@@ -306,7 +304,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                         value={formData.address}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-black placeholder-gray-400"
                         placeholder="123 Main St, Columbus, OH 43215"
                       />
                     </div>
@@ -321,10 +319,10 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                         value={formData.serviceType}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-black"
                       >
                         {serviceTypes.map(type => (
-                          <option key={type.value} value={type.value}>
+                          <option key={type.value} value={type.value} className="text-black">
                             {type.label}
                           </option>
                         ))}
@@ -344,7 +342,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                           onChange={handleChange}
                           required
                           min={new Date().toISOString().split('T')[0]}
-                          className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                          className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-black"
                         />
                       </div>
 
@@ -358,11 +356,11 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                           value={formData.preferredTime}
                           onChange={handleChange}
                           required
-                          className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                          className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-black"
                         >
-                          <option value="">Select</option>
+                          <option value="" className="text-black">Select</option>
                           {timeSlots.map(time => (
-                            <option key={time} value={time}>{time}</option>
+                            <option key={time} value={time} className="text-black">{time}</option>
                           ))}
                         </select>
                       </div>
@@ -376,11 +374,11 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                         name="hearAbout"
                         value={formData.hearAbout}
                         onChange={handleChange}
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-black"
                       >
-                        <option value="">Select an option</option>
+                        <option value="" className="text-black">Select an option</option>
                         {hearOptions.map(option => (
-                          <option key={option} value={option}>{option}</option>
+                          <option key={option} value={option} className="text-black">{option}</option>
                         ))}
                       </select>
                     </div>
@@ -394,7 +392,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                         value={formData.message}
                         onChange={handleChange}
                         rows="3"
-                        className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-black placeholder-gray-400"
                         placeholder="Tell us about your vision for your holiday display..."
                       />
                     </div>
@@ -438,6 +436,7 @@ const ServicesPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [imageErrors, setImageErrors] = useState({});
   const heroRef = useRef(null);
 
   // Load data and initial setup
@@ -500,7 +499,7 @@ const ServicesPage = () => {
     };
 
     window.addEventListener('scroll', handleVisibility);
-    handleVisibility(); // Check initial visibility
+    handleVisibility();
 
     return () => window.removeEventListener('scroll', handleVisibility);
   }, []);
@@ -511,6 +510,10 @@ const ServicesPage = () => {
 
   const handleCallClick = () => {
     window.location.href = 'tel:+16143017100';
+  };
+
+  const handleImageError = (index) => {
+    setImageErrors(prev => ({ ...prev, [index]: true }));
   };
 
   if (!mounted) {
@@ -529,20 +532,8 @@ const ServicesPage = () => {
 
   const { services, howWeWork } = data;
 
-  // CTA Content from howWeWork
-  const cta = {
-    title: howWeWork?.cta?.title || "Ready to Transform Your Home?",
-    description: howWeWork?.cta?.description || "Schedule your free consultation today and let us bring your vision to life.",
-    buttons: {
-      primary: howWeWork?.cta?.buttons?.primary || "Call Us Now",
-      secondary: howWeWork?.cta?.buttons?.secondary || "Schedule Consultation"
-    },
-    features: [
-      { icon: FaClock, text: 'Free Estimates' },
-      { icon: FaShieldAlt, text: 'Fully Insured' },
-      { icon: FaStar, text: '5-Star Service' }
-    ]
-  };
+  // Default placeholder image
+  const placeholderImage = '/images/placeholder-service.jpg';
 
   return (
     <main className="overflow-x-hidden w-full">
@@ -556,7 +547,7 @@ const ServicesPage = () => {
           <div
             className="relative w-full h-full transition-transform duration-200 ease-out"
             style={{
-              transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px) scale(1.05)`,
+              transform: `translate(${mousePosition.x * 5}px, ${mousePosition.y * 5}px) scale(1.05)`,
             }}
           >
             <Image
@@ -567,6 +558,7 @@ const ServicesPage = () => {
               priority
               sizes="100vw"
               quality={100}
+              onError={() => console.log('Hero image failed to load')}
             />
           </div>
           {/* Gradient overlay - darker version with amber/red */}
@@ -636,12 +628,13 @@ const ServicesPage = () => {
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
               </button>
+            
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services Sections - Alternating Left/Right Layout with Equal Height Cards */}
+      {/* Services Sections - Alternating Left/Right Layout with Fixed Height Cards */}
       <section id="services" className="py-16 sm:py-20 md:py-24 bg-white relative overflow-hidden">
         {/* Decorative background elements */}
         <div className="absolute inset-0 opacity-20">
@@ -669,7 +662,7 @@ const ServicesPage = () => {
               </p>
             </div>
 
-            {/* Alternating Service Cards with Equal Height */}
+            {/* Alternating Service Cards with Fixed Height */}
             {services?.items?.map((service, index) => {
               // Determine the correct link based on service title
               const serviceLink = service.title.toLowerCase().includes('residential')
@@ -679,6 +672,9 @@ const ServicesPage = () => {
                   : service.title.toLowerCase().includes('permanent')
                     ? '/services/permanent-lighting'
                     : `/services/${service.title.toLowerCase().replace(/\s+/g, '-')}`;
+
+              // Use placeholder if image fails to load
+              const imageSrc = imageErrors[index] ? placeholderImage : (service.image || placeholderImage);
 
               return (
                 <div
@@ -742,23 +738,23 @@ const ServicesPage = () => {
                     </div>
                   </div>
 
-                  {/* Image - alternating order with equal height */}
+                  {/* Image - alternating order with fixed height */}
                   <div
                     className={`relative order-1 ${index % 2 === 0 ? 'lg:order-2' : 'lg:order-1'
                       } animate-fade-up h-full`}
                     style={{ animationDelay: `${500 + index * 150}ms` }}
                   >
                     <div className="relative h-full">
-                      <div className="aspect-[4/3] lg:aspect-auto lg:h-full rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
+                      {/* Fixed height container for images */}
+                      <div className="relative h-[400px] lg:h-[500px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl sm:shadow-2xl">
                         <Image
-                          src={service.image || "/images/placeholder.jpg"}
+                          src={imageSrc}
                           alt={service.title}
-                          className="w-full h-full object-cover"
-                          width={800}
-                          height={600}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
                           priority={index === 0}
-                          unoptimized
-                          style={{ objectFit: 'cover' }}
+                          onError={() => handleImageError(index)}
                         />
                         {/* Gradient overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
@@ -781,59 +777,12 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section id="cta-section" className="py-16 sm:py-20 bg-gray-50 relative overflow-hidden">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div
-            className={`max-w-4xl mx-auto transition-all duration-700 delay-900 ${isVisible ? "animate-fadeInUp" : "opacity-0 translate-y-4"
-              }`}
-          >
-            <div className="bg-gradient-to-r from-emerald-50 via-amber-50 to-red-50 rounded-2xl sm:rounded-3xl p-8 sm:p-10 md:p-12 lg:p-16 text-center border border-gray-100 shadow-lg hover:shadow-xl transition-all duration-300 group">
-              <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 transition-all duration-300 group-hover:text-gray-800">
-                {cta.title}
-              </h3>
-              <p className="text-gray-600 text-base sm:text-lg md:text-xl mb-8 max-w-2xl mx-auto leading-relaxed">
-                {cta.description}
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button
-                  onClick={handleCallClick}
-                  className="group/btn relative px-8 py-4 bg-gradient-to-r from-emerald-600 to-emerald-700 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 overflow-hidden w-full sm:w-auto text-center active:scale-95"
-                  aria-label={cta.buttons.primary}
-                >
-                  <span className="relative z-10 flex items-center justify-center gap-2">
-                    <FaPhoneAlt className="text-sm" />
-                    <span className="text-base whitespace-nowrap">
-                      {cta.buttons.primary}
-                    </span>
-                  </span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 -translate-x-full group-hover/btn:translate-x-full transition-transform duration-700" />
-                </button>
-
-                <button
-                  onClick={handleOpenModal}
-                  className="px-8 py-4 font-semibold text-gray-700 hover:text-gray-900 border-2 border-gray-300 hover:border-gray-400 rounded-xl transition-all duration-300 bg-white hover:bg-gray-50 w-full sm:w-auto text-center active:scale-95"
-                  aria-label={cta.buttons.secondary}
-                >
-                  <span className="flex items-center justify-center gap-2">
-                    <FaCalendarAlt className="text-sm" />
-                    <span className="text-base whitespace-nowrap">
-                      {cta.buttons.secondary}
-                    </span>
-                  </span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+      <section className="sm:-mt-12 lg:-mt-24 sm:p-6 lg:p-12 bg-white">
+        <CallToAction />
       </section>
 
       {/* Consultation Modal */}
-      <ConsultationModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      <ConsultationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
       {/* Global Styles */}
       <style jsx global>{`
@@ -939,6 +888,10 @@ const ServicesPage = () => {
           
           .text-xl {
             font-size: 1.125rem !important;
+          }
+          
+          .h-\[400px\] {
+            height: 300px !important;
           }
         }
       `}</style>

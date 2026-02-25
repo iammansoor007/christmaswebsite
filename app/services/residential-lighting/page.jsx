@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import CallToAction from '../../components/CallToAction';
 import {
     FaCheckCircle,
     FaArrowRight,
@@ -114,7 +115,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
         <div className="fixed inset-0 z-[100] overflow-hidden" onClick={handleBackdropClick}>
             <div className="fixed inset-0 bg-black/60 backdrop-blur-md transition-opacity" />
             <div className="fixed inset-0 flex items-center justify-center p-4 pointer-events-none">
-                <div ref={modalRef} className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl pointer-events-auto max-h-[90vh] flex flex-col">
+                <div ref={modalRef} className="relative w-full max-w-2xl bg-gray-50 rounded-3xl shadow-2xl pointer-events-auto max-h-[90vh] flex flex-col">
                     <button onClick={onClose} className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors shadow-md hover:rotate-90">
                         <FaTimes className="text-gray-600" />
                     </button>
@@ -254,24 +255,27 @@ const ResidentialLightingPage = () => {
             { step: "Maintenance", description: "We monitor and maintain your display throughout the season." },
             { step: "Removal", description: "After the holidays, we carefully remove and store everything." }
         ],
-        image: "/images/residential-lighting.jpg",
+        image: "/images/gallery3.jpg",
         color: "#10B981",
-        stat: "500+ Homes",
-        benefits: [
-            { icon: FaClock, text: "Stress-free - we do everything" },
-            { icon: FaShieldAlt, text: "Fully insured and licensed" },
-            { icon: FaGem, text: "Premium commercial-grade lights" },
-            { icon: FaBoxOpen, text: "No storage required" }
-        ]
+
     };
+
+    const features = [
+        { icon: <FaHome className="w-6 h-6" />, title: "Roof & Gutter Lines", description: "Professional installation along rooflines and gutters for that classic holiday look" },
+        { icon: <FaTree className="w-6 h-6" />, title: "Tree & Shrub Wrapping", description: "Beautifully wrapped trees and bushes to complete your landscape" },
+        { icon: <FaLightbulb className="w-6 h-6" />, title: "Commercial Grade LEDs", description: "3x brighter than store-bought lights with better color consistency" },
+        { icon: <FaTools className="w-6 h-6" />, title: "Professional Installation", description: "Licensed and insured team with years of holiday lighting experience" },
+        { icon: <FaBoxOpen className="w-6 h-6" />, title: "Free Storage", description: "We store your lights after the season ends - no clutter in your garage" },
+        { icon: <FaShieldAlt className="w-6 h-6" />, title: "Warranty Included", description: "Full warranty on all lights and installation throughout the season" }
+    ];
 
     return (
         <main className="overflow-x-hidden w-full bg-white">
             {/* Hero Section */}
             <section ref={heroRef} className="relative min-h-[80vh] flex items-center w-full overflow-hidden">
                 <div className="absolute inset-0">
-                    <div className="relative w-full h-full transition-transform duration-200 ease-out" style={{ transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px) scale(1.05)` }}>
-                        <Image src="/images/residential-hero.jpg" alt="Residential Christmas Lighting" fill className="object-cover" priority />
+                    <div className="relative w-full h-full transition-transform duration-200 ease-out" style={{ transform: `translate(${mousePosition.x * 5}px, ${mousePosition.y * 5}px) scale(1.05)` }}>
+                        <Image src="/images/hero-background2.jpg" alt="Residential Christmas Lighting" fill className="object-cover" priority />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-r from-amber-400/15 via-gray-900/90 to-red-500/30"></div>
                 </div>
@@ -308,26 +312,13 @@ const ResidentialLightingPage = () => {
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-fade-up animation-delay-600">
-                            <button onClick={() => setIsModalOpen(true)}
-                                className="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-amber-400 to-red-500 text-white font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all w-full sm:w-auto">
-                                <span className="relative z-10 flex items-center gap-2">
-                                    <span>Get Your Free Quote</span>
-                                    <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                </span>
-                                <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-amber-400 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-                            </button>
-
-                            <Link href="#details"
-                                className="px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-full hover:bg-white/20 transition-all w-full sm:w-auto">
-                                Learn More
-                            </Link>
+                            <a
+                                href="tel:+16143017100"
+                                className="relative overflow-hidden group inline-flex items-center justify-center px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-gradient-to-r from-yellow-500 to-red-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg w-auto min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
+                            > Get Your Free Quote </a>
                         </div>
 
-                        <div className="flex flex-wrap items-center justify-center gap-6 text-white/60 text-sm animate-fade-up animation-delay-800">
-                            <div className="flex items-center gap-2"><FaHome className="text-emerald-400" /> <span>{service.stat}</span></div>
-                            <div className="flex items-center gap-2"><FaStar className="text-amber-400" /> <span>4.9/5 Rating</span></div>
-                            <div className="flex items-center gap-2"><FaShieldAlt className="text-red-400" /> <span>Fully Insured</span></div>
-                        </div>
+
                     </div>
                 </div>
             </section>
@@ -351,25 +342,8 @@ const ResidentialLightingPage = () => {
 
                                 <p className="text-gray-600 text-lg mb-6 leading-relaxed">{service.longDescription}</p>
 
-                                <div className="grid grid-cols-2 gap-4 mb-8">
-                                    {service.benefits.map((benefit, idx) => (
-                                        <div key={idx} className="flex items-start gap-2">
-                                            <benefit.icon className="text-emerald-500 mt-1 flex-shrink-0" />
-                                            <span className="text-sm text-gray-700">{benefit.text}</span>
-                                        </div>
-                                    ))}
-                                </div>
 
-                                <div className="flex flex-wrap gap-4">
-                                    <button onClick={() => setIsModalOpen(true)}
-                                        className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold rounded-full hover:shadow-lg transition-all">
-                                        Schedule Consultation
-                                    </button>
-                                    <Link href="/contact"
-                                        className="px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-full hover:bg-gray-50 transition-all">
-                                        Contact Us
-                                    </Link>
-                                </div>
+
                             </div>
 
                             <div className="relative animate-fade-up animation-delay-200">
@@ -383,27 +357,35 @@ const ResidentialLightingPage = () => {
                 </div>
             </section>
 
-            {/* Features Section */}
-            <section className="py-16 bg-gray-50">
+            <section className="py-20 bg-white">
                 <div className="container mx-auto px-4 sm:px-6">
                     <div className="max-w-7xl mx-auto">
-                        <div className="text-center mb-12">
-                            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/10 to-amber-500/10 backdrop-blur-sm border border-emerald-200/30 rounded-full px-4 py-1.5">
-                                <GiSparkles className="w-3.5 h-3.5 text-emerald-500" />
-                                <span className="text-emerald-700 text-xs font-medium tracking-wider">WHAT'S INCLUDED</span>
+                        {/* Section Header */}
+                        <div className="text-center max-w-2xl mx-auto mb-16">
+                            <div className="inline-flex items-center gap-2 bg-emerald-100 rounded-full px-4 py-2 mb-4">
+                                <GiSparkles className="w-4 h-4 text-emerald-600" />
+                                <span className="text-emerald-700 text-sm font-semibold">WHAT WE OFFER</span>
                             </div>
-                            <h2 className="font-montserrat font-extrabold text-3xl sm:text-4xl md:text-5xl text-gray-900 mt-4 mb-4">
-                                <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
-                                    Every Detail Covered
-                                </span>
+                            <h2 className="font-montserrat font-bold text-4xl text-gray-900 mb-4">
+                                Complete Residential Lighting Services
                             </h2>
+                            <p className="text-gray-600 text-lg">
+                                Professional installation with premium materials and full-service support from start to finish.
+                            </p>
                         </div>
 
+                        {/* Features Grid */}
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {service.features.map((feature, idx) => (
-                                <div key={idx} className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                                    <FaCheckCircle className="text-emerald-500 text-xl mb-3" />
-                                    <p className="text-gray-800 font-medium">{feature}</p>
+                            {features.map((feature, idx) => (
+                                <div
+                                    key={idx}
+                                    className="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+                                >
+                                    <div className="w-12 h-12 bg-gradient-to-br from-red-50 to-emerald-50 rounded-lg flex items-center justify-center text-emerald-600 mb-4">
+                                        {feature.icon}
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
+                                    <p className="text-gray-600">{feature.description}</p>
                                 </div>
                             ))}
                         </div>
@@ -411,80 +393,78 @@ const ResidentialLightingPage = () => {
                 </div>
             </section>
 
-            {/* Process Section */}
-            <section className="py-16">
+            <section className="py-20 bg-white">
                 <div className="container mx-auto px-4 sm:px-6">
-                    <div className="max-w-4xl mx-auto text-center mb-12">
-                        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/10 to-amber-500/10 backdrop-blur-sm border border-emerald-200/30 rounded-full px-4 py-1.5">
-                            <GiSparkles className="w-3.5 h-3.5 text-emerald-500" />
-                            <span className="text-emerald-700 text-xs font-medium tracking-wider">OUR PROCESS</span>
-                        </div>
-                        <h2 className="font-montserrat font-extrabold text-3xl sm:text-4xl md:text-5xl text-gray-900 mt-4 mb-4">
-                            <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
-                                Simple 5-Step Process
-                            </span>
-                        </h2>
-                    </div>
+                    <div className="max-w-7xl mx-auto">
+                        <div className="grid lg:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <div className="inline-flex items-center gap-2 bg-emerald-100 rounded-full px-4 py-2 mb-4">
+                                    <FaAward className="w-4 h-4 text-emerald-600" />
+                                    <span className="text-emerald-700 text-sm font-semibold">WHY CHOOSE US</span>
+                                </div>
+                                <h2 className="font-montserrat font-bold text-4xl text-gray-900 mb-6">
+                                    Professional Quality, Personal Service
+                                </h2>
+                                <p className="text-gray-600 text-lg mb-8">
+                                    With over a decade of experience in holiday lighting, we've perfected our process to deliver stunning results while making the experience effortless for you.
+                                </p>
 
-                    <div className="max-w-4xl mx-auto">
-                        {service.process.map((step, idx) => (
-                            <div key={idx} className="flex gap-6 mb-8">
-                                <div className="flex-shrink-0">
-                                    <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold">
-                                        {idx + 1}
+                                <div className="space-y-4">
+                                    {[
+                                        "Commercial-grade LED lights (3x brighter than store bought)",
+                                        "Fully licensed, bonded, and insured for your protection",
+                                        "Free storage in our climate-controlled facility",
+                                        "Emergency service and maintenance included",
+                                        "Custom designs tailored to your home's architecture"
+                                    ].map((item, idx) => (
+                                        <div key={idx} className="flex items-start gap-3">
+                                            <FaCheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                                            <span className="text-gray-700">{item}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="mt-8">
+                                    <button
+                                        onClick={() => setIsModalOpen(true)}
+                                        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-red-600 to-yellow-500 text-white font-semibold rounded-lg hover:from-red-700 hover:to-yellow-600 transition-all"
+                                    >
+                                        Get Your Free Quote
+                                        <FaArrowRight />
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-4">
+                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
+                                        <div className="text-3xl font-bold text-emerald-600 mb-1">500+</div>
+                                        <div className="text-sm text-gray-600">Homes Lit</div>
+                                    </div>
+                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
+                                        <div className="text-3xl font-bold text-emerald-600 mb-1">10+</div>
+                                        <div className="text-sm text-gray-600">Years Experience</div>
                                     </div>
                                 </div>
-                                <div>
-                                    <h3 className="text-xl font-bold text-gray-900 mb-2">{step.step}</h3>
-                                    <p className="text-gray-600">{step.description}</p>
+                                <div className="space-y-4 mt-8">
+                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
+                                        <div className="text-3xl font-bold text-emerald-600 mb-1">50k+</div>
+                                        <div className="text-sm text-gray-600">Lights Installed</div>
+                                    </div>
+                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
+                                        <div className="text-3xl font-bold text-emerald-600 mb-1">100%</div>
+                                        <div className="text-sm text-gray-600">Satisfaction</div>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="py-12 xs:py-16 sm:py-20 bg-gradient-to-b from-white to-gray-50">
-                <div className="container mx-auto px-4 xs:px-6">
-                    <div className="max-w-4xl mx-auto">
-                        <div className="bg-gradient-to-r from-emerald-50 via-amber-50 to-red-50 rounded-2xl p-8 text-center border border-emerald-100 shadow-lg">
-                            <h3 className="font-montserrat font-extrabold text-2xl xs:text-3xl sm:text-4xl text-gray-900 mb-4">
-                                Ready to Transform Your Home?
-                            </h3>
-                            <p className="text-gray-600 text-base xs:text-lg sm:text-xl mb-6 max-w-2xl mx-auto">
-                                Get your free, no-obligation quote today and see the difference professional lighting makes.
-                            </p>
-
-                            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                                <button onClick={() => window.location.href = 'tel:+16143017100'}
-                                    className="px-6 py-3.5 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all">
-                                    Call Us: (614) 301-7100
-                                </button>
-                                <button onClick={() => setIsModalOpen(true)}
-                                    className="px-6 py-3.5 font-semibold text-gray-700 border-2 border-emerald-200 hover:border-emerald-300 rounded-xl transition-all bg-white">
-                                    Schedule Free Consultation
-                                </button>
-                            </div>
-
-                            <div className="mt-5 text-xs text-gray-500 flex flex-wrap items-center justify-center gap-2">
-                                <FaShieldAlt className="text-emerald-500" />
-                                <span>No commitment • Free consultation • 100% satisfaction guaranteed</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Back to Services Link */}
-            <div className="container mx-auto px-4 py-8">
-                <Link href="/#services" className="inline-flex items-center gap-2 text-gray-600 hover:text-emerald-600 transition-colors">
-                    <FaArrowRight className="rotate-180" />
-                    <span>Back to All Services</span>
-                </Link>
-            </div>
+            <section className="-mt-12 sm:p-6 sm:mb-10 lg:p-12 "> <CallToAction /></section>
 
-            <ConsultationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+
 
             <style jsx global>{`
         @keyframes blob { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(30px,-50px) scale(1.1)} 66%{transform:translate(-20px,20px) scale(0.9)} }
