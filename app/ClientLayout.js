@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import QuickQuote from './components/QuickQuote';
-import SmoothScroll from './components/SmoothScroll'; // Import SmoothScroll
 
 export default function ClientLayout({ children }) {
     const [isClient, setIsClient] = useState(false);
@@ -54,13 +53,10 @@ export default function ClientLayout({ children }) {
             <Navbar />
             <QuickQuote />
 
-            {/* SMOOTH SCROLL WRAPPER - Added here */}
-            <SmoothScroll>
-                {/* PAGE CONTENT - ONLY this changes during navigation */}
-                <main className="min-h-screen">
-                    {children}
-                </main>
-            </SmoothScroll>
+            {/* PAGE CONTENT - ONLY this changes during navigation */}
+            <main className="pt-20 min-h-screen">
+                {children}
+            </main>
 
             {/* STABLE FOOTER - Never changes */}
             <Footer />
