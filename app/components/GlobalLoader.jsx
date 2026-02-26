@@ -20,7 +20,7 @@ export default function GlobalLoader({ children }) {
             // Fade out loader
             setTimeout(() => {
                 setFadeOut(true);
-                
+
                 // Remove loader from DOM after fade
                 setTimeout(() => {
                     setShowLoader(false);
@@ -46,9 +46,8 @@ export default function GlobalLoader({ children }) {
     // Only show loader on first visit
     return (
         <div
-            className={`fixed inset-0 z-[9999] transition-opacity duration-300 ${
-                fadeOut ? 'opacity-0' : 'opacity-100'
-            }`}
+            className={`fixed inset-0 z-[9999] transition-opacity duration-300 ${fadeOut ? 'opacity-0' : 'opacity-100'
+                }`}
         >
             <ProfessionalLoader />
         </div>
