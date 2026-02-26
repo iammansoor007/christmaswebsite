@@ -730,7 +730,7 @@ const HowWeWorkSection = () => {
             </div>
           </div>
 
-          <section className="-mt-6 sm:p-6  lg:p-12 "> <CallToAction /></section>
+          <section className=""> <CallToAction /></section>
         </div>
 
         {/* CSS Animations - Same as your original */}

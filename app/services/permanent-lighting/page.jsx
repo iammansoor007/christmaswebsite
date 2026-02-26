@@ -288,7 +288,7 @@ const PermanentLightingPage = () => {
                 </div>
             </section>
 
-            <section className="-mt-12 sm:p-6 sm:mb-10 lg:p-12">
+            <section className="">
                 <CallToAction />
             </section>
 

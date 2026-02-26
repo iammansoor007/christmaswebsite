@@ -777,7 +777,7 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      <section className="sm:-mt-12 lg:-mt-24 sm:p-6 lg:p-12 bg-white">
+      <section className=" bg-white">
         <CallToAction />
       </section>
 
