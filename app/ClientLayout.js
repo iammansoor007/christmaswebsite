@@ -3,61 +3,87 @@
 import { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import PageTransition from './components/PageTransition';
-import GlobalLoader from './components/GlobalLoader';
-import SmoothScroll from './components/SmoothScroll';
-import QuickQuote from './components/QuickQuote'; // ✅ Import QuickQuote
+import QuickQuote from './components/QuickQuote';
+import SmoothScroll from './components/SmoothScroll'; // Import SmoothScroll
 
 export default function ClientLayout({ children }) {
-  const [isClient, setIsClient] = useState(false);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  return (
-    <>
-      {/* Snowfall effect (same as before) */}
-      {isClient && (
-        <div className="fixed top-0 left-0 w-full h-screen pointer-events-none z-10 overflow-hidden">
-          {/* ... all your snowflake code ... */}
-        </div>
-      )}
-
-      {/* Add QuickQuote - it will appear on every page */}
-      <QuickQuote />
-
-      {/* Wrap EVERYTHING with SmoothScroll */}
-      <SmoothScroll>
-        <Navbar />
-        <main>
-          <GlobalLoader>
-            <PageTransition>{children}</PageTransition>
-          </GlobalLoader>
-        </main>
-        <Footer />
-      </SmoothScroll>
-
-      {/* Animation styles (same as before) */}
-      <style jsx global>{`
-        @keyframes snowfall {
-          0% {
-            transform: translateY(-20px) translateX(0px);
-            opacity: 0;
-          }
-          10% {
-            opacity: 0.5;
-          }
-          90% {
-            opacity: 1;
-          }
-          100% {
-            transform: translateY(110vh)
-              translateX(${Math.random() > 0.5 ? "20px" : "-20px"});
-            opacity: 0;
-          }
+    const [isClient, setIsClient] = useState(false);
+    const [snowflakes] = useState(() => {
+        const flakes = [];
+        for (let i = 0; i < 120; i++) {
+            flakes.push({
+                id: i,
+                left: Math.random() * 100,
+                size: Math.random() * 4 + 1,
+                speed: Math.random() * 8 + 4,
+                delay: Math.random() * 10,
+            });
         }
-      `}</style>
-    </>
-  );
+        return flakes;
+    });
+
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
+
+    return (
+        <>
+            {/* STABLE SNOWFALL - Never changes */}
+            {isClient && (
+                <div className="fixed top-0 left-0 w-full h-full pointer-events-none overflow-hidden"
+                    style={{ zIndex: 40 }}>
+                    {snowflakes.map((flake) => (
+                        <div
+                            key={flake.id}
+                            className="absolute rounded-full bg-white"
+                            style={{
+                                left: `${flake.left}%`,
+                                top: '-10%',
+                                width: `${flake.size}px`,
+                                height: `${flake.size}px`,
+                                opacity: 0.4,
+                                animation: `snowfall ${flake.speed}s linear infinite`,
+                                animationDelay: `${flake.delay}s`,
+                            }}
+                        />
+                    ))}
+                </div>
+            )}
+
+            {/* STABLE COMPONENTS - These NEVER re-render on navigation */}
+            <Navbar />
+            <QuickQuote />
+
+            {/* SMOOTH SCROLL WRAPPER - Added here */}
+            <SmoothScroll>
+                {/* PAGE CONTENT - ONLY this changes during navigation */}
+                <main className="min-h-screen">
+                    {children}
+                </main>
+            </SmoothScroll>
+
+            {/* STABLE FOOTER - Never changes */}
+            <Footer />
+
+            <style jsx global>{`
+                @keyframes snowfall {
+                    0% {
+                        transform: translateY(0) translateX(0);
+                        opacity: 0;
+                    }
+                    10% {
+                        opacity: 0.5;
+                    }
+                    50% {
+                        opacity: 0.8;
+                        transform: translateY(50vh) translateX(10px);
+                    }
+                    100% {
+                        transform: translateY(120vh) translateX(-10px);
+                        opacity: 0;
+                    }
+                }
+            `}</style>
+        </>
+    );
 }
