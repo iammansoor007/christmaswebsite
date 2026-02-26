@@ -71,17 +71,10 @@ const Hero = () => {
     }
   }, [data]);
 
-  // Function to handle phone call
-  const handleCallClick = (e) => {
-    e.preventDefault();
-    if (data?.hero?.cta?.phone) {
-      // Remove any non-numeric characters except +
-      const phoneNumber = data.hero.cta.phone.replace(/[^\d+]/g, '');
-      window.location.href = `tel:${phoneNumber}`;
-    } else {
-      console.warn('Phone number not found in data.json');
-      // Fallback to contact page if no phone number
-      window.location.href = '/contact';
+  const handleCallClick = () => {
+    const section = document.getElementById("freequote");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -194,6 +187,7 @@ const Hero = () => {
                   <span>{hero.cta.subtext || "Get My Free Quote"}</span>
                   <FaArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
+
                 <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
               </button>
 

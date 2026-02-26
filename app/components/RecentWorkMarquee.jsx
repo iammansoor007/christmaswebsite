@@ -269,7 +269,10 @@ const RefinedWorkShowcase = () => {
             className="px-2"
           >
             <div className="group relative inline-block w-auto max-w-full">
-              <button className="relative px-6 sm:px-8 md:px-12 py-3 sm:py-4 md:py-5 bg-gradient-to-r from-holiday-red via-holiday-red to-holiday-gold text-white font-bold rounded-xl hover:rounded-2xl transition-all duration-300 hover:shadow-xl sm:hover:shadow-2xl hover:shadow-holiday-red/30 transform hover:-translate-y-0.5 sm:hover:-translate-y-1 text-base sm:text-base md:text-xl w-full sm:w-auto min-w-[280px] sm:min-w-0">
+              <button
+                onClick={() => (window.location.href = "/gallery")}
+                className="relative px-6 sm:px-8 md:px-12 py-3 sm:py-4 md:py-5 bg-gradient-to-r from-holiday-red via-holiday-red to-holiday-gold text-white font-bold rounded-xl hover:rounded-2xl transition-all duration-300 hover:shadow-xl sm:hover:shadow-2xl hover:shadow-holiday-red/30 transform hover:-translate-y-0.5 sm:hover:-translate-y-1 text-base sm:text-base md:text-xl w-full sm:w-auto min-w-[280px] sm:min-w-0"
+              >
                 <span className="flex items-center justify-center gap-2 sm:gap-3">
                   <span>{cta}</span>
                   <svg

@@ -27,7 +27,7 @@ const Home = () => {
       <ChristmasLightingMap />
       <Testimonials />
       <FAQSection />
-      <GetQuoteFormAdvanced />
+      <GetQuoteFormAdvanced id="freequote" />
 
 
 

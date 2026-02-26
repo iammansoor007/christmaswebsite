@@ -184,7 +184,7 @@
     "items": [
       {
         "number": "01",
-        "title": "Residential Christmas Lighting",
+        "title": "Residential Lighting",
         "description": "Coming home to a beautifully lit house makes the holidays even more special. We design and install custom residential displays tailored to your home and your style. From design to professional installation, we handle everything – so you can skip the ladders and tangled lights.",
         "icon": "FaHome",
         "color": "#10B981",
@@ -199,7 +199,7 @@
       },
       {
         "number": "02",
-        "title": "Commercial Christmas Lighting",
+        "title": "Commercial Lighting",
         "description": "Make your business stand out this season with professional holiday lighting. We design and install custom commercial displays tailored to your property and brand, helping you welcome customers and spread seasonal cheer.",
         "icon": "FaBuilding",
         "color": "#3B82F6",
@@ -214,7 +214,7 @@
       },
       {
         "number": "03",
-        "title": "Permanent Holiday Lighting",
+        "title": "Permanent Lighting",
         "description": "Upgrade your home with permanent lighting you can enjoy all year long. Custom systems perfect for everyday curb appeal, holidays, game days, and special occasions — all controlled right from your phone.",
         "icon": "FaStar",
         "color": "#F59E0B",
@@ -691,15 +691,15 @@
       "Services": [
         {
           "label": "Residential Lighting",
-          "href": "/services#residential"
+          "href": "/services/residential-lighting"
         },
         {
           "label": "Commercial Lighting",
-          "href": "/services#commercial"
+          "href": "/services/commercial-lighting"
         },
         {
           "label": "Permanent Holiday Lighting",
-          "href": "/services#custom"
+          "href": "/services/permanent-lighting"
         }
       ],
       "Company": [

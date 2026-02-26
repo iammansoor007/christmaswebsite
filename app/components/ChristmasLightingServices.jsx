@@ -2,6 +2,7 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import Link from "next/link";
 import {
   FaArrowRight,
   FaCheckCircle,
@@ -27,6 +28,14 @@ const AwardWinningServicesSection = () => {
   const servicesData = getServicesData();
   const { badge, title, subtitle, items: services } = servicesData;
 
+  // Service page mapping - add your actual service page URLs here
+  const servicePageUrls = {
+    "Residential Lighting": "/services/residential-lighting",
+    "Commercial Lighting": "/services/commercial-lighting",
+    "Permanent Lighting": "/services/permanent-lighting",
+    // Add more mappings as needed
+  };
+
   // Fixed positions for floating lights - NO RANDOM
   const floatingLights = [
     { left: 5, top: 10, color: '#f59e0b' },  // amber
@@ -49,6 +58,22 @@ const AwardWinningServicesSection = () => {
   // Fixed animation durations - NO RANDOM
   const animationDelays = [0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8];
   const animationDurations = [4, 5, 6, 7, 8, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8];
+
+  // Generate URL-friendly slug from service title
+  const getServiceUrl = (serviceTitle) => {
+    // Check if we have a direct mapping
+    if (servicePageUrls[serviceTitle]) {
+      return servicePageUrls[serviceTitle];
+    }
+
+    // Fallback: generate slug from title
+    const slug = serviceTitle
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+
+    return `/services/${slug}`;
+  };
 
   // Card variants
   const cardVariants = {
@@ -75,7 +100,7 @@ const AwardWinningServicesSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative w-full overflow-hidden bg-white px-3 xs:px-4 sm:px-6 lg:px-8  py-8 sm:py-10 lg:py-8 xl:py-6"
+      className="relative w-full overflow-hidden bg-white px-3 xs:px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-8 xl:py-6"
     >
       {/* Light theme background patterns */}
       <div className="absolute inset-0">
@@ -153,6 +178,7 @@ const AwardWinningServicesSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8 xl:gap-10">
           {services.map((service, index) => {
             const IconComponent = service.icon;
+            const serviceUrl = getServiceUrl(service.title);
 
             return (
               <motion.div
@@ -166,124 +192,126 @@ const AwardWinningServicesSection = () => {
                 onHoverEnd={() => setActiveIndex(null)}
                 className="group relative h-full"
               >
-                {/* Premium card */}
-                <div className="relative bg-white rounded-xl xs:rounded-2xl sm:rounded-3xl shadow-lg xs:shadow-xl overflow-hidden border border-gray-100 h-full min-h-[380px] xs:min-h-[400px] sm:min-h-[420px] lg:min-h-[440px] xl:min-h-[460px] flex flex-col">
+                {/* Make the entire card clickable */}
+                <Link href={serviceUrl} className="block h-full">
+                  <div className="relative bg-white rounded-xl xs:rounded-2xl sm:rounded-3xl shadow-lg xs:shadow-xl overflow-hidden border border-gray-100 h-full min-h-[380px] xs:min-h-[400px] sm:min-h-[420px] lg:min-h-[440px] xl:min-h-[460px] flex flex-col cursor-pointer transition-all duration-300 hover:shadow-2xl">
 
-                  {/* Top color bar */}
-                  <motion.div
-                    className="h-1 xs:h-1.5 sm:h-2 w-full flex-shrink-0"
-                    style={{ backgroundColor: service.color }}
-                    animate={activeIndex === index ? { height: "4px" } : { height: "2px" }}
-                  />
+                    {/* Top color bar */}
+                    <motion.div
+                      className="h-1 xs:h-1.5 sm:h-2 w-full flex-shrink-0"
+                      style={{ backgroundColor: service.color }}
+                      animate={activeIndex === index ? { height: "4px" } : { height: "2px" }}
+                    />
 
-                  {/* Image + Content row */}
-                  <div className="flex flex-col sm:flex-row flex-1">
-                    {/* Image section */}
-                    <div className="sm:w-2/5 w-full">
-                      <div className="relative w-full h-48 xs:h-52 sm:h-full min-h-[180px] sm:min-h-full overflow-hidden">
-                        <img
-                          src={`/images/demo${index + 1}.jpeg`}
-                          alt={service.title}
-                          className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
-                          loading="lazy"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-                      </div>
-                    </div>
-
-                    {/* Content section */}
-                    <div className="flex-1 p-3 xs:p-4 sm:p-5 lg:p-6 xl:p-8 overflow-y-auto">
-                      {/* Icon and title row */}
-                      <div className="flex items-start gap-2 xs:gap-3 sm:gap-4 mb-2 xs:mb-3 sm:mb-4">
-                        <motion.div
-                          className="w-8 xs:w-10 sm:w-12 h-8 xs:h-10 sm:h-12 rounded-lg xs:rounded-xl flex items-center justify-center text-sm xs:text-base sm:text-lg shadow-md xs:shadow-lg flex-shrink-0"
-                          style={{
-                            background: `linear-gradient(135deg, ${service.color}15, white)`,
-                            color: service.color,
-                            boxShadow: `0 5px 10px -5px ${service.color}80`
-                          }}
-                          whileHover={{ rotate: 360 }}
-                          transition={{ duration: 0.5 }}
-                        >
-                          <IconComponent />
-                        </motion.div>
-
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-sm xs:text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-gray-800 leading-tight">
-                            {service.title}
-                          </h3>
-                          <motion.div
-                            className="h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent"
-                            animate={activeIndex === index ? { scaleX: 1 } : { scaleX: 0 }}
-                            transition={{ duration: 0.3 }}
+                    {/* Image + Content row */}
+                    <div className="flex flex-col sm:flex-row flex-1">
+                      {/* Image section */}
+                      <div className="sm:w-2/5 w-full">
+                        <div className="relative w-full h-48 xs:h-52 sm:h-full min-h-[180px] sm:min-h-full overflow-hidden">
+                          <img
+                            src={`/images/demo${index + 1}.jpeg`}
+                            alt={service.title}
+                            className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
+                            loading="lazy"
                           />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+                        </div>
+                      </div>
+
+                      {/* Content section */}
+                      <div className="flex-1 p-3 xs:p-4 sm:p-5 lg:p-6 xl:p-8 overflow-y-auto">
+                        {/* Icon and title row */}
+                        <div className="flex items-start gap-2 xs:gap-3 sm:gap-4 mb-2 xs:mb-3 sm:mb-4">
+                          <motion.div
+                            className="w-8 xs:w-10 sm:w-12 h-8 xs:h-10 sm:h-12 rounded-lg xs:rounded-xl flex items-center justify-center text-sm xs:text-base sm:text-lg shadow-md xs:shadow-lg flex-shrink-0"
+                            style={{
+                              background: `linear-gradient(135deg, ${service.color}15, white)`,
+                              color: service.color,
+                              boxShadow: `0 5px 10px -5px ${service.color}80`
+                            }}
+                            whileHover={{ rotate: 360 }}
+                            transition={{ duration: 0.5 }}
+                          >
+                            <IconComponent />
+                          </motion.div>
+
+                          <div className="flex-1 min-w-0">
+                            <h3 className="text-sm xs:text-base sm:text-lg lg:text-xl xl:text-2xl font-bold text-gray-800 leading-tight">
+                              {service.title}
+                            </h3>
+                            <motion.div
+                              className="h-0.5 bg-gradient-to-r from-transparent via-amber-500 to-transparent"
+                              animate={activeIndex === index ? { scaleX: 1 } : { scaleX: 0 }}
+                              transition={{ duration: 0.3 }}
+                            />
+                          </div>
+
+                          <span
+                            className="text-base xs:text-lg sm:text-xl lg:text-2xl xl:text-4xl font-black opacity-10 flex-shrink-0"
+                            style={{ color: service.color }}
+                          >
+                            {service.number}
+                          </span>
                         </div>
 
-                        <span
-                          className="text-base xs:text-lg sm:text-xl lg:text-2xl xl:text-4xl font-black opacity-10 flex-shrink-0"
-                          style={{ color: service.color }}
-                        >
-                          {service.number}
-                        </span>
-                      </div>
+                        {/* Description */}
+                        <p className="text-gray-600 text-xs xs:text-sm sm:text-base mb-2 xs:mb-3 sm:mb-4 leading-relaxed">
+                          {service.description}
+                        </p>
 
-                      {/* Description */}
-                      <p className="text-gray-600 text-xs xs:text-sm sm:text-base mb-2 xs:mb-3 sm:mb-4 leading-relaxed">
-                        {service.description}
-                      </p>
+                        {/* Features */}
+                        <ul className="space-y-1 xs:space-y-1.5 sm:space-y-2 mb-3 xs:mb-4 sm:mb-5 lg:mb-6">
+                          {service.features.slice(0, 3).map((feature, idx) => (
+                            <motion.li
+                              key={idx}
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={isInView ? { opacity: 1, x: 0 } : {}}
+                              transition={{ delay: index * 0.1 + idx * 0.1 }}
+                              className="flex items-center gap-1 xs:gap-1.5 sm:gap-2"
+                            >
+                              <FaCheckCircle
+                                className="text-xs xs:text-sm sm:text-base flex-shrink-0"
+                                style={{ color: service.color }}
+                              />
+                              <span className="text-gray-700 text-xs xs:text-sm sm:text-base">{feature}</span>
+                            </motion.li>
+                          ))}
+                        </ul>
 
-                      {/* Features */}
-                      <ul className="space-y-1 xs:space-y-1.5 sm:space-y-2 mb-3 xs:mb-4 sm:mb-5 lg:mb-6">
-                        {service.features.slice(0, 3).map((feature, idx) => (
-                          <motion.li
-                            key={idx}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={isInView ? { opacity: 1, x: 0 } : {}}
-                            transition={{ delay: index * 0.1 + idx * 0.1 }}
-                            className="flex items-center gap-1 xs:gap-1.5 sm:gap-2"
-                          >
-                            <FaCheckCircle
-                              className="text-xs xs:text-sm sm:text-base flex-shrink-0"
-                              style={{ color: service.color }}
-                            />
-                            <span className="text-gray-700 text-xs xs:text-sm sm:text-base">{feature}</span>
-                          </motion.li>
-                        ))}
-                      </ul>
-
-                      {/* CTA Button */}
-                      <motion.button
-                        className="relative w-full overflow-hidden rounded-lg xs:rounded-xl font-semibold text-xs xs:text-sm sm:text-base py-2 xs:py-2.5 sm:py-3 px-3 xs:px-4 flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 transition-all"
-                        style={{
-                          background: `linear-gradient(135deg, ${service.color}10, ${service.color}20)`,
-                          color: service.color,
-                          border: `1px solid ${service.color}30`
-                        }}
-                        whileHover={{
-                          scale: 1.02,
-                          background: `linear-gradient(135deg, ${service.color}20, ${service.color}30)`,
-                        }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <span>View Details</span>
-                        <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
-
-                        {/* Shine effect */}
+                        {/* CTA Button */}
                         <motion.div
-                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
-                          animate={{
-                            x: ['-100%', '100%']
+                          className="relative w-full overflow-hidden rounded-lg xs:rounded-xl font-semibold text-xs xs:text-sm sm:text-base py-2 xs:py-2.5 sm:py-3 px-3 xs:px-4 flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 transition-all"
+                          style={{
+                            background: `linear-gradient(135deg, ${service.color}10, ${service.color}20)`,
+                            color: service.color,
+                            border: `1px solid ${service.color}30`
                           }}
-                          transition={{
-                            duration: 1.5,
-                            repeat: Infinity,
-                            repeatDelay: 2
+                          whileHover={{
+                            scale: 1.02,
+                            background: `linear-gradient(135deg, ${service.color}20, ${service.color}30)`,
                           }}
-                        />
-                      </motion.button>
+                          whileTap={{ scale: 0.98 }}
+                        >
+                          <span>View Details</span>
+                          <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
+
+                          {/* Shine effect */}
+                          <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                            animate={{
+                              x: ['-100%', '100%']
+                            }}
+                            transition={{
+                              duration: 1.5,
+                              repeat: Infinity,
+                              repeatDelay: 2
+                            }}
+                          />
+                        </motion.div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               </motion.div>
             );
           })}
@@ -296,17 +324,19 @@ const AwardWinningServicesSection = () => {
           transition={{ delay: 0.8, duration: 0.8 }}
           className="mt-8 xs:mt-10 sm:mt-12 lg:mt-14 xl:mt-16 text-center"
         >
-          <motion.button
-            className="group relative px-4 xs:px-6 sm:px-8 lg:px-10 py-2 xs:py-2.5 sm:py-3 lg:py-4 bg-gradient-to-r from-amber-500 to-red-500 rounded-lg xs:rounded-xl text-white font-bold text-xs xs:text-sm sm:text-base lg:text-lg shadow-md xs:shadow-lg lg:shadow-xl"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <span className="relative z-10 flex items-center gap-1 xs:gap-1.5 sm:gap-2">
-              <FaLightbulb className="text-yellow-200 text-xs xs:text-sm sm:text-base" />
-              <span>View All Services</span>
-              <FaStar className="text-yellow-200 text-xs xs:text-sm sm:text-base" />
-            </span>
-          </motion.button>
+          <Link href="/services">
+            <motion.div
+              className="group relative px-4 xs:px-6 sm:px-8 lg:px-10 py-2 xs:py-2.5 sm:py-3 lg:py-4 bg-gradient-to-r from-amber-500 to-red-500 rounded-lg xs:rounded-xl text-white font-bold text-xs xs:text-sm sm:text-base lg:text-lg shadow-md xs:shadow-lg lg:shadow-xl cursor-pointer inline-flex items-center"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <span className="relative z-10 flex items-center gap-1 xs:gap-1.5 sm:gap-2">
+                <FaLightbulb className="text-yellow-200 text-xs xs:text-sm sm:text-base" />
+                <span>View All Services</span>
+                <FaStar className="text-yellow-200 text-xs xs:text-sm sm:text-base" />
+              </span>
+            </motion.div>
+          </Link>
         </motion.div>
       </div>
 

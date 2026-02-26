@@ -108,14 +108,28 @@ const ChristmasLightingSection = () => {
             {/* CTA - Clean buttons */}
             <div className="space-y-4 pt-4">
               <div className="flex flex-col sm:flex-row gap-4">
-                <a
-                  href={`tel:${hero.cta.phone}`}
-                  className="px-8 py-4 bg-gradient-to-r from-rose-600 via-amber-500 to-emerald-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300 text-center"
+                <button
+                  onClick={() => {
+                    const section = document.getElementById("freequote");
+                    if (section) {
+                      section.scrollIntoView({ behavior: "smooth" });
+                    }
+                  }}
+                  className="relative overflow-hidden group inline-flex items-center justify-center px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-gradient-to-r from-yellow-500 to-red-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg w-auto min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
                 >
-                  {hero.cta.subtext}
-                </a>
+                  <span className="relative z-10 flex items-center justify-center gap-1.5 sm:gap-2">
 
-                <button className="px-8 py-4 bg-white border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-amber-300 hover:bg-amber-50/50 transition-all duration-300">
+                    <span>{hero.cta.subtext || "Get My Free Quote"}</span>
+
+                  </span>
+
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+                </button>
+
+                <button
+                  onClick={() => (window.location.href = "/gallery")}
+                  className="px-8 py-4 bg-white border-2 border-slate-200 text-slate-700 font-semibold rounded-xl hover:border-amber-300 hover:bg-amber-50/50 transition-all duration-300"
+                >
                   View Gallery
                 </button>
               </div>
