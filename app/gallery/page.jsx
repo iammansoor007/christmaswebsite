@@ -518,7 +518,7 @@ const Gallery = () => {
         <div className="absolute inset-0">
           <div
             className="relative w-full h-full transition-transform duration-[50ms] ease-out will-change-transform"
-           
+
           >
             <Image
               src="/images/hero-background2.jpg"

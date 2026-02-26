@@ -1,46 +1,54 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import ProfessionalLoader from './Loader'; // adjust path if needed
+import ProfessionalLoader from './Loader';
 
 export default function GlobalLoader({ children }) {
-    const [loading, setLoading] = useState(true);
+    const [isFirstLoad, setIsFirstLoad] = useState(true);
+    const [showLoader, setShowLoader] = useState(true);
     const [fadeOut, setFadeOut] = useState(false);
 
     useEffect(() => {
-        const minimumLoadTime = 1500; // 1.5 seconds – matches your branding duration
+        // ONLY run on initial page load
+        const minimumLoadTime = 1500;
         const startTime = Date.now();
 
-        const finishLoading = () => {
+        const handleInitialLoad = () => {
             const elapsed = Date.now() - startTime;
             const remaining = Math.max(0, minimumLoadTime - elapsed);
 
+            // Fade out loader
             setTimeout(() => {
-                setFadeOut(true); // start fade out
-                // Wait for fade out animation (300ms) then remove loader from DOM
-                setTimeout(() => setLoading(false), 300);
+                setFadeOut(true);
+                
+                // Remove loader from DOM after fade
+                setTimeout(() => {
+                    setShowLoader(false);
+                    setIsFirstLoad(false);
+                }, 300);
             }, remaining);
         };
 
-        // If the page is already fully loaded, finish immediately (with minimum time)
+        // Check if page is already loaded
         if (document.readyState === 'complete') {
-            finishLoading();
+            handleInitialLoad();
         } else {
-            window.addEventListener('load', finishLoading);
-            return () => window.removeEventListener('load', finishLoading);
+            window.addEventListener('load', handleInitialLoad);
+            return () => window.removeEventListener('load', handleInitialLoad);
         }
-    }, []);
+    }, []); // Empty array = ONLY runs once on mount
 
-    // When loading is false, the loader is gone – show the real app
-    if (!loading) {
+    // After first load, ALWAYS render children directly
+    if (!isFirstLoad || !showLoader) {
         return <>{children}</>;
     }
 
-    // Show the loader with a fade‑out transition
+    // Only show loader on first visit
     return (
         <div
-            className={`fixed inset-0 z-[9999] transition-opacity duration-300 ${fadeOut ? 'opacity-0' : 'opacity-100'
-                }`}
+            className={`fixed inset-0 z-[9999] transition-opacity duration-300 ${
+                fadeOut ? 'opacity-0' : 'opacity-100'
+            }`}
         >
             <ProfessionalLoader />
         </div>

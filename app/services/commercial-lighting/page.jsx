@@ -2,13 +2,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import CallToAction from '../../components/CallToAction';
 import {
     FaCheckCircle,
     FaArrowRight,
     FaShieldAlt,
     FaClock,
     FaStar,
-    FaBuilding,
+    FaHome,
     FaTree,
     FaLightbulb,
     FaTools,
@@ -24,16 +25,17 @@ import {
     FaSpinner,
     FaAward,
     FaQuoteLeft,
+    FaBuilding,
+    FaChartLine,
     FaUsers,
-    FaChartLine
+    FaStore,
+    FaParking,
+    FaSign
 } from 'react-icons/fa';
 import { GiSparkles } from 'react-icons/gi';
 import { HiOutlineSparkles } from 'react-icons/hi';
 
-// Reuse the same ConsultationModal component
 const ConsultationModal = ({ isOpen, onClose }) => {
-    // Same as above - copy the entire ConsultationModal component here
-    // (I'll keep it brief in this response, but you should copy the full component)
     const [formData, setFormData] = useState({
         name: '', email: '', phone: '', address: '',
         serviceType: 'commercial', preferredDate: '', preferredTime: '', message: ''
@@ -119,7 +121,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
         <div className="fixed inset-0 z-[100] overflow-hidden" onClick={handleBackdropClick}>
             <div className="fixed inset-0 bg-black/60 backdrop-blur-md transition-opacity" />
             <div className="fixed inset-0 flex items-center justify-center p-4 pointer-events-none">
-                <div ref={modalRef} className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl pointer-events-auto max-h-[90vh] flex flex-col">
+                <div ref={modalRef} className="relative w-full max-w-2xl bg-gray-50 rounded-3xl shadow-2xl pointer-events-auto max-h-[90vh] flex flex-col">
                     <button onClick={onClose} className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors shadow-md hover:rotate-90">
                         <FaTimes className="text-gray-600" />
                     </button>
@@ -245,11 +247,11 @@ const CommercialLightingPage = () => {
         description: "Make your business stand out this season with professional holiday lighting. We design and install custom commercial displays tailored to your property and brand, helping you welcome customers and spread seasonal cheer.",
         longDescription: "Commercial properties need lighting that makes an impact. Our commercial service creates stunning displays that attract customers, enhance your brand, and create a memorable holiday experience. We work with shopping centers, office buildings, hotels, restaurants, and retail spaces to create custom lighting solutions that stand out. Our team handles everything from design to installation, maintenance, and removal, ensuring your property looks spectacular throughout the holiday season.",
         features: [
-            "Building facade lighting",
-            "Parking lot illumination",
-            "Tree and landscape lighting",
-            "Entryway and signage highlighting",
-            "Custom branded displays",
+            "Building facade and architectural highlighting",
+            "Entryway and storefront illumination",
+            "Landscape and tree lighting",
+            "Parking lot and walkway lighting",
+            "Custom branded displays and signage",
             "Commercial-grade weatherproof lights"
         ],
         process: [
@@ -259,50 +261,53 @@ const CommercialLightingPage = () => {
             { step: "Maintenance", description: "Regular maintenance ensures your display stays perfect all season." },
             { step: "Removal", description: "After the holidays, we carefully remove and store everything." }
         ],
-        image: "/images/commercial-lighting.jpg",
-        color: "#3B82F6",
-        stat: "100+ Businesses",
-        benefits: [
-            { icon: FaUsers, text: "Attract more customers" },
-            { icon: FaShieldAlt, text: "Fully insured commercial work" },
-            { icon: FaChartLine, text: "Increase foot traffic" },
-            { icon: FaGem, text: "Premium commercial-grade lights" }
-        ]
+        image: "/images/gallery12.jpg",
+        color: "#10B981"
     };
+
+    const features = [
+        { icon: <FaBuilding className="w-6 h-6" />, title: "Facade Lighting", description: "Highlight your building's architecture and make it stand out day and night" },
+        { icon: <FaStore className="w-6 h-6" />, title: "Storefront Displays", description: "Create welcoming entryways that draw customers into your business" },
+        { icon: <FaTree className="w-6 h-6" />, title: "Landscape Lighting", description: "Transform trees and landscaping into stunning visual elements" },
+        { icon: <FaParking className="w-6 h-6" />, title: "Parking Lot Lighting", description: "Ensure safe, well-lit parking areas that feel welcoming" },
+        { icon: <FaSign className="w-6 h-6" />, title: "Signage Enhancement", description: "Make your business name and signage pop with strategic lighting" },
+        { icon: <FaUsers className="w-6 h-6" />, title: "Customer Experience", description: "Create memorable experiences that keep customers coming back" }
+    ];
 
     return (
         <main className="overflow-x-hidden w-full bg-white">
             {/* Hero Section */}
             <section ref={heroRef} className="relative min-h-[80vh] flex items-center w-full overflow-hidden">
                 <div className="absolute inset-0">
-                    <div className="relative w-full h-full transition-transform duration-200 ease-out" style={{ transform: `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px) scale(1.05)` }}>
-                        <Image src="/images/commercial-hero.jpg" alt="Commercial Christmas Lighting" fill className="object-cover" priority />
+                    <div className="relative w-full h-full transition-transform duration-200 ease-out" style={{ transform: `translate(${mousePosition.x * 5}px, ${mousePosition.y * 5}px) scale(1.05)` }}>
+                        <Image src="/images/hero-background2.jpg" alt="Commercial Christmas Lighting" fill className="object-cover" priority />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-r from-amber-400/15 via-gray-900/90 to-red-500/30"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-emerald-400/15 via-gray-900/90 to-emerald-500/30"></div>
                 </div>
 
                 <div className="absolute inset-0 overflow-hidden">
                     <div className="absolute top-0 -left-4 w-96 h-96 bg-emerald-600/20 rounded-full blur-3xl opacity-20 animate-blob"></div>
-                    <div className="absolute bottom-0 -right-4 w-96 h-96 bg-amber-600/20 rounded-full blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+                    <div className="absolute bottom-0 -right-4 w-96 h-96 bg-emerald-600/20 rounded-full blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
                 </div>
 
                 <div className="absolute inset-0 opacity-20" style={{ backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.3) 1px, transparent 0)`, backgroundSize: '50px 50px' }}></div>
 
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent" style={{ opacity: scrollProgress }}></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent transition-opacity duration-300" style={{ opacity: scrollProgress }}></div>
 
                 <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-20 z-10">
                     <div className="max-w-4xl mx-auto text-center">
-                        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/20 to-amber-500/20 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8 animate-fade-up">
+                        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/20 to-emerald-500/20 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8 animate-fade-up">
                             <HiOutlineSparkles className="w-4 h-4 text-emerald-400" />
                             <span className="text-white/90 text-sm font-medium tracking-wider">{service.number} • COMMERCIAL</span>
                         </div>
 
+
                         <h1 className="font-montserrat font-extrabold text-5xl sm:text-6xl lg:text-7xl text-white mb-6">
-                            <span className="block animate-title-slide-up">Make Your Business</span>
+                            <span className="block animate-title-slide-up">Make Your Bussiness</span>
                             <span className="block relative animate-title-slide-up animation-delay-200">
                                 <span className="relative inline-block">
                                     <span className="relative z-10 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-amber-300 to-red-400">
-                                        Unforgettable This Season
+                                        Unforgetable This Holiday Season
                                     </span>
                                 </span>
                             </span>
@@ -313,25 +318,10 @@ const CommercialLightingPage = () => {
                         </p>
 
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-fade-up animation-delay-600">
-                            <button onClick={() => setIsModalOpen(true)}
-                                className="group relative overflow-hidden px-8 py-4 bg-gradient-to-r from-amber-400 to-red-500 text-white font-semibold rounded-full hover:shadow-2xl hover:scale-105 transition-all w-full sm:w-auto">
-                                <span className="relative z-10 flex items-center gap-2">
-                                    <span>Get Your Free Quote</span>
-                                    <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                </span>
-                                <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-amber-400 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-                            </button>
-
-                            <Link href="#details"
-                                className="px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white font-semibold rounded-full hover:bg-white/20 transition-all w-full sm:w-auto">
-                                Learn More
-                            </Link>
-                        </div>
-
-                        <div className="flex flex-wrap items-center justify-center gap-6 text-white/60 text-sm animate-fade-up animation-delay-800">
-                            <div className="flex items-center gap-2"><FaBuilding className="text-emerald-400" /> <span>{service.stat}</span></div>
-                            <div className="flex items-center gap-2"><FaStar className="text-amber-400" /> <span>4.9/5 Rating</span></div>
-                            <div className="flex items-center gap-2"><FaShieldAlt className="text-red-400" /> <span>Fully Insured</span></div>
+                            <a
+                                href="tel:+16143017100"
+                                className="relative overflow-hidden group inline-flex items-center justify-center px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-gradient-to-r from-yellow-500 to-red-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg w-auto min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
+                            > Get Your Free Quote </a>
                         </div>
                     </div>
                 </div>
@@ -343,38 +333,16 @@ const CommercialLightingPage = () => {
                     <div className="max-w-7xl mx-auto">
                         <div className="grid lg:grid-cols-2 gap-12 items-center">
                             <div className="animate-fade-up">
-                                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/10 to-amber-500/10 backdrop-blur-sm border border-emerald-200/30 rounded-full px-4 py-1.5 mb-4">
+                                <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/10 to-emerald-500/10 backdrop-blur-sm border border-emerald-200/30 rounded-full px-4 py-1.5 mb-4">
                                     <GiSparkles className="w-3.5 h-3.5 text-emerald-500" />
                                     <span className="text-emerald-700 text-xs font-medium tracking-wider">OVERVIEW</span>
                                 </div>
-
                                 <h2 className="font-montserrat font-extrabold text-3xl sm:text-4xl lg:text-5xl text-gray-900 mb-4">
                                     <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
                                         Stand Out From The Crowd
                                     </span>
                                 </h2>
-
                                 <p className="text-gray-600 text-lg mb-6 leading-relaxed">{service.longDescription}</p>
-
-                                <div className="grid grid-cols-2 gap-4 mb-8">
-                                    {service.benefits.map((benefit, idx) => (
-                                        <div key={idx} className="flex items-start gap-2">
-                                            <benefit.icon className="text-emerald-500 mt-1 flex-shrink-0" />
-                                            <span className="text-sm text-gray-700">{benefit.text}</span>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                <div className="flex flex-wrap gap-4">
-                                    <button onClick={() => setIsModalOpen(true)}
-                                        className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold rounded-full hover:shadow-lg transition-all">
-                                        Schedule Consultation
-                                    </button>
-                                    <Link href="/contact"
-                                        className="px-6 py-3 border border-gray-300 text-gray-700 font-semibold rounded-full hover:bg-gray-50 transition-all">
-                                        Contact Us
-                                    </Link>
-                                </div>
                             </div>
 
                             <div className="relative animate-fade-up animation-delay-200">
@@ -389,26 +357,33 @@ const CommercialLightingPage = () => {
             </section>
 
             {/* Features Section */}
-            <section className="py-16 bg-gray-50">
+            <section className="py-20 bg-white">
                 <div className="container mx-auto px-4 sm:px-6">
                     <div className="max-w-7xl mx-auto">
-                        <div className="text-center mb-12">
-                            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/10 to-amber-500/10 backdrop-blur-sm border border-emerald-200/30 rounded-full px-4 py-1.5">
-                                <GiSparkles className="w-3.5 h-3.5 text-emerald-500" />
-                                <span className="text-emerald-700 text-xs font-medium tracking-wider">WHAT'S INCLUDED</span>
+                        <div className="text-center max-w-2xl mx-auto mb-16">
+                            <div className="inline-flex items-center gap-2 bg-emerald-100 rounded-full px-4 py-2 mb-4">
+                                <GiSparkles className="w-4 h-4 text-emerald-600" />
+                                <span className="text-emerald-700 text-sm font-semibold">WHAT WE OFFER</span>
                             </div>
-                            <h2 className="font-montserrat font-extrabold text-3xl sm:text-4xl md:text-5xl text-gray-900 mt-4 mb-4">
-                                <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
-                                    Complete Commercial Package
-                                </span>
+                            <h2 className="font-montserrat font-bold text-4xl text-gray-900 mb-4">
+                                Complete Commercial Lighting Services
                             </h2>
+                            <p className="text-gray-600 text-lg">
+                                Professional installation with premium materials and full-service support.
+                            </p>
                         </div>
 
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {service.features.map((feature, idx) => (
-                                <div key={idx} className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
-                                    <FaCheckCircle className="text-emerald-500 text-xl mb-3" />
-                                    <p className="text-gray-800 font-medium">{feature}</p>
+                            {features.map((feature, idx) => (
+                                <div
+                                    key={idx}
+                                    className="bg-gray-50 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow border border-gray-100"
+                                >
+                                    <div className="w-12 h-12 bg-gradient-to-br from-emerald-50 to-emerald-50 rounded-lg flex items-center justify-center text-emerald-600 mb-4">
+                                        {feature.icon}
+                                    </div>
+                                    <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
+                                    <p className="text-gray-600">{feature.description}</p>
                                 </div>
                             ))}
                         </div>
@@ -416,94 +391,95 @@ const CommercialLightingPage = () => {
                 </div>
             </section>
 
-            {/* Process Section */}
-            <section className="py-16">
+            {/* Why Choose Us Section */}
+            <section className="py-20 bg-white">
                 <div className="container mx-auto px-4 sm:px-6">
-                    <div className="max-w-4xl mx-auto text-center mb-12">
-                        <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-500/10 to-amber-500/10 backdrop-blur-sm border border-emerald-200/30 rounded-full px-4 py-1.5">
-                            <GiSparkles className="w-3.5 h-3.5 text-emerald-500" />
-                            <span className="text-emerald-700 text-xs font-medium tracking-wider">OUR PROCESS</span>
-                        </div>
-                        <h2 className="font-montserrat font-extrabold text-3xl sm:text-4xl md:text-5xl text-gray-900 mt-4 mb-4">
-                            <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
-                                Hassle-Free Commercial Installation
-                            </span>
-                        </h2>
-                    </div>
+                    <div className="max-w-7xl mx-auto">
+                        <div className="grid lg:grid-cols-2 gap-12 items-center">
+                            <div>
+                                <div className="inline-flex items-center gap-2 bg-emerald-100 rounded-full px-4 py-2 mb-4">
+                                    <FaAward className="w-4 h-4 text-emerald-600" />
+                                    <span className="text-emerald-700 text-sm font-semibold">WHY CHOOSE US</span>
+                                </div>
+                                <h2 className="font-montserrat font-bold text-4xl text-gray-900 mb-6">
+                                    Professional Grade, Business Ready
+                                </h2>
+                                <p className="text-gray-600 text-lg mb-8">
+                                    We understand the unique needs of commercial properties. Our team delivers stunning results while respecting your business operations and schedule.
+                                </p>
 
-                    <div className="max-w-4xl mx-auto">
-                        {service.process.map((step, idx) => (
-                            <div key={idx} className="flex gap-6 mb-8">
-                                <div className="flex-shrink-0">
-                                    <div className="w-12 h-12 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold">
-                                        {idx + 1}
+                                <div className="space-y-4">
+                                    {[
+                                        "Fully licensed, bonded, and insured for commercial work",
+                                        "Installation during off-hours to minimize disruption",
+                                        "Regular maintenance and emergency service included",
+                                        "Custom designs that align with your brand identity",
+                                        "Volume discounts for multi-property portfolios"
+                                    ].map((item, idx) => (
+                                        <div key={idx} className="flex items-start gap-3">
+                                            <FaCheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                                            <span className="text-gray-700">{item}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <div className="mt-8">
+                                    <button
+                                        onClick={() => window.location.href = 'tel:+16143017100'}
+                                        className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-red-600 to-yellow-500 text-white font-semibold rounded-lg hover:from-red-700 hover:to-yellow-600 transition-all"
+                                    >
+                                        Get Your Free Quote
+                                        <FaArrowRight />
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="space-y-4">
+                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
+                                        <div className="text-3xl font-bold text-emerald-600 mb-1">100+</div>
+                                        <div className="text-sm text-gray-600">Businesses Served</div>
+                                    </div>
+                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
+                                        <div className="text-3xl font-bold text-emerald-600 mb-1">15+</div>
+                                        <div className="text-sm text-gray-600">Years Experience</div>
                                     </div>
                                 </div>
-                                <div>
-                                    <h3 className="text-xl font-bold text-gray-900 mb-2">{step.step}</h3>
-                                    <p className="text-gray-600">{step.description}</p>
+                                <div className="space-y-4 mt-8">
+                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
+                                        <div className="text-3xl font-bold text-emerald-600 mb-1">24/7</div>
+                                        <div className="text-sm text-gray-600">Support Available</div>
+                                    </div>
+                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
+                                        <div className="text-3xl font-bold text-emerald-600 mb-1">100%</div>
+                                        <div className="text-sm text-gray-600">Satisfaction</div>
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="py-12 xs:py-16 sm:py-20 bg-gradient-to-b from-white to-gray-50">
-                <div className="container mx-auto px-4 xs:px-6">
-                    <div className="max-w-4xl mx-auto">
-                        <div className="bg-gradient-to-r from-emerald-50 via-amber-50 to-red-50 rounded-2xl p-8 text-center border border-emerald-100 shadow-lg">
-                            <h3 className="font-montserrat font-extrabold text-2xl xs:text-3xl sm:text-4xl text-gray-900 mb-4">
-                                Ready to Light Up Your Business?
-                            </h3>
-                            <p className="text-gray-600 text-base xs:text-lg sm:text-xl mb-6 max-w-2xl mx-auto">
-                                Get your free commercial quote today and attract more customers this holiday season.
-                            </p>
-
-                            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                                <button onClick={() => window.location.href = 'tel:+16143017100'}
-                                    className="px-6 py-3.5 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all">
-                                    Call Us: (614) 301-7100
-                                </button>
-                                <button onClick={() => setIsModalOpen(true)}
-                                    className="px-6 py-3.5 font-semibold text-gray-700 border-2 border-emerald-200 hover:border-emerald-300 rounded-xl transition-all bg-white">
-                                    Schedule Free Consultation
-                                </button>
-                            </div>
-
-                            <div className="mt-5 text-xs text-gray-500 flex flex-wrap items-center justify-center gap-2">
-                                <FaShieldAlt className="text-emerald-500" />
-                                <span>No commitment • Free consultation • 100% satisfaction guaranteed</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Back to Services Link */}
-            <div className="container mx-auto px-4 py-8">
-                <Link href="/#services" className="inline-flex items-center gap-2 text-gray-600 hover:text-emerald-600 transition-colors">
-                    <FaArrowRight className="rotate-180" />
-                    <span>Back to All Services</span>
-                </Link>
-            </div>
+            <section className="-mt-12 sm:p-6 sm:mb-10 lg:p-12">
+                <CallToAction />
+            </section>
 
             <ConsultationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
             <style jsx global>{`
-        @keyframes blob { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(30px,-50px) scale(1.1)} 66%{transform:translate(-20px,20px) scale(0.9)} }
-        @keyframes titleSlideUp { from{opacity:0;transform:translateY(50px)} to{opacity:1;transform:translateY(0)} }
-        @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
-        .animate-blob { animation: blob 10s infinite }
-        .animate-title-slide-up { animation: titleSlideUp 0.8s forwards; opacity:0 }
-        .animate-fade-up { animation: fadeUp 0.6s forwards; opacity:0 }
-        .animation-delay-200 { animation-delay:200ms }
-        .animation-delay-400 { animation-delay:400ms }
-        .animation-delay-600 { animation-delay:600ms }
-        .animation-delay-800 { animation-delay:800ms }
-        .animation-delay-2000 { animation-delay:2000ms }
-      `}</style>
+                @keyframes blob { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(30px,-50px) scale(1.1)} 66%{transform:translate(-20px,20px) scale(0.9)} }
+                @keyframes titleSlideUp { from{opacity:0;transform:translateY(50px)} to{opacity:1;transform:translateY(0)} }
+                @keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+                .animate-blob { animation: blob 10s infinite }
+                .animate-title-slide-up { animation: titleSlideUp 0.8s forwards; opacity:0 }
+                .animate-fade-up { animation: fadeUp 0.6s forwards; opacity:0 }
+                .animation-delay-200 { animation-delay:200ms }
+                .animation-delay-400 { animation-delay:400ms }
+                .animation-delay-600 { animation-delay:600ms }
+                .animation-delay-800 { animation-delay:800ms }
+                .animation-delay-2000 { animation-delay:2000ms }
+            `}</style>
         </main>
     );
 };
