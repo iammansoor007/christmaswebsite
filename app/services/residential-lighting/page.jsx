@@ -288,7 +288,7 @@ const ResidentialLightingPage = () => {
                 </div>
             </section>
 
-            <section className=" "> <CallToAction /></section>
+            <section className=" p-8"> <CallToAction /></section>
 
 
 

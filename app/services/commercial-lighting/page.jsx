@@ -461,7 +461,7 @@ const CommercialLightingPage = () => {
                 </div>
             </section>
 
-            <section className="">
+            <section className="p-8">
                 <CallToAction />
             </section>
 
