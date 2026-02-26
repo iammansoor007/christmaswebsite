@@ -781,8 +781,7 @@ const ServicesPage = () => {
         <CallToAction />
       </section>
 
-      {/* Consultation Modal */}
-      <ConsultationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+     
 
       {/* Global Styles */}
       <style jsx global>{`
