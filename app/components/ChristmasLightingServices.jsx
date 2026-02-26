@@ -17,10 +17,38 @@ import { getServicesData } from "../services/dataService";
 const AwardWinningServicesSection = () => {
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [isClient, setIsClient] = useState(false);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const servicesData = getServicesData();
   const { badge, title, subtitle, items: services } = servicesData;
+
+  // Fixed positions for floating lights - NO RANDOM
+  const floatingLights = [
+    { left: 5, top: 10, color: '#f59e0b' },  // amber
+    { left: 15, top: 25, color: '#ef4444' },  // red
+    { left: 25, top: 40, color: '#10b981' },  // emerald
+    { left: 35, top: 55, color: '#f59e0b' },
+    { left: 45, top: 70, color: '#ef4444' },
+    { left: 55, top: 85, color: '#10b981' },
+    { left: 65, top: 15, color: '#f59e0b' },
+    { left: 75, top: 30, color: '#ef4444' },
+    { left: 85, top: 45, color: '#10b981' },
+    { left: 95, top: 60, color: '#f59e0b' },
+    { left: 10, top: 75, color: '#ef4444' },
+    { left: 20, top: 90, color: '#10b981' },
+    { left: 30, top: 5, color: '#f59e0b' },
+    { left: 40, top: 20, color: '#ef4444' },
+    { left: 50, top: 35, color: '#10b981' },
+  ];
+
+  // Fixed animation durations - NO RANDOM
+  const animationDelays = [0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8];
+  const animationDurations = [4, 5, 6, 7, 8, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8];
 
   // Card variants
   const cardVariants = {
@@ -61,30 +89,32 @@ const AwardWinningServicesSection = () => {
       <div className="absolute bottom-20 right-5 xs:right-10 w-48 xs:w-64 sm:w-80 lg:w-[500px] h-48 xs:h-64 sm:h-80 lg:h-[500px] bg-red-200/30 rounded-full blur-2xl xs:blur-3xl" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] xs:w-[350px] sm:w-[400px] lg:w-[500px] h-[280px] xs:h-[350px] sm:h-[400px] lg:h-[500px] bg-gradient-to-r from-amber-100/30 to-red-100/30 rounded-full blur-2xl xs:blur-3xl" />
 
-      {/* Floating Christmas lights */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(15)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 xs:w-1.5 h-1 xs:h-1.5 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              background: i % 3 === 0 ? '#f59e0b' : i % 3 === 1 ? '#ef4444' : '#10b981',
-              opacity: 0.2,
-            }}
-            animate={{
-              y: [0, -20, 0],
-              opacity: [0.2, 0.5, 0.2],
-            }}
-            transition={{
-              duration: 4 + Math.random() * 4,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
+      {/* Floating Christmas lights - FIXED with no random values */}
+      {isClient && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {floatingLights.map((light, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-1 xs:w-1.5 h-1 xs:h-1.5 rounded-full"
+              style={{
+                left: `${light.left}%`,
+                top: `${light.top}%`,
+                background: light.color,
+                opacity: 0.2,
+              }}
+              animate={{
+                y: [0, -20, 0],
+                opacity: [0.2, 0.5, 0.2],
+              }}
+              transition={{
+                duration: animationDurations[i],
+                repeat: Infinity,
+                delay: animationDelays[i],
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
@@ -114,12 +144,12 @@ const AwardWinningServicesSection = () => {
           </h2>
 
           {/* Subtitle */}
-          <p className="text-gray-600 font-montserrat  text-xs xs:text-sm sm:text-base lg:text-lg xl:text-xl max-w-3xl mx-auto leading-relaxed font-light px-3 xs:px-4">
+          <p className="text-gray-600 font-montserrat text-xs xs:text-sm sm:text-base lg:text-lg xl:text-xl max-w-3xl mx-auto leading-relaxed font-light px-3 xs:px-4">
             <span className="font-bold ">{subtitle}</span>
           </p>
         </motion.div>
 
-        {/* Services Grid - FIXED CARD HEIGHTS */}
+        {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8 xl:gap-10">
           {services.map((service, index) => {
             const IconComponent = service.icon;
@@ -136,7 +166,7 @@ const AwardWinningServicesSection = () => {
                 onHoverEnd={() => setActiveIndex(null)}
                 className="group relative h-full"
               >
-                {/* Premium card - FIXED HEIGHT */}
+                {/* Premium card */}
                 <div className="relative bg-white rounded-xl xs:rounded-2xl sm:rounded-3xl shadow-lg xs:shadow-xl overflow-hidden border border-gray-100 h-full min-h-[380px] xs:min-h-[400px] sm:min-h-[420px] lg:min-h-[440px] xl:min-h-[460px] flex flex-col">
 
                   {/* Top color bar */}
@@ -146,9 +176,9 @@ const AwardWinningServicesSection = () => {
                     animate={activeIndex === index ? { height: "4px" } : { height: "2px" }}
                   />
 
-                  {/* Image + Content row - FIXED LAYOUT with flex-1 to fill height */}
+                  {/* Image + Content row */}
                   <div className="flex flex-col sm:flex-row flex-1">
-                    {/* Image section - FIXED HEIGHT AND ASPECT RATIO */}
+                    {/* Image section */}
                     <div className="sm:w-2/5 w-full">
                       <div className="relative w-full h-48 xs:h-52 sm:h-full min-h-[180px] sm:min-h-full overflow-hidden">
                         <img
@@ -158,12 +188,10 @@ const AwardWinningServicesSection = () => {
                           loading="lazy"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
-
-
                       </div>
                     </div>
 
-                    {/* Content section - flex-1 to fill remaining height with scroll if needed */}
+                    {/* Content section */}
                     <div className="flex-1 p-3 xs:p-4 sm:p-5 lg:p-6 xl:p-8 overflow-y-auto">
                       {/* Icon and title row */}
                       <div className="flex items-start gap-2 xs:gap-3 sm:gap-4 mb-2 xs:mb-3 sm:mb-4">
