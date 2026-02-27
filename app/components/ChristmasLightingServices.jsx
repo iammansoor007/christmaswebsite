@@ -1,46 +1,98 @@
 // components/AwardWinningServicesSection.jsx
 "use client";
 import { useRef, useEffect, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   FaArrowRight,
   FaCheckCircle,
   FaStar,
-  FaRegGem,
   FaCrown,
   FaLightbulb,
-  FaShieldAlt
+  FaHome,
+  FaBuilding,
+  FaShieldAlt,
+  FaTools,
 } from "react-icons/fa";
 import { GiSparkles } from "react-icons/gi";
-import { getServicesData } from "../services/dataService";
+import { getServicesData } from "../services/supabaseService";
+
+// Define the icon mapping function
+const getIconComponent = (iconName) => {
+  const iconMap = {
+    FaHome: FaHome,
+    FaBuilding: FaBuilding,
+    FaStar: FaStar,
+    FaShieldAlt: FaShieldAlt,
+    FaTools: FaTools,
+    FaCheckCircle: FaCheckCircle,
+    FaCrown: FaCrown,
+    FaLightbulb: FaLightbulb,
+    GiSparkles: GiSparkles,
+  };
+
+  if (typeof iconName === 'string' && iconMap[iconName]) {
+    return iconMap[iconName];
+  }
+
+  return FaStar; // Default fallback
+};
 
 const AwardWinningServicesSection = () => {
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(null);
   const [isClient, setIsClient] = useState(false);
-  const isInView = useInView(containerRef, { once: true, amount: 0.2 });
+  const [servicesData, setServicesData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     setIsClient(true);
+
+    const fetchData = async () => {
+      try {
+        const data = await getServicesData();
+
+        if (data && data.items && data.items.length > 0) {
+          // Map icon strings to actual components
+          const processedData = {
+            ...data,
+            items: data.items.map(item => ({
+              ...item,
+              icon: getIconComponent(item.icon)
+            }))
+          };
+
+          setServicesData(processedData);
+          setError(null);
+        } else {
+          setServicesData(null);
+          setError('No services data available');
+        }
+      } catch (error) {
+        console.error('Error fetching services:', error);
+        setServicesData(null);
+        setError('Failed to load services');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
-  const servicesData = getServicesData();
-  const { badge, title, subtitle, items: services } = servicesData;
-
-  // Service page mapping - add your actual service page URLs here
+  // Service page mapping
   const servicePageUrls = {
     "Residential Lighting": "/services/residential-lighting",
     "Commercial Lighting": "/services/commercial-lighting",
     "Permanent Lighting": "/services/permanent-lighting",
-    // Add more mappings as needed
   };
 
-  // Fixed positions for floating lights - NO RANDOM
+  // Fixed positions for floating lights
   const floatingLights = [
-    { left: 5, top: 10, color: '#f59e0b' },  // amber
-    { left: 15, top: 25, color: '#ef4444' },  // red
-    { left: 25, top: 40, color: '#10b981' },  // emerald
+    { left: 5, top: 10, color: '#f59e0b' },
+    { left: 15, top: 25, color: '#ef4444' },
+    { left: 25, top: 40, color: '#10b981' },
     { left: 35, top: 55, color: '#f59e0b' },
     { left: 45, top: 70, color: '#ef4444' },
     { left: 55, top: 85, color: '#10b981' },
@@ -55,27 +107,30 @@ const AwardWinningServicesSection = () => {
     { left: 50, top: 35, color: '#10b981' },
   ];
 
-  // Fixed animation durations - NO RANDOM
   const animationDelays = [0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8];
   const animationDurations = [4, 5, 6, 7, 8, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8];
 
-  // Generate URL-friendly slug from service title
   const getServiceUrl = (serviceTitle) => {
-    // Check if we have a direct mapping
     if (servicePageUrls[serviceTitle]) {
       return servicePageUrls[serviceTitle];
     }
-
-    // Fallback: generate slug from title
     const slug = serviceTitle
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '');
-
     return `/services/${slug}`;
   };
 
-  // Card variants
+  // Animation variants
+  const headerVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: "easeOut" }
+    }
+  };
+
   const cardVariants = {
     hidden: { opacity: 0, y: 50 },
     visible: (i) => ({
@@ -97,6 +152,51 @@ const AwardWinningServicesSection = () => {
     }
   };
 
+  const buttonVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { delay: 0.8, duration: 0.8 }
+    }
+  };
+
+  // Show loading state
+  if (loading) {
+    return (
+      <section className="relative w-full overflow-hidden bg-white px-3 xs:px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-8 xl:py-6">
+        <div className="max-w-7xl mx-auto text-center py-20">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-amber-500 border-r-transparent"></div>
+          <p className="mt-4 text-gray-600">Loading services...</p>
+        </div>
+      </section>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <section className="relative w-full overflow-hidden bg-white px-3 xs:px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-8 xl:py-6">
+        <div className="max-w-7xl mx-auto text-center py-20">
+          <p className="text-red-600">{error}</p>
+        </div>
+      </section>
+    );
+  }
+
+  // If no data, show message
+  if (!servicesData || !servicesData.items || servicesData.items.length === 0) {
+    return (
+      <section className="relative w-full overflow-hidden bg-white px-3 xs:px-4 sm:px-6 lg:px-8 py-8 sm:py-10 lg:py-8 xl:py-6">
+        <div className="max-w-7xl mx-auto text-center py-20">
+          <p className="text-gray-600">No services data available</p>
+        </div>
+      </section>
+    );
+  }
+
+  const { badge, title, subtitle, items: services } = servicesData;
+
   return (
     <section
       ref={containerRef}
@@ -114,7 +214,7 @@ const AwardWinningServicesSection = () => {
       <div className="absolute bottom-20 right-5 xs:right-10 w-48 xs:w-64 sm:w-80 lg:w-[500px] h-48 xs:h-64 sm:h-80 lg:h-[500px] bg-red-200/30 rounded-full blur-2xl xs:blur-3xl" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] xs:w-[350px] sm:w-[400px] lg:w-[500px] h-[280px] xs:h-[350px] sm:h-[400px] lg:h-[500px] bg-gradient-to-r from-amber-100/30 to-red-100/30 rounded-full blur-2xl xs:blur-3xl" />
 
-      {/* Floating Christmas lights - FIXED with no random values */}
+      {/* Floating Christmas lights */}
       {isClient && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {floatingLights.map((light, i) => (
@@ -142,11 +242,11 @@ const AwardWinningServicesSection = () => {
       )}
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Header */}
+        {/* Header with animations */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          variants={headerVariants}
+          initial="hidden"
+          animate="visible"
           className="text-center mb-8 xs:mb-10 sm:mb-14 lg:mb-16 xl:mb-20"
         >
           {/* Premium badge */}
@@ -156,7 +256,7 @@ const AwardWinningServicesSection = () => {
           >
             <GiSparkles className="text-amber-500 text-xs xs:text-sm sm:text-base lg:text-lg" />
             <span className="text-[10px] xs:text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-[0.1em] xs:tracking-[0.15em] sm:tracking-[0.2em]">
-              {badge}
+              {badge || "Premium Services"}
             </span>
             <FaCrown className="text-amber-500 text-[10px] xs:text-xs sm:text-sm" />
           </motion.div>
@@ -164,20 +264,20 @@ const AwardWinningServicesSection = () => {
           {/* Title */}
           <h2 className="text-center font-montserrat text-4xl md:text-5xl font-extrabold mb-6">
             <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
-              Premium Christmas Lighting Services
+              {title?.text || "Premium Christmas Lighting Services"}
             </span>
           </h2>
 
           {/* Subtitle */}
           <p className="text-gray-600 font-montserrat text-xs xs:text-sm sm:text-base lg:text-lg xl:text-xl max-w-3xl mx-auto leading-relaxed font-light px-3 xs:px-4">
-            <span className="font-bold ">{subtitle}</span>
+            <span className="font-bold">{subtitle || "Transform your property with premium, energy-efficient lighting"}</span>
           </p>
         </motion.div>
 
-        {/* Services Grid */}
+        {/* Services Grid with animations */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8 xl:gap-10">
           {services.map((service, index) => {
-            const IconComponent = service.icon;
+            const IconComponent = service.icon || FaStar;
             const serviceUrl = getServiceUrl(service.title);
 
             return (
@@ -186,20 +286,18 @@ const AwardWinningServicesSection = () => {
                 custom={index}
                 variants={cardVariants}
                 initial="hidden"
-                animate={isInView ? "visible" : "hidden"}
+                animate="visible"
                 whileHover="hover"
                 onHoverStart={() => setActiveIndex(index)}
                 onHoverEnd={() => setActiveIndex(null)}
                 className="group relative h-full"
               >
-                {/* Make the entire card clickable */}
                 <Link href={serviceUrl} className="block h-full">
                   <div className="relative bg-white rounded-xl xs:rounded-2xl sm:rounded-3xl shadow-lg xs:shadow-xl overflow-hidden border border-gray-100 h-full min-h-[380px] xs:min-h-[400px] sm:min-h-[420px] lg:min-h-[440px] xl:min-h-[460px] flex flex-col cursor-pointer transition-all duration-300 hover:shadow-2xl">
-
                     {/* Top color bar */}
                     <motion.div
                       className="h-1 xs:h-1.5 sm:h-2 w-full flex-shrink-0"
-                      style={{ backgroundColor: service.color }}
+                      style={{ backgroundColor: service.color || '#f59e0b' }}
                       animate={activeIndex === index ? { height: "4px" } : { height: "2px" }}
                     />
 
@@ -207,13 +305,16 @@ const AwardWinningServicesSection = () => {
                     <div className="flex flex-col sm:flex-row flex-1">
                       {/* Image section */}
                       <div className="sm:w-2/5 w-full">
-                        <div className="relative w-full h-48 xs:h-52 sm:h-full min-h-[180px] sm:min-h-full overflow-hidden">
+                        <div className="relative w-full h-48 xs:h-52 sm:h-full min-h-[180px] sm:min-h-full overflow-hidden bg-gray-100">
                           <img
-                            src={service.image}
+                            src={service.image || `/images/demo${index + 1}.jpeg`}
                             alt={service.title}
                             className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
                             loading="lazy"
-
+                            onError={(e) => {
+                              e.target.style.display = 'none';
+                              e.target.parentElement.innerHTML = '<div class="flex items-center justify-center h-full text-gray-400">📷</div>';
+                            }}
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
                         </div>
@@ -226,9 +327,9 @@ const AwardWinningServicesSection = () => {
                           <motion.div
                             className="w-8 xs:w-10 sm:w-12 h-8 xs:h-10 sm:h-12 rounded-lg xs:rounded-xl flex items-center justify-center text-sm xs:text-base sm:text-lg shadow-md xs:shadow-lg flex-shrink-0"
                             style={{
-                              background: `linear-gradient(135deg, ${service.color}15, white)`,
-                              color: service.color,
-                              boxShadow: `0 5px 10px -5px ${service.color}80`
+                              background: `linear-gradient(135deg, ${service.color || '#f59e0b'}15, white)`,
+                              color: service.color || '#f59e0b',
+                              boxShadow: `0 5px 10px -5px ${service.color || '#f59e0b'}80`
                             }}
                             whileHover={{ rotate: 360 }}
                             transition={{ duration: 0.5 }}
@@ -249,9 +350,9 @@ const AwardWinningServicesSection = () => {
 
                           <span
                             className="text-base xs:text-lg sm:text-xl lg:text-2xl xl:text-4xl font-black opacity-10 flex-shrink-0"
-                            style={{ color: service.color }}
+                            style={{ color: service.color || '#f59e0b' }}
                           >
-                            {service.number}
+                            {service.number || `0${index + 1}`}
                           </span>
                         </div>
 
@@ -262,17 +363,17 @@ const AwardWinningServicesSection = () => {
 
                         {/* Features */}
                         <ul className="space-y-1 xs:space-y-1.5 sm:space-y-2 mb-3 xs:mb-4 sm:mb-5 lg:mb-6">
-                          {service.features.slice(0, 3).map((feature, idx) => (
+                          {(service.features || []).slice(0, 3).map((feature, idx) => (
                             <motion.li
                               key={idx}
                               initial={{ opacity: 0, x: -10 }}
-                              animate={isInView ? { opacity: 1, x: 0 } : {}}
+                              animate={{ opacity: 1, x: 0 }}
                               transition={{ delay: index * 0.1 + idx * 0.1 }}
                               className="flex items-center gap-1 xs:gap-1.5 sm:gap-2"
                             >
                               <FaCheckCircle
                                 className="text-xs xs:text-sm sm:text-base flex-shrink-0"
-                                style={{ color: service.color }}
+                                style={{ color: service.color || '#f59e0b' }}
                               />
                               <span className="text-gray-700 text-xs xs:text-sm sm:text-base">{feature}</span>
                             </motion.li>
@@ -281,15 +382,15 @@ const AwardWinningServicesSection = () => {
 
                         {/* CTA Button */}
                         <motion.div
-                          className="relative w-full overflow-hidden rounded-lg xs:rounded-xl font-semibold text-xs xs:text-sm sm:text-base py-2 xs:py-2.5 sm:py-3 px-3 xs:px-4 flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 transition-all"
+                          className="relative w-full overflow-hidden rounded-lg xs:rounded-xl font-semibold text-xs xs:text-sm sm:text-base py-2 xs:py-2.5 sm:py-3 px-3 xs:px-4 flex items-center justify-center gap-1 xs:gap-1.5 sm:gap-2 transition-all cursor-pointer"
                           style={{
-                            background: `linear-gradient(135deg, ${service.color}10, ${service.color}20)`,
-                            color: service.color,
-                            border: `1px solid ${service.color}30`
+                            background: `linear-gradient(135deg, ${service.color || '#f59e0b'}10, ${service.color || '#f59e0b'}20)`,
+                            color: service.color || '#f59e0b',
+                            border: `1px solid ${service.color || '#f59e0b'}30`
                           }}
                           whileHover={{
                             scale: 1.02,
-                            background: `linear-gradient(135deg, ${service.color}20, ${service.color}30)`,
+                            background: `linear-gradient(135deg, ${service.color || '#f59e0b'}20, ${service.color || '#f59e0b'}30)`,
                           }}
                           whileTap={{ scale: 0.98 }}
                         >
@@ -318,11 +419,11 @@ const AwardWinningServicesSection = () => {
           })}
         </div>
 
-        {/* Bottom CTA */}
+        {/* Bottom CTA with animations */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.8, duration: 0.8 }}
+          variants={buttonVariants}
+          initial="hidden"
+          animate="visible"
           className="mt-8 xs:mt-10 sm:mt-12 lg:mt-14 xl:mt-16 text-center"
         >
           <Link href="/services">
