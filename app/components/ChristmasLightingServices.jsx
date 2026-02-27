@@ -209,10 +209,11 @@ const AwardWinningServicesSection = () => {
                       <div className="sm:w-2/5 w-full">
                         <div className="relative w-full h-48 xs:h-52 sm:h-full min-h-[180px] sm:min-h-full overflow-hidden">
                           <img
-                            src={`/images/demo${index + 1}.jpeg`}
+                            src={service.image}
                             alt={service.title}
                             className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
                             loading="lazy"
+
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
                         </div>

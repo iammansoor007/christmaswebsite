@@ -209,7 +209,7 @@
           "Custom Design & Warrantied Installation",
           "Removal and Storage Included"
         ],
-        "image": "/images/gallery1.jpg",
+        "image": "/images/gallery2.jpg",
         "stat": "100+ Businesses"
       },
       {
@@ -224,7 +224,7 @@
           "Durable and weather resistant",
           "Year-round curb appeal"
         ],
-        "image": "/images/gallery1.jpg",
+        "image": "/images/permenantlighting.jpg",
         "stat": "Custom Designs"
       }
     ]
@@ -388,7 +388,7 @@
     "hours": "Mon-Sun: 8am-8pm"
   },
   "modernServices": {
-    "badge": "Premium Services",
+    "badge": "Premium Services test",
     "title": {
       "text": "Holiday Lighting",
       "prefix": "Professional"
@@ -650,7 +650,7 @@
     "tagline": "Professional holiday lighting installation & design services",
     "contact": {
       "phone": "(614) 301-7100",
-      "email": "info@luminousholiday.com",
+      "email": "info@lightsovercolumbus.com",
       "address": "123 Holiday Lane, North Pole, 12345",
       "hours": "Mon-Fri: 8AM-6PM",
       "support": "24/7 Support"
@@ -708,16 +708,12 @@
           "href": "/about"
         },
         {
-          "label": "Our Process",
-          "href": "/about#process"
-        },
-        {
           "label": "Gallery",
           "href": "/gallery"
         },
         {
           "label": "Testimonials",
-          "href": "/testimonials"
+          "href": "/#testimonials"
         }
       ],
       "Support": [

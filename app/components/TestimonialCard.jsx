@@ -258,6 +258,7 @@ const Testimonials = () => {
 
   return (
     <section
+      id="testimonials"
       className="py-8 lg:py-12 relative overflow-hidden bg-white"
       ref={containerRef}
     >
