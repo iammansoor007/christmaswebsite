@@ -19,11 +19,31 @@ import {
 
 export default function VanMapSection() {
   const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true, margin: "-50px" });
+  const mapSectionRef = useRef(null);
+  const isInView = useInView(containerRef, {
+    once: false,
+    margin: "-50px",
+    amount: 0.3
+  });
+
+  // Track if map section is in view separately
+  const isMapInView = useInView(mapSectionRef, {
+    once: false,
+    amount: 0.2
+  });
+
+  const [hasAnimated, setHasAnimated] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
   const [screenSize, setScreenSize] = useState("desktop");
   const [gradientPositions, setGradientPositions] = useState([]);
+
+  // Reset animation when map section leaves view
+  useEffect(() => {
+    if (!isMapInView) {
+      setHasAnimated(false);
+    }
+  }, [isMapInView]);
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -100,6 +120,28 @@ export default function VanMapSection() {
     },
   ];
 
+  // Super black dust particles animation variants
+  const dustVariants = {
+    initial: (i) => ({
+      x: -50,
+      y: 0,
+      opacity: 0,
+      scale: 0,
+    }),
+    animate: (i) => ({
+      x: [-50, 20, 60, 100],
+      y: [-10, -20, -10, 5],
+      opacity: [0, 0.9, 0.5, 0],
+      scale: [0, 1.2, 0.6, 0],
+      transition: {
+        duration: 1.5,
+        delay: 0.1 * i,
+        ease: "easeOut",
+        times: [0, 0.3, 0.7, 1],
+      }
+    })
+  };
+
   return (
     <>
       <section
@@ -174,8 +216,6 @@ export default function VanMapSection() {
               doorstep
             </motion.p>
           </motion.div>
-
-
         </div>
 
         {/* Responsive Styles for cards section */}
@@ -213,8 +253,11 @@ export default function VanMapSection() {
         `}</style>
       </section>
 
-      {/* Map Section with Car Animation - COMPLETELY UNCHANGED */}
-      <section className="relative w-full h-[400px] xs:h-[450px] sm:h-[500px] md:h-[550px] lg:h-[600px] overflow-hidden">
+      {/* Map Section with Car Animation and Super Black Dust Effect */}
+      <section
+        ref={mapSectionRef}
+        className="relative w-full h-[400px] xs:h-[450px] sm:h-[500px] md:h-[550px] lg:h-[600px] overflow-hidden"
+      >
         {/* Map Image using Next.js Image component */}
         <div className="absolute inset-0">
           <Image
@@ -231,30 +274,191 @@ export default function VanMapSection() {
         {/* Overlay */}
         <div className="absolute inset-0 z-10 bg-gradient-to-r from-white via-white/60 to-transparent pointer-events-none" />
 
-        {/* Animated Car with mobile positioning adjustment */}
+        {/* Animated Car with Super Black Dust Effect */}
         <div className="absolute z-20 left-0 h-full flex items-center">
+          {/* Car */}
           <motion.div
             initial={{ x: "-100%" }}
-            whileInView={{ x: "4px" }}
+            animate={isMapInView ? { x: "4px" } : { x: "-100%" }}
             transition={{
               duration: 1,
               ease: "easeOut",
             }}
-            viewport={{ once: true }}
             className="relative"
           >
             <img
               src="/images/car2.png"
               alt="Service Vehicle"
-              className="relative h-[250px] xs:h-[280px] sm:h-[300px] md:h-[340px] lg:h-[380px] xl:h-[420px] w-auto"
+              className="relative h-[250px] xs:h-[280px] sm:h-[300px] md:h-[340px] lg:h-[380px] xl:h-[420px] w-auto z-20"
               style={{
                 filter: "drop-shadow(10px 10px 20px rgba(0,0,0,0.2))",
               }}
             />
+
+            {/* Super Black Dust Particles - Only show during animation */}
+            {isMapInView && (
+              <>
+                {/* Main super black dust cloud behind wheels */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: [0, 0.8, 0.3, 0], scale: [0, 1.2, 0.8, 0] }}
+                  transition={{ duration: 1.2, delay: 0.2 }}
+                  className="absolute -bottom-8 -right-16 w-48 h-32"
+                >
+                  <div className="absolute inset-0 bg-black-500 rounded-full blur-2xl opacity-80" />
+                  <div className="absolute -left-4 -top-4 w-24 h-20 bg-black-500 rounded-full blur-xl opacity-60" />
+                  <div className="absolute -right-4 bottom-0 w-20 h-16 bg-black-500 rounded-full blur-lg opacity-70" />
+                </motion.div>
+
+                {/* Rear wheel dust - extra black */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: [0, 0.9, 0.4, 0], scale: [0, 1.5, 0.8, 0] }}
+                  transition={{ duration: 1, delay: 0.3 }}
+                  className="absolute -bottom-6 -right-8 w-32 h-24"
+                >
+                  <div className="absolute inset-0 bg-black-500 rounded-full blur-xl opacity-90" />
+                </motion.div>
+
+                {/* Front wheel dust */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: [0, 0.7, 0.3, 0], scale: [0, 1.3, 0.6, 0] }}
+                  transition={{ duration: 1.1, delay: 0.25 }}
+                  className="absolute -bottom-4 right-12 w-24 h-20"
+                >
+                  <div className="absolute inset-0 bg-black rounded-full blur-lg opacity-80" />
+                </motion.div>
+
+                {/* Individual super black dust particles */}
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+                  <motion.div
+                    key={i}
+                    custom={i}
+                    variants={dustVariants}
+                    initial="initial"
+                    animate="animate"
+                    className="absolute"
+                    style={{
+                      left: `${-30 - i * 8}px`,
+                      bottom: `${5 + (i % 4) * 20}px`,
+                    }}
+                  >
+                    <div
+                      className="bg-black rounded-full"
+                      style={{
+                        width: `${6 + (i % 4) * 4}px`,
+                        height: `${6 + (i % 4) * 4}px`,
+                        opacity: 0.9,
+                        filter: "blur(2px)",
+                        boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+                      }}
+                    />
+                  </motion.div>
+                ))}
+
+                {/* Additional dense black particles */}
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <motion.div
+                    key={`dense-${i}`}
+                    initial={{ x: -40, y: 0, opacity: 0 }}
+                    animate={{
+                      x: [-40, 10, 50, 90],
+                      y: [0, -15, 5, 10],
+                      opacity: [0, 0.8, 0.4, 0],
+                      scale: [0, 1.4, 0.7, 0]
+                    }}
+                    transition={{ duration: 1.4, delay: 0.15 * i }}
+                    className="absolute"
+                    style={{
+                      left: `${-20}px`,
+                      bottom: `${15 + i * 12}px`,
+                    }}
+                  >
+                    <div className="relative">
+                      <div className="w-4 h-4 bg-black rounded-full blur-sm opacity-90" />
+                      <div className="absolute -inset-1 bg-black rounded-full blur-md opacity-40" />
+                    </div>
+                  </motion.div>
+                ))}
+              </>
+            )}
           </motion.div>
+
+          {/* Super black dust trail behind the car */}
+          {isMapInView && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: [0, 0.7, 0.3, 0] }}
+              transition={{ duration: 1.3, delay: 0.2 }}
+              className="absolute left-1/2 bottom-8 pointer-events-none"
+              style={{ transform: "translateX(-50%)" }}
+            >
+              <div className="relative">
+                {/* Main trail */}
+                <div className="absolute w-32 h-16 bg-black rounded-full blur-2xl opacity-60" />
+                <div className="absolute w-24 h-12 bg-black rounded-full blur-xl opacity-70 -left-8 bottom-2" />
+                <div className="absolute w-16 h-8 bg-black rounded-full blur-lg opacity-80 -left-16 bottom-4" />
+                <div className="absolute w-12 h-6 bg-black rounded-full blur-md -left-24 bottom-6 opacity-60" />
+
+                {/* Extra dark spots in trail */}
+                <div className="absolute -left-8 bottom-4 w-8 h-8 bg-black rounded-full blur-md opacity-90" />
+                <div className="absolute -left-16 bottom-2 w-10 h-10 bg-black rounded-full blur-lg opacity-70" />
+                <div className="absolute -left-24 bottom-0 w-12 h-12 bg-black rounded-full blur-xl opacity-50" />
+              </div>
+            </motion.div>
+          )}
         </div>
 
-        {/* Responsive Styles for map section - COMPLETELY UNCHANGED */}
+        {/* Super black speed lines effect */}
+        {isMapInView && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="absolute z-15 left-0 top-1/2 transform -translate-y-1/2 pointer-events-none"
+          >
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <motion.div
+                key={`speed-${i}`}
+                initial={{ x: -150, opacity: 0 }}
+                animate={{
+                  x: [-150, 250],
+                  opacity: [0, 0.5, 0]
+                }}
+                transition={{
+                  duration: 1.2,
+                  delay: 0.08 * i,
+                  ease: "linear",
+                  times: [0, 0.3, 1]
+                }}
+                className="absolute"
+                style={{
+                  top: `${-25 + i * 18}px`,
+                  left: "30px",
+                }}
+              >
+                <div className="w-40 h-1 bg-gradient-to-r from-transparent via-black to-transparent opacity-40 blur-sm" />
+                <div className="w-32 h-0.5 bg-gradient-to-r from-transparent via-black to-transparent opacity-60 blur-none -mt-1 ml-4" />
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+
+        {/* Ground dust effect */}
+        {isMapInView && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: [0, 0.6, 0.2, 0] }}
+            transition={{ duration: 1.5, delay: 0.1 }}
+            className="absolute bottom-0 left-20 right-0 h-16 pointer-events-none"
+          >
+            <div className="absolute bottom-0 left-0 w-full h-12 bg-gradient-to-t from-black/30 to-transparent blur-xl" />
+            <div className="absolute bottom-2 left-10 w-40 h-8 bg-black/20 rounded-full blur-2xl" />
+          </motion.div>
+        )}
+
+        {/* Responsive Styles for map section */}
         <style jsx>{`
           /* Mobile van positioning adjustment */
           @media (max-width: 767px) {
