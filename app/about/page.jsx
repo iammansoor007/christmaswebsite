@@ -66,9 +66,9 @@ const AboutUs = () => {
 
     const loadData = async () => {
       try {
-        const response = await fetch('/data.json');
+        const response = await fetch('/api/homepage');
         const jsonData = await response.json();
-        setData(jsonData);
+        setData(jsonData.content);
       } catch (error) {
         console.error('Error loading data:', error);
       }
@@ -542,11 +542,11 @@ const AboutUs = () => {
     );
   };
 
-  // Founder information
-  const founder = {
+  // Founder information from dynamic data
+  const founder = data.aboutPage?.founder || {
     name: 'Ethen',
     role: 'Owner, Christmas Lights Over Columbus',
-    quote: "Hi, I'm Ethen, owner of Christmas Lights Over Columbus. We help families across Central Ohio create beautiful, welcoming holiday displays without the stress of ladders or tangled lights.",
+    quote: "Hi, I'm Ethen, owner of Christmas Lights Over Columbus...",
     expertise: 'Serving Central Ohio families',
     philosophy: 'Making holiday memories stress-free',
     company: 'Christmas Lights Over Columbus',

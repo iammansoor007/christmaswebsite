@@ -7,14 +7,27 @@ const RefinedWorkShowcase = () => {
   const containerRef = useRef(null);
   const [starPositions, setStarPositions] = useState([]);
   const [data, setData] = useState(null);
+  const [images, setImages] = useState([]);
 
   // Load data
   useEffect(() => {
     const loadData = async () => {
       try {
-        const response = await fetch("/data.json");
-        const jsonData = await response.json();
-        setData(jsonData);
+        const [homeRes, galleryRes] = await Promise.all([
+          fetch("/api/homepage"),
+          fetch("/api/gallery?limit=14")
+        ]);
+        const homeD = await homeRes.json();
+        const galleryD = await galleryRes.json();
+        setData(homeD.content);
+        if (galleryD.items?.length > 0) {
+          setImages(galleryD.items.map(i => i.imageUrl));
+        } else {
+          // Fallback if gallery is empty
+          setImages([
+            "/images/gallery1.jpg", "/images/gallery2.jpg", "/images/gallery3.jpg", "/images/gallery4.jpg"
+          ]);
+        }
       } catch (error) {
         console.error("Error loading data:", error);
       }
@@ -22,24 +35,6 @@ const RefinedWorkShowcase = () => {
 
     loadData();
   }, []);
-
-  // Real images from public/images/gallery1.jpg to gallery14.jpg
-  const images = [
-    "/images/gallery1.jpg",
-    "/images/gallery2.jpg",
-    "/images/gallery3.jpg",
-    "/images/gallery4.jpg",
-    "/images/gallery5.jpg",
-    "/images/gallery6.jpg",
-    "/images/gallery7.jpg",
-    "/images/gallery8.jpg",
-    "/images/gallery9.jpg",
-    "/images/gallery10.jpg",
-    "/images/gallery11.jpg",
-    "/images/gallery12.jpg",
-    "/images/gallery13.jpg",
-    "/images/gallery14.jpg",
-  ];
 
   // For infinite scroll, duplicate images multiple times
   const duplicatedImages = [...images, ...images, ...images, ...images];
@@ -67,8 +62,10 @@ const RefinedWorkShowcase = () => {
     );
   }
 
-  const { workShowcase } = data;
-  const { badge, title, description, cta } = workShowcase;
+  const { workShowcase } = data || {};
+  const { badge, title, description, cta } = workShowcase || {};
+
+  if (!workShowcase || !title) return null;
 
   return (
     <section className="relative w-full min-h-[600px] sm:min-h-screen bg-gradient-to-b from-dark-navy via-dark-navy/95 to-dark-navy overflow-hidden">

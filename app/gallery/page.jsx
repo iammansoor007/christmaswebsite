@@ -281,23 +281,32 @@ const Gallery = () => {
     'Other'
   ];
 
-  // Gallery images
-  const galleryImages = [
-    { id: 1, src: gallery1, title: 'Colonial Heights Estate', category: 'residential', location: 'Upper Arlington' },
-    { id: 2, src: gallery2, title: 'Downtown Commercial Plaza', category: 'commercial', location: 'Columbus' },
-    { id: 3, src: gallery3, title: 'Riverside Drive Mansion', category: 'residential', location: 'Dublin' },
-    { id: 4, src: gallery4, title: 'German Village Townhomes', category: 'residential', location: 'Columbus' },
-    { id: 5, src: gallery5, title: 'Polaris Office Complex', category: 'commercial', location: 'Westerville' },
-    { id: 6, src: gallery6, title: 'New Albany Country Club', category: 'commercial', location: 'New Albany' },
-    { id: 7, src: gallery7, title: 'Wedgewood Hills Residence', category: 'residential', location: 'Powell' },
-    { id: 8, src: gallery8, title: 'Easton Town Center', category: 'commercial', location: 'Columbus' },
-    { id: 9, src: gallery9, title: 'Hoover Reservoir Estate', category: 'residential', location: 'Westerville' },
-    { id: 10, src: gallery10, title: 'Columbus City Hall', category: 'commercial', location: 'Columbus' },
-    { id: 11, src: gallery11, title: 'Hilltop Apartments', category: 'residential', location: 'Hilliard' },
-    { id: 12, src: gallery12, title: 'Riverside Plaza', category: 'commercial', location: 'Columbus' },
-    { id: 13, src: gallery13, title: 'Westerville Community Center', category: 'commercial', location: 'Westerville' },
-    { id: 14, src: gallery14, title: 'Dublin Library Renovation', category: 'residential', location: 'Dublin' },
-  ];
+  const [galleryImages, setGalleryImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const res = await fetch('/api/gallery?limit=100');
+        const data = await res.json();
+        if (data.items) {
+          const mapped = data.items.map(item => ({
+            id: item._id,
+            src: item.imageUrl,
+            title: item.title,
+            category: item.category.toLowerCase(),
+            location: item.location || 'Columbus'
+          }));
+          setGalleryImages(mapped);
+        }
+      } catch (err) {
+        console.error('Error fetching gallery:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchGallery();
+  }, []);
 
 
 

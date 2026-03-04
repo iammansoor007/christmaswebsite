@@ -1,31 +1,12 @@
 "use client";
 import { useRef, useEffect, useState } from "react";
 import CallToAction from "./CallToAction";
-import {
-  FaPhoneAlt,
-  FaCalendarAlt,
-  FaArrowRight,
-  FaQuoteRight,
-  FaCalendarCheck,
-  FaChair,
-  FaTimes,
-  FaUser,
-  FaEnvelope,
-  FaHome,
-  FaTree,
-  FaClock,
-  FaSpinner,
-  FaCheckCircle
-} from "react-icons/fa";
+import * as FaIcons from "react-icons/fa";
 import { GiFruitTree } from "react-icons/gi";
 import { getHowWeWorkData } from "../services/dataService";
 
-// Icon mapping
-const iconMap = {
-  FaQuoteRight,
-  FaCalendarCheck,
-  FaChair
-};
+// Icon mapping - Using namespace for full coverage
+const iconMap = FaIcons;
 
 // Custom CheckCircle component
 const CheckCircleIcon = ({ color, size = "text-sm", className = "" }) => (
@@ -254,14 +235,14 @@ const ConsultationModal = ({ isOpen, onClose }) => {
             className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors duration-200 shadow-md"
             aria-label="Close modal"
           >
-            <FaTimes className="text-gray-600" />
+            <FaIcons.FaTimes className="text-gray-600" />
           </button>
 
           {/* Success View */}
           {isSubmitted ? (
             <div className="p-8 text-center overflow-y-auto">
               <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <FaCheckCircle className="w-10 h-10 text-emerald-600" />
+                <FaIcons.FaCheckCircle className="w-10 h-10 text-emerald-600" />
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-2">
                 Consultation Scheduled!
@@ -303,7 +284,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                     {/* Name */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        <FaUser className="inline mr-2 text-emerald-600" />
+                        <FaIcons.FaUser className="inline mr-2 text-emerald-600" />
                         Full Name *
                       </label>
                       <input
@@ -320,7 +301,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                     {/* Email */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        <FaEnvelope className="inline mr-2 text-emerald-600" />
+                        <FaIcons.FaEnvelope className="inline mr-2 text-emerald-600" />
                         Email Address *
                       </label>
                       <input
@@ -337,7 +318,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                     {/* Phone */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        <FaPhoneAlt className="inline mr-2 text-emerald-600" />
+                        <FaIcons.FaPhoneAlt className="inline mr-2 text-emerald-600" />
                         Phone Number *
                       </label>
                       <input
@@ -354,7 +335,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                     {/* Address */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        <FaHome className="inline mr-2 text-emerald-600" />
+                        <FaIcons.FaHome className="inline mr-2 text-emerald-600" />
                         Service Address *
                       </label>
                       <input
@@ -371,7 +352,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                     {/* Service Type */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        <FaTree className="inline mr-2 text-emerald-600" />
+                        <FaIcons.FaTree className="inline mr-2 text-emerald-600" />
                         Service Type *
                       </label>
                       <select
@@ -392,7 +373,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                     {/* Preferred Date */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        <FaCalendarAlt className="inline mr-2 text-emerald-600" />
+                        <FaIcons.FaCalendarAlt className="inline mr-2 text-emerald-600" />
                         Preferred Date *
                       </label>
                       <input
@@ -409,7 +390,7 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                     {/* Preferred Time */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        <FaClock className="inline mr-2 text-emerald-600" />
+                        <FaIcons.FaClock className="inline mr-2 text-emerald-600" />
                         Preferred Time *
                       </label>
                       <select
@@ -468,12 +449,12 @@ const ConsultationModal = ({ isOpen, onClose }) => {
                   >
                     {isSubmitting ? (
                       <span className="flex items-center justify-center gap-2">
-                        <FaSpinner className="animate-spin" />
+                        <FaIcons.FaSpinner className="animate-spin" />
                         Scheduling...
                       </span>
                     ) : (
                       <span className="flex items-center justify-center gap-2">
-                        <FaCalendarAlt />
+                        <FaIcons.FaCalendarAlt />
                         Schedule Free Consultation
                       </span>
                     )}
@@ -501,8 +482,24 @@ const HowWeWorkSection = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Get data
-  const workData = getHowWeWorkData();
-  const { badge, title, subtitle, steps, cta } = workData;
+  const [data, setData] = useState({
+    badge: 'Our Process',
+    title: { prefix: 'Working With Us', text: "Couldn't Be Easier" },
+    subtitle: 'Get Professional Christmas Lighting In Just 3 Easy Steps',
+    steps: []
+  });
+
+  useEffect(() => {
+    fetch('/api/homepage')
+      .then(r => r.json())
+      .then(d => {
+        if (d.content?.howWeWork) {
+          setData(d.content.howWeWork);
+        }
+      });
+  }, []);
+
+  const { badge, title, subtitle, steps, cta } = data;
 
   // Intersection Observer
   useEffect(() => {
@@ -633,7 +630,7 @@ const HowWeWorkSection = () => {
 
             {/* Steps Container - Responsive grid with fixed card heights */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 xs:gap-4 sm:gap-5 md:gap-6 lg:gap-8">
-              {steps.map((step, index) => {
+              {steps?.map((step, index) => {
                 const delay = 400 + index * 150;
                 return (
                   <div

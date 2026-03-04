@@ -446,9 +446,20 @@ const ServicesPage = () => {
 
     const loadData = async () => {
       try {
-        const response = await fetch('/data.json');
-        const jsonData = await response.json();
-        setData(jsonData);
+        const [homeRes, servicesRes] = await Promise.all([
+          fetch('/api/homepage'),
+          fetch('/api/services?limit=100&status=active')
+        ]);
+        const homeData = await homeRes.json();
+        const servicesData = await servicesRes.json();
+
+        setData({
+          ...homeData.content,
+          services: {
+            ...homeData.content?.services,
+            items: servicesData.services
+          }
+        });
       } catch (error) {
         console.error('Error loading data:', error);
       }
@@ -781,7 +792,7 @@ const ServicesPage = () => {
         <CallToAction />
       </section>
 
-     
+
 
       {/* Global Styles */}
       <style jsx global>{`

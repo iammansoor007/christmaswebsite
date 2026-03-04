@@ -26,9 +26,9 @@ const Hero = () => {
 
     const loadData = async () => {
       try {
-        const response = await fetch('/data.json');
+        const response = await fetch('/api/homepage');
         const jsonData = await response.json();
-        setData(jsonData);
+        setData(jsonData.content);
       } catch (error) {
         console.error('Error loading data:', error);
       }
@@ -100,8 +100,15 @@ const Hero = () => {
     >
       {/* Ultra-immersive background */}
       <div className="absolute inset-0 z-0">
-        {/* Base gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0f1e] via-[#1a1f30] to-[#0a0f1e]"></div>
+        {/* Base Dynamic Background */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-1000 scale-105"
+          style={{
+            backgroundImage: `url(${hero?.backgroundImage || '/images/hero-background.jpg'})`,
+            filter: 'brightness(0.35)'
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0a0f1e]/80 via-transparent to-[#0a0f1e]/80"></div>
 
         {/* Background Image - exactly as requested */}
         <div
@@ -175,24 +182,31 @@ const Hero = () => {
 
 
 
-          {/* Single CTA Button - with click-to-call functionality */}
-          {hero.cta && (
-            <div className="animate-fade-up animation-delay-800 w-full px-3 sm:px-0">
-              <button
-                onClick={handleCallClick}
-                className="relative overflow-hidden group inline-flex items-center justify-center px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-gradient-to-r from-yellow-500 to-red-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg w-auto min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 items-center justify-center animate-fade-up animation-delay-800 w-full px-4 sm:px-0">
+            {/* Primary Button */}
+            <Link
+              href={hero.cta?.primary?.link || "#freequote"}
+              className="relative overflow-hidden group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-yellow-500 to-red-500 text-white font-semibold rounded-xl hover:shadow-2xl hover:shadow-yellow-500/20 transition-all duration-300 min-w-[180px] sm:min-w-[200px]"
+            >
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                <HiOutlineSparkles className="w-5 h-5 text-yellow-200" />
+                <span>{hero.cta?.primary?.text || hero.cta?.subtext || "Get My Free Quote"}</span>
+                <FaArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-yellow-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            </Link>
+
+            {/* Secondary Button */}
+            {(hero.cta?.secondary?.text) && (
+              <Link
+                href={hero.cta.secondary.link || "/services"}
+                className="relative overflow-hidden group inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 bg-white/10 backdrop-blur-md border border-white/20 text-white font-semibold rounded-xl hover:bg-white/20 transition-all duration-300 min-w-[180px] sm:min-w-[200px]"
               >
-                <span className="relative z-10 flex items-center justify-center gap-1.5 sm:gap-2">
-                  <HiOutlineSparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
-                  <span>{hero.cta.subtext || "Get My Free Quote"}</span>
-                  <FaArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
-                </span>
-
-                <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-              </button>
-
-            </div>
-          )}
+                <span className="relative z-10">{hero.cta.secondary.text}</span>
+              </Link>
+            )}
+          </div>
         </div>
       </div>
 

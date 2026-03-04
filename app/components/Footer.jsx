@@ -17,19 +17,19 @@ const Footer = () => {
   const [lightPositions, setLightPositions] = useState([]);
   const [data, setData] = useState(null);
 
-  // Load data
+  // Load settings
   useEffect(() => {
-    const loadData = async () => {
+    const loadSettings = async () => {
       try {
-        const response = await fetch("/data.json");
+        const response = await fetch("/api/settings");
         const jsonData = await response.json();
-        setData(jsonData);
+        setData(jsonData.settings);
       } catch (error) {
-        console.error("Error loading data:", error);
+        console.error("Error loading settings:", error);
       }
     };
 
-    loadData();
+    loadSettings();
   }, []);
 
   useEffect(() => {
@@ -55,16 +55,39 @@ const Footer = () => {
     );
   }
 
-  const { footer } = data;
   const {
-    companyName,
-    year = currentYear,
-    tagline,
-    contact,
-    socialMedia,
-    links,
-    certifications,
-  } = footer;
+    companyName = "Luminous Holiday Lighting",
+    tagline = "Professional Christmas lighting installation and design services",
+    contact = { phone: "(614) 301-7100", email: "info@lightsovercolumbus.com", hours: "Mon-Fri: 8AM-6PM", support: "24/7 Support" },
+    socialMedia = [],
+    footer: footerData = {},
+    logo = "/images/mainlogo.png"
+  } = data || {};
+
+  const year = footerData.year || currentYear;
+  const certifications = footerData.certifications || "WBE & MBE Certified, fully insured and professional crew.";
+
+  // Static links for now as they aren't in Settings model yet
+  const links = {
+    Services: [
+      { label: "Residential", href: "/services" },
+      { label: "Commercial", href: "/services" },
+      { label: "Permanent", href: "/services" },
+      { label: "Events", href: "/services" },
+    ],
+    Company: [
+      { label: "About Us", href: "/about" },
+      { label: "Careers", href: "/about" },
+      { label: "Our Work", href: "/gallery" },
+      { label: "Contact", href: "/contact" },
+    ],
+    Support: [
+      { label: "FAQ", href: "/#faq" },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms of Service", href: "/terms" },
+      { label: "Sitemap", href: "/sitemap" },
+    ]
+  };
 
   const iconMap = {
     FaFacebookF: FaFacebookF,
@@ -114,12 +137,11 @@ const Footer = () => {
         <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 mb-8 lg:mb-16">
           {/* Brand & Contact Column - Full width on mobile */}
           <div className="lg:col-span-5 xl:col-span-4 space-y-6">
-            {/* Logo */}
             <div className="flex justify-center lg:justify-start">
               <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36">
                 <Image
-                  src="/images/mainlogo.png"
-                  alt="Luminous Holiday Logo"
+                  src={logo || "/images/mainlogo.png"}
+                  alt={`${companyName} Logo`}
                   width={144}
                   height={144}
                   className="object-contain w-full h-full"

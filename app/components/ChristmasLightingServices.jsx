@@ -3,15 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
-import {
-  FaArrowRight,
-  FaCheckCircle,
-  FaStar,
-  FaRegGem,
-  FaCrown,
-  FaLightbulb,
-  FaShieldAlt
-} from "react-icons/fa";
+import * as FaIcons from "react-icons/fa";
 import { GiSparkles } from "react-icons/gi";
 import { getServicesData } from "../services/dataService";
 
@@ -21,12 +13,37 @@ const AwardWinningServicesSection = () => {
   const [isClient, setIsClient] = useState(false);
   const isInView = useInView(containerRef, { once: true, amount: 0.2 });
 
+  const [data, setData] = useState({
+    badge: 'Premium Services',
+    title: 'Services',
+    subtitle: 'Loading...',
+    items: []
+  });
+
   useEffect(() => {
     setIsClient(true);
+    const load = async () => {
+      try {
+        const [homeRes, servicesRes] = await Promise.all([
+          fetch('/api/homepage'),
+          fetch('/api/services?limit=10&status=active')
+        ]);
+        const homeD = await homeRes.json();
+        const servicesD = await servicesRes.json();
+        setData({
+          badge: homeD.content?.services?.badge || 'Premium Services',
+          title: homeD.content?.services?.title?.text || 'Services',
+          subtitle: homeD.content?.services?.subtitle || 'Our lighting collection',
+          items: servicesD.services || []
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    load();
   }, []);
 
-  const servicesData = getServicesData();
-  const { badge, title, subtitle, items: services } = servicesData;
+  const { badge, title: apiTitle, subtitle, items: services } = data;
 
   // Service page mapping - add your actual service page URLs here
   const servicePageUrls = {
@@ -158,13 +175,13 @@ const AwardWinningServicesSection = () => {
             <span className="text-[10px] xs:text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-[0.1em] xs:tracking-[0.15em] sm:tracking-[0.2em]">
               {badge}
             </span>
-            <FaCrown className="text-amber-500 text-[10px] xs:text-xs sm:text-sm" />
+            <FaIcons.FaCrown className="text-amber-500 text-[10px] xs:text-xs sm:text-sm" />
           </motion.div>
 
           {/* Title */}
           <h2 className="text-center font-montserrat text-4xl md:text-5xl font-extrabold mb-6">
             <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
-              Premium Christmas Lighting Services
+              {apiTitle}
             </span>
           </h2>
 
@@ -177,7 +194,7 @@ const AwardWinningServicesSection = () => {
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8 xl:gap-10">
           {services.map((service, index) => {
-            const IconComponent = service.icon;
+            const IconComponent = FaIcons[service.icon] || FaIcons.FaStar;
             const serviceUrl = getServiceUrl(service.title);
 
             return (
@@ -233,7 +250,10 @@ const AwardWinningServicesSection = () => {
                             whileHover={{ rotate: 360 }}
                             transition={{ duration: 0.5 }}
                           >
-                            <IconComponent />
+                            {(() => {
+                              const Icon = FaIcons[service.icon] || FaIcons.FaStar;
+                              return <Icon />;
+                            })()}
                           </motion.div>
 
                           <div className="flex-1 min-w-0">
@@ -270,7 +290,7 @@ const AwardWinningServicesSection = () => {
                               transition={{ delay: index * 0.1 + idx * 0.1 }}
                               className="flex items-center gap-1 xs:gap-1.5 sm:gap-2"
                             >
-                              <FaCheckCircle
+                              <FaIcons.FaCheckCircle
                                 className="text-xs xs:text-sm sm:text-base flex-shrink-0"
                                 style={{ color: service.color }}
                               />
@@ -294,7 +314,7 @@ const AwardWinningServicesSection = () => {
                           whileTap={{ scale: 0.98 }}
                         >
                           <span>View Details</span>
-                          <FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
+                          <FaIcons.FaArrowRight className="text-xs transition-transform duration-300 group-hover:translate-x-1" />
 
                           {/* Shine effect */}
                           <motion.div
@@ -332,9 +352,9 @@ const AwardWinningServicesSection = () => {
               whileTap={{ scale: 0.95 }}
             >
               <span className="relative z-10 flex items-center gap-1 xs:gap-1.5 sm:gap-2">
-                <FaLightbulb className="text-yellow-200 text-xs xs:text-sm sm:text-base" />
+                <FaIcons.FaLightbulb className="text-yellow-200 text-xs xs:text-sm sm:text-base" />
                 <span>View All Services</span>
-                <FaStar className="text-yellow-200 text-xs xs:text-sm sm:text-base" />
+                <FaIcons.FaStar className="text-yellow-200 text-xs xs:text-sm sm:text-base" />
               </span>
             </motion.div>
           </Link>

@@ -1,6 +1,6 @@
 // components/ModernQuoteForm.jsx
 "use client";
-import React, { useState, useCallback, memo } from "react";
+import React, { useState, useCallback, memo, useEffect } from "react";
 import {
   FaUser,
   FaEnvelope,
@@ -85,6 +85,26 @@ const ModernQuoteForm = () => {
     }, 300);
   };
 
+  const [dbData, setDbData] = useState(null);
+
+  useEffect(() => {
+    fetch('/api/homepage')
+      .then(r => r.json())
+      .then(d => setDbData(d.content));
+  }, []);
+
+  const contactInfo = dbData?.contact || {
+    phone: "(614) 301-7100",
+    email: "info@lightsovercolumbus.com",
+    address: "123 Holiday Lane, North Pole"
+  };
+
+  const contactPageContent = dbData?.contactPage || {
+    title: "Contact Us For Your Fast Free Quote",
+    subtitle: "We are so excited to light up your property 🙂",
+    badge: "Get A Fast Quote"
+  };
+
   const fileCount = files.length;
   const hasFiles = fileCount > 0;
 
@@ -95,18 +115,14 @@ const ModernQuoteForm = () => {
         <div className="text-center mb-8 lg:mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-600/10 via-amber-500/10 to-red-600/10 rounded-full border border-amber-500/30 mb-4">
             <GiSparkles className="text-sm text-amber-500" />
-            <span className="text-sm font-medium text-gray-800 uppercase">Get A Fast Quote</span>
+            <span className="text-sm font-medium text-gray-800 uppercase">{contactPageContent.badge}</span>
           </div>
 
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-3">
-            Contact Us For Your{" "}
-            <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
-              Fast Free
-            </span>{" "}
-            Quote
+            {contactPageContent.title}
           </h1>
           <p className="text-sm md:text-base text-gray-600 max-w-2xl mx-auto">
-            We are so excited to light up your property 🙂
+            {contactPageContent.subtitle}
           </p>
         </div>
 
@@ -292,7 +308,7 @@ const ModernQuoteForm = () => {
           {/* Benefits Section */}
           <div className="hidden lg:block space-y-6">
             <BenefitsSection />
-            <ContactInfo />
+            <ContactInfo data={contactInfo} />
             <TrustBadge />
           </div>
         </div>
@@ -392,26 +408,26 @@ const BenefitsSection = memo(() => (
 BenefitsSection.displayName = 'BenefitsSection';
 
 // Contact Info
-const ContactInfo = memo(() => (
+const ContactInfo = memo(({ data }) => (
   <div className="bg-gradient-to-r from-red-600 to-amber-500 rounded-2xl shadow-lg p-6 text-white">
     <h3 className="text-xl font-bold text-white mb-3">Need Immediate Help?</h3>
     <div className="space-y-3">
-      <a href="tel:17405270010" className="flex items-center gap-3 hover:opacity-90">
+      <a href={`tel:${data.phone}`} className="flex items-center gap-3 hover:opacity-90">
         <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
           <FaPhone className="text-sm text-white" />
         </div>
         <div>
           <div className="text-xs text-white/80">Call us 24/7</div>
-          <div className="text-base font-bold text-white">(614) 301-7100</div>
+          <div className="text-base font-bold text-white">{data.phone}</div>
         </div>
       </a>
-      <a href="mailto:info@christmaslightsovercolumbus.com" className="flex items-center gap-3 hover:opacity-90">
+      <a href={`mailto:${data.email}`} className="flex items-center gap-3 hover:opacity-90">
         <div className="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center">
           <FaEnvelope className="text-sm text-white" />
         </div>
         <div>
           <div className="text-xs text-white/80">Email us</div>
-          <div className="text-sm font-bold text-white break-all">info@christmaslightsovercolumbus.com</div>
+          <div className="text-sm font-bold text-white break-all">{data.email}</div>
         </div>
       </a>
     </div>

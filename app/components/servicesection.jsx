@@ -16,9 +16,9 @@ const ChristmasLightingSection = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const response = await fetch("/data.json");
+        const response = await fetch("/api/homepage");
         const jsonData = await response.json();
-        setData(jsonData);
+        setData(jsonData.content);
       } catch (error) {
         console.error("Error loading data:", error);
       }
@@ -87,20 +87,17 @@ const ChristmasLightingSection = () => {
                 <span className="text-sm font-medium text-amber-700">Premium Service</span>
               </div>
 
-              <h2 className="text-left font-montserrat text-4xl md:text-5xl font-extrabold mb-20">
+              <h2 className="text-left font-montserrat text-4xl md:text-5xl font-extrabold">
                 <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
-                  Serving Columbs With Stress Free Holiday Lighting
+                  {data.about?.title?.part1} {data.about?.title?.part2}
                 </span>
               </h2>
             </div>
 
-            {/* Paragraph - EXACT TEXT */}
+            {/* Paragraph - Dynamic */}
             <div className="space-y-4">
               <p className="text-base md:text-lg text-slate-700 leading-relaxed">
-                The holiday season is all about making memories, and nothing brings that magic to life like a beautifully lit home. At Christmas Lights Over Columbus, we take the stress out of decorating with professional Christmas lighting services designed just for you.
-              </p>
-              <p className="text-base md:text-lg text-slate-700 leading-relaxed">
-                From custom design and installation to maintenance, removal, and storage, we handle everything — so all you have to do is enjoy the season. Let us create a stunning display while you focus on what matters most.
+                {data.about?.subtitle}
               </p>
             </div>
 
@@ -119,7 +116,7 @@ const ChristmasLightingSection = () => {
                 >
                   <span className="relative z-10 flex items-center justify-center gap-1.5 sm:gap-2">
 
-                    <span>{hero.cta.subtext || "Get My Free Quote"}</span>
+                    <span>{hero?.cta?.subtext || "Get My Free Quote"}</span>
 
                   </span>
 

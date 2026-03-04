@@ -1,13 +1,25 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { FaPlus } from 'react-icons/fa'
 import { getFAQData } from '../services/dataService'
 
-const FAQSection = () => {
+const FAQSection = ({ items: propItems, title: propTitle }) => {
   const [openIndex, setOpenIndex] = useState(0)
+  const [items, setItems] = useState(propItems || [])
+  const [title, setTitle] = useState(propTitle || 'Questions & Answers')
   const contentRefs = useRef([])
-  const faqData = getFAQData()
-  const { title, items } = faqData
+
+  useEffect(() => {
+    if (!propItems) {
+      fetch('/api/homepage')
+        .then(r => r.json())
+        .then(d => {
+          if (d.content?.faq) setItems(d.content.faq);
+        });
+    } else {
+      setItems(propItems);
+    }
+  }, [propItems]);
 
   const toggleAccordion = (index) => {
     const el = contentRefs.current[index]

@@ -64,9 +64,21 @@ const Testimonials = () => {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const response = await fetch("/data.json");
-        const jsonData = await response.json();
-        setData(jsonData);
+        const [homeRes, testRes] = await Promise.all([
+          fetch("/api/homepage"),
+          fetch("/api/testimonials?limit=20")
+        ]);
+        const homeD = await homeRes.json();
+        const testD = await testRes.json();
+
+        // Merge testimonial results into the expected format
+        setData({
+          ...homeD.content,
+          testimonials: {
+            ...homeD.content?.testimonials,
+            items: testD.testimonials || []
+          }
+        });
       } catch (error) {
         console.error("Error loading data:", error);
       }
@@ -79,6 +91,7 @@ const Testimonials = () => {
   const testimonialsList =
     data?.testimonials?.items?.map((item, index) => ({
       ...item,
+      id: item.id || item._id,
       color: getColorForIndex(index),
     })) || [];
 
@@ -273,9 +286,9 @@ const Testimonials = () => {
           </div>
 
           <h2 className="text-4xl font-montserrat md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-4">
-            <span className="block">{testimonials.title.line1}</span>
+            <span className="block">{testimonials?.title?.line1 || "Customer"}</span>
             <span className="block mt-2 bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
-              {testimonials.title.line2}
+              {testimonials?.title?.line2 || "Reviews"}
             </span>
           </h2>
 
