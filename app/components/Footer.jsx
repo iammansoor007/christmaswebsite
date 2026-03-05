@@ -110,76 +110,38 @@ const Footer = () => {
 
       {/* Main Container - Responsive padding from 300px up */}
       <div className="w-full mx-auto px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 lg:px-12 lg:py-16 xl:px-16 2xl:px-20 relative z-10">
-        {/* Main Footer Content */}
-        <div className="flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 mb-8 lg:mb-16">
-          {/* Brand & Contact Column - Full width on mobile */}
-          <div className="lg:col-span-5 xl:col-span-4 space-y-6">
-            {/* Logo */}
-            <div className="flex justify-center lg:justify-start">
-              <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36">
-                <Image
-                  src="/images/mainlogo.png"
-                  alt="Luminous Holiday Logo"
-                  width={144}
-                  height={144}
-                  className="object-contain w-full h-full"
-                  priority={false}
-                  onError={(e) => {
-                    const target = e.target;
-                    target.onerror = null;
-                    target.style.display = "none";
-                    target.parentElement.innerHTML = `
-                      <div class="w-full h-full flex items-center justify-center bg-dark-navy rounded-xl border border-holiday-gold/20">
-                        <div class="text-center">
-                          <div class="text-2xl sm:text-3xl font-bold text-white">LH</div>
-                          <div class="text-xs sm:text-sm text-white/70">Logo</div>
-                        </div>
+        {/* Main Footer Content - Three columns layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12 mb-8 lg:mb-16">
+          {/* Column 1: Brand Column - Logo only */}
+          <div className="lg:col-span-3 flex flex-col items-center lg:items-start">
+            <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36">
+              <Image
+                src="/images/mainlogo.png"
+                alt="Luminous Holiday Logo"
+                width={144}
+                height={144}
+                className="object-contain w-full h-full"
+                priority={false}
+                onError={(e) => {
+                  const target = e.target;
+                  target.onerror = null;
+                  target.style.display = "none";
+                  target.parentElement.innerHTML = `
+                    <div class="w-full h-full flex items-center justify-center bg-dark-navy rounded-xl border border-holiday-gold/20">
+                      <div class="text-center">
+                        <div class="text-2xl sm:text-3xl font-bold text-white">LH</div>
+                        <div class="text-xs sm:text-sm text-white/70">Logo</div>
                       </div>
-                    `;
-                  }}
-                />
-              </div>
+                    </div>
+                  `;
+                }}
+              />
             </div>
-
-            {/* Contact Info - Improved readability */}
-            <div className="space-y-4">
-              <h3 className="text-white font-bold text-lg sm:text-xl md:text-2xl text-center lg:text-left">
-                Get in Touch
-              </h3>
-
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3 text-white/80 group hover:text-white transition-colors duration-200">
-                  <BsFillTelephoneFill className="text-holiday-gold flex-shrink-0 text-base sm:text-lg" />
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm sm:text-base break-words">
-                      {contact.phone}
-                    </div>
-                    <div className="text-xs sm:text-sm text-white/60">
-                      {contact.hours}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-3 text-white/80 group hover:text-white transition-colors duration-200">
-                  <FaEnvelope className="text-holiday-red flex-shrink-0 text-base sm:text-lg" />
-                  <div className="flex-1 min-w-0">
-                    <div className="text-sm sm:text-base break-words">
-                      {contact.email}
-                    </div>
-                    <div className="text-xs sm:text-sm text-white/60">
-                      {contact.support}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
           </div>
 
-          {/* Links Columns - Improved grid layout */}
-          <div className="lg:col-span-7 xl:col-span-8">
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 sm:gap-8">
+          {/* Column 2: Links/Services Column */}
+          <div className="lg:col-span-5">
+            <div className="grid grid-cols-2 gap-6 sm:gap-8">
               {Object.entries(links).map(([category, linkItems]) => (
                 <div key={`category-${category}`} className="col-span-1">
                   <h4 className="text-white font-semibold text-base sm:text-lg md:text-xl mb-3 pb-2 border-b border-holiday-gold/20 relative">
@@ -203,16 +165,48 @@ const Footer = () => {
               ))}
             </div>
           </div>
+
+          {/* Column 3: Get in Touch Column - Now in 3rd row/column */}
+          <div className="lg:col-span-4">
+            <h3 className="text-white font-bold text-lg sm:text-xl md:text-2xl mb-4 text-center lg:text-left">
+              Get in Touch
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-3 text-white/80 group hover:text-white transition-colors duration-200">
+                <BsFillTelephoneFill className="text-holiday-gold flex-shrink-0 text-base sm:text-lg" />
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm sm:text-base break-words">
+                    {contact.phone}
+                  </div>
+                  <div className="text-xs sm:text-sm text-white/60">
+                    {contact.hours}
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center space-x-3 text-white/80 group hover:text-white transition-colors duration-200">
+                <FaEnvelope className="text-holiday-red flex-shrink-0 text-base sm:text-lg" />
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm sm:text-base break-words">
+                    {contact.email}
+                  </div>
+                  <div className="text-xs sm:text-sm text-white/60">
+                    {contact.support}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Bottom Bar - Improved responsive layout */}
         <div className="pt-6 sm:pt-8 lg:pt-12 border-t border-holiday-red/20">
           {/* Social Media - Centered on mobile */}
-          <div>
+          <div className="mb-6">
             <h4 className="text-white font-semibold text-base sm:text-lg mb-3 text-center lg:text-left">
               Follow Our Journey
             </h4>
-            <div className="flex flex-wrap gap-2 justify-center lg:justify-start mb-6">
+            <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
               {socialMedia.map((social) => {
                 const IconComponent = iconMap[social.icon] || FaFacebookF;
                 return (
@@ -230,16 +224,16 @@ const Footer = () => {
               })}
             </div>
           </div>
+
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
             <div className="text-center sm:text-left">
               <p className="text-white/60 text-sm sm:text-base">
-                © {year} {companyName}. All rights reserved.
+                © {year} {companyName}. Designed with ❤️ by Mohsin Designs. All rights reserved.
               </p>
               <p className="text-white/40 text-xs sm:text-sm mt-1 max-w-[300px] sm:max-w-none">
                 {tagline}
               </p>
             </div>
-
 
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
               <Link
@@ -254,12 +248,7 @@ const Footer = () => {
               >
                 Terms
               </Link>
-              <Link
-                href="/sitemap"
-                className="text-white/60 hover:text-holiday-gold transition-all duration-200 text-sm sm:text-base whitespace-nowrap"
-              >
-                Sitemap
-              </Link>
+
             </div>
           </div>
 
