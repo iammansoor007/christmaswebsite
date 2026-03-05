@@ -170,7 +170,7 @@ const ModernQuoteForm = () => {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="john@example.com"
+                    placeholder="Info@lightsovercolumbus.com"
                     required
                   />
                   <InputField
@@ -293,7 +293,6 @@ const ModernQuoteForm = () => {
           <div className="hidden lg:block space-y-6">
             <BenefitsSection />
             <ContactInfo />
-            <TrustBadge />
           </div>
         </div>
       </div>
@@ -411,7 +410,7 @@ const ContactInfo = memo(() => (
         </div>
         <div>
           <div className="text-xs text-white/80">Email us</div>
-          <div className="text-sm font-bold text-white break-all">info@christmaslightsovercolumbus.com</div>
+          <div className="text-sm font-bold text-white break-all">Info@lightsovercolumbus.com</div>
         </div>
       </a>
     </div>
@@ -424,19 +423,7 @@ const ContactInfo = memo(() => (
 
 ContactInfo.displayName = 'ContactInfo';
 
-// Trust Badge
-const TrustBadge = memo(() => (
-  <div className="bg-gray-50 rounded-xl border border-gray-200 p-4 text-center">
-    <div className="flex items-center justify-center gap-1 mb-2">
-      {[...Array(5)].map((_, i) => (
-        <FaStar key={i} className="text-yellow-400" />
-      ))}
-    </div>
-    <p className="text-gray-900 font-medium">4.9/5 Rating</p>
-    <p className="text-gray-900 text-sm">Based on 500+ verified reviews</p>
-  </div>
-));
 
-TrustBadge.displayName = 'TrustBadge';
+
 
 export default ModernQuoteForm;

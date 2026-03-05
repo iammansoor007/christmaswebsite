@@ -392,7 +392,7 @@ const CommercialLightingPage = () => {
             </section>
 
             {/* Why Choose Us Section */}
-            <section className="py-20 bg-white">
+            <section className="py-12 lg:px-8 bg-white overflow-hidden">
                 <div className="container mx-auto px-4 sm:px-6">
                     <div className="max-w-7xl mx-auto">
                         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -434,27 +434,69 @@ const CommercialLightingPage = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-4">
-                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
-                                        <div className="text-3xl font-bold text-emerald-600 mb-1">100+</div>
-                                        <div className="text-sm text-gray-600">Businesses Served</div>
+                            {/* Right Column - Responsive Image Gallery */}
+                            <div className="relative order-1 lg:order-2 mb-8 lg:mb-0 min-h-[300px] sm:min-h-[400px] md:min-h-[450px]">
+
+                                {/* Main Image Container */}
+                                <div className="relative rounded-2xl overflow-hidden shadow-2xl mx-auto max-w-[90%] sm:max-w-full">
+                                    <div className="aspect-[4/3] w-full">
+                                        <Image
+                                            src="/images/gallery1.jpg"
+                                            alt="Beautiful residential Christmas lighting installation"
+                                            fill
+                                            className="object-cover"
+                                            unoptimized
+                                        />
                                     </div>
-                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
-                                        <div className="text-3xl font-bold text-emerald-600 mb-1">15+</div>
-                                        <div className="text-sm text-gray-600">Years Experience</div>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+
+
+                                </div>
+
+                                {/* Responsive Overlapping Cards */}
+
+                                {/* Bottom Left Card - Adjusted for mobile */}
+                                <div className="absolute -bottom-4 sm:-bottom-8 -left-2 sm:-left-8 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-44 lg:h-44 xl:w-48 xl:h-48 rounded-xl sm:rounded-2xl overflow-hidden shadow-xl border-2 sm:border-4 border-white">
+                                    <div className="relative w-full h-full">
+                                        <Image
+                                            src="/images/gallery2.jpg"
+                                            alt="Professional lighting installation"
+                                            fill
+                                            className="object-cover"
+                                            unoptimized
+                                        />
                                     </div>
                                 </div>
-                                <div className="space-y-4 mt-8">
-                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
-                                        <div className="text-3xl font-bold text-emerald-600 mb-1">24/7</div>
-                                        <div className="text-sm text-gray-600">Support Available</div>
-                                    </div>
-                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
-                                        <div className="text-3xl font-bold text-emerald-600 mb-1">100%</div>
-                                        <div className="text-sm text-gray-600">Satisfaction</div>
+
+                                {/* Top Right Card - Adjusted for mobile */}
+                                <div className="absolute -top-4 sm:-top-8 -right-2 sm:-right-8 w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 xl:w-40 xl:h-40 rounded-xl sm:rounded-2xl overflow-hidden shadow-xl border-2 sm:border-4 border-white">
+                                    <div className="relative w-full h-full">
+                                        <Image
+                                            src="/images/gallery3.jpg"
+                                            alt="Beautiful holiday lights display"
+                                            fill
+                                            className="object-cover"
+                                            unoptimized
+                                        />
                                     </div>
                                 </div>
+
+
+
+                                {/* Decorative Elements - Adjusted for responsiveness */}
+                                <div className="absolute top-1/2 -right-6 sm:-right-12 w-16 sm:w-20 md:w-24 h-16 sm:h-20 md:h-24 bg-emerald-200/30 rounded-full blur-xl sm:blur-2xl"></div>
+                                <div className="absolute bottom-1/4 -left-6 sm:-left-12 w-20 sm:w-28 md:w-32 h-20 sm:h-28 md:h-32 bg-red-200/30 rounded-full blur-xl sm:blur-2xl"></div>
+
+                                {/* Sparkle Icons - Responsive sizing */}
+                                <div className="absolute top-4 sm:top-6 md:top-8 lg:top-10 right-4 sm:right-6 md:right-8 lg:right-10 text-white">
+                                    <GiSparkles className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 animate-pulse" />
+                                </div>
+
+                                <div className="absolute bottom-12 sm:bottom-16 md:bottom-20 left-12 sm:left-16 md:left-20 text-white">
+                                    <HiOutlineSparkles className="w-3 h-3 sm:w-4 sm:h-4 animate-pulse animation-delay-200" />
+                                </div>
+
+
                             </div>
                         </div>
                     </div>

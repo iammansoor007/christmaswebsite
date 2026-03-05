@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import Image from "next/image";
-import fadedmap from "../../public/images/realmap.png";
+import fadedmap from "../../public/images/realmap.jpeg";
 import {
   FaMapMarkerAlt,
   FaClock,

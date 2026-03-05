@@ -181,11 +181,9 @@ const ModernQuoteForm = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8 xs:mb-10 sm:mb-12">
-          <div className="inline-flex items-center justify-center gap-1.5 xs:gap-2 px-3 xs:px-4 py-1.5 xs:py-2 bg-gradient-to-r from-red-600/10 via-amber-500/10 to-red-600/10 rounded-full border border-amber-500/30 shadow-sm mb-4 xs:mb-5">
-            <GiSparkles className="text-xs xs:text-sm text-amber-500" />
-            <span className="text-xs xs:text-sm font-medium text-gray-800 uppercase tracking-wide">
-              {badge || "Get A Fast Quote"}
-            </span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-red-600/10 via-amber-500/10 to-red-600/10 rounded-full border border-amber-500/30 mb-4">
+            <GiSparkles className="text-sm text-amber-500" />
+            <span className="text-sm font-medium text-gray-800 uppercase">Get A Fast Quote</span>
           </div>
 
           <h1 className="text-2xl font-montserrat xs:text-3xl sm:text-4xl font-extrabold text-gray-900 mb-3">
@@ -567,7 +565,7 @@ const ModernQuoteForm = () => {
                   <div>
                     <div className="text-xs text-white/80">Email us</div>
                     <div className="text-sm xs:text-base font-bold text-white break-all">
-                      info@christmaslightsovercolumbus.com
+                      Info@lightsovercolumbus.com
                     </div>
                   </div>
                 </a>
@@ -578,16 +576,7 @@ const ModernQuoteForm = () => {
               </p>
             </div>
 
-            {/* Trust Badge */}
-            <div className="bg-gray-50 rounded-xl border border-gray-200 p-4 text-center">
-              <div className="flex items-center justify-center gap-1 mb-2">
-                {[...Array(5)].map((_, i) => (
-                  <FaStar key={i} className="text-yellow-400 text-lg" />
-                ))}
-              </div>
-              <p className="text-gray-900 font-medium">4.9/5 Rating</p>
-              <p className="text-gray-900 text-sm">Based on 500+ verified reviews</p>
-            </div>
+
           </div>
         </div>
       </div>
