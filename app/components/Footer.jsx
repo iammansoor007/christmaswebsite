@@ -228,7 +228,16 @@ const Footer = () => {
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
             <div className="text-center sm:text-left">
               <p className="text-white/60 text-sm sm:text-base">
-                © {year} {companyName}. Designed with ❤️ by Mohsin Designs. All rights reserved.
+                © {year} {companyName}. Designed by{" "}
+                <a
+                  href="https://mohsindesigns.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/80 hover:text-white transition-colors duration-300 font-medium hover:underline underline-offset-2"
+                >
+                  Mohsin Designs
+                </a>
+                . All rights reserved.
               </p>
               <p className="text-white/40 text-xs sm:text-sm mt-1 max-w-[300px] sm:max-w-none">
                 {tagline}

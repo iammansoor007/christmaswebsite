@@ -78,22 +78,22 @@ const Navbar = () => {
           path: "/services/residential-lighting",
           label: "Residential Lighting",
           description: "Custom home lighting solutions",
-          icon: "🏠" // Added missing icon
+          icon: "🏠"
         },
         {
           path: "/services/commercial-lighting",
           label: "Commercial Lighting",
           description: "Professional business installations",
-          icon: "🏢" // Added missing icon
+          icon: "🏢"
         },
         {
           path: "/services/permanent-lighting",
           label: "Permanent Lighting",
           description: "Year-round architectural lighting",
-          icon: "✨" // Added missing icon
+          icon: "✨"
         }
-      ] // <- This closing bracket was missing
-    }, // <- This closing parenthesis for the object was incorrectly placed
+      ]
+    },
     { path: "/gallery", label: "Gallery" },
     { path: "/service-area", label: "Service Area" },
     { path: "/contact", label: "Contact" },
@@ -161,11 +161,10 @@ const Navbar = () => {
       {/* Navbar */}
       <nav
         ref={navbarRef}
-        className={`sticky top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${
-          scrolled
+        className={`sticky top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${scrolled
             ? "bg-dark-navy/95 backdrop-blur-lg shadow-lg shadow-holiday-gold/10 py-2"
             : "bg-dark-navy/90 backdrop-blur-md py-3"
-        }`}
+          }`}
       >
         <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
           <div className="flex items-center justify-between">
@@ -184,22 +183,22 @@ const Navbar = () => {
                       onMouseEnter={handleMouseEnter}
                       onMouseLeave={handleMouseLeave}
                     >
-                      <button
-                        className={`relative px-5 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 group flex items-center gap-1.5 ${
-                          isActive(item.path)
+                      {/* FIXED: Changed from button to Link */}
+                      <Link
+                        href={item.path}
+                        className={`relative px-5 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 group flex items-center gap-1.5 ${isActive(item.path)
                             ? "text-holiday-gold"
                             : "text-warm-white hover:text-holiday-gold"
-                        }`}
+                          }`}
                       >
                         <span className="relative z-10 whitespace-nowrap">
                           {item.label}
                         </span>
                         <svg
-                          className={`w-4 h-4 transition-all duration-300 ${
-                            servicesDropdownOpen
+                          className={`w-4 h-4 transition-all duration-300 ${servicesDropdownOpen
                               ? "rotate-180 text-holiday-gold"
                               : ""
-                          }`}
+                            }`}
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -214,15 +213,14 @@ const Navbar = () => {
                         {isActive(item.path) && (
                           <div className="absolute inset-0 bg-gradient-to-r from-holiday-red/10 to-holiday-gold/10 rounded-lg border border-holiday-gold/30"></div>
                         )}
-                      </button>
+                      </Link>
 
                       {/* Desktop Dropdown Menu */}
                       <div
-                        className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 transition-all duration-300 transform origin-top ${
-                          servicesDropdownOpen
+                        className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 transition-all duration-300 transform origin-top ${servicesDropdownOpen
                             ? "opacity-100 scale-100 pointer-events-auto"
                             : "opacity-0 scale-95 pointer-events-none"
-                        }`}
+                          }`}
                       >
                         <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 bg-gradient-to-br from-holiday-gold/30 to-holiday-red/30 backdrop-blur-sm"></div>
 
@@ -235,19 +233,17 @@ const Navbar = () => {
                               <Link
                                 key={dropdownItem.path}
                                 href={dropdownItem.path}
-                                className={`group/dropdown relative block rounded-lg transition-all duration-300 ${
-                                  index !== item.dropdown.length - 1
+                                className={`group/dropdown relative block rounded-lg transition-all duration-300 ${index !== item.dropdown.length - 1
                                     ? "mb-1"
                                     : ""
-                                }`}
+                                  }`}
                                 onClick={() => setServicesDropdownOpen(false)}
                               >
                                 <div
-                                  className={`absolute inset-0 rounded-lg transition-all duration-500 ${
-                                    isDropdownItemActive(dropdownItem.path)
+                                  className={`absolute inset-0 rounded-lg transition-all duration-500 ${isDropdownItemActive(dropdownItem.path)
                                       ? "bg-gradient-to-r from-holiday-red/20 to-holiday-gold/20"
                                       : "opacity-0 group-hover/dropdown:opacity-100 group-hover/dropdown:bg-gradient-to-r group-hover/dropdown:from-holiday-red/10 group-hover/dropdown:to-holiday-gold/10"
-                                  }`}
+                                    }`}
                                 ></div>
 
                                 {isDropdownItemActive(dropdownItem.path) && (
@@ -256,22 +252,20 @@ const Navbar = () => {
 
                                 <div className="relative flex items-start gap-3 p-3">
                                   <div
-                                    className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-lg transition-all duration-300 ${
-                                      isDropdownItemActive(dropdownItem.path)
+                                    className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-lg transition-all duration-300 ${isDropdownItemActive(dropdownItem.path)
                                         ? "bg-gradient-to-br from-holiday-gold/20 to-holiday-red/20 text-holiday-gold"
                                         : "bg-dark-navy/50 group-hover/dropdown:bg-holiday-gold/10"
-                                    }`}
+                                      }`}
                                   >
                                     {dropdownItem.icon}
                                   </div>
 
                                   <div className="flex-1">
                                     <div
-                                      className={`text-sm font-semibold transition-colors duration-300 ${
-                                        isDropdownItemActive(dropdownItem.path)
+                                      className={`text-sm font-semibold transition-colors duration-300 ${isDropdownItemActive(dropdownItem.path)
                                           ? "text-holiday-gold"
                                           : "text-warm-white group-hover/dropdown:text-holiday-gold"
-                                      }`}
+                                        }`}
                                     >
                                       {dropdownItem.label}
                                     </div>
@@ -313,11 +307,10 @@ const Navbar = () => {
                     <Link
                       key={item.path}
                       href={item.path}
-                      className={`relative px-5 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 group ${
-                        isActive(item.path)
+                      className={`relative px-5 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 group ${isActive(item.path)
                           ? "text-holiday-gold"
                           : "text-warm-white hover:text-holiday-gold"
-                      }`}
+                        }`}
                     >
                       <span className="relative z-10 whitespace-nowrap">
                         {item.label}
@@ -374,30 +367,26 @@ const Navbar = () => {
               >
                 <span className="sr-only">Menu</span>
                 <div
-                  className={`w-6 h-0.5 bg-white transition-all duration-300 ${
-                    isOpen ? "rotate-45 translate-y-1.5" : "-translate-y-1"
-                  }`}
+                  className={`w-6 h-0.5 bg-white transition-all duration-300 ${isOpen ? "rotate-45 translate-y-1.5" : "-translate-y-1"
+                    }`}
                 ></div>
                 <div
-                  className={`w-6 h-0.5 bg-white transition-all duration-300 mt-1 ${
-                    isOpen ? "opacity-0" : "opacity-100"
-                  }`}
+                  className={`w-6 h-0.5 bg-white transition-all duration-300 mt-1 ${isOpen ? "opacity-0" : "opacity-100"
+                    }`}
                 ></div>
                 <div
-                  className={`w-6 h-0.5 bg-white transition-all duration-300 mt-1 ${
-                    isOpen ? "-rotate-45 -translate-y-1.5" : "translate-y-1"
-                  }`}
+                  className={`w-6 h-0.5 bg-white transition-all duration-300 mt-1 ${isOpen ? "-rotate-45 -translate-y-1.5" : "translate-y-1"
+                    }`}
                 ></div>
                 <div className="absolute inset-0 rounded-full bg-holiday-gold/0 group-hover:bg-holiday-gold/10 transition-colors duration-300"></div>
               </button>
             </div>
           </div>
 
-          {/* Mobile Navigation - Enhanced with same dropdown style */}
+          {/* Mobile Navigation */}
           <div
-            className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-              isOpen ? "max-h-[800px] opacity-100 mt-3" : "max-h-0 opacity-0"
-            }`}
+            className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-[800px] opacity-100 mt-3" : "max-h-0 opacity-0"
+              }`}
           >
             <div className="pt-4 pb-6 border-t border-holiday-gold/20">
               <div className="flex flex-col space-y-1">
@@ -407,11 +396,10 @@ const Navbar = () => {
                       {/* Mobile Services Button */}
                       <button
                         onClick={toggleMobileServices}
-                        className={`relative px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 flex items-center justify-between w-full ${
-                          isActive(item.path) || mobileServicesOpen
+                        className={`relative px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 flex items-center justify-between w-full ${isActive(item.path) || mobileServicesOpen
                             ? "text-holiday-gold bg-gradient-to-r from-holiday-red/5 to-holiday-gold/5 border border-holiday-gold/20"
                             : "text-warm-white hover:text-holiday-gold hover:bg-dark-navy/50"
-                        }`}
+                          }`}
                       >
                         <span className="truncate">{item.label}</span>
                         <div className="flex items-center gap-2">
@@ -419,9 +407,8 @@ const Navbar = () => {
                             <div className="w-2 h-2 rounded-full bg-holiday-gold animate-pulse"></div>
                           )}
                           <svg
-                            className={`w-5 h-5 transition-transform duration-300 ${
-                              mobileServicesOpen ? "rotate-180" : ""
-                            }`}
+                            className={`w-5 h-5 transition-transform duration-300 ${mobileServicesOpen ? "rotate-180" : ""
+                              }`}
                             fill="none"
                             stroke="currentColor"
                             viewBox="0 0 24 24"
@@ -436,14 +423,12 @@ const Navbar = () => {
                         </div>
                       </button>
 
-                      {/* Mobile Dropdown - Same style as desktop */}
+                      {/* Mobile Dropdown */}
                       <div
-                        className={`overflow-hidden transition-all duration-300 ${
-                          mobileServicesOpen ? "max-h-96 mt-2" : "max-h-0"
-                        }`}
+                        className={`overflow-hidden transition-all duration-300 ${mobileServicesOpen ? "max-h-96 mt-2" : "max-h-0"
+                          }`}
                       >
                         <div className="relative ml-4">
-                          {/* Decorative left border */}
                           <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-holiday-gold/50 via-holiday-red/50 to-holiday-gold/50"></div>
 
                           <div className="pl-4 space-y-2">
@@ -455,40 +440,33 @@ const Navbar = () => {
                                   setIsOpen(false);
                                   setMobileServicesOpen(false);
                                 }}
-                                className={`group relative block rounded-lg transition-all duration-300 overflow-hidden ${
-                                  isDropdownItemActive(dropdownItem.path)
+                                className={`group relative block rounded-lg transition-all duration-300 overflow-hidden ${isDropdownItemActive(dropdownItem.path)
                                     ? "bg-gradient-to-r from-holiday-red/20 to-holiday-gold/20"
                                     : "hover:bg-dark-navy/50"
-                                }`}
+                                  }`}
                               >
-                                {/* Hover effect */}
                                 <div className="absolute inset-0 bg-gradient-to-r from-holiday-red/0 via-holiday-gold/0 to-holiday-green/0 group-hover:from-holiday-red/10 group-hover:via-holiday-gold/10 group-hover:to-holiday-green/10 transition-all duration-500"></div>
 
-                                {/* Active indicator */}
                                 {isDropdownItemActive(dropdownItem.path) && (
                                   <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-gradient-to-b from-holiday-gold to-holiday-red rounded-r-full"></div>
                                 )}
 
                                 <div className="relative flex items-start gap-3 p-3">
-                                  {/* Icon with glow */}
                                   <div
-                                    className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-xl transition-all duration-300 ${
-                                      isDropdownItemActive(dropdownItem.path)
+                                    className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-xl transition-all duration-300 ${isDropdownItemActive(dropdownItem.path)
                                         ? "bg-gradient-to-br from-holiday-gold/30 to-holiday-red/30 text-holiday-gold"
                                         : "bg-dark-navy/50 text-warm-white/70 group-hover:bg-holiday-gold/10 group-hover:text-holiday-gold"
-                                    }`}
+                                      }`}
                                   >
                                     {dropdownItem.icon}
                                   </div>
 
-                                  {/* Content */}
                                   <div className="flex-1">
                                     <div
-                                      className={`text-sm font-semibold transition-colors duration-300 ${
-                                        isDropdownItemActive(dropdownItem.path)
+                                      className={`text-sm font-semibold transition-colors duration-300 ${isDropdownItemActive(dropdownItem.path)
                                           ? "text-holiday-gold"
                                           : "text-warm-white group-hover:text-holiday-gold"
-                                      }`}
+                                        }`}
                                     >
                                       {dropdownItem.label}
                                     </div>
@@ -497,13 +475,11 @@ const Navbar = () => {
                                     </div>
                                   </div>
 
-                                  {/* Sparkle icon for active or hover */}
                                   <div
-                                    className={`absolute top-1/2 right-3 -translate-y-1/2 transition-opacity duration-300 ${
-                                      isDropdownItemActive(dropdownItem.path)
+                                    className={`absolute top-1/2 right-3 -translate-y-1/2 transition-opacity duration-300 ${isDropdownItemActive(dropdownItem.path)
                                         ? "opacity-100"
                                         : "opacity-0 group-hover:opacity-100"
-                                    }`}
+                                      }`}
                                   >
                                     <svg
                                       className="w-4 h-4 text-holiday-gold animate-pulse"
@@ -515,7 +491,6 @@ const Navbar = () => {
                                   </div>
                                 </div>
 
-                                {/* Decorative bottom line (except last item) */}
                                 {index !== item.dropdown.length - 1 && (
                                   <div className="absolute bottom-0 left-3 right-3 h-px bg-gradient-to-r from-transparent via-holiday-gold/20 to-transparent"></div>
                                 )}
@@ -530,11 +505,10 @@ const Navbar = () => {
                       key={item.path}
                       href={item.path}
                       onClick={() => setIsOpen(false)}
-                      className={`relative px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 group ${
-                        isActive(item.path)
+                      className={`relative px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 group ${isActive(item.path)
                           ? "text-holiday-gold bg-gradient-to-r from-holiday-red/5 to-holiday-gold/5 border border-holiday-gold/20"
                           : "text-warm-white hover:text-holiday-gold hover:bg-dark-navy/50"
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center justify-between">
                         <span className="truncate">{item.label}</span>

@@ -270,7 +270,7 @@ const PermanentLightingPage = () => {
                                 {/* Main Image */}
                                 <div className="relative rounded-2xl overflow-hidden shadow-2xl">
                                     <Image
-                                        src="/images/gallery1.jpg"
+                                        src="/images/gallery14.jpg"
                                         alt="Professional smart lighting installation"
                                         width={600}
                                         height={400}
@@ -283,7 +283,7 @@ const PermanentLightingPage = () => {
                                 {/* Overlapping Image Cards */}
                                 <div className="absolute -bottom-8 -left-8 w-48 h-48 rounded-2xl overflow-hidden shadow-xl border-4 border-white">
                                     <Image
-                                        src="/images/gallery2.jpg"
+                                        src="/images/gallery10.jpg"
                                         alt="Smart home lighting control"
                                         width={200}
                                         height={200}
@@ -294,7 +294,7 @@ const PermanentLightingPage = () => {
 
                                 <div className="absolute -top-8 -right-8 w-40 h-40 rounded-2xl overflow-hidden shadow-xl border-4 border-white">
                                     <Image
-                                        src="/images/gallery3.jpg"
+                                        src="/images/gallery9.jpg"
                                         alt="Weatherproof LED lighting"
                                         width={160}
                                         height={160}

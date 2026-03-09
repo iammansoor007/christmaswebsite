@@ -381,9 +381,7 @@ const ServiceArea = () => {
         <div className="absolute inset-0">
           <div
             className="relative w-full h-full transition-transform duration-[50ms] ease-out will-change-transform"
-            style={{
-              transform: `translate(${mousePosition.x * 5}px, ${mousePosition.y * 5}px) scale(1.05)`,
-            }}
+
           >
             <Image
               src="/images/hero-background2.jpg"

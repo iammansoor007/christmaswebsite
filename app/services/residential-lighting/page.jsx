@@ -272,7 +272,7 @@ const ResidentialLightingPage = () => {
                                 <div className="relative rounded-2xl overflow-hidden shadow-2xl mx-auto max-w-[90%] sm:max-w-full">
                                     <div className="aspect-[4/3] w-full">
                                         <Image
-                                            src="/images/gallery1.jpg"
+                                            src="/images/gallery11.jpg"
                                             alt="Beautiful residential Christmas lighting installation"
                                             fill
                                             className="object-cover"
@@ -290,7 +290,7 @@ const ResidentialLightingPage = () => {
                                 <div className="absolute -bottom-4 sm:-bottom-8 -left-2 sm:-left-8 w-24 h-24 sm:w-32 sm:h-32 md:w-40 md:h-40 lg:w-44 lg:h-44 xl:w-48 xl:h-48 rounded-xl sm:rounded-2xl overflow-hidden shadow-xl border-2 sm:border-4 border-white">
                                     <div className="relative w-full h-full">
                                         <Image
-                                            src="/images/gallery2.jpg"
+                                            src="/images/gallery12.jpg"
                                             alt="Professional lighting installation"
                                             fill
                                             className="object-cover"
@@ -303,7 +303,7 @@ const ResidentialLightingPage = () => {
                                 <div className="absolute -top-4 sm:-top-8 -right-2 sm:-right-8 w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 lg:w-36 lg:h-36 xl:w-40 xl:h-40 rounded-xl sm:rounded-2xl overflow-hidden shadow-xl border-2 sm:border-4 border-white">
                                     <div className="relative w-full h-full">
                                         <Image
-                                            src="/images/gallery3.jpg"
+                                            src="/images/gallery13.jpg"
                                             alt="Beautiful holiday lights display"
                                             fill
                                             className="object-cover"
