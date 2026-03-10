@@ -1,0 +1,27 @@
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+⨯ ./app/components/Navbar.jsx:314:30
+Parsing ecmascript source code failed
+[0m [90m 312 |[39m                                 )}
+ [90m 313 |[39m                               [33m<[39m[33m/[39m[33mLink[39m[33m>[39m
+[31m[1m>[22m[39m[90m 314 |[39m                             ))}
+ [90m     |[39m                              [31m[1m^[22m[39m
+ [90m 315 |[39m                           [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 316 |[39m
+ [90m 317 |[39m                           [33m<[39m[33mdiv[39m className[33m=[39m[32m"relative p-3 bg-gradient-to-r from-holiday-red/10 to-holiday-gold/10 border-t border-holiday-gold/20"[39m[33m>[39m[0m
+
+Expected '</', got ')'
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Navbar.jsx [Client Component Browser]
+    ./app/ClientLayout.js [Client Component Browser]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Navbar.jsx [Client Component SSR]
+    ./app/ClientLayout.js [Client Component SSR]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+

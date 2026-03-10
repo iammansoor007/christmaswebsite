@@ -559,10 +559,6 @@
         "color": "text-black"
       },
       {
-        "text": "Season-long warranty",
-        "color": "text-black"
-      },
-      {
         "text": "Flexible scheduling",
         "color": "text-black"
       }
@@ -645,7 +641,7 @@
     ]
   },
   "footer": {
-    "companyName": "Luminous Holiday Lighting",
+    "companyName": "Christmas Lights Over Columbus",
     "year": 2026,
     "tagline": "Professional holiday lighting installation & design services",
     "contact": {
@@ -712,30 +708,8 @@
           "href": "/gallery"
         },
         {
-          "label": "Testimonials",
-          "href": "/#testimonials"
-        }
-      ],
-      "Support": [
-        {
           "label": "Contact Us",
           "href": "/contact"
-        },
-        {
-          "label": "FAQ",
-          "href": "/faq"
-        },
-        {
-          "label": "Warranty",
-          "href": "/warranty"
-        },
-        {
-          "label": "Privacy Policy",
-          "href": "/privacy"
-        },
-        {
-          "label": "Terms of Service",
-          "href": "/terms"
         }
       ]
     },

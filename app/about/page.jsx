@@ -1,13 +1,9 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import installation from '../../public/images/installationmain.jpg';
 import FAQ from '../components/FAQSection';
 import CallToAction from '../components/CallToAction'
 import ChristmasLightingMap from '../components/ChristmasLightingMap';
-import hero from '../../public/images/hero-background.jpg';
-import enjoy from '../../public/images/enjoy.jpg';
 import {
   FaCheckCircle,
   FaArrowRight,
@@ -733,15 +729,13 @@ const AboutUs = () => {
 
                   {/* Content with adjusted top spacing */}
                   <div className="space-y-5 text-gray-600 leading-relaxed text-base sm:text-lg mt-4 animate-fade-up animation-delay-200">
-                    <p className="text-lg sm:text-xl text-gray-700 italic">
+                    <p className="text-lg sm:text-xl text-gray-700 ">
                       <FaQuoteLeft className="inline-block w-4 h-4 text-amber-400 mr-1 opacity-50" />
-                      {founder.quote}
-                    </p>
-                    <p>
-                      From custom design and installation to takedown after the season, my team takes care of
+                      {founder.quote} < br />   From custom design and installation to takedown after the season, my team takes care of
                       everything so you can focus on what truly matters—making memories and enjoying time with
                       the people you love.
                     </p>
+                   
 
                     <div className="flex items-center justify-center lg:justify-start gap-3 pt-3 animate-fade-up animation-delay-400">
                       <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-red-100 rounded-full flex items-center justify-center flex-shrink-0">

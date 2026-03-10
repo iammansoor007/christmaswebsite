@@ -166,9 +166,7 @@ const TouchSwipeLightbox = ({ selectedImage, setSelectedImage, filteredImages })
                     {selectedImage.location}
                   </span>
                   <span className="w-1 h-1 bg-white/40 rounded-full hidden sm:block"></span>
-                  <span className="text-xs sm:text-sm px-2 py-0.5 bg-white/20 rounded-full">
-                    {selectedImage.category === 'residential' ? 'Residential' : 'Commercial'}
-                  </span>
+                 
                 </div>
               </div>
             </div>
@@ -256,13 +254,7 @@ const Gallery = () => {
     message: ''
   });
 
-  // Service types
-  const serviceTypes = [
-    { value: 'residential', label: 'Residential Lighting' },
-    { value: 'commercial', label: 'Commercial Lighting' },
-    { value: 'event', label: 'Event Lighting' },
-    { value: 'maintenance', label: 'Maintenance & Repair' }
-  ];
+ 
 
   // Time slots
   const timeSlots = [
@@ -281,6 +273,7 @@ const Gallery = () => {
     'Other'
   ];
 
+<<<<<<< HEAD
   const [galleryImages, setGalleryImages] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -307,6 +300,25 @@ const Gallery = () => {
     };
     fetchGallery();
   }, []);
+=======
+  // Gallery images
+  const galleryImages = [
+    { id: 1, src: gallery1, title: 'Colonial Heights Estate',  location: 'Upper Arlington' },
+    { id: 2, src: gallery2, title: 'Downtown Commercial Plaza',   location: 'Columbus' },
+    { id: 3, src: gallery3, title: 'Riverside Drive Mansion',  location: 'Dublin' },
+    { id: 4, src: gallery4, title: 'German Village Townhomes', location: 'Columbus' },
+    { id: 5, src: gallery5, title: 'Polaris Office Complex', location: 'Westerville' },
+    { id: 6, src: gallery6, title: 'New Albany Country Club', location: 'New Albany' },
+    { id: 7, src: gallery7, title: 'Wedgewood Hills Residence', location: 'Powell' },
+    { id: 8, src: gallery8, title: 'Easton Town Center', location: 'Columbus' },
+    { id: 9, src: gallery9, title: 'Hoover Reservoir Estate',   location: 'Westerville' },
+    { id: 10, src: gallery10, title: 'Columbus City Hall', location: 'Columbus' },
+    { id: 11, src: gallery11, title: 'Hilltop Apartments', location: 'Hilliard' },
+    { id: 12, src: gallery12, title: 'Riverside Plaza', location: 'Columbus' },
+    { id: 13, src: gallery13, title: 'Westerville Community Center', location: 'Westerville' },
+    { id: 14, src: gallery14, title: 'Dublin Library Renovation', location: 'Dublin' },
+  ];
+>>>>>>> 29c46175585fede196320bf7839b1c090d858e51
 
 
 
@@ -657,9 +669,7 @@ const Gallery = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
 
               <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-4 md:p-6">
-                <span className="inline-block px-2 sm:px-3 py-0.5 sm:py-1 bg-gradient-to-r from-amber-500 to-red-500 rounded-full text-[8px] sm:text-xs text-white font-medium mb-1 sm:mb-2">
-                  {filteredImages[currentSlide]?.category === 'residential' ? 'Residential' : 'Commercial'}
-                </span>
+                
                 <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-white">
                   {filteredImages[currentSlide]?.title}
                 </h3>

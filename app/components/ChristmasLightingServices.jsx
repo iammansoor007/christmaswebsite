@@ -230,7 +230,6 @@ const AwardWinningServicesSection = () => {
                             alt={service.title}
                             className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-110"
                             loading="lazy"
-
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
                         </div>
@@ -250,10 +249,17 @@ const AwardWinningServicesSection = () => {
                             whileHover={{ rotate: 360 }}
                             transition={{ duration: 0.5 }}
                           >
+<<<<<<< HEAD
                             {(() => {
                               const Icon = FaIcons[service.icon] || FaIcons.FaStar;
                               return <Icon />;
                             })()}
+=======
+                            {/* FIX: Use a div wrapper to ensure consistent rendering */}
+                            <div className="flex items-center justify-center w-full h-full">
+                              <IconComponent />
+                            </div>
+>>>>>>> 29c46175585fede196320bf7839b1c090d858e51
                           </motion.div>
 
                           <div className="flex-1 min-w-0">
@@ -290,9 +296,15 @@ const AwardWinningServicesSection = () => {
                               transition={{ delay: index * 0.1 + idx * 0.1 }}
                               className="flex items-center gap-1 xs:gap-1.5 sm:gap-2"
                             >
+<<<<<<< HEAD
                               <FaIcons.FaCheckCircle
+=======
+                              {/* FIX: Add suppressHydrationWarning to icons that might cause issues */}
+                              <FaCheckCircle
+>>>>>>> 29c46175585fede196320bf7839b1c090d858e51
                                 className="text-xs xs:text-sm sm:text-base flex-shrink-0"
                                 style={{ color: service.color }}
+                                suppressHydrationWarning
                               />
                               <span className="text-gray-700 text-xs xs:text-sm sm:text-base">{feature}</span>
                             </motion.li>

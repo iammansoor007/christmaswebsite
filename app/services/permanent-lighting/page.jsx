@@ -165,7 +165,7 @@ const PermanentLightingPage = () => {
 
                                 <h2 className="font-montserrat font-extrabold text-3xl sm:text-4xl lg:text-5xl text-gray-900 mb-4">
                                     <span className="bg-gradient-to-r from-red-600 via-amber-500 to-emerald-600 bg-clip-text text-transparent">
-                                        Set It Once, Enjoy Forever
+                                        Install Once. <br /> Enjoy Year-Round
                                     </span>
                                 </h2>
 
@@ -219,18 +219,22 @@ const PermanentLightingPage = () => {
             </section>
 
             {/* Why Choose Us Section */}
-            <section className="py-20 bg-white">
+            <section className="py-12 lg:px-8 bg-white overflow-hidden">
                 <div className="container mx-auto px-4 sm:px-6">
                     <div className="max-w-7xl mx-auto">
                         <div className="grid lg:grid-cols-2 gap-12 items-center">
+
+                            {/* Left Column - Content */}
                             <div>
                                 <div className="inline-flex items-center gap-2 bg-emerald-100 rounded-full px-4 py-2 mb-4">
                                     <FaAward className="w-4 h-4 text-emerald-600" />
                                     <span className="text-emerald-700 text-sm font-semibold">WHY CHOOSE US</span>
                                 </div>
+
                                 <h2 className="font-montserrat font-bold text-4xl text-gray-900 mb-6">
                                     Professional Quality, Smart Technology
                                 </h2>
+
                                 <p className="text-gray-600 text-lg mb-8">
                                     With over a decade of experience in holiday and permanent lighting, we deliver stunning results with the latest smart home technology.
                                 </p>
@@ -261,26 +265,54 @@ const PermanentLightingPage = () => {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
-                                <div className="space-y-4">
-                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
-                                        <div className="text-3xl font-bold text-emerald-600 mb-1">50K+</div>
-                                        <div className="text-sm text-gray-600">Hour LED Life</div>
-                                    </div>
-                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
-                                        <div className="text-3xl font-bold text-emerald-600 mb-1">16M</div>
-                                        <div className="text-sm text-gray-600">Colors Available</div>
-                                    </div>
+                            {/* Right Column - Image Gallery */}
+                            <div className="relative">
+                                {/* Main Image */}
+                                <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+                                    <Image
+                                        src="/images/gallery14.jpg"
+                                        alt="Professional smart lighting installation"
+                                        width={600}
+                                        height={400}
+                                        className="w-full h-[400px] object-cover"
+                                        unoptimized
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
                                 </div>
-                                <div className="space-y-4 mt-8">
-                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
-                                        <div className="text-3xl font-bold text-emerald-600 mb-1">100+</div>
-                                        <div className="text-sm text-gray-600">Preset Scenes</div>
-                                    </div>
-                                    <div className="bg-gray-100 p-6 rounded-xl shadow-sm text-center">
-                                        <div className="text-3xl font-bold text-emerald-600 mb-1">5 Yr</div>
-                                        <div className="text-sm text-gray-600">Warranty</div>
-                                    </div>
+
+                                {/* Overlapping Image Cards */}
+                                <div className="absolute -bottom-8 -left-8 w-48 h-48 rounded-2xl overflow-hidden shadow-xl border-4 border-white">
+                                    <Image
+                                        src="/images/gallery10.jpg"
+                                        alt="Smart home lighting control"
+                                        width={200}
+                                        height={200}
+                                        className="w-full h-full object-cover"
+                                        unoptimized
+                                    />
+                                </div>
+
+                                <div className="absolute -top-8 -right-8 w-40 h-40 rounded-2xl overflow-hidden shadow-xl border-4 border-white">
+                                    <Image
+                                        src="/images/gallery9.jpg"
+                                        alt="Weatherproof LED lighting"
+                                        width={160}
+                                        height={160}
+                                        className="w-full h-full object-cover"
+                                        unoptimized
+                                    />
+                                </div>
+
+                                {/* Decorative Elements */}
+                                <div className="absolute top-1/2 -right-12 w-24 h-24 bg-emerald-200/30 rounded-full blur-2xl"></div>
+                                <div className="absolute bottom-1/4 -left-12 w-32 h-32 bg-amber-200/30 rounded-full blur-2xl"></div>
+
+                                {/* Sparkle Icons */}
+                                <div className="absolute top-10 right-10 text-white">
+                                    <GiSparkles className="w-6 h-6 animate-pulse" />
+                                </div>
+                                <div className="absolute bottom-20 left-20 text-white">
+                                    <HiOutlineSparkles className="w-4 h-4 animate-pulse animation-delay-200" />
                                 </div>
                             </div>
                         </div>

@@ -61,14 +61,7 @@ const ChristmasLightingSection = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
                 </div>
 
-                {/* Badge */}
-                <div className="absolute top-4 left-4 z-10">
-                  <div className="bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
-                    <span className="text-sm font-semibold bg-gradient-to-r from-rose-600 to-amber-600 bg-clip-text text-transparent">
-                      {hero.imageBadge}
-                    </span>
-                  </div>
-                </div>
+                
 
                 {/* Decorative elements */}
                 <div className="absolute -bottom-3 -right-3 w-20 h-20 bg-amber-400/20 rounded-full blur-2xl" />

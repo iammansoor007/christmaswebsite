@@ -11,6 +11,7 @@ import {
 import { GiSparkles } from 'react-icons/gi';
 import { HiOutlineSparkles } from 'react-icons/hi';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const Hero = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -18,8 +19,11 @@ const Hero = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [scrollProgress, setScrollProgress] = useState(0);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [treesReady, setTreesReady] = useState(false);
   const heroRef = useRef(null);
   const containerRef = useRef(null);
+  const leftTreeRef = useRef(null);
+  const rightTreeRef = useRef(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -45,31 +49,88 @@ const Hero = () => {
       }
     };
 
-    const handleScroll = () => {
-      if (heroRef.current) {
-        const rect = heroRef.current.getBoundingClientRect();
-        const progress = Math.max(0, Math.min(1, -rect.top / (rect.height * 0.5)));
-        setScrollProgress(progress);
-      }
-    };
-
     window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('scroll', handleScroll);
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
+  // Check when trees are ready
   useEffect(() => {
-    if (data?.hero?.features) {
-      const interval = setInterval(() => {
-        setActiveIndex((prev) => (prev + 1) % data.hero.features.length);
-      }, 3000);
-      return () => clearInterval(interval);
+    const checkTrees = () => {
+      if (leftTreeRef.current && rightTreeRef.current) {
+        console.log('Trees are ready!');
+        setTreesReady(true);
+      } else {
+        console.log('Trees not ready yet, checking again...');
+        setTimeout(checkTrees, 100);
+      }
+    };
+
+    checkTrees();
+  }, []);
+
+  // Working scroll animation for trees - with reduced intensity
+  useEffect(() => {
+    if (!treesReady) {
+      console.log('Waiting for trees to be ready...');
+      return;
     }
-  }, [data]);
+
+    console.log('Tree refs found, setting up scroll animation');
+
+    const handleScroll = () => {
+      if (!heroRef.current || !leftTreeRef.current || !rightTreeRef.current) return;
+
+      // Get the hero section's position
+      const rect = heroRef.current.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // Calculate progress (0 to 1) as we scroll through the hero section
+      const progress = Math.max(0, Math.min(1, -rect.top / (windowHeight * 0.8)));
+
+      // REDUCED INTENSITY - 50% of original
+      // Original was scale from 1 to 0.3 (70% reduction)
+      // Now scale from 1 to 0.65 (35% reduction - half of original)
+      const scale = 1 - (progress * 0.35); // Scale from 1 to 0.65
+
+      // Original horizontal movement was -50px to +50px
+      // Now reduced to -25px to +25px
+      const leftX = -25 * progress; // Move left tree left (reduced from 50 to 25)
+      const rightX = 25 * progress; // Move right tree right (reduced from 50 to 25)
+
+      // Original opacity fade was from 1 to 0.7 (30% fade)
+      // Now reduced to 1 to 0.85 (15% fade - half of original)
+      const opacity = 1 - (progress * 0.15); // Slightly fade
+
+      // Apply transforms to left tree
+      if (leftTreeRef.current) {
+        leftTreeRef.current.style.transform = `scale(${scale}) translateX(${leftX}px)`;
+        leftTreeRef.current.style.opacity = opacity;
+      }
+
+      // Apply transforms to right tree
+      if (rightTreeRef.current) {
+        rightTreeRef.current.style.transform = `scale(${scale}) translateX(${rightX}px)`;
+        rightTreeRef.current.style.opacity = opacity;
+      }
+
+      // Update scroll progress state if needed elsewhere
+      setScrollProgress(progress);
+    };
+
+    // Add scroll event listener
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // Call once to set initial state
+    handleScroll();
+
+    // Cleanup
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [treesReady]);
 
   const handleCallClick = () => {
     const section = document.getElementById("freequote");
@@ -110,7 +171,7 @@ const Hero = () => {
         />
         <div className="absolute inset-0 bg-gradient-to-br from-[#0a0f1e]/80 via-transparent to-[#0a0f1e]/80"></div>
 
-        {/* Background Image - exactly as requested */}
+        {/* Background Image */}
         <div
           className="absolute inset-0 transition-transform duration-200 ease-out"
           style={{
@@ -133,28 +194,67 @@ const Hero = () => {
           }}></div>
         </div>
 
-        {/* Dynamic light streaks - hidden on very small screens */}
+        {/* Dynamic light streaks */}
         <div className="absolute inset-0 overflow-hidden hidden sm:block">
           <div className="absolute top-0 left-1/4 w-0.5 h-full bg-gradient-to-b from-transparent via-yellow-400/20 to-transparent animate-scan"></div>
           <div className="absolute top-0 right-1/4 w-0.5 h-full bg-gradient-to-b from-transparent via-red-400/20 to-transparent animate-scan animation-delay-2000"></div>
         </div>
-
-        {/* Scroll-based overlay */}
-        <div
-          className="absolute inset-0 bg-gradient-to-t from-transparent via-transparent to-black/50 transition-opacity duration-300"
-          style={{ opacity: scrollProgress }}
-        ></div>
       </div>
 
-      {/* Main Content - Perfectly Centered */}
+      {/* Christmas Trees - Bottom Corners */}
+      <div className="absolute bottom-0 left-0 z-40 pointer-events-none">
+        <div
+          ref={leftTreeRef}
+          className="will-change-transform"
+          style={{
+            transformOrigin: 'bottom left',
+            transform: 'scale(1) translateX(0px)',
+            opacity: 1,
+            transition: 'transform 0.1s ease-out, opacity 0.1s ease-out'
+          }}
+        >
+          <Image
+            src="/images/leftbottom.png"
+            alt="Christmas tree left"
+            width={200}
+            height={300}
+            className="w-auto h-auto max-h-[300px] sm:max-h-[350px] md:max-h-[450px] lg:max-h-[600px] object-contain"
+            priority
+          />
+        </div>
+      </div>
+
+      <div className="absolute bottom-0 right-0 z-40 pointer-events-none">
+        <div
+          ref={rightTreeRef}
+          className="will-change-transform"
+          style={{
+            transformOrigin: 'bottom right',
+            transform: 'scale(1) translateX(0px)',
+            opacity: 1,
+            transition: 'transform 0.1s ease-out, opacity 0.1s ease-out'
+          }}
+        >
+          <Image
+            src="/images/rightbottom.png"
+            alt="Christmas tree right"
+            width={200}
+            height={300}
+            className="w-auto h-auto max-h-[300px] sm:max-h-[350px] md:max-h-[450px] lg:max-h-[600px] object-contain"
+            priority
+          />
+        </div>
+      </div>
+
+      {/* Main Content */}
       <div
         ref={containerRef}
         className="container heroooo relative z-30 max-w-7xl mx-auto px-3 sm:px-4"
       >
         <div className="flex flex-col textdiv items-center justify-center text-center">
 
-          {/* Main Title with increased font size on mobile */}
-          <h1 className=" font-montserrat font-extrabold text-5xl xs:text-6xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 sm:mb-6 tracking-tight">
+          {/* Main Title */}
+          <h1 className="font-montserrat font-extrabold text-5xl xs:text-6xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-4 sm:mb-6 tracking-tight">
             <span className="block text-white/90 mb-1 sm:mb-2 animate-title-slide-up">
               {hero.title?.part1}
             </span>
@@ -162,7 +262,7 @@ const Hero = () => {
               <span className="relative inline-block">
                 <span className="relative z-10 bg-gradient-to-r from-yellow-300 via-red-300 to-yellow-300 bg-clip-text text-transparent bg-[length:200%_200%] animate-gradient-x">
                   {hero.title?.part2}
-                </span> < br />
+                </span> <br />
                 <span className="relative z-10 bg-gradient-to-r from-yellow-300 via-red-300 to-yellow-300 bg-clip-text text-transparent bg-[length:200%_200%] animate-gradient-x">
                   {hero.title?.part3}
                 </span>
@@ -172,7 +272,7 @@ const Hero = () => {
             </span>
           </h1>
 
-          {/* Subtitle - adjusted for mobile */}
+          {/* Subtitle */}
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/80 mb-6 sm:mb-8 md:mb-10 max-w-3xl mx-auto leading-relaxed px-2 sm:px-4 animate-fade-up animation-delay-400 group">
             <span className="relative inline-block">
               {hero.subtitle}
@@ -180,6 +280,7 @@ const Hero = () => {
             </span>
           </p>
 
+<<<<<<< HEAD
 
 
           {/* CTA Buttons */}
@@ -207,10 +308,28 @@ const Hero = () => {
               </Link>
             )}
           </div>
+=======
+          {/* CTA Button */}
+          {hero.cta && (
+            <div className="animate-fade-up animation-delay-800 w-full px-3 sm:px-0">
+              <button
+                onClick={handleCallClick}
+                className="relative overflow-hidden group inline-flex items-center justify-center px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-gradient-to-r from-yellow-500 to-red-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg w-auto min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
+              >
+                <span className="relative z-10 flex items-center justify-center gap-1.5 sm:gap-2">
+                  <HiOutlineSparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
+                  <span>{hero.cta.subtext || "Get My Free Quote"}</span>
+                  <FaArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
+              </button>
+            </div>
+          )}
+>>>>>>> 29c46175585fede196320bf7839b1c090d858e51
         </div>
       </div>
 
-      {/* Floating particles - fewer on mobile */}
+      {/* Floating particles */}
       <div className="absolute inset-0 pointer-events-none">
         {[...Array(typeof window !== 'undefined' && window.innerWidth < 640 ? 8 : 20)].map((_, i) => (
           <div
@@ -323,79 +442,27 @@ const Hero = () => {
           animation-delay: 4000ms;
         }
 
-        /* Custom breakpoint for extra small devices */
+        .will-change-transform {
+          will-change: transform, opacity;
+        }
+
         @media (min-width: 400px) {
           .xs\\:text-5xl {
             font-size: 3rem;
             line-height: 1.1;
           }
-          .xs\\:grid-cols-2 {
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-          }
         }
 
-        /* Mobile styles - increased heading size */
         @media (max-width: 639px) {
           h1 {
             font-size: 2.5rem !important;
             line-height: 1.1 !important;
           }
-          
-          .text-4xl {
-            font-size: 2.25rem !important;
-          }
-          
-          .gap-2 {
-            gap: 0.35rem !important;
-          }
-          
-          .px-3 {
-            padding-left: 0.5rem !important;
-            padding-right: 0.5rem !important;
-          }
         }
 
-        /* Small phones */
         @media (max-width: 380px) {
           h1 {
             font-size: 2rem !important;
-          }
-          
-          .text-4xl {
-            font-size: 1.875rem !important;
-          }
-          
-          .text-base {
-            font-size: 0.875rem !important;
-          }
-          
-          .gap-1 {
-            gap: 0.2rem !important;
-          }
-          
-          .px-2 {
-            padding-left: 0.375rem !important;
-            padding-right: 0.375rem !important;
-          }
-        }
-
-        /* Tablet styles */
-        @media (min-width: 640px) and (max-width: 1024px) {
-          h1 {
-            font-size: 3.5rem !important;
-          }
-        }
-
-        @media (hover: none) {
-          .group-hover\\:scale-105,
-          .group-hover\\:scale-110 {
-            transform: none !important;
-          }
-          .group-hover\\:translate-x-1 {
-            transform: none !important;
-          }
-          .group-hover\\:w-full {
-            width: 0 !important;
           }
         }
 
