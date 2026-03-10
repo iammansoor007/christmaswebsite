@@ -1,13 +1,9 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import installation from '../../public/images/installationmain.jpg';
 import FAQ from '../components/FAQSection';
 import CallToAction from '../components/CallToAction'
 import ChristmasLightingMap from '../components/ChristmasLightingMap';
-import hero from '../../public/images/hero-background.jpg';
-import enjoy from '../../public/images/enjoy.jpg';
 import {
   FaCheckCircle,
   FaArrowRight,
