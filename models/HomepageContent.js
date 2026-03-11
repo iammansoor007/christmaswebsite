@@ -49,6 +49,12 @@ const HomepageContentSchema = new mongoose.Schema({
         address: String,
         hours: String,
     },
+    workShowcase: {
+        badge: String,
+        title: { prefix: String, main: String },
+        description: String,
+        cta: String,
+    },
     // About page specific content
     aboutPage: {
         badge: String,

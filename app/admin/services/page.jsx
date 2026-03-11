@@ -36,7 +36,7 @@ export default function ServicesPage() {
         if (!confirm(`Delete "${title}"? This cannot be undone.`)) return;
         setDeleting(id);
         try {
-            const res = await fetch(`/api/services/${id}`, { method: 'DELETE' });
+            const res = await fetch(`/api/services/${id}`, { method: 'DELETE', credentials: 'include' });
             if (!res.ok) throw new Error();
             toast.success('Service deleted');
             fetchServices();
@@ -53,6 +53,7 @@ export default function ServicesPage() {
             const res = await fetch(`/api/services/${svc._id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
                 body: JSON.stringify({ status: newStatus }),
             });
             if (!res.ok) throw new Error();

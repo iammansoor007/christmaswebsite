@@ -7,25 +7,32 @@ const RefinedWorkShowcase = () => {
   const containerRef = useRef(null);
   const [starPositions, setStarPositions] = useState([]);
   const [data, setData] = useState(null);
-  const [images, setImages] = useState([]);
+  const [marqueeItems, setMarqueeItems] = useState([]);
 
   // Load data
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [homeRes, galleryRes] = await Promise.all([
+        const [homeRes, recentRes, galleryRes] = await Promise.all([
           fetch("/api/homepage"),
-          fetch("/api/gallery?limit=14")
+          fetch("/api/recent-work?limit=24&status=active"),
+          fetch("/api/gallery?limit=24&status=active")
         ]);
         const homeD = await homeRes.json();
+        const recentD = await recentRes.json();
         const galleryD = await galleryRes.json();
         setData(homeD.content);
-        if (galleryD.items?.length > 0) {
-          setImages(galleryD.items.map(i => i.imageUrl));
+        if (recentD.items?.length > 0) {
+          setMarqueeItems(recentD.items.map(i => ({ src: i.image, title: i.title || "Recent work" })));
+        } else if (galleryD.items?.length > 0) {
+          setMarqueeItems(galleryD.items.map(i => ({ src: i.image, title: i.title || "Gallery image" })));
         } else {
-          // Fallback if gallery is empty
-          setImages([
-            "/images/gallery1.jpg", "/images/gallery2.jpg", "/images/gallery3.jpg", "/images/gallery4.jpg"
+          // Fallback if gallery and recent work are empty
+          setMarqueeItems([
+            { src: "/images/gallery1.jpg", title: "Gallery" },
+            { src: "/images/gallery2.jpg", title: "Gallery" },
+            { src: "/images/gallery3.jpg", title: "Gallery" },
+            { src: "/images/gallery4.jpg", title: "Gallery" }
           ]);
         }
       } catch (error) {
@@ -37,7 +44,7 @@ const RefinedWorkShowcase = () => {
   }, []);
 
   // For infinite scroll, duplicate images multiple times
-  const duplicatedImages = [...images, ...images, ...images, ...images];
+  const duplicatedItems = [...marqueeItems, ...marqueeItems, ...marqueeItems, ...marqueeItems];
 
   // Generate star positions on client side only
   useEffect(() => {
@@ -64,8 +71,13 @@ const RefinedWorkShowcase = () => {
 
   const { workShowcase } = data || {};
   const { badge, title, description, cta } = workShowcase || {};
-
-  if (!workShowcase || !title) return null;
+  const safeTitle = {
+    prefix: title?.prefix || "Our Holiday",
+    main: title?.main || "Masterpieces",
+  };
+  const safeBadge = badge || "Featured Installations";
+  const safeDescription = description || "Professional Christmas lighting installations that transform ordinary homes into magical holiday destinations";
+  const safeCta = cta || "View Our Portfolio";
 
   return (
     <section className="relative w-full min-h-[600px] sm:min-h-screen bg-gradient-to-b from-dark-navy via-dark-navy/95 to-dark-navy overflow-hidden">
@@ -119,7 +131,7 @@ const RefinedWorkShowcase = () => {
               },
             }}
           >
-            {duplicatedImages.map((src, index) => (
+            {duplicatedItems.map((item, index) => (
               <div
                 key={`top-${index}`}
                 className="relative flex-shrink-0 w-[80vw] sm:w-[60vw] md:w-[45vw] lg:w-[35vw] xl:w-[28vw] h-full px-1 sm:px-2 group"
@@ -127,8 +139,8 @@ const RefinedWorkShowcase = () => {
                 <div className="relative w-full h-full overflow-hidden cursor-pointer rounded-lg sm:rounded-xl shadow-lg sm:shadow-xl transition-all duration-500 hover:scale-[1.02]">
                   {/* HIGH QUALITY IMAGES with Better Clarity */}
                   <img
-                    src={src}
-                    alt={`Christmas Installation ${index + 1}`}
+                    src={item.src}
+                    alt={item.title || `Recent Work ${index + 1}`}
                     className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 brightness-100 group-hover:brightness-125 saturate-125 group-hover:saturate-200 contrast-105 group-hover:contrast-125"
                     loading="lazy"
                     onError={(e) => {
@@ -166,7 +178,7 @@ const RefinedWorkShowcase = () => {
               },
             }}
           >
-            {duplicatedImages.map((src, index) => (
+            {duplicatedItems.map((item, index) => (
               <div
                 key={`bottom-${index}`}
                 className="relative flex-shrink-0 w-[80vw] sm:w-[60vw] md:w-[45vw] lg:w-[35vw] xl:w-[28vw] h-full px-1 sm:px-2 group"
@@ -174,8 +186,8 @@ const RefinedWorkShowcase = () => {
                 <div className="relative w-full h-full overflow-hidden cursor-pointer rounded-lg sm:rounded-xl shadow-lg sm:shadow-xl transition-all duration-500 hover:scale-[1.02]">
                   {/* HIGH QUALITY IMAGES with Better Clarity */}
                   <img
-                    src={src}
-                    alt={`Christmas Installation ${index + 15}`}
+                    src={item.src}
+                    alt={item.title || `Recent Work ${index + 15}`}
                     className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 brightness-100 group-hover:brightness-125 saturate-125 group-hover:saturate-200 contrast-105 group-hover:contrast-125"
                     loading="lazy"
                     onError={(e) => {
@@ -213,7 +225,7 @@ const RefinedWorkShowcase = () => {
           >
             <div className="w-2 h-2 sm:w-1.5 sm:h-1.5 rounded-full bg-gradient-to-r from-holiday-red to-holiday-gold animate-pulse" />
             <span className="text-sm sm:text-xs font-semibold text-white uppercase tracking-[0.15em] sm:tracking-[0.2em]">
-              {badge}
+              {safeBadge}
             </span>
             <div className="w-2 h-2 sm:w-1.5 sm:h-1.5 rounded-full bg-gradient-to-r from-holiday-gold to-holiday-red animate-pulse" />
           </motion.div>
@@ -226,12 +238,12 @@ const RefinedWorkShowcase = () => {
             className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-montserrat font-extrabold text-white mb-4 sm:mb-6 leading-tight"
           >
             <span className="block tracking-tight font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl">
-              {title.prefix}
+              {safeTitle.prefix}
             </span>
             <span className="block mt-2 sm:mt-2">
               <span className="relative">
                 <span className="relative z-10 bg-gradient-to-r from-holiday-gold via-holiday-gold to-holiday-red bg-clip-text text-transparent">
-                  {title.main}
+                  {safeTitle.main}
                 </span>
                 <svg
                   className="absolute -bottom-2 sm:-bottom-3 left-0 w-full h-3 sm:h-4 text-holiday-gold/30"
@@ -255,7 +267,7 @@ const RefinedWorkShowcase = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-gray-100 font-montserrat text-lg sm:text-base md:text-lg max-w-sm sm:max-w-xl mx-auto mb-8 sm:mb-12 leading-relaxed font-light px-2"
           >
-            {description}
+            {safeDescription}
           </motion.p>
 
           {/* FIXED CTA Button - No longer takes full width on mobile */}
@@ -271,7 +283,7 @@ const RefinedWorkShowcase = () => {
                 className="relative px-6 sm:px-8 md:px-12 py-3 sm:py-4 md:py-5 bg-gradient-to-r from-holiday-red via-holiday-red to-holiday-gold text-white font-bold rounded-xl hover:rounded-2xl transition-all duration-300 hover:shadow-xl sm:hover:shadow-2xl hover:shadow-holiday-red/30 transform hover:-translate-y-0.5 sm:hover:-translate-y-1 text-base sm:text-base md:text-xl w-full sm:w-auto min-w-[280px] sm:min-w-0"
               >
                 <span className="flex items-center justify-center gap-2 sm:gap-3">
-                  <span>{cta}</span>
+                  <span>{safeCta}</span>
                   <svg
                     className="w-5 h-5 sm:w-6 sm:h-6 transform group-hover:translate-x-2 transition-transform duration-300"
                     fill="none"

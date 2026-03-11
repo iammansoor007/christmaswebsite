@@ -1,0 +1,36 @@
+
+> my-next-app@0.1.0 dev
+> set NEXT_DISABLE_TURBOPACK=1&& next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://172.16.19.109:3000
+- Environments: .env.local, .env
+- Experiments (use with caution):
+  · serverActions
+
+✓ Starting...
+Creating turbopack project {
+  dir: 'C:\\Users\\dell\\Desktop\\christmaswebsite-supabase',
+  testMode: true
+}
+✓ Ready in 1475ms
+○ Compiling / ...
+ GET / 500 in 6.5s (compile: 6.1s, render: 401ms)
+ GET / 500 in 69ms (compile: 49ms, render: 20ms)
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://172.16.19.109:3000
+- Environments: .env.local, .env
+- Experiments (use with caution):
+  · serverActions
+
+✓ Starting...
+Creating turbopack project {
+  dir: 'C:\\Users\\dell\\Desktop\\christmaswebsite-supabase',
+  testMode: true
+}
+✓ Ready in 2s
+○ Compiling / ...
+ GET / 500 in 3.9s (compile: 3.5s, render: 323ms)
+ GET / 500 in 293ms (compile: 267ms, render: 26ms)

@@ -7,6 +7,7 @@ const statCards = [
     { label: 'Services', icon: '⚡', href: '/admin/services', color: 'from-blue-600 to-blue-400', api: '/api/services?limit=1' },
     { label: 'Testimonials', icon: '⭐', href: '/admin/testimonials', color: 'from-amber-600 to-amber-400', api: '/api/testimonials?limit=1' },
     { label: 'Gallery Items', icon: '🖼️', href: '/admin/gallery', color: 'from-emerald-600 to-emerald-400', api: '/api/gallery?limit=1' },
+    { label: 'Recent Work', icon: '🖼️', href: '/admin/recent-work', color: 'from-purple-600 to-purple-400', api: '/api/recent-work?limit=1' },
 ];
 
 const quickLinks = [
@@ -14,6 +15,7 @@ const quickLinks = [
     { label: 'Edit Homepage', href: '/admin/homepage', icon: '✏️' },
     { label: 'Add Testimonial', href: '/admin/testimonials', icon: '⭐' },
     { label: 'Upload to Gallery', href: '/admin/gallery', icon: '🖼️' },
+    { label: 'Recent Work', href: '/admin/recent-work', icon: '🖼️' },
     { label: 'Site Settings', href: '/admin/settings', icon: '⚙️' },
     { label: 'View Live Site', href: '/', icon: '🔗', external: true },
 ];
@@ -122,3 +124,4 @@ export default function DashboardHome() {
         </div>
     );
 }
+

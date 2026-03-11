@@ -25,3 +25,897 @@ Import traces:
     ./app/layout.js [Server Component]
 
 
+⨯ ./app/components/Navbar.jsx:314:30
+Parsing ecmascript source code failed
+[0m [90m 312 |[39m                                 )}
+ [90m 313 |[39m                               [33m<[39m[33m/[39m[33mLink[39m[33m>[39m
+[31m[1m>[22m[39m[90m 314 |[39m                             ))}
+ [90m     |[39m                              [31m[1m^[22m[39m
+ [90m 315 |[39m                           [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 316 |[39m
+ [90m 317 |[39m                           [33m<[39m[33mdiv[39m className[33m=[39m[32m"relative p-3 bg-gradient-to-r from-holiday-red/10 to-holiday-gold/10 border-t border-holiday-gold/20"[39m[33m>[39m[0m
+
+Expected '</', got ')'
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Navbar.jsx [Client Component Browser]
+    ./app/ClientLayout.js [Client Component Browser]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Navbar.jsx [Client Component SSR]
+    ./app/ClientLayout.js [Client Component SSR]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+
+⚠ Found a change in next.config.mjs. Restarting the server to apply the changes...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+⨯ ./app/components/ChristmasLightingServices.jsx:252:2
+Parsing ecmascript source code failed
+[0m [90m 250 |[39m                             transition[33m=[39m{{ duration[33m:[39m [35m0.5[39m }}
+ [90m 251 |[39m                           [33m>[39m
+[31m[1m>[22m[39m[90m 252 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m  [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 253 |[39m                             {(() [33m=>[39m {
+ [90m 254 |[39m                               [36mconst[39m [33mIcon[39m [33m=[39m [33mFaIcons[39m[service[33m.[39micon] [33m||[39m [33mFaIcons[39m[33m.[39m[33mFaStar[39m[33m;[39m
+ [90m 255 |[39m                               [36mreturn[39m [33m<[39m[33mIcon[39m [33m/[39m[33m>[39m[33m;[39m[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/ChristmasLightingServices.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/ChristmasLightingServices.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/ChristmasLightingServices.jsx:252:4
+Parsing ecmascript source code failed
+[0m [90m 250 |[39m                             transition[33m=[39m{{ duration[33m:[39m [35m0.5[39m }}
+ [90m 251 |[39m                           [33m>[39m
+[31m[1m>[22m[39m[90m 252 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m    [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 253 |[39m                             {(() [33m=>[39m {
+ [90m 254 |[39m                               [36mconst[39m [33mIcon[39m [33m=[39m [33mFaIcons[39m[service[33m.[39micon] [33m||[39m [33mFaIcons[39m[33m.[39m[33mFaStar[39m[33m;[39m
+ [90m 255 |[39m                               [36mreturn[39m [33m<[39m[33mIcon[39m [33m/[39m[33m>[39m[33m;[39m[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/ChristmasLightingServices.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/ChristmasLightingServices.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/ChristmasLightingServices.jsx:252:6
+Parsing ecmascript source code failed
+[0m [90m 250 |[39m                             transition[33m=[39m{{ duration[33m:[39m [35m0.5[39m }}
+ [90m 251 |[39m                           [33m>[39m
+[31m[1m>[22m[39m[90m 252 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m      [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 253 |[39m                             {(() [33m=>[39m {
+ [90m 254 |[39m                               [36mconst[39m [33mIcon[39m [33m=[39m [33mFaIcons[39m[service[33m.[39micon] [33m||[39m [33mFaIcons[39m[33m.[39m[33mFaStar[39m[33m;[39m
+ [90m 255 |[39m                               [36mreturn[39m [33m<[39m[33mIcon[39m [33m/[39m[33m>[39m[33m;[39m[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/ChristmasLightingServices.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/ChristmasLightingServices.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Footer.jsx:136:2
+Parsing ecmascript source code failed
+[0m [90m 134 |[39m       {[90m/* Main Container - Responsive padding from 300px up */[39m}
+ [90m 135 |[39m       [33m<[39m[33mdiv[39m className[33m=[39m[32m"w-full mx-auto px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 lg:px-12 lg:py-16 xl:px-16 2xl:px-20 relative z-10"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 136 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m  [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 137 |[39m         {[90m/* Main Footer Content */[39m}
+ [90m 138 |[39m         [33m<[39m[33mdiv[39m className[33m=[39m[32m"flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 mb-8 lg:mb-16"[39m[33m>[39m
+ [90m 139 |[39m           {[90m/* Brand & Contact Column - Full width on mobile */[39m}[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Footer.jsx [Client Component Browser]
+    ./app/ClientLayout.js [Client Component Browser]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Footer.jsx [Client Component SSR]
+    ./app/ClientLayout.js [Client Component SSR]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+
+
+./app/components/Footer.jsx:136:4
+Parsing ecmascript source code failed
+[0m [90m 134 |[39m       {[90m/* Main Container - Responsive padding from 300px up */[39m}
+ [90m 135 |[39m       [33m<[39m[33mdiv[39m className[33m=[39m[32m"w-full mx-auto px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 lg:px-12 lg:py-16 xl:px-16 2xl:px-20 relative z-10"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 136 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m    [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 137 |[39m         {[90m/* Main Footer Content */[39m}
+ [90m 138 |[39m         [33m<[39m[33mdiv[39m className[33m=[39m[32m"flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 mb-8 lg:mb-16"[39m[33m>[39m
+ [90m 139 |[39m           {[90m/* Brand & Contact Column - Full width on mobile */[39m}[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Footer.jsx [Client Component Browser]
+    ./app/ClientLayout.js [Client Component Browser]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Footer.jsx [Client Component SSR]
+    ./app/ClientLayout.js [Client Component SSR]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+
+
+./app/components/Footer.jsx:136:6
+Parsing ecmascript source code failed
+[0m [90m 134 |[39m       {[90m/* Main Container - Responsive padding from 300px up */[39m}
+ [90m 135 |[39m       [33m<[39m[33mdiv[39m className[33m=[39m[32m"w-full mx-auto px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 lg:px-12 lg:py-16 xl:px-16 2xl:px-20 relative z-10"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 136 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m      [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 137 |[39m         {[90m/* Main Footer Content */[39m}
+ [90m 138 |[39m         [33m<[39m[33mdiv[39m className[33m=[39m[32m"flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 mb-8 lg:mb-16"[39m[33m>[39m
+ [90m 139 |[39m           {[90m/* Brand & Contact Column - Full width on mobile */[39m}[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Footer.jsx [Client Component Browser]
+    ./app/ClientLayout.js [Client Component Browser]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Footer.jsx [Client Component SSR]
+    ./app/ClientLayout.js [Client Component SSR]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+
+
+./app/components/Hero.jsx:283:2
+Parsing ecmascript source code failed
+[0m [90m 281 |[39m           [33m<[39m[33m/[39m[33mp[39m[33m>[39m
+ [90m 282 |[39m
+[31m[1m>[22m[39m[90m 283 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m  [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 284 |[39m
+ [90m 285 |[39m
+ [90m 286 |[39m           {[90m/* CTA Buttons */[39m}[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Hero.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Hero.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Hero.jsx:283:4
+Parsing ecmascript source code failed
+[0m [90m 281 |[39m           [33m<[39m[33m/[39m[33mp[39m[33m>[39m
+ [90m 282 |[39m
+[31m[1m>[22m[39m[90m 283 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m    [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 284 |[39m
+ [90m 285 |[39m
+ [90m 286 |[39m           {[90m/* CTA Buttons */[39m}[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Hero.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Hero.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Hero.jsx:283:6
+Parsing ecmascript source code failed
+[0m [90m 281 |[39m           [33m<[39m[33m/[39m[33mp[39m[33m>[39m
+ [90m 282 |[39m
+[31m[1m>[22m[39m[90m 283 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m      [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 284 |[39m
+ [90m 285 |[39m
+ [90m 286 |[39m           {[90m/* CTA Buttons */[39m}[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Hero.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Hero.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Hero.jsx:328:1
+Parsing ecmascript source code failed
+[0m [90m 326 |[39m             [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 327 |[39m           )}
+[31m[1m>[22m[39m[90m 328 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m29[39mc46175585fede196320bf7839b1c090d858e51
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+[31m[1m>[22m[39m[90m 329 |[39m         [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 330 |[39m       [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 331 |[39m
+ [90m 332 |[39m       {[90m/* Floating particles */[39m}[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Hero.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Hero.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Hero.jsx:311:1
+Parsing ecmascript source code failed
+[0m [90m 309 |[39m             )}
+ [90m 310 |[39m           [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+[31m[1m>[22m[39m[90m 311 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 312 |[39m           {[90m/* CTA Button */[39m}
+ [90m 313 |[39m           {hero[33m.[39mcta [33m&&[39m (
+ [90m 314 |[39m             [33m<[39m[33mdiv[39m className[33m=[39m[32m"animate-fade-up animation-delay-800 w-full px-3 sm:px-0"[39m[33m>[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Hero.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Hero.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Hero.jsx:328:1
+Parsing ecmascript source code failed
+[0m [90m 326 |[39m             [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 327 |[39m           )}
+[31m[1m>[22m[39m[90m 328 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m29[39mc46175585fede196320bf7839b1c090d858e51
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 329 |[39m         [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 330 |[39m       [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 331 |[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Hero.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Hero.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Hero.jsx:329:10
+Parsing ecmascript source code failed
+[0m [90m 327 |[39m           )}
+ [90m 328 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m29[39mc46175585fede196320bf7839b1c090d858e51
+[31m[1m>[22m[39m[90m 329 |[39m         [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m     |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 330 |[39m       [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 331 |[39m
+ [90m 332 |[39m       {[90m/* Floating particles */[39m}[0m
+
+Unterminated regexp literal
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Hero.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Hero.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Navbar.jsx:9:1
+Parsing ecmascript source code failed
+[0m [90m  7 |[39m
+ [90m  8 |[39m [36mconst[39m [33mNavbar[39m [33m=[39m () [33m=>[39m {
+[31m[1m>[22m[39m[90m  9 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 10 |[39m   [36mconst[39m [isOpen[33m,[39m setIsOpen] [33m=[39m useState([36mfalse[39m)
+ [90m 11 |[39m   [36mconst[39m [scrolled[33m,[39m setScrolled] [33m=[39m useState([36mfalse[39m)
+ [90m 12 |[39m   [36mconst[39m [settings[33m,[39m setSettings] [33m=[39m useState([36mnull[39m)[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Navbar.jsx [Client Component Browser]
+    ./app/ClientLayout.js [Client Component Browser]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Navbar.jsx [Client Component SSR]
+    ./app/ClientLayout.js [Client Component SSR]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+
+
+./app/components/Navbar.jsx:15:1
+Parsing ecmascript source code failed
+[0m [90m 13 |[39m   [36mconst[39m pathname [33m=[39m usePathname()
+ [90m 14 |[39m   [36mconst[39m navbarRef [33m=[39m useRef([36mnull[39m)
+[31m[1m>[22m[39m[90m 15 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 16 |[39m   [36mconst[39m [isOpen[33m,[39m setIsOpen] [33m=[39m useState([36mfalse[39m)[33m;[39m
+ [90m 17 |[39m   [36mconst[39m [scrolled[33m,[39m setScrolled] [33m=[39m useState([36mfalse[39m)[33m;[39m
+ [90m 18 |[39m   [36mconst[39m [servicesDropdownOpen[33m,[39m setServicesDropdownOpen] [33m=[39m useState([36mfalse[39m)[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Navbar.jsx [Client Component Browser]
+    ./app/ClientLayout.js [Client Component Browser]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Navbar.jsx [Client Component SSR]
+    ./app/ClientLayout.js [Client Component SSR]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+
+
+./app/components/Navbar.jsx:24:1
+Parsing ecmascript source code failed
+[0m [90m 22 |[39m   [36mconst[39m dropdownRef [33m=[39m useRef([36mnull[39m)[33m;[39m
+ [90m 23 |[39m   [36mconst[39m timeoutRef [33m=[39m useRef([36mnull[39m)[33m;[39m
+[31m[1m>[22m[39m[90m 24 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m29[39mc46175585fede196320bf7839b1c090d858e51
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 25 |[39m
+ [90m 26 |[39m   useEffect(() [33m=>[39m {
+ [90m 27 |[39m     fetch([32m'/api/settings'[39m)[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Navbar.jsx [Client Component Browser]
+    ./app/ClientLayout.js [Client Component Browser]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Navbar.jsx [Client Component SSR]
+    ./app/ClientLayout.js [Client Component SSR]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+
+⨯ ./app/components/ChristmasLightingServices.jsx:252:2
+Parsing ecmascript source code failed
+[0m [90m 250 |[39m                             transition[33m=[39m{{ duration[33m:[39m [35m0.5[39m }}
+ [90m 251 |[39m                           [33m>[39m
+[31m[1m>[22m[39m[90m 252 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m  [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 253 |[39m                             {(() [33m=>[39m {
+ [90m 254 |[39m                               [36mconst[39m [33mIcon[39m [33m=[39m [33mFaIcons[39m[service[33m.[39micon] [33m||[39m [33mFaIcons[39m[33m.[39m[33mFaStar[39m[33m;[39m
+ [90m 255 |[39m                               [36mreturn[39m [33m<[39m[33mIcon[39m [33m/[39m[33m>[39m[33m;[39m[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/ChristmasLightingServices.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/ChristmasLightingServices.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/ChristmasLightingServices.jsx:252:4
+Parsing ecmascript source code failed
+[0m [90m 250 |[39m                             transition[33m=[39m{{ duration[33m:[39m [35m0.5[39m }}
+ [90m 251 |[39m                           [33m>[39m
+[31m[1m>[22m[39m[90m 252 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m    [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 253 |[39m                             {(() [33m=>[39m {
+ [90m 254 |[39m                               [36mconst[39m [33mIcon[39m [33m=[39m [33mFaIcons[39m[service[33m.[39micon] [33m||[39m [33mFaIcons[39m[33m.[39m[33mFaStar[39m[33m;[39m
+ [90m 255 |[39m                               [36mreturn[39m [33m<[39m[33mIcon[39m [33m/[39m[33m>[39m[33m;[39m[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/ChristmasLightingServices.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/ChristmasLightingServices.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/ChristmasLightingServices.jsx:252:6
+Parsing ecmascript source code failed
+[0m [90m 250 |[39m                             transition[33m=[39m{{ duration[33m:[39m [35m0.5[39m }}
+ [90m 251 |[39m                           [33m>[39m
+[31m[1m>[22m[39m[90m 252 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m      [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 253 |[39m                             {(() [33m=>[39m {
+ [90m 254 |[39m                               [36mconst[39m [33mIcon[39m [33m=[39m [33mFaIcons[39m[service[33m.[39micon] [33m||[39m [33mFaIcons[39m[33m.[39m[33mFaStar[39m[33m;[39m
+ [90m 255 |[39m                               [36mreturn[39m [33m<[39m[33mIcon[39m [33m/[39m[33m>[39m[33m;[39m[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/ChristmasLightingServices.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/ChristmasLightingServices.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Footer.jsx:136:2
+Parsing ecmascript source code failed
+[0m [90m 134 |[39m       {[90m/* Main Container - Responsive padding from 300px up */[39m}
+ [90m 135 |[39m       [33m<[39m[33mdiv[39m className[33m=[39m[32m"w-full mx-auto px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 lg:px-12 lg:py-16 xl:px-16 2xl:px-20 relative z-10"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 136 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m  [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 137 |[39m         {[90m/* Main Footer Content */[39m}
+ [90m 138 |[39m         [33m<[39m[33mdiv[39m className[33m=[39m[32m"flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 mb-8 lg:mb-16"[39m[33m>[39m
+ [90m 139 |[39m           {[90m/* Brand & Contact Column - Full width on mobile */[39m}[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Footer.jsx [Client Component Browser]
+    ./app/ClientLayout.js [Client Component Browser]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Footer.jsx [Client Component SSR]
+    ./app/ClientLayout.js [Client Component SSR]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+
+
+./app/components/Footer.jsx:136:4
+Parsing ecmascript source code failed
+[0m [90m 134 |[39m       {[90m/* Main Container - Responsive padding from 300px up */[39m}
+ [90m 135 |[39m       [33m<[39m[33mdiv[39m className[33m=[39m[32m"w-full mx-auto px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 lg:px-12 lg:py-16 xl:px-16 2xl:px-20 relative z-10"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 136 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m    [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 137 |[39m         {[90m/* Main Footer Content */[39m}
+ [90m 138 |[39m         [33m<[39m[33mdiv[39m className[33m=[39m[32m"flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 mb-8 lg:mb-16"[39m[33m>[39m
+ [90m 139 |[39m           {[90m/* Brand & Contact Column - Full width on mobile */[39m}[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Footer.jsx [Client Component Browser]
+    ./app/ClientLayout.js [Client Component Browser]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Footer.jsx [Client Component SSR]
+    ./app/ClientLayout.js [Client Component SSR]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+
+
+./app/components/Footer.jsx:136:6
+Parsing ecmascript source code failed
+[0m [90m 134 |[39m       {[90m/* Main Container - Responsive padding from 300px up */[39m}
+ [90m 135 |[39m       [33m<[39m[33mdiv[39m className[33m=[39m[32m"w-full mx-auto px-4 py-8 sm:px-6 sm:py-10 md:px-8 md:py-12 lg:px-12 lg:py-16 xl:px-16 2xl:px-20 relative z-10"[39m[33m>[39m
+[31m[1m>[22m[39m[90m 136 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m      [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 137 |[39m         {[90m/* Main Footer Content */[39m}
+ [90m 138 |[39m         [33m<[39m[33mdiv[39m className[33m=[39m[32m"flex flex-col lg:grid lg:grid-cols-12 gap-8 lg:gap-12 mb-8 lg:mb-16"[39m[33m>[39m
+ [90m 139 |[39m           {[90m/* Brand & Contact Column - Full width on mobile */[39m}[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Footer.jsx [Client Component Browser]
+    ./app/ClientLayout.js [Client Component Browser]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Footer.jsx [Client Component SSR]
+    ./app/ClientLayout.js [Client Component SSR]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+
+
+./app/components/Hero.jsx:283:2
+Parsing ecmascript source code failed
+[0m [90m 281 |[39m           [33m<[39m[33m/[39m[33mp[39m[33m>[39m
+ [90m 282 |[39m
+[31m[1m>[22m[39m[90m 283 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m  [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 284 |[39m
+ [90m 285 |[39m
+ [90m 286 |[39m           {[90m/* CTA Buttons */[39m}[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Hero.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Hero.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Hero.jsx:283:4
+Parsing ecmascript source code failed
+[0m [90m 281 |[39m           [33m<[39m[33m/[39m[33mp[39m[33m>[39m
+ [90m 282 |[39m
+[31m[1m>[22m[39m[90m 283 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m    [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 284 |[39m
+ [90m 285 |[39m
+ [90m 286 |[39m           {[90m/* CTA Buttons */[39m}[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Hero.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Hero.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Hero.jsx:283:6
+Parsing ecmascript source code failed
+[0m [90m 281 |[39m           [33m<[39m[33m/[39m[33mp[39m[33m>[39m
+ [90m 282 |[39m
+[31m[1m>[22m[39m[90m 283 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m     |[39m      [31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 284 |[39m
+ [90m 285 |[39m
+ [90m 286 |[39m           {[90m/* CTA Buttons */[39m}[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Hero.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Hero.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Hero.jsx:328:1
+Parsing ecmascript source code failed
+[0m [90m 326 |[39m             [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 327 |[39m           )}
+[31m[1m>[22m[39m[90m 328 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m29[39mc46175585fede196320bf7839b1c090d858e51
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+[31m[1m>[22m[39m[90m 329 |[39m         [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 330 |[39m       [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 331 |[39m
+ [90m 332 |[39m       {[90m/* Floating particles */[39m}[0m
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Hero.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Hero.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Hero.jsx:311:1
+Parsing ecmascript source code failed
+[0m [90m 309 |[39m             )}
+ [90m 310 |[39m           [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+[31m[1m>[22m[39m[90m 311 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 312 |[39m           {[90m/* CTA Button */[39m}
+ [90m 313 |[39m           {hero[33m.[39mcta [33m&&[39m (
+ [90m 314 |[39m             [33m<[39m[33mdiv[39m className[33m=[39m[32m"animate-fade-up animation-delay-800 w-full px-3 sm:px-0"[39m[33m>[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Hero.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Hero.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Hero.jsx:328:1
+Parsing ecmascript source code failed
+[0m [90m 326 |[39m             [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 327 |[39m           )}
+[31m[1m>[22m[39m[90m 328 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m29[39mc46175585fede196320bf7839b1c090d858e51
+ [90m     |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 329 |[39m         [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 330 |[39m       [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 331 |[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Hero.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Hero.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Hero.jsx:329:10
+Parsing ecmascript source code failed
+[0m [90m 327 |[39m           )}
+ [90m 328 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m29[39mc46175585fede196320bf7839b1c090d858e51
+[31m[1m>[22m[39m[90m 329 |[39m         [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m     |[39m          [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 330 |[39m       [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m
+ [90m 331 |[39m
+ [90m 332 |[39m       {[90m/* Floating particles */[39m}[0m
+
+Unterminated regexp literal
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Hero.jsx [Client Component Browser]
+    ./app/components/Home.jsx [Client Component Browser]
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Hero.jsx [Client Component SSR]
+    ./app/components/Home.jsx [Client Component SSR]
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+
+
+
+./app/components/Navbar.jsx:9:1
+Parsing ecmascript source code failed
+[0m [90m  7 |[39m
+ [90m  8 |[39m [36mconst[39m [33mNavbar[39m [33m=[39m () [33m=>[39m {
+[31m[1m>[22m[39m[90m  9 |[39m [33m<<[39m[33m<<[39m[33m<<[39m[33m<[39m [33mHEAD[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 10 |[39m   [36mconst[39m [isOpen[33m,[39m setIsOpen] [33m=[39m useState([36mfalse[39m)
+ [90m 11 |[39m   [36mconst[39m [scrolled[33m,[39m setScrolled] [33m=[39m useState([36mfalse[39m)
+ [90m 12 |[39m   [36mconst[39m [settings[33m,[39m setSettings] [33m=[39m useState([36mnull[39m)[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Navbar.jsx [Client Component Browser]
+    ./app/ClientLayout.js [Client Component Browser]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Navbar.jsx [Client Component SSR]
+    ./app/ClientLayout.js [Client Component SSR]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+
+
+./app/components/Navbar.jsx:15:1
+Parsing ecmascript source code failed
+[0m [90m 13 |[39m   [36mconst[39m pathname [33m=[39m usePathname()
+ [90m 14 |[39m   [36mconst[39m navbarRef [33m=[39m useRef([36mnull[39m)
+[31m[1m>[22m[39m[90m 15 |[39m [33m===[39m[33m===[39m[33m=[39m
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 16 |[39m   [36mconst[39m [isOpen[33m,[39m setIsOpen] [33m=[39m useState([36mfalse[39m)[33m;[39m
+ [90m 17 |[39m   [36mconst[39m [scrolled[33m,[39m setScrolled] [33m=[39m useState([36mfalse[39m)[33m;[39m
+ [90m 18 |[39m   [36mconst[39m [servicesDropdownOpen[33m,[39m setServicesDropdownOpen] [33m=[39m useState([36mfalse[39m)[33m;[39m[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Navbar.jsx [Client Component Browser]
+    ./app/ClientLayout.js [Client Component Browser]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Navbar.jsx [Client Component SSR]
+    ./app/ClientLayout.js [Client Component SSR]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+
+
+./app/components/Navbar.jsx:24:1
+Parsing ecmascript source code failed
+[0m [90m 22 |[39m   [36mconst[39m dropdownRef [33m=[39m useRef([36mnull[39m)[33m;[39m
+ [90m 23 |[39m   [36mconst[39m timeoutRef [33m=[39m useRef([36mnull[39m)[33m;[39m
+[31m[1m>[22m[39m[90m 24 |[39m [33m>>>[39m[33m>>>[39m[33m>[39m [35m29[39mc46175585fede196320bf7839b1c090d858e51
+ [90m    |[39m [31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m[31m[1m^[22m[39m
+ [90m 25 |[39m
+ [90m 26 |[39m   useEffect(() [33m=>[39m {
+ [90m 27 |[39m     fetch([32m'/api/settings'[39m)[0m
+
+Merge conflict marker encountered.
+
+Import traces:
+  Client Component Browser:
+    ./app/components/Navbar.jsx [Client Component Browser]
+    ./app/ClientLayout.js [Client Component Browser]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+  Client Component SSR:
+    ./app/components/Navbar.jsx [Client Component SSR]
+    ./app/ClientLayout.js [Client Component SSR]
+    ./app/ClientLayout.js [Server Component]
+    ./app/layout.js [Server Component]
+
+

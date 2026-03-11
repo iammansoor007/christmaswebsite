@@ -178,7 +178,7 @@ const Hero = () => {
             transform: `translate(${mousePosition.x * 5}px, ${mousePosition.y * 5}px)`,
           }}
         >
-          <div className="absolute inset-0 bg-[url('/images/hero-background2.jpg')] bg-cover bg-center opacity-30"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-black/60"></div>
         </div>
 
         {/* Animated gradient orbs */}
@@ -280,7 +280,6 @@ const Hero = () => {
             </span>
           </p>
 
-<<<<<<< HEAD
 
 
           {/* CTA Buttons */}
@@ -308,24 +307,6 @@ const Hero = () => {
               </Link>
             )}
           </div>
-=======
-          {/* CTA Button */}
-          {hero.cta && (
-            <div className="animate-fade-up animation-delay-800 w-full px-3 sm:px-0">
-              <button
-                onClick={handleCallClick}
-                className="relative overflow-hidden group inline-flex items-center justify-center px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 bg-gradient-to-r from-yellow-500 to-red-500 text-white font-semibold rounded-lg hover:from-yellow-600 hover:to-red-600 transition-all duration-300 shadow-lg hover:shadow-xl text-sm sm:text-base md:text-lg w-auto min-w-[140px] sm:min-w-[160px] md:min-w-[180px] cursor-pointer"
-              >
-                <span className="relative z-10 flex items-center justify-center gap-1.5 sm:gap-2">
-                  <HiOutlineSparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 md:w-5 md:h-5" />
-                  <span>{hero.cta.subtext || "Get My Free Quote"}</span>
-                  <FaArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 transition-transform" />
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-400 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
-              </button>
-            </div>
-          )}
->>>>>>> 29c46175585fede196320bf7839b1c090d858e51
         </div>
       </div>
 

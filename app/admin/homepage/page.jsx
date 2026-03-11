@@ -120,6 +120,7 @@ export default function HomepagePage() {
         { id: 'hero', label: '🔥 Hero' },
         { id: 'about', label: '📖 About' },
         { id: 'howWeWork', label: '🔧 Process' },
+        { id: 'workShowcase', label: 'Recent Work' },
         { id: 'aboutPage', label: '👤 Founder' },
         { id: 'contactPage', label: '📞 Contact Pg' },
         { id: 'faq', label: '❓ FAQ' },
@@ -247,6 +248,20 @@ export default function HomepagePage() {
                         </div>
                     )}
 
+
+                    {activeTab === 'workShowcase' && (
+                        <div className="space-y-4">
+                            <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Recent Work Marquee</h2>
+                            <Field label="Badge" path="workShowcase.badge" />
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <Field label="Title Prefix" path="workShowcase.title.prefix" />
+                                <Field label="Title Main" path="workShowcase.title.main" />
+                            </div>
+                            <Field label="Description" path="workShowcase.description" multiline />
+                            <Field label="CTA Text" path="workShowcase.cta" />
+                            <p className="text-xs text-gray-500">Images are managed in Recent Work.</p>
+                        </div>
+                    )}
                     {activeTab === 'about' && (
                         <>
                             <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Homepage About Section</h2>
@@ -332,3 +347,6 @@ export default function HomepagePage() {
         </AdminShell>
     );
 }
+
+
+

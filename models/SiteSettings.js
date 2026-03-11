@@ -20,15 +20,45 @@ const SiteSettingsSchema = new mongoose.Schema({
             href: String,
         },
     ],
+    navigation: {
+        items: [
+            {
+                label: String,
+                href: String,
+                exact: { type: Boolean, default: false },
+                dropdown: [
+                    {
+                        label: String,
+                        href: String,
+                        description: String,
+                        icon: String,
+                    },
+                ],
+            },
+        ],
+    },
     footer: {
         year: { type: Number, default: 2026 },
         certifications: { type: String, default: '' },
+        text: { type: String, default: '' },
+        copyright: { type: String, default: '' },
         location: {
             address: String,
             cityState: String,
             description: String,
             mapUrl: String,
         },
+        links: [
+            {
+                title: String,
+                items: [
+                    {
+                        label: String,
+                        href: String,
+                    },
+                ],
+            },
+        ],
     },
     seo: {
         siteTitle: { type: String, default: 'Christmas Lighting Services' },

@@ -18,24 +18,58 @@ import {
   FaImage
 } from "react-icons/fa";
 import { GiSparkles } from "react-icons/gi";
+import usePageContent from "../lib/usePageContent";
 
-// Move ALL static data outside component
-const BUDGET_OPTIONS = [
-  "What Is Your Lighting Budget",
-  "$900 - $1200 (Standard Front Rooflines)",
-  "$1200 - $1500",
-  "$1500 - $2500",
-  "$2500 - $4000",
-  "$4000 and up",
-  "Give me your best lighting design, money is not a factor."
-];
-
-const LIGHTING_AREAS = [
-  { id: "house", label: "House", emoji: "🏠" },
-  { id: "ground", label: "Ground Lighting", emoji: "✨" },
-  { id: "trees", label: "Trees", emoji: "🌲" },
-  { id: "shrubs", label: "Shrubs / Bushes", emoji: "🌿" }
-];
+const DEFAULT_CONTACT = {
+  header: {
+    badge: "Get A Fast Quote",
+    title: "Contact Us For Your Fast Free Quote",
+    subtitle: "We are so excited to light up your property ??",
+  },
+  budgetOptions: [
+    "What Is Your Lighting Budget",
+    "$900 - $1200 (Standard Front Rooflines)",
+    "$1200 - $1500",
+    "$1500 - $2500",
+    "$2500 - $4000",
+    "$4000 and up",
+    "Give me your best lighting design, money is not a factor."
+  ],
+  lightingAreas: [
+    { id: "house", label: "House", emoji: "??" },
+    { id: "ground", label: "Ground Lighting", emoji: "?" },
+    { id: "trees", label: "Trees", emoji: "??" },
+    { id: "shrubs", label: "Shrubs / Bushes", emoji: "??" }
+  ],
+  form: {
+    title: "Quote Details",
+    requiredNote: "* Required fields",
+    uploadNote: "Upload a front-facing photo for faster quotes ??",
+    submitText: "Get My Lighting Quote",
+    privacyNote: "By submitting, you agree to our Privacy Policy.",
+  },
+  benefits: {
+    title: "What You Get",
+    items: [
+      "Free consultation & design",
+      "Professional installation",
+      "Commercial-grade LEDs",
+      "Maintenance included",
+      "Take-down & storage"
+    ]
+  },
+  trustBadge: {
+    rating: "4.9/5",
+    subtitle: "Average rating from 250+ homeowners",
+    note: "Licensed, insured, and background-checked crews"
+  },
+  contactCard: {
+    title: "Need Immediate Help?",
+    phoneLabel: "Call us 24/7",
+    emailLabel: "Email us",
+    emergencyNote: "Emergency services available 24/7"
+  }
+};
 
 const INITIAL_FORM_STATE = {
   fname: "", lname: "", email: "", phone: "", address: "", city: "",
@@ -308,12 +342,8 @@ const ModernQuoteForm = () => {
           {/* Benefits Section */}
           <div className="hidden lg:block space-y-6">
             <BenefitsSection />
-<<<<<<< HEAD
             <ContactInfo data={contactInfo} />
             <TrustBadge />
-=======
-            <ContactInfo />
->>>>>>> 29c46175585fede196320bf7839b1c090d858e51
           </div>
         </div>
       </div>
@@ -431,11 +461,7 @@ const ContactInfo = memo(({ data }) => (
         </div>
         <div>
           <div className="text-xs text-white/80">Email us</div>
-<<<<<<< HEAD
           <div className="text-sm font-bold text-white break-all">{data.email}</div>
-=======
-          <div className="text-sm font-bold text-white break-all">Info@lightsovercolumbus.com</div>
->>>>>>> 29c46175585fede196320bf7839b1c090d858e51
         </div>
       </a>
     </div>
@@ -447,8 +473,20 @@ const ContactInfo = memo(({ data }) => (
 ));
 
 ContactInfo.displayName = 'ContactInfo';
+// Trust Badge
+const TrustBadge = memo(() => (
+  <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 text-center">
+    <div className="text-3xl font-bold text-gray-900">4.9/5</div>
+    <div className="text-sm text-gray-600 mt-1">Average rating from 250+ homeowners</div>
+    <div className="text-xs text-gray-500 mt-3">Licensed, insured, and background-checked crews</div>
+  </div>
+));
+
+TrustBadge.displayName = 'TrustBadge';
 
 
 
 
 export default ModernQuoteForm;
+
+

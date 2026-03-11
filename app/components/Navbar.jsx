@@ -6,22 +6,15 @@ import Button from "./Button";
 import Image from "next/image";
 
 const Navbar = () => {
-<<<<<<< HEAD
-  const [isOpen, setIsOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [settings, setSettings] = useState(null)
-  const pathname = usePathname()
-  const navbarRef = useRef(null)
-=======
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [settings, setSettings] = useState(null);
   const pathname = usePathname();
   const navbarRef = useRef(null);
   const dropdownRef = useRef(null);
   const timeoutRef = useRef(null);
->>>>>>> 29c46175585fede196320bf7839b1c090d858e51
 
   useEffect(() => {
     fetch('/api/settings')
@@ -82,7 +75,7 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navItems = [
+  const defaultNavItems = [
     { path: "/", label: "Home" },
     { path: "/about", label: "About" },
     {
@@ -113,9 +106,18 @@ const Navbar = () => {
     { path: "/service-area", label: "Service Area" },
     { path: "/contact", label: "Contact" },
   ];
+  const navItems = settings?.navigation?.items?.length
+    ? settings.navigation.items.map((item) => ({
+      path: item.href,
+      label: item.label,
+      dropdown: item.dropdown?.length ? item.dropdown : null,
+      exact: item.exact || false,
+    }))
+    : defaultNavItems;
 
   // Check if link is active
-  const isActive = (path) => {
+  const isActive = (path, exact = false) => {
+    if (exact) return pathname === path;
     if (path === "/") {
       return pathname === "/";
     }

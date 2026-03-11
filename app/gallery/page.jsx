@@ -273,7 +273,6 @@ const Gallery = () => {
     'Other'
   ];
 
-<<<<<<< HEAD
   const [galleryImages, setGalleryImages] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -285,9 +284,9 @@ const Gallery = () => {
         if (data.items) {
           const mapped = data.items.map(item => ({
             id: item._id,
-            src: item.imageUrl,
+            src: item.image,
             title: item.title,
-            category: item.category.toLowerCase(),
+            category: (item.category || 'general').toLowerCase(),
             location: item.location || 'Columbus'
           }));
           setGalleryImages(mapped);
@@ -300,25 +299,6 @@ const Gallery = () => {
     };
     fetchGallery();
   }, []);
-=======
-  // Gallery images
-  const galleryImages = [
-    { id: 1, src: gallery1, title: 'Colonial Heights Estate',  location: 'Upper Arlington' },
-    { id: 2, src: gallery2, title: 'Downtown Commercial Plaza',   location: 'Columbus' },
-    { id: 3, src: gallery3, title: 'Riverside Drive Mansion',  location: 'Dublin' },
-    { id: 4, src: gallery4, title: 'German Village Townhomes', location: 'Columbus' },
-    { id: 5, src: gallery5, title: 'Polaris Office Complex', location: 'Westerville' },
-    { id: 6, src: gallery6, title: 'New Albany Country Club', location: 'New Albany' },
-    { id: 7, src: gallery7, title: 'Wedgewood Hills Residence', location: 'Powell' },
-    { id: 8, src: gallery8, title: 'Easton Town Center', location: 'Columbus' },
-    { id: 9, src: gallery9, title: 'Hoover Reservoir Estate',   location: 'Westerville' },
-    { id: 10, src: gallery10, title: 'Columbus City Hall', location: 'Columbus' },
-    { id: 11, src: gallery11, title: 'Hilltop Apartments', location: 'Hilliard' },
-    { id: 12, src: gallery12, title: 'Riverside Plaza', location: 'Columbus' },
-    { id: 13, src: gallery13, title: 'Westerville Community Center', location: 'Westerville' },
-    { id: 14, src: gallery14, title: 'Dublin Library Renovation', location: 'Dublin' },
-  ];
->>>>>>> 29c46175585fede196320bf7839b1c090d858e51
 
 
 

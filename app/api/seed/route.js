@@ -5,6 +5,7 @@ import Service from '@/models/Service';
 import HomepageContent from '@/models/HomepageContent';
 import Testimonial from '@/models/Testimonial';
 import GalleryItem from '@/models/GalleryItem';
+import RecentWorkItem from '@/models/RecentWorkItem';
 import SiteSettings from '@/models/SiteSettings';
 import path from 'path';
 import { readFile } from 'fs/promises';
@@ -98,6 +99,7 @@ export async function POST(request) {
             contact: data.contact,
             faq: data.faq?.items || [],
             modernServices: data.modernServices?.items || [],
+            workShowcase: data.workShowcase,
         });
         results.homepage = 'Seeded';
 
@@ -131,8 +133,25 @@ export async function POST(request) {
         await GalleryItem.insertMany(galleryItems);
         results.gallery = galleryItems.length;
 
+        // 5b. Seed recent work items
+        await RecentWorkItem.deleteMany({});
+        const recentWorkItems = galleryImages.map((img, i) => ({
+            title: `Recent Work ${i + 1}`,
+            image: img,
+            status: 'active',
+            order: i,
+        }));
+        await RecentWorkItem.insertMany(recentWorkItems);
+        results.recentWork = recentWorkItems.length;
+
         // 6. Seed site settings
         await SiteSettings.deleteMany({});
+        const footerLinks = data.footer?.links
+            ? Object.entries(data.footer.links).map(([title, items]) => ({
+                title,
+                items: items || [],
+            }))
+            : [];
         await SiteSettings.create({
             companyName: data.footer?.companyName || 'Luminous Holiday Lighting',
             tagline: data.footer?.tagline || '',
@@ -140,10 +159,31 @@ export async function POST(request) {
             favicon: '/favicon.ico', // Default
             contact: data.footer?.contact || data.contact || {},
             socialMedia: data.footer?.socialMedia || [],
+            navigation: {
+                items: [
+                    { label: 'Home', href: '/', exact: true },
+                    { label: 'About', href: '/about' },
+                    {
+                        label: 'Services',
+                        href: '/services',
+                        dropdown: [
+                            { label: 'Residential Lighting', href: '/services/residential-lighting', description: 'Custom home lighting solutions', icon: '*' },
+                            { label: 'Commercial Lighting', href: '/services/commercial-lighting', description: 'Professional business installations', icon: '*' },
+                            { label: 'Permanent Lighting', href: '/services/permanent-lighting', description: 'Year-round architectural lighting', icon: '*' },
+                        ],
+                    },
+                    { label: 'Gallery', href: '/gallery' },
+                    { label: 'Service Area', href: '/service-area' },
+                    { label: 'Contact', href: '/contact' },
+                ],
+            },
             footer: {
                 year: data.footer?.year || 2026,
                 certifications: data.footer?.certifications || '',
+                text: data.footer?.tagline || '',
+                copyright: data.footer?.copyright || '',
                 location: data.footer?.location || {},
+                links: footerLinks,
             },
             seo: {
                 siteTitle: 'Christmas Lights Over Columbus',

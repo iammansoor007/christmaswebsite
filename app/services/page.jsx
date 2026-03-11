@@ -675,14 +675,13 @@ const ServicesPage = () => {
 
             {/* Alternating Service Cards with Fixed Height */}
             {services?.items?.map((service, index) => {
-              // Determine the correct link based on service title
-              const serviceLink = service.title.toLowerCase().includes('residential')
-                ? '/services/residential-lighting'
-                : service.title.toLowerCase().includes('commercial')
-                  ? '/services/commercial-lighting'
-                  : service.title.toLowerCase().includes('permanent')
-                    ? '/services/permanent-lighting'
-                    : `/services/${service.title.toLowerCase().replace(/\s+/g, '-')}`;
+              const slugSource = service.slug || service.title || '';
+              const serviceSlug = slugSource
+                .toString()
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/(^-|-$)/g, '');
+              const serviceLink = serviceSlug ? `/services/${serviceSlug}` : '/services';
 
               // Use placeholder if image fails to load
               const imageSrc = imageErrors[index] ? placeholderImage : (service.image || placeholderImage);

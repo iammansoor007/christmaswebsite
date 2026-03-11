@@ -8,8 +8,10 @@ const navItems = [
     { href: '/admin', label: 'Dashboard', icon: '🏠', exact: true },
     { href: '/admin/services', label: 'Services', icon: '⚡' },
     { href: '/admin/homepage', label: 'Homepage', icon: '🏡' },
+    { href: '/admin/pages', label: 'Pages', icon: 'P' },
     { href: '/admin/testimonials', label: 'Testimonials', icon: '⭐' },
     { href: '/admin/gallery', label: 'Gallery', icon: '🖼️' },
+    { href: '/admin/recent-work', label: 'Recent Work', icon: '🖼️' },
     { href: '/admin/settings', label: 'Site Settings', icon: '⚙️' },
 ];
 
@@ -120,3 +122,6 @@ export default function AdminShell({ children }) {
         </div>
     );
 }
+
+
+

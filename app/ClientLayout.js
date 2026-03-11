@@ -1,12 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import QuickQuote from './components/QuickQuote';
 import SmoothScroll from './components/SmoothScroll'; // Import SmoothScroll
 
 export default function ClientLayout({ children }) {
+    const pathname = usePathname();
     const [isClient, setIsClient] = useState(false);
     const [snowflakes] = useState(() => {
         const flakes = [];
@@ -25,6 +27,15 @@ export default function ClientLayout({ children }) {
     useEffect(() => {
         setIsClient(true);
     }, []);
+
+    const isAdmin = pathname?.startsWith('/admin');
+    if (isAdmin) {
+        return (
+            <main className="min-h-screen bg-gray-950">
+                {children}
+            </main>
+        );
+    }
 
     return (
         <>

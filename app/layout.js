@@ -4,9 +4,17 @@ import ClientLayout from './ClientLayout';
 import connectDB from '@/lib/mongodb';
 import SiteSettings from '@/models/SiteSettings';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function generateMetadata() {
   await connectDB();
   const settings = await SiteSettings.findOne();
+  const faviconBase = '/api/favicon';
+  const faviconVersion = settings?.updatedAt
+    ? new Date(settings.updatedAt).getTime()
+    : Date.now();
+  const favicon = `${faviconBase}?v=${faviconVersion}`;
 
   return {
     title: {
@@ -16,7 +24,9 @@ export async function generateMetadata() {
     description: settings?.seo?.metaDescription || 'Professional holiday lighting installation & design services.',
     keywords: settings?.seo?.keywords || 'christmas lights, holiday lighting, installation',
     icons: {
-      icon: settings?.favicon || '/favicon.ico',
+      icon: favicon,
+      shortcut: favicon,
+      apple: favicon,
     }
   };
 }

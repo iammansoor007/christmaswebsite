@@ -5,7 +5,6 @@ import { motion, useInView } from "framer-motion";
 import Link from "next/link";
 import * as FaIcons from "react-icons/fa";
 import { GiSparkles } from "react-icons/gi";
-import { getServicesData } from "../services/dataService";
 
 const AwardWinningServicesSection = () => {
   const containerRef = useRef(null);
@@ -45,14 +44,6 @@ const AwardWinningServicesSection = () => {
 
   const { badge, title: apiTitle, subtitle, items: services } = data;
 
-  // Service page mapping - add your actual service page URLs here
-  const servicePageUrls = {
-    "Residential Lighting": "/services/residential-lighting",
-    "Commercial Lighting": "/services/commercial-lighting",
-    "Permanent Lighting": "/services/permanent-lighting",
-    // Add more mappings as needed
-  };
-
   // Fixed positions for floating lights - NO RANDOM
   const floatingLights = [
     { left: 5, top: 10, color: '#f59e0b' },  // amber
@@ -77,19 +68,15 @@ const AwardWinningServicesSection = () => {
   const animationDurations = [4, 5, 6, 7, 8, 4, 5, 6, 7, 8, 4, 5, 6, 7, 8];
 
   // Generate URL-friendly slug from service title
-  const getServiceUrl = (serviceTitle) => {
-    // Check if we have a direct mapping
-    if (servicePageUrls[serviceTitle]) {
-      return servicePageUrls[serviceTitle];
-    }
-
-    // Fallback: generate slug from title
-    const slug = serviceTitle
+  const getServiceUrl = (service) => {
+    const slugSource = service?.slug || service?.title || '';
+    const slug = slugSource
+      .toString()
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, '-')
       .replace(/(^-|-$)/g, '');
 
-    return `/services/${slug}`;
+    return slug ? `/services/${slug}` : '/services';
   };
 
   // Card variants
@@ -195,7 +182,7 @@ const AwardWinningServicesSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 lg:gap-8 xl:gap-10">
           {services.map((service, index) => {
             const IconComponent = FaIcons[service.icon] || FaIcons.FaStar;
-            const serviceUrl = getServiceUrl(service.title);
+            const serviceUrl = getServiceUrl(service);
 
             return (
               <motion.div
@@ -249,17 +236,10 @@ const AwardWinningServicesSection = () => {
                             whileHover={{ rotate: 360 }}
                             transition={{ duration: 0.5 }}
                           >
-<<<<<<< HEAD
                             {(() => {
                               const Icon = FaIcons[service.icon] || FaIcons.FaStar;
                               return <Icon />;
                             })()}
-=======
-                            {/* FIX: Use a div wrapper to ensure consistent rendering */}
-                            <div className="flex items-center justify-center w-full h-full">
-                              <IconComponent />
-                            </div>
->>>>>>> 29c46175585fede196320bf7839b1c090d858e51
                           </motion.div>
 
                           <div className="flex-1 min-w-0">
@@ -296,12 +276,7 @@ const AwardWinningServicesSection = () => {
                               transition={{ delay: index * 0.1 + idx * 0.1 }}
                               className="flex items-center gap-1 xs:gap-1.5 sm:gap-2"
                             >
-<<<<<<< HEAD
                               <FaIcons.FaCheckCircle
-=======
-                              {/* FIX: Add suppressHydrationWarning to icons that might cause issues */}
-                              <FaCheckCircle
->>>>>>> 29c46175585fede196320bf7839b1c090d858e51
                                 className="text-xs xs:text-sm sm:text-base flex-shrink-0"
                                 style={{ color: service.color }}
                                 suppressHydrationWarning

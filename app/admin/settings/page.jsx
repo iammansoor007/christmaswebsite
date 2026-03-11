@@ -15,7 +15,15 @@ export default function SettingsPage() {
                 companyName: '', tagline: '',
                 contact: { phone: '', email: '', address: '', hours: '', support: '' },
                 socialMedia: [],
-                footer: { year: 2026, certifications: '', location: { address: '', cityState: '', description: '', mapUrl: '' } },
+                navigation: { items: [] },
+                footer: {
+                    year: 2026,
+                    certifications: '',
+                    text: '',
+                    copyright: '',
+                    location: { address: '', cityState: '', description: '', mapUrl: '' },
+                    links: [],
+                },
                 seo: { metaTitle: '', metaDescription: '' },
             });
         }).catch(() => toast.error('Failed to load settings')).finally(() => setLoading(false));
@@ -68,6 +76,126 @@ export default function SettingsPage() {
         setSettings(prev => {
             const clone = JSON.parse(JSON.stringify(prev));
             clone.socialMedia.splice(i, 1);
+            return clone;
+        });
+    };
+
+    const updateNavItem = (i, field, value) => {
+        setSettings(prev => {
+            const clone = JSON.parse(JSON.stringify(prev));
+            if (!clone.navigation) clone.navigation = { items: [] };
+            if (!clone.navigation.items) clone.navigation.items = [];
+            clone.navigation.items[i] = { ...clone.navigation.items[i], [field]: value };
+            return clone;
+        });
+    };
+
+    const addNavItem = () => {
+        setSettings(prev => {
+            const clone = JSON.parse(JSON.stringify(prev));
+            if (!clone.navigation) clone.navigation = { items: [] };
+            if (!clone.navigation.items) clone.navigation.items = [];
+            clone.navigation.items.push({ label: '', href: '', exact: false, dropdown: [] });
+            return clone;
+        });
+    };
+
+    const removeNavItem = (i) => {
+        setSettings(prev => {
+            const clone = JSON.parse(JSON.stringify(prev));
+            clone.navigation.items.splice(i, 1);
+            return clone;
+        });
+    };
+
+    const updateDropdownItem = (navIndex, itemIndex, field, value) => {
+        setSettings(prev => {
+            const clone = JSON.parse(JSON.stringify(prev));
+            const nav = clone.navigation?.items?.[navIndex];
+            if (!nav) return clone;
+            if (!nav.dropdown) nav.dropdown = [];
+            nav.dropdown[itemIndex] = { ...nav.dropdown[itemIndex], [field]: value };
+            return clone;
+        });
+    };
+
+    const addDropdownItem = (navIndex) => {
+        setSettings(prev => {
+            const clone = JSON.parse(JSON.stringify(prev));
+            const nav = clone.navigation?.items?.[navIndex];
+            if (!nav) return clone;
+            if (!nav.dropdown) nav.dropdown = [];
+            nav.dropdown.push({ label: '', href: '', description: '', icon: '' });
+            return clone;
+        });
+    };
+
+    const removeDropdownItem = (navIndex, itemIndex) => {
+        setSettings(prev => {
+            const clone = JSON.parse(JSON.stringify(prev));
+            const nav = clone.navigation?.items?.[navIndex];
+            if (!nav?.dropdown) return clone;
+            nav.dropdown.splice(itemIndex, 1);
+            return clone;
+        });
+    };
+
+    const addFooterGroup = () => {
+        setSettings(prev => {
+            const clone = JSON.parse(JSON.stringify(prev));
+            if (!clone.footer) clone.footer = {};
+            if (!clone.footer.links) clone.footer.links = [];
+            clone.footer.links.push({ title: '', items: [] });
+            return clone;
+        });
+    };
+
+    const updateFooterGroupTitle = (groupIndex, value) => {
+        setSettings(prev => {
+            const clone = JSON.parse(JSON.stringify(prev));
+            if (!clone.footer?.links) clone.footer.links = [];
+            clone.footer.links[groupIndex] = { ...clone.footer.links[groupIndex], title: value };
+            return clone;
+        });
+    };
+
+    const removeFooterGroup = (groupIndex) => {
+        setSettings(prev => {
+            const clone = JSON.parse(JSON.stringify(prev));
+            if (!clone.footer?.links) return clone;
+            clone.footer.links.splice(groupIndex, 1);
+            return clone;
+        });
+    };
+
+    const addFooterLinkItem = (groupIndex) => {
+        setSettings(prev => {
+            const clone = JSON.parse(JSON.stringify(prev));
+            if (!clone.footer?.links) clone.footer.links = [];
+            const group = clone.footer.links[groupIndex];
+            if (!group.items) group.items = [];
+            group.items.push({ label: '', href: '' });
+            return clone;
+        });
+    };
+
+    const updateFooterLinkItem = (groupIndex, itemIndex, field, value) => {
+        setSettings(prev => {
+            const clone = JSON.parse(JSON.stringify(prev));
+            const group = clone.footer?.links?.[groupIndex];
+            if (!group) return clone;
+            if (!group.items) group.items = [];
+            group.items[itemIndex] = { ...group.items[itemIndex], [field]: value };
+            return clone;
+        });
+    };
+
+    const removeFooterLinkItem = (groupIndex, itemIndex) => {
+        setSettings(prev => {
+            const clone = JSON.parse(JSON.stringify(prev));
+            const group = clone.footer?.links?.[groupIndex];
+            if (!group?.items) return clone;
+            group.items.splice(itemIndex, 1);
             return clone;
         });
     };
@@ -137,11 +265,12 @@ export default function SettingsPage() {
     );
 
     const tabs = [
-        { id: 'company', label: '🏢 Company' },
-        { id: 'contact', label: '📞 Contact' },
-        { id: 'social', label: '📱 Social Media' },
-        { id: 'footer', label: '🦶 Footer' },
-        { id: 'seo', label: '🔍 SEO' },
+        { id: 'company', label: 'ðŸ¢ Company' },
+        { id: 'contact', label: 'ðŸ“ž Contact' },
+        { id: 'navigation', label: 'Navigation' },
+        { id: 'social', label: 'ðŸ“± Social Media' },
+        { id: 'footer', label: 'ðŸ¦¶ Footer' },
+        { id: 'seo', label: 'ðŸ” SEO' },
     ];
 
     if (loading) return (
@@ -161,7 +290,7 @@ export default function SettingsPage() {
                     </div>
                     <button onClick={handleSave} disabled={saving} id="save-settings"
                         className="px-5 py-2.5 bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white font-semibold rounded-xl text-sm transition-all disabled:opacity-50 shadow-lg shadow-red-500/20">
-                        {saving ? '⏳ Saving...' : '✓ Save Settings'}
+                        {saving ? 'â³ Saving...' : 'âœ“ Save Settings'}
                     </button>
                 </div>
 
@@ -204,6 +333,69 @@ export default function SettingsPage() {
                         </div>
                     )}
 
+                    {activeTab === 'navigation' && (
+                        <div className="space-y-4">
+                            <div className="flex items-center justify-between">
+                                <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Navigation Menu</h2>
+                                <button onClick={addNavItem} className="text-xs text-amber-400 hover:text-amber-300 transition-colors">+ Add Nav Item</button>
+                            </div>
+                            {(settings?.navigation?.items || []).map((item, i) => (
+                                <div key={i} className="space-y-3 p-4 bg-gray-800/50 rounded-xl border border-gray-700/50">
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                        <div>
+                                            <label className="block text-xs text-gray-500 mb-1">Label</label>
+                                            <input value={item.label || ''} onChange={e => updateNavItem(i, 'label', e.target.value)} placeholder="Services"
+                                                className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-amber-500 text-sm" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs text-gray-500 mb-1">Href</label>
+                                            <input value={item.href || ''} onChange={e => updateNavItem(i, 'href', e.target.value)} placeholder="/services"
+                                                className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-amber-500 text-sm" />
+                                        </div>
+                                        <div className="flex items-end gap-2">
+                                            <label className="flex items-center gap-2 text-xs text-gray-400">
+                                                <input type="checkbox" checked={!!item.exact} onChange={e => updateNavItem(i, 'exact', e.target.checked)} />
+                                                Exact Match
+                                            </label>
+                                            <button onClick={() => removeNavItem(i)} className="ml-auto px-2 text-red-400 hover:bg-red-950/40 rounded-lg transition-colors text-sm">Remove</button>
+                                        </div>
+                                    </div>
+
+                                    <div className="pt-2 border-t border-gray-700/50">
+                                        <div className="flex items-center justify-between mb-2">
+                                            <p className="text-xs text-gray-500">Dropdown Items (optional)</p>
+                                            <button onClick={() => addDropdownItem(i)} className="text-xs text-amber-400 hover:text-amber-300 transition-colors">+ Add Dropdown</button>
+                                        </div>
+                                        {(item.dropdown || []).length === 0 && (
+                                            <p className="text-xs text-gray-600">No dropdown items</p>
+                                        )}
+                                        {(item.dropdown || []).map((d, di) => (
+                                            <div key={di} className="grid grid-cols-1 sm:grid-cols-4 gap-2 mb-2">
+                                                <input value={d.label || ''} onChange={e => updateDropdownItem(i, di, 'label', e.target.value)} placeholder="Residential"
+                                                    className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-amber-500 text-xs" />
+                                                <input value={d.href || ''} onChange={e => updateDropdownItem(i, di, 'href', e.target.value)} placeholder="/services/residential-lighting"
+                                                    className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-amber-500 text-xs" />
+                                                <input value={d.description || ''} onChange={e => updateDropdownItem(i, di, 'description', e.target.value)} placeholder="Short description"
+                                                    className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-amber-500 text-xs" />
+                                                <div className="flex gap-2">
+                                                    <input value={d.icon || ''} onChange={e => updateDropdownItem(i, di, 'icon', e.target.value)} placeholder="Icon/Emoji"
+                                                        className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-amber-500 text-xs" />
+                                                    <button onClick={() => removeDropdownItem(i, di)} className="px-2 text-red-400 hover:bg-red-950/40 rounded-lg transition-colors text-xs">x</button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                            {(!settings?.navigation?.items || settings.navigation.items.length === 0) && (
+                                <div className="text-center py-8 text-gray-500 text-sm">
+                                    No navigation items yet.{' '}
+                                    <button onClick={addNavItem} className="text-amber-400 hover:text-amber-300">Add one Ã¢â€ â€™</button>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
                     {activeTab === 'social' && (
                         <div className="space-y-4">
                             <div className="flex items-center justify-between">
@@ -232,7 +424,7 @@ export default function SettingsPage() {
                                         <div className="flex gap-2">
                                             <input value={s.href || ''} onChange={e => updateSocial(i, 'href', e.target.value)} placeholder="https://..."
                                                 className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-amber-500 text-sm" />
-                                            <button onClick={() => removeSocial(i)} className="px-2 text-red-400 hover:bg-red-950/40 rounded-lg transition-colors text-sm">✕</button>
+                                            <button onClick={() => removeSocial(i)} className="px-2 text-red-400 hover:bg-red-950/40 rounded-lg transition-colors text-sm">âœ•</button>
                                         </div>
                                     </div>
                                 </div>
@@ -240,7 +432,7 @@ export default function SettingsPage() {
                             {(!settings?.socialMedia || settings.socialMedia.length === 0) && (
                                 <div className="text-center py-8 text-gray-500 text-sm">
                                     No social links yet.{' '}
-                                    <button onClick={addSocial} className="text-amber-400 hover:text-amber-300">Add one →</button>
+                                    <button onClick={addSocial} className="text-amber-400 hover:text-amber-300">Add one â†’</button>
                                 </div>
                             )}
                         </div>
@@ -251,12 +443,50 @@ export default function SettingsPage() {
                             <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Footer Settings</h2>
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 <Field label="Footer Year" path="footer.year" placeholder="2026" type="number" />
+                                <Field label="Footer Text" path="footer.text" placeholder="Short footer tagline or text" />
+                                <Field label="Copyright Text" path="footer.copyright" placeholder="© {year} {company}. All rights reserved." />
                                 <Field label="Footer Address" path="footer.location.address" placeholder="123 Holiday Lane" />
                                 <Field label="City, State & Zip" path="footer.location.cityState" placeholder="North Pole, 12345" />
                                 <Field label="Map URL" path="footer.location.mapUrl" placeholder="https://maps.google.com/?q=..." />
                             </div>
                             <Field label="Location Description" path="footer.location.description" multiline placeholder="Serving the greater metropolitan area..." />
-                            <Field label="Certifications" path="footer.certifications" placeholder="Licensed • Insured • Professional Installers • Free Estimates Available" />
+                            <Field label="Certifications" path="footer.certifications" placeholder="Licensed â€¢ Insured â€¢ Professional Installers â€¢ Free Estimates Available" />
+
+                            <div className="pt-4 border-t border-gray-800 space-y-3">
+                                <div className="flex items-center justify-between">
+                                    <h3 className="text-xs font-bold text-gray-500 uppercase">Footer Links</h3>
+                                    <button onClick={addFooterGroup} className="text-xs text-amber-400 hover:text-amber-300 transition-colors">+ Add Group</button>
+                                </div>
+
+                                {(settings?.footer?.links || []).map((group, gi) => (
+                                    <div key={gi} className="p-4 bg-gray-800/50 rounded-xl border border-gray-700/50 space-y-3">
+                                        <div className="flex items-center gap-2">
+                                            <input value={group.title || ''} onChange={e => updateFooterGroupTitle(gi, e.target.value)} placeholder="Group Title"
+                                                className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-amber-500 text-sm" />
+                                            <button onClick={() => removeFooterGroup(gi)} className="px-2 text-red-400 hover:bg-red-950/40 rounded-lg transition-colors text-sm">Remove</button>
+                                        </div>
+                                        {(group.items || []).map((link, li) => (
+                                            <div key={li} className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                                <input value={link.label || ''} onChange={e => updateFooterLinkItem(gi, li, 'label', e.target.value)} placeholder="Label"
+                                                    className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-amber-500 text-xs" />
+                                                <input value={link.href || ''} onChange={e => updateFooterLinkItem(gi, li, 'href', e.target.value)} placeholder="/about"
+                                                    className="px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-amber-500 text-xs" />
+                                                <div className="flex">
+                                                    <button onClick={() => removeFooterLinkItem(gi, li)} className="ml-auto px-2 text-red-400 hover:bg-red-950/40 rounded-lg transition-colors text-xs">Remove</button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                        <button onClick={() => addFooterLinkItem(gi)} className="text-xs text-amber-400 hover:text-amber-300 transition-colors">+ Add Link</button>
+                                    </div>
+                                ))}
+
+                                {(!settings?.footer?.links || settings.footer.links.length === 0) && (
+                                    <div className="text-center py-6 text-gray-500 text-sm">
+                                        No footer link groups yet.{' '}
+                                        <button onClick={addFooterGroup} className="text-amber-400 hover:text-amber-300">Add one â†’</button>
+                                    </div>
+                                )}
+                            </div>
                         </>
                     )}
 
@@ -274,3 +504,7 @@ export default function SettingsPage() {
         </AdminShell>
     );
 }
+
+
+
+
