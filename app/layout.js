@@ -5,6 +5,27 @@ import ClientLayout from './ClientLayout';
 export const metadata = {
   title: 'Christmas Lighting',
   description: 'Professional lighting services',
+  openGraph: {
+    title: 'Christmas Lighting',
+    description: 'Professional lighting services',
+    url: 'https://christmaswebsite-kappa.vercel.app', // your live site URL
+    images: [
+      {
+        url: 'https://christmaswebsite-kappa.vercel.app/images/mainlogo.png', // direct URL of logo
+        width: 1200,
+        height: 630,
+        alt: 'Luminous Holiday Logo',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Christmas Lighting',
+    description: 'Professional lighting services',
+    images: ['https://christmaswebsite-kappa.vercel.app/images/mainlogo.png'],
+  },
+  // Optional: LinkedIn will use openGraph automatically
 };
 
 const montserrat = Montserrat({
