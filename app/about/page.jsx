@@ -54,6 +54,9 @@ const AboutUs = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const heroRef = useRef(null);
   const mainRef = useRef(null);
+  const containerRef = useRef(null);
+  const leftTreeRef = useRef(null);
+  const rightTreeRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -99,6 +102,7 @@ const AboutUs = () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
 
   if (!mounted) {
     return null;
@@ -622,6 +626,8 @@ const AboutUs = () => {
           }}></div>
         </div>
 
+
+
         {/* Scroll overlay */}
         <div
           className="absolute inset-0 bg-gradient-to-t from-[#0B1120] via-transparent to-transparent transition-opacity duration-300"
@@ -735,7 +741,7 @@ const AboutUs = () => {
                       everything so you can focus on what truly matters—making memories and enjoying time with
                       the people you love.
                     </p>
-                   
+
 
                     <div className="flex items-center justify-center lg:justify-start gap-3 pt-3 animate-fade-up animation-delay-400">
                       <div className="w-12 h-12 bg-gradient-to-br from-amber-100 to-red-100 rounded-full flex items-center justify-center flex-shrink-0">

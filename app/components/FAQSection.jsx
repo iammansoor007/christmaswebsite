@@ -1,43 +1,71 @@
 'use client'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { FaPlus } from 'react-icons/fa'
 import { getFAQData } from '../services/dataService'
 
 const FAQSection = () => {
   const [openIndex, setOpenIndex] = useState(0)
   const contentRefs = useRef([])
+  const [heights, setHeights] = useState({})
   const faqData = getFAQData()
   const { title, items } = faqData
 
-  const toggleAccordion = (index) => {
-    const el = contentRefs.current[index]
-
-    if (!el) return
-
-    if (openIndex === index) {
-      // Collapse
-      const height = el.scrollHeight
-      el.style.height = height + 'px'
-
-      requestAnimationFrame(() => {
-        el.style.height = '0px'
+  // Measure and store heights on mount and window resize
+  useEffect(() => {
+    const measureHeights = () => {
+      const newHeights = {}
+      contentRefs.current.forEach((ref, index) => {
+        if (ref) {
+          // Temporarily set height to auto to measure
+          ref.style.height = 'auto'
+          newHeights[index] = ref.scrollHeight
+          ref.style.height = '0px'
+        }
       })
+      setHeights(newHeights)
 
-      setOpenIndex(null)
-    } else {
-      // Close previous
-      if (openIndex !== null && contentRefs.current[openIndex]) {
-        const prev = contentRefs.current[openIndex]
-        prev.style.height = prev.scrollHeight + 'px'
-        requestAnimationFrame(() => {
-          prev.style.height = '0px'
-        })
+      // Set initial open item height
+      if (contentRefs.current[0]) {
+        contentRefs.current[0].style.height = newHeights[0] + 'px'
       }
-
-      // Open new
-      el.style.height = el.scrollHeight + 'px'
-      setOpenIndex(index)
     }
+
+    measureHeights()
+
+    // Re-measure on window resize
+    window.addEventListener('resize', measureHeights)
+    return () => window.removeEventListener('resize', measureHeights)
+  }, [])
+
+  const toggleAccordion = (index) => {
+    const currentRef = contentRefs.current[index]
+    const prevIndex = openIndex
+    const prevRef = prevIndex !== null ? contentRefs.current[prevIndex] : null
+
+    if (!currentRef) return
+
+    // If clicking the same item
+    if (openIndex === index) {
+      // Close it
+      currentRef.style.height = heights[index] + 'px'
+      requestAnimationFrame(() => {
+        currentRef.style.height = '0px'
+      })
+      setOpenIndex(null)
+      return
+    }
+
+    // Close previous item if exists
+    if (prevRef) {
+      prevRef.style.height = heights[prevIndex] + 'px'
+      requestAnimationFrame(() => {
+        prevRef.style.height = '0px'
+      })
+    }
+
+    // Open new item
+    currentRef.style.height = heights[index] + 'px'
+    setOpenIndex(index)
   }
 
   return (
@@ -71,7 +99,7 @@ const FAQSection = () => {
                       }`}
                   >
                     <FaPlus
-                      className={`text-white text-lg transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${isOpen ? 'rotate-45 scale-110' : ''
+                      className={`text-white text-lg transition-transform duration-300 ${isOpen ? 'rotate-45' : ''
                         }`}
                     />
                   </div>
@@ -87,17 +115,20 @@ const FAQSection = () => {
                   </div>
                 </button>
 
-                {/* Animation Container */}
+                {/* Smooth animation container */}
                 <div
-                  ref={(el) => (contentRefs.current[index] = el)}
-                  className="overflow-hidden transition-[height] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
-                  style={{ height: index === 0 ? 'auto' : 0 }}
+                  ref={(el) => {
+                    contentRefs.current[index] = el
+                  }}
+                  className="overflow-hidden transition-[height] duration-500 ease-in-out"
+                  style={{
+                    height: isOpen && heights[index] ? heights[index] + 'px' : '0px'
+                  }}
                 >
                   <div className="pl-24 pr-8 pb-8 text-gray-600 leading-relaxed text-base">
                     {item.answer}
                   </div>
                 </div>
-
               </div>
             )
           })}

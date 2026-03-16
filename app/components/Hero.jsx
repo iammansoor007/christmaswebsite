@@ -195,6 +195,7 @@ const Hero = () => {
       </div>
 
       {/* Christmas Trees - Bottom Corners */}
+
       <div className="absolute bottom-0 left-0 z-40 pointer-events-none">
         <div
           ref={leftTreeRef}
@@ -211,7 +212,7 @@ const Hero = () => {
             alt="Christmas tree left"
             width={200}
             height={300}
-            className="w-auto h-auto max-h-[300px] sm:max-h-[350px] md:max-h-[450px] lg:max-h-[600px] object-contain"
+            className="w-auto h-auto max-h-[180px] sm:max-h-[300px] md:max-h-[450px] lg:max-h-[600px] object-contain"
             priority
           />
         </div>
@@ -233,7 +234,7 @@ const Hero = () => {
             alt="Christmas tree right"
             width={200}
             height={300}
-            className="w-auto h-auto max-h-[300px] sm:max-h-[350px] md:max-h-[450px] lg:max-h-[600px] object-contain"
+            className="w-auto h-auto max-h-[180px] sm:max-h-[300px] md:max-h-[450px] lg:max-h-[600px] object-contain"
             priority
           />
         </div>

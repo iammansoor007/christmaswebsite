@@ -253,12 +253,12 @@ const PermanentLightingPage = () => {
                                 </h2>
 
                                 <p className="text-gray-600 text-lg mb-8">
-                                    With over a decade of experience in holiday and permanent lighting, we deliver stunning results with the latest smart home technology.
+                                   InvisiLights’ customizable permanent lighting — invisible during the day, bright lights at night.
                                 </p>
 
                                 <div className="space-y-4">
                                     {[
-                                        "Commercial-grade LED lights with 50,000+ hour lifespan",
+                                       
                                         "Fully licensed, bonded, and insured for your protection",
                                         "Professional installation with discreet mounting",
                                         "Easy-to-use app with thousands of preset scenes",
