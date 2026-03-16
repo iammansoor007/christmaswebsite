@@ -14,7 +14,7 @@ export const metadata = {
         url: 'https://christmaswebsite-kappa.vercel.app/images/mainlogo.png', // direct URL of logo
         width: 1200,
         height: 630,
-        alt: 'Luminous Holiday Logo',
+        alt: 'Christmas Lighting',
       },
     ],
     type: 'website',
