@@ -552,7 +552,7 @@ const Navbar = () => {
                   <div className="mt-4 pt-4 border-t border-holiday-gold/10">
                     <div className="flex flex-col space-y-3 text-sm">
                       <a
-                        href="mailto:info@luminousholiday.com"
+                        href="mailto:Info@lightsovercolumbus.com"
                         className="flex items-center gap-2 text-warm-white/80 hover:text-holiday-gold transition-colors px-1 py-2 rounded-lg hover:bg-dark-navy/30"
                       >
                         <svg
@@ -569,7 +569,7 @@ const Navbar = () => {
                           />
                         </svg>
                         <span className="truncate">
-                          info@luminousholiday.com
+                          Info@lightsovercolumbus.com
                         </span>
                       </a>
                     </div>
