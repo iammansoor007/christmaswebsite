@@ -162,8 +162,8 @@ const Navbar = () => {
       <nav
         ref={navbarRef}
         className={`sticky top-0 left-0 right-0 z-50 w-full transition-all duration-300 ${scrolled
-            ? "bg-dark-navy/95 backdrop-blur-lg shadow-lg shadow-holiday-gold/10 py-2"
-            : "bg-dark-navy/90 backdrop-blur-md py-3"
+          ? "bg-dark-navy/95 backdrop-blur-lg shadow-lg shadow-holiday-gold/10 py-2"
+          : "bg-dark-navy/90 backdrop-blur-md py-3"
           }`}
       >
         <div className="w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16">
@@ -187,8 +187,8 @@ const Navbar = () => {
                       <Link
                         href={item.path}
                         className={`relative px-5 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 group flex items-center gap-1.5 ${isActive(item.path)
-                            ? "text-holiday-gold"
-                            : "text-warm-white hover:text-holiday-gold"
+                          ? "text-holiday-gold"
+                          : "text-warm-white hover:text-holiday-gold"
                           }`}
                       >
                         <span className="relative z-10 whitespace-nowrap">
@@ -196,8 +196,8 @@ const Navbar = () => {
                         </span>
                         <svg
                           className={`w-4 h-4 transition-all duration-300 ${servicesDropdownOpen
-                              ? "rotate-180 text-holiday-gold"
-                              : ""
+                            ? "rotate-180 text-holiday-gold"
+                            : ""
                             }`}
                           fill="none"
                           stroke="currentColor"
@@ -218,8 +218,8 @@ const Navbar = () => {
                       {/* Desktop Dropdown Menu */}
                       <div
                         className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 transition-all duration-300 transform origin-top ${servicesDropdownOpen
-                            ? "opacity-100 scale-100 pointer-events-auto"
-                            : "opacity-0 scale-95 pointer-events-none"
+                          ? "opacity-100 scale-100 pointer-events-auto"
+                          : "opacity-0 scale-95 pointer-events-none"
                           }`}
                       >
                         <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45 bg-gradient-to-br from-holiday-gold/30 to-holiday-red/30 backdrop-blur-sm"></div>
@@ -234,15 +234,15 @@ const Navbar = () => {
                                 key={dropdownItem.path}
                                 href={dropdownItem.path}
                                 className={`group/dropdown relative block rounded-lg transition-all duration-300 ${index !== item.dropdown.length - 1
-                                    ? "mb-1"
-                                    : ""
+                                  ? "mb-1"
+                                  : ""
                                   }`}
                                 onClick={() => setServicesDropdownOpen(false)}
                               >
                                 <div
                                   className={`absolute inset-0 rounded-lg transition-all duration-500 ${isDropdownItemActive(dropdownItem.path)
-                                      ? "bg-gradient-to-r from-holiday-red/20 to-holiday-gold/20"
-                                      : "opacity-0 group-hover/dropdown:opacity-100 group-hover/dropdown:bg-gradient-to-r group-hover/dropdown:from-holiday-red/10 group-hover/dropdown:to-holiday-gold/10"
+                                    ? "bg-gradient-to-r from-holiday-red/20 to-holiday-gold/20"
+                                    : "opacity-0 group-hover/dropdown:opacity-100 group-hover/dropdown:bg-gradient-to-r group-hover/dropdown:from-holiday-red/10 group-hover/dropdown:to-holiday-gold/10"
                                     }`}
                                 ></div>
 
@@ -253,8 +253,8 @@ const Navbar = () => {
                                 <div className="relative flex items-start gap-3 p-3">
                                   <div
                                     className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-lg transition-all duration-300 ${isDropdownItemActive(dropdownItem.path)
-                                        ? "bg-gradient-to-br from-holiday-gold/20 to-holiday-red/20 text-holiday-gold"
-                                        : "bg-dark-navy/50 group-hover/dropdown:bg-holiday-gold/10"
+                                      ? "bg-gradient-to-br from-holiday-gold/20 to-holiday-red/20 text-holiday-gold"
+                                      : "bg-dark-navy/50 group-hover/dropdown:bg-holiday-gold/10"
                                       }`}
                                   >
                                     {dropdownItem.icon}
@@ -263,8 +263,8 @@ const Navbar = () => {
                                   <div className="flex-1">
                                     <div
                                       className={`text-sm font-semibold transition-colors duration-300 ${isDropdownItemActive(dropdownItem.path)
-                                          ? "text-holiday-gold"
-                                          : "text-warm-white group-hover/dropdown:text-holiday-gold"
+                                        ? "text-holiday-gold"
+                                        : "text-warm-white group-hover/dropdown:text-holiday-gold"
                                         }`}
                                     >
                                       {dropdownItem.label}
@@ -308,8 +308,8 @@ const Navbar = () => {
                       key={item.path}
                       href={item.path}
                       className={`relative px-5 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 group ${isActive(item.path)
-                          ? "text-holiday-gold"
-                          : "text-warm-white hover:text-holiday-gold"
+                        ? "text-holiday-gold"
+                        : "text-warm-white hover:text-holiday-gold"
                         }`}
                     >
                       <span className="relative z-10 whitespace-nowrap">
@@ -397,8 +397,8 @@ const Navbar = () => {
                       <button
                         onClick={toggleMobileServices}
                         className={`relative px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 flex items-center justify-between w-full ${isActive(item.path) || mobileServicesOpen
-                            ? "text-holiday-gold bg-gradient-to-r from-holiday-red/5 to-holiday-gold/5 border border-holiday-gold/20"
-                            : "text-warm-white hover:text-holiday-gold hover:bg-dark-navy/50"
+                          ? "text-holiday-gold bg-gradient-to-r from-holiday-red/5 to-holiday-gold/5 border border-holiday-gold/20"
+                          : "text-warm-white hover:text-holiday-gold hover:bg-dark-navy/50"
                           }`}
                       >
                         <span className="truncate">{item.label}</span>
@@ -441,8 +441,8 @@ const Navbar = () => {
                                   setMobileServicesOpen(false);
                                 }}
                                 className={`group relative block rounded-lg transition-all duration-300 overflow-hidden ${isDropdownItemActive(dropdownItem.path)
-                                    ? "bg-gradient-to-r from-holiday-red/20 to-holiday-gold/20"
-                                    : "hover:bg-dark-navy/50"
+                                  ? "bg-gradient-to-r from-holiday-red/20 to-holiday-gold/20"
+                                  : "hover:bg-dark-navy/50"
                                   }`}
                               >
                                 <div className="absolute inset-0 bg-gradient-to-r from-holiday-red/0 via-holiday-gold/0 to-holiday-green/0 group-hover:from-holiday-red/10 group-hover:via-holiday-gold/10 group-hover:to-holiday-green/10 transition-all duration-500"></div>
@@ -454,8 +454,8 @@ const Navbar = () => {
                                 <div className="relative flex items-start gap-3 p-3">
                                   <div
                                     className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-xl transition-all duration-300 ${isDropdownItemActive(dropdownItem.path)
-                                        ? "bg-gradient-to-br from-holiday-gold/30 to-holiday-red/30 text-holiday-gold"
-                                        : "bg-dark-navy/50 text-warm-white/70 group-hover:bg-holiday-gold/10 group-hover:text-holiday-gold"
+                                      ? "bg-gradient-to-br from-holiday-gold/30 to-holiday-red/30 text-holiday-gold"
+                                      : "bg-dark-navy/50 text-warm-white/70 group-hover:bg-holiday-gold/10 group-hover:text-holiday-gold"
                                       }`}
                                   >
                                     {dropdownItem.icon}
@@ -464,8 +464,8 @@ const Navbar = () => {
                                   <div className="flex-1">
                                     <div
                                       className={`text-sm font-semibold transition-colors duration-300 ${isDropdownItemActive(dropdownItem.path)
-                                          ? "text-holiday-gold"
-                                          : "text-warm-white group-hover:text-holiday-gold"
+                                        ? "text-holiday-gold"
+                                        : "text-warm-white group-hover:text-holiday-gold"
                                         }`}
                                     >
                                       {dropdownItem.label}
@@ -477,8 +477,8 @@ const Navbar = () => {
 
                                   <div
                                     className={`absolute top-1/2 right-3 -translate-y-1/2 transition-opacity duration-300 ${isDropdownItemActive(dropdownItem.path)
-                                        ? "opacity-100"
-                                        : "opacity-0 group-hover:opacity-100"
+                                      ? "opacity-100"
+                                      : "opacity-0 group-hover:opacity-100"
                                       }`}
                                   >
                                     <svg
@@ -506,8 +506,8 @@ const Navbar = () => {
                       href={item.path}
                       onClick={() => setIsOpen(false)}
                       className={`relative px-4 py-3 rounded-xl text-base font-medium transition-all duration-300 group ${isActive(item.path)
-                          ? "text-holiday-gold bg-gradient-to-r from-holiday-red/5 to-holiday-gold/5 border border-holiday-gold/20"
-                          : "text-warm-white hover:text-holiday-gold hover:bg-dark-navy/50"
+                        ? "text-holiday-gold bg-gradient-to-r from-holiday-red/5 to-holiday-gold/5 border border-holiday-gold/20"
+                        : "text-warm-white hover:text-holiday-gold hover:bg-dark-navy/50"
                         }`}
                     >
                       <div className="flex items-center justify-between">
